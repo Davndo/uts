@@ -100,6 +100,8 @@ code{font-family:"Courier New",monospace;}
 </ul>
 </div>
 
+</section>
+
 <div class="qa-box" id="qaBox">
 <h2 style="border-top:none;margin-top:0;">Tanya tentang materi ini</h2>
 <p>Ketik pertanyaan, jawabannya diambil langsung dari isi halaman ini. Tidak ada koneksi internet yang dipakai.</p>
@@ -115,8 +117,6 @@ Contoh:
 </p>
 <div id="qaAnswer"></div>
 </div>
-
-</section>
 
 <section id="sec-1">
 <h2>1. Linear Model</h2>
@@ -1252,70 +1252,214 @@ loss_G.backward()</code></pre>
 
 <script>
 (function(){
-  var STOPWORDS = ["apa","yang","itu","adalah","bagaimana","kenapa","mengapa","dan","atau","di","ke","dari","untuk","dengan","pada","ini","nya","saya","kamu","kita","bisa","jadi","juga","akan","ada","yaitu","karena","cara","tolong","jelaskan","tentang","sih"];
+  var STOPWORDS = ["apa","yang","itu","adalah","bagaimana","kenapa","mengapa","dan","atau","di","ke","dari","untuk","dengan","pada","ini","nya","saya","kamu","kita","bisa","jadi","juga","akan","ada","yaitu","karena","cara","tolong","jelaskan","tentang","sih","apakah","gimana","gmn","dong","ya","deh","nih","tuh"];
+
+  // Very small, safe Indonesian suffix strip (only the common ones that rarely
+  // cause false merges), so e.g. "artinya"/"bedanya"/"fungsinya" still match
+  // "arti"/"beda"/"fungsi" in the material.
+  function stem(t){
+    if (t.length > 5 && t.slice(-3) === "nya") return t.slice(0, -3);
+    if (t.length > 6 && t.slice(-3) === "kan") return t.slice(0, -3);
+    return t;
+  }
+
+  // Plain `.textContent` concatenates adjacent elements with no separator
+  // (e.g. a table's "<td>Target</td><td>Masalah...</td>" becomes
+  // "TargetMasalah...", merging into bogus tokens like "targetmasalah").
+  // Insert a space after every element's own text so cell/row/list-item
+  // boundaries survive tokenization.
+  function textOf(el){
+    var out = [];
+    (function walk(n){
+      if (n.nodeType === 3) { out.push(n.nodeValue); return; }
+      if (n.nodeType !== 1) return;
+      Array.prototype.forEach.call(n.childNodes, walk);
+      out.push(" ");
+    })(el);
+    return out.join("");
+  }
 
   function tokenize(str){
     return str.toLowerCase()
       .replace(/[^a-z0-9à-ɏ\s]/g, " ")
       .split(/\s+/)
-      .filter(function(t){ return t.length > 1 && STOPWORDS.indexOf(t) === -1; });
+      .filter(function(t){ return t.length > 1 && STOPWORDS.indexOf(t) === -1; })
+      .map(stem);
   }
 
-  // Build section index from h2/h3/h4 headings within <section> blocks
-  var sections = [];
+  // Common question phrasings mapped to the words actually used in the
+  // material, so a question doesn't have to use the exact same word.
+  var SYNONYMS = {
+    "kenapa": ["penyebab","alasan"], "mengapa": ["penyebab","alasan"],
+    "fungsi": ["tugas","kegunaan","peran"], "guna": ["tugas","kegunaan","peran"],
+    "beda": ["beda","berbeda","perbedaan","dibanding","vs"], "bedanya": ["beda","berbeda","perbedaan"],
+    "hitung": ["hitungan","rumus","menghitung"], "rumus": ["hitungan","rumus","menghitung"],
+    "atasi": ["solusi","mengatasi"], "masalah": ["masalah","kesalahan","kelemahan","kekurangan"],
+    "pilih": ["pilih","memilih"], "tanda": ["tanda","gejala"], "contoh": ["contoh","misalnya"],
+    "langkah": ["tahap","langkah","urutan"], "proses": ["tahap","proses","cara"],
+    "kapan": ["pakai","kalau"], "kelebihan": ["kelebihan","keunggulan"],
+    "kekurangan": ["kekurangan","kelemahan","limitasi"]
+  };
+
+  // Generic question words that are only useful for their synonyms, not for
+  // their own literal spelling — "kapan" shows up verbatim in many unrelated
+  // headings across the material (e.g. "Kapan G dianggap berhasil?" in the
+  // GAN section), so matching it literally at full weight gives those
+  // headings an unearned boost that has nothing to do with the real topic.
+  var GENERIC_WORDS = { "kapan": true };
+
+  function expand(qTokens){
+    var out = [];
+    qTokens.forEach(function(t){
+      out.push({ t: t, w: GENERIC_WORDS[t] ? 0.2 : 1 });
+      (SYNONYMS[t] || []).forEach(function(s){ out.push({ t: stem(s), w: 0.7 }); });
+    });
+    return out;
+  }
+
+  // Build a flat list of small "blocks": one per direct child node (p, ul,
+  // ol, table, figure, pre) inside each h2/h3/h4 heading's range. Matching at
+  // this granularity (instead of a whole, sometimes very long, section) is
+  // what keeps an answer to the one paragraph/list/table that is actually
+  // relevant, instead of dumping an entire section.
+  var blocks = [];
   document.querySelectorAll("section").forEach(function(sec){
     var nodes = Array.prototype.slice.call(sec.children);
-    var current = null;
+    var realHeading = sec.id, subLabel = null, headingTokens = [];
+    function composeHeading(){
+      var h = subLabel ? (realHeading + " — " + subLabel) : realHeading;
+      headingTokens = tokenize(h);
+      return h;
+    }
+    var heading = composeHeading();
     nodes.forEach(function(node){
       var tag = node.tagName ? node.tagName.toLowerCase() : "";
       if (tag === "h2" || tag === "h3" || tag === "h4") {
-        if (current) sections.push(current);
-        current = { heading: node.textContent.trim(), level: tag, nodes: [node] };
-      } else if (current) {
-        current.nodes.push(node);
-      } else {
-        current = { heading: sec.id, level: "h2", nodes: [node] };
+        realHeading = textOf(node).trim();
+        subLabel = null;
+        heading = composeHeading();
+        return;
+      }
+      var text = textOf(node).trim();
+      if (!text && tag !== "figure") return;
+      // The source material uses a bold, whole-paragraph label as a
+      // sub-heading in several places (e.g. "Vanilla: meringkas data",
+      // "Denoising: membersihkan data", "Soal 2: potongan VGG") instead of a
+      // real <h2>/<h3>/<h4>. Treat those the same way a real heading is
+      // treated — as a heading-boost context for itself and what follows —
+      // so a question naming that label (e.g. "denoising") doesn't lose out
+      // to an unrelated block that merely mentions the word in passing.
+      // Only the most recent one is kept (not chained), so the shown
+      // heading stays short, e.g. "2. Memilih tipe autoencoder — Denoising:
+      // membersihkan data" instead of piling up every label seen so far.
+      if (tag === "p" && node.children.length === 1 && node.children[0].tagName === "STRONG"
+          && textOf(node.children[0]).trim() === text) {
+        subLabel = text;
+        heading = composeHeading();
+      }
+      blocks.push({
+        heading: heading,
+        headingTokens: headingTokens,
+        html: node.outerHTML,
+        tokens: tokenize(text),
+        sectionId: sec.id
+      });
+
+      // A wide table (e.g. the 4-target GAN training table, or any
+      // multi-row comparison table) mixes several distinct topics into one
+      // block. Without this, a question about just one row (e.g. "mode
+      // collapse") gets diluted by the other rows and can lose to an
+      // unrelated block that mentions the word only in passing. Index each
+      // row as its own extra, more specific candidate — still rendered as
+      // the whole table for full context if a row wins, just scored on its
+      // own row's text so the right table actually wins the match.
+      if (tag === "table") {
+        var rows = node.querySelectorAll("tbody tr");
+        if (rows.length > 3) {
+          rows.forEach(function(tr){
+            var rowText = textOf(tr).trim();
+            if (!rowText) return;
+            blocks.push({
+              heading: heading,
+              headingTokens: headingTokens,
+              html: node.outerHTML,
+              tokens: tokenize(rowText),
+              sectionId: sec.id
+            });
+          });
+        }
       }
     });
-    if (current) sections.push(current);
   });
 
-  // Merge any heading-only / near-empty section into the next one, so a thin
-  // subheading (e.g. an h2 with no body before its first h3) never becomes a
-  // dead-end answer with nothing useful in it.
-  for (var mi = sections.length - 2; mi >= 0; mi--) {
-    var bodyLen = sections[mi].nodes.slice(1).reduce(function(sum, n){ return sum + (n.textContent || "").trim().length; }, 0);
-    if (bodyLen < 20) {
-      sections[mi].nodes = sections[mi].nodes.concat(sections[mi + 1].nodes);
-      sections.splice(mi + 1, 1);
-    }
+  // Inverse document frequency: a word that shows up in almost every block
+  // (like "model", "parameter", "layer" in this material) is a weak signal
+  // and must not outweigh a rare, specific word (like "vgg" or "lenet") that
+  // only appears in the one block that's actually the right answer.
+  var docFreq = {};
+  blocks.forEach(function(b){
+    var seen = {};
+    b.tokens.forEach(function(t){ if (!seen[t]) { seen[t] = true; docFreq[t] = (docFreq[t] || 0) + 1; } });
+  });
+  function idf(t){
+    var df = docFreq[t] || 0;
+    return Math.log((blocks.length + 1) / (df + 1)) + 1;
   }
 
-  sections.forEach(function(s){
-    var html = "";
-    var text = s.heading + " ";
-    s.nodes.forEach(function(n){ html += n.outerHTML; text += " " + n.textContent; });
-    s.html = html;
-    s.text = text.toLowerCase();
-    s.tokens = tokenize(s.text);
-    s.headingTokens = tokenize(s.heading);
-  });
+  function scoreBlock(b, qExpanded){
+    var score = 0;
+    qExpanded.forEach(function(q){
+      var weight = q.w * idf(q.t);
+      var count = 0;
+      b.tokens.forEach(function(st){
+        if (st === q.t) count++;
+        else if (st.length > 3 && q.t.length > 3 && (st.indexOf(q.t) !== -1 || q.t.indexOf(st) !== -1)) count += 0.3;
+      });
+      // Diminishing returns for repeats within the same block, so a word
+      // mentioned many times in one block can't drown out a rarer, more
+      // specific word mentioned once elsewhere.
+      score += weight * Math.min(count, 1) + weight * Math.max(0, Math.log(1 + Math.max(0, count - 1))) * 0.2;
+      if (b.headingTokens.indexOf(q.t) !== -1) score += weight * 2;
+    });
+    return score;
+  }
 
   function answer(question){
     var qTokens = tokenize(question);
     if (qTokens.length === 0) return null;
-    var best = null, bestScore = 0;
-    sections.forEach(function(s){
-      var score = 0;
-      qTokens.forEach(function(qt){
-        s.tokens.forEach(function(st){ if (st === qt) score += 1; else if (st.length > 2 && qt.length > 2 && (st.indexOf(qt) !== -1 || qt.indexOf(st) !== -1)) score += 0.3; });
-        if (s.headingTokens.indexOf(qt) !== -1) score += 3;
-        else s.headingTokens.forEach(function(ht){ if (ht.length > 2 && qt.length > 2 && (ht.indexOf(qt) !== -1 || qt.indexOf(ht) !== -1)) score += 1; });
-      });
-      if (score > bestScore) { bestScore = score; best = s; }
+    var qExpanded = expand(qTokens);
+    var scores = blocks.map(function(b){ return scoreBlock(b, qExpanded); });
+    // When two blocks score the same on raw keyword matches, prefer the one
+    // with more surrounding content on the topic (more likely to be the
+    // dedicated explanation) over a short block that only mentions the term
+    // in passing — and prefer it over whichever merely appears first.
+    var bestIdx = -1, bestScore = -1;
+    scores.forEach(function(s, i){
+      if (s <= 0) return;
+      var adjusted = s + Math.min(blocks[i].tokens.length, 40) * 0.01;
+      if (adjusted > bestScore) { bestScore = adjusted; bestIdx = i; }
     });
-    if (!best || bestScore < 0.5) return null;
-    return best;
+    if (bestIdx === -1 || scores[bestIdx] < 0.6) return null;
+
+    // Pull in immediate neighbor blocks that also scored, within the same
+    // section/heading, so a multi-part answer (intro paragraph + its table,
+    // or a case's question + its "Lihat jawaban" table) stays together —
+    // without pulling in the next unrelated block.
+    var heading = blocks[bestIdx].heading;
+    var lo = bestIdx, hi = bestIdx;
+    while (lo > 0 && blocks[lo - 1].heading === heading && scores[lo - 1] > 0) lo--;
+    while (hi < blocks.length - 1 && blocks[hi + 1].heading === heading && scores[hi + 1] > 0) hi++;
+
+    // Row-proxy blocks (see table indexing above) intentionally repeat their
+    // parent table's full html so a specific row can win the match; dedupe
+    // here so the same table isn't rendered more than once.
+    var html = "", seenHtml = {};
+    for (var i = lo; i <= hi; i++) {
+      if (seenHtml[blocks[i].html]) continue;
+      seenHtml[blocks[i].html] = true;
+      html += blocks[i].html;
+    }
+    return { heading: heading, html: html };
   }
 
   function renderAnswer(question){
