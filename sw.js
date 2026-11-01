@@ -1,14 +1,26 @@
-const CACHE_NAME = "dl-review-quiz-v5";
+const CACHE_NAME = "uts-dl-v1";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./soal-halaman-1.png",
-  "./soal-halaman-2.png",
-  "./soal-halaman-3.png",
-  "./soal-halaman-4.png",
-  "./Latihan%20Soal%20Quiz%20DL%201.docx",
-  "./Review_Quiz_DL.ipynb"
+  "./images/eval1_confusion.svg",
+  "./images/lin1_xor.svg",
+  "./images/training_flowchart.png",
+  "./images/xor_three_lines.png",
+  "./images/cnn_alur.svg",
+  "./images/cnn_cara_kerja.svg",
+  "./images/gan_arsitektur.svg",
+  "./images/gan_dua_giliran.svg",
+  "./images/gan_perkembangan_g.svg",
+  "./images/gan_mode_collapse.svg",
+  "./images/mlp_flatten.svg",
+  "./images/ae_pilih_tipe.svg",
+  "./images/ae_anomali.svg",
+  "./images/ae_denoising.svg",
+  "./images/ae_bentuk.svg",
+  "./images/ae_alur.svg",
+  "./images/ae_sparse.svg",
+  "./images/ae_peta_latent.svg"
 ];
 
 self.addEventListener("install", function (event) {

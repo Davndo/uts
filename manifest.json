@@ -1,17 +1,17 @@
 {
-  "name": "Deep Learning — Review Quiz",
-  "short_name": "DL Review Quiz",
+  "name": "UTS Deep Learning",
+  "short_name": "UTS DL",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#fafafa",
-  "theme_color": "#8a95a3",
-  "description": "Deep Learning review quiz brief, reference figures, and worked answer notebook for the DCNN vegetable classification case.",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "description": "Rangkuman offline untuk UTS Deep Learning: linear model, training dan evaluation, CNN, GAN, MLP, autoencoder.",
   "icons": [
     {
-      "src": "soal-halaman-1.png",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "images/ae_alur.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]

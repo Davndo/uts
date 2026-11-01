@@ -1,452 +1,1357 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deep Learning — Review Quiz</title>
+<title>UTS Deep Learning</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#8a95a3">
+<meta name="theme-color" content="#ffffff">
 <style>
 :root{
-  --bg:#fafafa;
-  --surface:#f2f2f2;
-  --panel:#fafafa;
-  --ink:#3a3a3a;
-  --ink-soft:#8a8a8a;
-  --line:#dcdcdc;
-  --accent:#8a95a3;
-  --accent-dark:#6e7885;
-  --code-bg:#eeeeee;
-  --code-ink:#4a4a4a;
-  --ok:#6b8a6f;
-  --bad:#a07070;
+  --bg:#ffffff;
+  --panel:#f2f2f2;
+  --ink:#4a4a4a;
+  --ink-dim:#6b6b6b;
+  --line:#b5b5b5;
+  --table-head:#e2e2e2;
+  --table-alt:#f6f6f6;
+  --code-bg:#ececec;
+  --link:#3a3a3a;
 }
 *{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
 body{
-  margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  line-height:1.6;
+  font-family:"Times New Roman",Times,serif;
+  font-size:15px;
+  line-height:1.3;
 }
-.wrap{max-width:900px;margin:0 auto;padding:36px 20px 80px;}
-h1,h2,h3{font-weight:700;letter-spacing:-0.01em;}
-h1{font-size:1.8rem;margin:0 0 6px;}
-h2{font-size:1.2rem;margin:40px 0 14px;padding-top:18px;border-top:1px solid var(--line);}
-h3{font-size:1rem;margin:20px 0 8px;color:var(--accent);}
-p{margin:0 0 12px;}
-.subtitle{color:var(--ink-soft);margin-bottom:24px;font-size:0.92rem;}
+.wrap{max-width:760px;margin:0 auto;padding:14px 12px 60px;}
+h1{font-size:1.35rem;font-weight:bold;margin:6px 0 2px;color:var(--ink);}
+h2{font-size:1.1rem;font-weight:bold;margin:20px 0 4px;padding-top:8px;border-top:1px solid var(--line);color:var(--ink);}
+h3{font-size:1rem;font-weight:bold;margin:12px 0 3px;color:var(--ink);}
+h4{font-size:0.95rem;font-weight:bold;margin:10px 0 3px;color:var(--ink-dim);}
+p{margin:4px 0;}
+ul,ol{margin:4px 0;padding-left:22px;}
+li{margin:2px 0;}
+a{color:var(--link);}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0;}
+.subtitle{color:var(--ink-dim);font-size:0.85rem;margin:0 0 10px;}
 
-/* ---- Download menu ---- */
-.dl-menu{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:8px;
-}
-.dl-btn{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:16px 18px;
-  text-decoration:none;
-  color:var(--ink);
-  transition:border-color .15s ease,background .15s ease,transform .15s ease;
-}
-.dl-btn:hover{border-color:var(--accent);background:#eeeeee;}
-.dl-btn .ic{
-  flex:none;
-  width:36px;height:36px;
-  border-radius:8px;
-  background:var(--accent);
-  color:#fff;
-  display:flex;align-items:center;justify-content:center;
-}
-.dl-btn .ic svg{width:18px;height:18px;}
-.dl-btn .label{font-weight:700;font-size:0.95rem;}
-.dl-btn .sub{color:var(--ink-soft);font-size:0.78rem;margin-top:2px;}
-@media(max-width:560px){.dl-menu{grid-template-columns:1fr;}}
+table{border-collapse:collapse;width:100%;margin:6px 0 10px;font-size:0.82rem;}
+th,td{border:1px solid var(--line);padding:3px 5px;text-align:left;vertical-align:top;}
+th{background:var(--table-head);font-weight:bold;}
+tr:nth-child(even) td{background:var(--table-alt);}
 
-.dl-btn-split{padding:0;align-items:stretch;}
-.dl-btn-main{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex:1;
-  padding:16px 18px;
-  text-decoration:none;
-  color:var(--ink);
-  min-width:0;
-}
-.dl-btn-icon{
-  flex:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-  border-left:1px solid var(--line);
-  color:var(--ink-soft);
-  text-decoration:none;
-  transition:background .15s ease,color .15s ease;
-}
-.dl-btn-icon:hover{background:#e4e4e4;color:var(--accent-dark);}
-.dl-btn-icon svg{width:17px;height:17px;}
+figure{margin:8px 0;}
+figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);background:#fff;}
+figcaption{font-size:0.76rem;color:var(--ink-dim);margin-top:2px;}
 
-/* ---- Figures ---- */
-figure{margin:18px 0;}
-figure img{
-  width:100%;
-  display:block;
-  border-radius:10px;
-  border:1px solid var(--line);
-  background:#fff;
-}
-figcaption{margin-top:8px;font-size:0.85rem;color:var(--ink-soft);text-align:center;}
-
-/* ---- Code blocks ---- */
-.cell{margin-bottom:22px;}
-.cell-label{
-  font-size:0.72rem;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
-  margin-bottom:6px;
-}
-.code-wrap{position:relative;}
 pre{
   background:var(--code-bg);
-  color:var(--code-ink);
-  border-radius:10px;
-  padding:16px 18px;
-  padding-top:40px;
-  overflow-x:auto;
-  font-family:"Consolas","Courier New",monospace;
-  font-size:0.84rem;
-  line-height:1.55;
-  margin:0 0 10px;
-}
-code{font-family:"Consolas","Courier New",monospace;}
-.copy-btn{
-  position:absolute;
-  top:8px;right:8px;
-  background:#ffffff;
-  color:#6a6a6a;
-  border:1px solid #cccccc;
-  border-radius:6px;
-  padding:5px 10px;
-  font-size:0.72rem;
-  font-weight:600;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  transition:background .15s ease,color .15s ease;
-}
-.copy-btn:hover{background:#e8e8e8;color:#3a3a3a;}
-.copy-btn.copied{background:#e3e9e3;color:var(--ok);border-color:var(--ok);}
-.copy-btn svg{width:13px;height:13px;}
-
-table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:0.88rem;}
-th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;}
-th{color:var(--ink-soft);font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.04em;}
-.ok{color:var(--ok);font-weight:600;}
-.bad{color:var(--bad);font-weight:600;}
-.stat-row{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0 18px;}
-.stat{
-  background:var(--surface);
   border:1px solid var(--line);
-  border-radius:10px;
-  padding:14px 20px;
-  min-width:140px;
+  padding:6px 8px;
+  overflow-x:auto;
+  font-family:"Courier New",monospace;
+  font-size:0.78rem;
+  line-height:1.25;
+  margin:6px 0;
 }
-.stat .label{color:var(--ink-soft);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;}
-.stat .value{font-size:1.4rem;font-weight:700;color:var(--accent);margin-top:2px;}
-.note{color:var(--ink-soft);font-size:0.85rem;font-style:italic;margin:0 0 14px;}
-.crosslink{display:inline-block;color:var(--ink-soft);font-size:0.82rem;text-decoration:none;margin-bottom:18px;}
-.crosslink:hover{color:var(--accent-dark);}
-@media(max-width:600px){.wrap{padding:24px 16px 60px;} h1{font-size:1.5rem;}}
+code{font-family:"Courier New",monospace;}
+
+.answer-block{margin:4px 0 4px 14px;padding-left:8px;border-left:2px solid var(--line);}
+.kisi-box{background:var(--panel);border:1px solid var(--line);padding:8px 10px;margin:8px 0 14px;}
+
+.qa-box{background:var(--panel);border:1px solid var(--line);padding:10px;margin:16px 0;}
+.qa-box h2{margin-top:0;padding-top:0;border-top:none;}
+.qa-row{display:flex;gap:6px;margin:6px 0;}
+#qaInput{flex:1;font-family:inherit;font-size:0.9rem;padding:4px 6px;background:#ffffff;border:1px solid var(--line);color:var(--ink);}
+#qaBtn{font-family:inherit;font-size:0.9rem;padding:4px 10px;background:#e2e2e2;border:1px solid var(--line);color:var(--ink);cursor:pointer;}
+.qa-examples{font-size:0.78rem;color:var(--ink-dim);}
+.qa-examples span{text-decoration:underline;cursor:pointer;margin-right:10px;}
+#qaAnswer{margin-top:10px;font-size:0.88rem;}
+#qaAnswer .qa-heading{font-weight:bold;margin-bottom:4px;}
+.qa-empty{font-style:italic;color:var(--ink-dim);}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <a class="crosslink" href="speech/">Speech Recognition — Review Quiz &rarr;</a>
-  <h1>Deep Learning — Review Quiz</h1>
-  <p class="subtitle">Vegetables Classification using a Deep Convolutional Neural Network (DCNN)</p>
+<h1>UTS — Deep Learning</h1>
+<p class="subtitle">Rangkuman belajar, disalin apa adanya dari catatan Notion.</p>
 
-  <div class="dl-menu">
-    <a class="dl-btn" href="Latihan%20Soal%20Quiz%20DL%201.docx" download>
-      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-      <span>
-        <span class="label">Download Soal (.docx)</span>
-        <span class="sub">Latihan Soal Quiz DL 1.docx</span>
-      </span>
-    </a>
-    <div class="dl-btn dl-btn-split">
-      <a class="dl-btn-main" href="#notebook">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 21h16"/></svg></span>
-        <span>
-          <span class="label">Lihat Notebook Jawaban</span>
-          <span class="sub">Review_Quiz_DL.ipynb — scroll ke bawah</span>
-        </span>
-      </a>
-      <a class="dl-btn-icon" href="Review_Quiz_DL.ipynb" download title="Download Review_Quiz_DL.ipynb">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      </a>
-    </div>
-  </div>
+<section id="sec-root">
 
-  <h2>Halaman Soal</h2>
-  <figure>
-    <img src="soal-halaman-1.png" alt="Soal halaman 1">
-    <figcaption>Halaman 1</figcaption>
-  </figure>
-  <figure>
-    <img src="soal-halaman-2.png" alt="Soal halaman 2">
-    <figcaption>Halaman 2</figcaption>
-  </figure>
-  <figure>
-    <img src="soal-halaman-3.png" alt="Soal halaman 3">
-    <figcaption>Halaman 3</figcaption>
-  </figure>
-  <figure>
-    <img src="soal-halaman-4.png" alt="Soal halaman 4">
-    <figcaption>Halaman 4</figcaption>
-  </figure>
+<div class="kisi-box" data-heading="Kisi-kisi" data-level="2">
+<h2 style="border-top:none;margin-top:0;">Kisi-kisi</h2>
+<p>100 menit, boleh kalkulator, dikerjakan di kertas, dan ada soal yang bercabang.</p>
+<p><strong>Essay</strong></p>
+<ul>
+<li><strong>Linear model (bonus, 5%)</strong>: keterbatasan linear model dan alasan deep learning bisa mengatasinya.</li>
+<li><strong>Model training dan evaluation (15%)</strong>: materi sesi 2, soal bisa bercabang.</li>
+<li><strong>CNN (15%)</strong>: komponen, fungsi tiap layer, dan hitungan arsitektur, bukan hitungan kernel.</li>
+<li><strong>GAN (15%)</strong>: prinsip generative model dan training yang paling optimal.</li>
+</ul>
+<p><strong>Study case</strong></p>
+<ul>
+<li><strong>MLP (25%)</strong>: klasifikasi dan regresi, limitasi, dan solusinya, soal bercabang.</li>
+<li><strong>Autoencoder (25%)</strong>: bentuk arsitektur dan tipe yang paling cocok per kasus, beserta justifikasinya.</li>
+</ul>
+</div>
 
-  <h2 id="notebook">Isi Notebook Jawaban</h2>
+</section>
 
-  <div class="cell">
-    <div class="cell-label">Imports</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>import os
-import numpy as np
-import matplotlib.pyplot as plt
-import tensorflow as tf
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.utils import load_img, img_to_array, to_categorical</code></pre>
-    </div>
-  </div>
+<section id="sec-1">
+<h2>1. Linear Model</h2>
+<p>Linear model adalah model machine learning yang menebak jawaban dengan satu rumus: setiap fitur dikali weight, lalu semuanya dijumlahkan.</p>
+<p>Tanpa feature engineering yang tepat (pake fitur mentah langsung), batas antar kelasnya hanya bisa berupa garis lurus, sehingga model gagal pada data dengan pola non-linear seperti XOR.</p>
 
-  <div class="cell">
-    <div class="cell-label">Load data</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>DATA_PATH = "Dataset"
-CLASS_LIST = ["Broccoli", "Carrot", "Cucumber", "Tomato"]
-EPOCHS = 10
-BATCH_SIZE = 32
-images = []
-labels = []</code></pre>
-    </div>
-  </div>
+<h3>Pola non-linear</h3>
+<p>Pola non-linear adalah hubungan input dan output yang pengaruh inputnya tidak selalu sama, bisa berubah tergantung nilainya atau tergantung input lain, sehingga tidak bisa digambarkan dengan satu garis lurus.</p>
+<p>Kelemahan utama linear model adalah ketergantungannya pada feature engineering. Agar bisa menangani pola non-linear, manusia harus menebak dan menambahkan fitur yang tepat sendiri, misalnya x² atau log(x). Kalau fiturnya tidak tepat, model tetap gagal.</p>
 
-  <div class="cell">
-    <div class="cell-label">Load &amp; preprocess</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>for i, class_name in enumerate(CLASS_LIST):
-  # 0 Broccoli, 1 Carrot, 2 Cucumber, 3 Tomato
-  folder_path = os.path.join(DATA_PATH, class_name)
+<figure>
+<img src="images/xor_three_lines.png" alt="Tiga scatter plot menunjukkan percobaan 3 garis linear berbeda (garis tegak, garis miring turun, garis miring naik) mencoba memisahkan data berpola non-linear/XOR, masing-masing gagal dengan 59, 30, dan 59 kesalahan dari 120 data. Teks: Garis tegak 59 dari 120 salah, Garis miring turun 30 dari 120 salah, Garis miring naik 59 dari 120 salah.">
+<figcaption>Tiga garis linear berbeda mencoba memisahkan data XOR, semuanya gagal (59, 30, dan 59 kesalahan dari 120 data).</figcaption>
+</figure>
 
-  # NOTE: don't forget os.listdir (common mistake, causes an error if skipped)
-  for j, image_name in enumerate(os.listdir(folder_path)):
-    image_path = os.path.join(folder_path, image_name)
+<p>Untuk mengatasi masalah tersebut, Deep Learning bisa menjadi solusinya.</p>
+<p>Deep learning adalah bagian dari machine learning yang memakai neural network dengan banyak layer untuk mempelajari fitur langsung dari data mentah.</p>
+<p>Deep learning mengatasi ketergantungan pada feature engineering karena fiturnya dipelajari sendiri, bukan dibuat manusia.</p>
+<p>Ada dua komponen yang memungkinkan hal ini:</p>
+<ul>
+<li><strong>Hidden layer</strong>: setiap layer mengubah data menjadi fitur baru, dari fitur sederhana di layer awal sampai fitur kompleks di layer akhir. Pada foto, layer awal mengenali tepi, lalu layer berikutnya mengenali bentuk.</li>
+<li><strong>Activation function</strong>: tanpa ini, tumpukan layer tetap setara dengan satu linear model. Dengan activation function, model bisa mempelajari pola non-linear.</li>
+</ul>
+<p>Weight di setiap layer diatur otomatis saat training, jadi fitur yang terbentuk adalah fitur yang paling membantu mengurangi kesalahan.</p>
+<p>Contohnya XOR: linear model butuh manusia menambahkan fitur x₁·x₂, sedangkan MLP menemukan sendiri dua garis pemisah di hidden layer-nya.</p>
 
-    # param1 = image path, param2 = target size, param3 = color mode
-    image = load_img(image_path, target_size=(64, 64), color_mode="grayscale")
-    image = img_to_array(image)
-    image = image / 255.0  # normalize [0,255] -> [0,1]
+<figure>
+<img src="images/lin1_xor.svg" alt="Dua diagram scatter plot berdampingan. Kiri: Satu garis lurus, selalu ada yang salah, satu garis diagonal mencoba memisahkan Kelas A dan Kelas B, dengan catatan Titik A kanan atas berada di sisi kelas B jadi salah. Kanan: Dua garis dari hidden layer, terpisah, dua garis diagonal berhasil memisahkan kedua kelas, dengan catatan Kelas B berada di antara dua garis.">
+<figcaption>Satu garis lurus selalu ada yang salah, dua garis dari hidden layer berhasil memisahkan kelas A dan B.</figcaption>
+</figure>
 
-    images.append(image)
-    labels.append(i)
+<h3>Tabel Ringkasan Perbandingan Linear Model vs Deep Learning</h3>
+<table>
+<thead><tr><th>Aspek</th><th>Linear model</th><th>Deep learning</th></tr></thead>
+<tbody>
+<tr><td>Cara kerja</td><td>Satu rumus: fitur dikali weight, lalu dijumlahkan</td><td>Banyak layer yang mengolah data menjadi fitur baru</td></tr>
+<tr><td>Fitur</td><td>Dibuat manusia (feature engineering)</td><td>Dipelajari sendiri dari data</td></tr>
+<tr><td>Kelebihan</td><td>Sederhana, cepat dilatih, cukup dengan data sedikit, mudah dijelaskan</td><td>Bisa mempelajari pola non-linear yang rumit, dan bekerja langsung pada data mentah</td></tr>
+<tr><td>Kekurangan</td><td>Dengan fitur mentah gagal pada pola non-linear, dan bergantung pada feature engineering</td><td>Butuh data banyak dan komputasi besar (GPU), sulit dijelaskan, dan mudah overfit kalau datanya sedikit</td></tr>
+<tr><td>Cocok untuk data</td><td>Data tabel yang polanya sederhana</td><td>Data mentah: gambar, suara, teks</td></tr>
+<tr><td>Contoh penggunaan</td><td>Prediksi harga rumah, prediksi nilai dari jam belajar, skor risiko kredit yang harus bisa dijelaskan</td><td>Pengenalan wajah, speech recognition, penerjemahan, chatbot, pembuatan gambar</td></tr>
+<tr><td>Contoh model</td><td>Linear regression, logistic regression, perceptron</td><td>MLP, CNN, GAN, autoencoder</td></tr>
+</tbody>
+</table>
+</section>
 
-    # only take 100 images per class, in case the device can't handle more
-    if j > 98:
-      break</code></pre>
-    </div>
-  </div>
+<section id="sec-2">
+<h2>2. Model Training &amp; Evaluation</h2>
 
-  <div class="cell">
-    <div class="cell-label">Train / validation / test split</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>x = np.array(images, dtype=np.float32)
-y = to_categorical(labels, num_classes=len(CLASS_LIST))
+<h3>Training</h3>
+<p>Training adalah proses mengubah weight sedikit demi sedikit supaya kesalahan model makin kecil.</p>
 
-# the brief says 80 | 10 | 10 — since train_test_split only splits in two,
-# do it twice: first 80/20, then split that 20 in half again for 10/10
-x_train, x_temp, y_train, y_temp = train_test_split(x, y, random_state=9, test_size=0.2)
-x_test, x_val, y_test, y_val = train_test_split(x_temp, y_temp, random_state=10, train_size=0.5)</code></pre>
-    </div>
-  </div>
+<figure>
+<img src="images/training_flowchart.png" alt="Flowchart tahap training, dua kolom Tahap dan Komponen di tahap ini. Urutan: Sebelum mulai weight awal (Initialization) lalu 1. Ambil satu batch data (Ukuran batch, Regularization augmentation) lalu 2. Forward model menebak (Activation function, Regularization dropout) lalu 3. Loss ukur kesalahan (Loss function, Regularization L2) lalu 4. Backward hitung gradient (Chain rule, Vanishing/exploding/dying ReLU) lalu 5. Update geser weight (Optimizer, learning rate, Learning rate terlalu besar/kecil) lalu Akhir epoch cek validation (Regularization early stopping, Underfitting/overfitting). Panah melingkar menandakan ulangi per batch (tahap 1-5) dan ulangi per epoch.">
+<figcaption>Kiri: tahap training secara berurutan. Kanan: komponen yang bekerja di tahap itu. Teks merah pada aslinya menandai masalah yang bisa muncul di tahap itu.</figcaption>
+</figure>
 
-  <div class="cell">
-    <div class="cell-label">Model build</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>model = tf.keras.Sequential([
-    # Conv2D params: filters, kernel size, stride, padding, input shape, activation
-    tf.keras.layers.Conv2D(16, kernel_size=(3,3), strides=(1,1), padding="same",
-                            input_shape=(64, 64, 1), activation="relu"),
-    tf.keras.layers.MaxPooling2D((2,2)),
+<h4>0. Initialization</h4>
+<p>Sebelum training dimulai, semua weight harus punya nilai awal. Initialization adalah cara untuk memilih nilai tersebut.</p>
+<p>Kalau nilainya buruk, sinyal bisa mengecil atau membesar sejak awal, jadi training lambat atau gagal.</p>
+<p>Aturan utama: initialization mana? Lihat Activation di Hidden Layernya.</p>
+<table>
+<thead><tr><th>Pilih</th><th>kalau Activation Hidden Layernya &hellip;</th><th>Penjelasan</th></tr></thead>
+<tbody>
+<tr><td>He</td><td>ReLU</td><td>Rentang angkanya dibuat lebih lebar, karena ReLU membuang sekitar separuh sinyal.</td></tr>
+<tr><td>Xavier</td><td>sigmoid atau tanh</td><td>Rentang angkanya disesuaikan supaya sinyal tetap stabil antar layer.</td></tr>
+<tr><td>Uniform</td><td>Pilihan bawaan</td><td>Mudah dipakai, tapi kadang tidak stabil.</td></tr>
+</tbody>
+</table>
+<p>Xavier dan He sama-sama mengisi weight dengan angka acak yang rentangnya disesuaikan dengan ukuran layer.</p>
 
-    tf.keras.layers.Conv2D(32, kernel_size=(3,3), strides=(1,1), padding="same"),
-    tf.keras.layers.Conv2D(32, kernel_size=(3,3), strides=(1,1), padding="same"),
-    tf.keras.layers.MaxPooling2D((2,2)),
+<h4>1. Ambil Batch Data</h4>
+<p>Sebenarnya model bisa update weight untuk setiap baris data (Stochastic Gradient Descent), namun hasilnya tidak stabil.</p>
+<p>Karena itu, cara yang lebih umum adalah mini-batch atau batch gradient descent.</p>
+<table>
+<thead><tr><th>Pilih</th><th>Artinya</th><th>Pakai kalau</th><th>Alasan</th></tr></thead>
+<tbody>
+<tr><td>Mini-batch</td><td>Weight diubah setelah melihat sebagian kecil data, misalnya 32 data</td><td>Hampir selalu</td><td>Kompromi antara stabil dan cepat</td></tr>
+<tr><td>Batch gradient descent</td><td>Weight diubah setelah melihat semua data</td><td>Datanya kecil</td><td>Stabil, tapi lambat mencapai konvergen karena satu update harus menghitung semua data, sehingga perkalian matriksnya (MatMul) besar</td></tr>
+<tr><td>Stochastic gradient descent (SGD)</td><td>Weight diubah setelah melihat 1 data</td><td>Jarang dipakai murni</td><td>Cepat, tapi arahnya noisy karena satu update hanya memakai 1 data</td></tr>
+</tbody>
+</table>
 
+<h4>2. Forward Propagation</h4>
+<p>Data mengalir dari layer pertama ke layer terakhir, lalu keluar sebagai tebakan.</p>
+<p>Di setiap neuron, Activation Function mengolah hasil hitungan sebelum diteruskan ke layer berikutnya. Inilah yang membuat model bisa mempelajari pola non-linear.</p>
+
+<p><strong>Activation di hidden layer</strong></p>
+<table>
+<thead><tr><th>Activation Func.</th><th>Pakai kalau</th><th>Alasan</th></tr></thead>
+<tbody>
+<tr><td>ReLU</td><td>Hidden layer, hampir selalu (default)</td><td>Sederhana, dan gradient-nya tidak menyusut untuk input positif</td></tr>
+<tr><td>LeakyReLU</td><td>Banyak neuron ReLU mati</td><td>Input negatif tetap punya gradient kecil</td></tr>
+<tr><td>Sigmoid atau tanh</td><td>Jaringan dangkal</td><td>Di jaringan dalam, gradient-nya cepat mengecil (Vanishing Gradient)</td></tr>
+</tbody>
+</table>
+
+<p><strong>Activation di output layer</strong></p>
+<p>Hidden layer memakai activation supaya model bisa mempelajari pola non-linear, sedangkan output layer memakai activation supaya bentuk tebakannya sesuai tugas.</p>
+<table>
+<thead><tr><th>Tugas</th><th>Neuron output</th><th>Activation</th><th>Bentuk tebakan</th></tr></thead>
+<tbody>
+<tr><td>Regresi</td><td>1</td><td>Tidak ada (atau ReLU kalau target tidak mungkin negatif)</td><td>Satu angka</td></tr>
+<tr><td>Klasifikasi 2 kelas</td><td>1</td><td>Sigmoid</td><td>Satu peluang, 0 sampai 1</td></tr>
+<tr><td>Klasifikasi lebih dari 2 kelas</td><td>Sebanyak kelas</td><td>Softmax</td><td>Peluang tiap kelas, jumlahnya 1</td></tr>
+</tbody>
+</table>
+
+<p><strong>Masalah di tahap ini: Dying ReLU</strong></p>
+<p>Dying ReLU adalah kondisi saat neuron ReLU selalu mengeluarkan 0, sehingga neuron itu berhenti belajar selamanya.</p>
+<ul>
+<li>Tanda: banyak neuron selalu bernilai 0, dan loss macet.</li>
+<li>Penyebab: ReLU mengeluarkan 0 untuk input negatif, dan gradient-nya juga 0, jadi weight neuron itu tidak pernah berubah lagi. Learning rate yang terlalu besar sering memicunya.</li>
+<li>Solusi: pakai LeakyReLU atau parametric ReLU, atau kecilkan learning rate.</li>
+</ul>
+
+<h4>3. Hitung Loss</h4>
+<p>Loss adalah angka yang mengukur seberapa salah tebakan model. Training bertujuan untuk mengecilkan nilai ini.</p>
+<p>Cara perhitungan loss berbeda-beda tergantung tugas modelnya:</p>
+<table>
+<thead><tr><th>Pilih</th><th>Pakai kalau</th><th>Sifat</th><th>Cara menghitung</th></tr></thead>
+<tbody>
+<tr><td>MSE (Mean Squared Error)</td><td>Regresi</td><td>Error besar dihukum jauh lebih berat</td><td>Rata-rata dari selisih yang dikuadratkan</td></tr>
+<tr><td>MAE (Mean Absolute Error)</td><td>Regresi yang data train punya nilai ekstrem (outlier)</td><td>Lebih tahan terhadap outlier</td><td>Rata-rata dari selisih tanpa tanda minus</td></tr>
+<tr><td>Binary cross entropy</td><td>Klasifikasi 2 kelas</td><td>Tebakan yang yakin tapi salah dihukum sangat berat</td><td>Label 1: &minus;ln(peluang). Label 0: &minus;ln(1 &minus; peluang)</td></tr>
+<tr><td>Cross entropy</td><td>Klasifikasi lebih dari 2 kelas</td><td>Sama seperti binary cross entropy</td><td>&minus;ln(peluang kelas yang benar)</td></tr>
+</tbody>
+</table>
+
+<h4>4. Backward Propagation</h4>
+<p>Dari tahap loss, model sudah tahu seberapa salah tebakannya. Tapi model belum tahu weight mana yang harus diubah, dan ke arah mana.</p>
+<p>Backpropagation adalah cara menghitung seberapa besar setiap weight ikut menyebabkan kesalahan, dengan memakai chain rule dari layer terakhir ke layer pertama.</p>
+<p>Hasilnya disebut gradient, yaitu nilai untuk setiap weight yang menunjukkan dua hal:</p>
+<ul>
+<li><strong>Tanda (+/&minus;)</strong>: Gradient positif berarti loss naik kalau weight dibesarkan, jadi weight perlu dikecilkan. Gradient negatif berarti loss naik kalau weight dikecilkan, jadi weight perlu dibesarkan.</li>
+<li><strong>Besar nilainya</strong>: makin besar nilainya, makin besar pengaruh weight itu terhadap loss saat ini, jadi makin besar gradient-nya, makin besar perubahan weight-nya.</li>
+</ul>
+
+<p><strong>Masalah di tahap ini: Vanishing dan Exploding Gradient</strong></p>
+<p>Karena chain rule mengalikan turunan di setiap layer, layer awal punya rantai perkalian paling panjang. Akibatnya, gradient di layer awal sangat bergantung pada angka-angka yang dikalikan.</p>
+<p>Vanishing gradient adalah kondisi saat gradient makin kecil sampai hampir nol, sehingga layer awal hampir tidak belajar.</p>
+<ul>
+<li>Tanda: loss turun sangat lambat &amp; layer awal tidak berubah</li>
+<li>Penyebab: Turunan kecil (sigmoid maks 0,25) dikalikan berulang di banyak layer</li>
+<li>Solusi: pakai ReLU dengan He initialization, karena turunan ReLU bernilai 1 untuk input positif. Bisa juga memakai BatchNorm atau residual connection.</li>
+</ul>
+<p>Exploding gradient adalah kondisi saat gradient makin besar sampai tidak terkendali, sehingga update weight terlalu jauh.</p>
+<ul>
+<li>Tanda: loss melompat-lompat atau menjadi NaN.</li>
+<li>Penyebab: Weight atau gradient yang besar dikalikan berulang.</li>
+<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau BatchNorm.</li>
+</ul>
+<p>BatchNorm adalah layer yang menormalkan output dari layer sebelumnya.<br>Residual connection adalah jalan pintas yang menambahkan input layer ke output-nya, supaya gradient bisa mengalir langsung ke layer awal.</p>
+
+<h4>5. Update</h4>
+<p>Dari tahap backward, model sudah punya gradient untuk setiap weight. Sekarang weight benar-benar diubah, dan yang mengubahnya adalah optimizer.</p>
+<p>Optimizer adalah aturan yang menentukan bagaimana cara weight diubah berdasarkan nilai gradiennya. Gradient hanya memberi tahu arah dan seberapa besar pengaruh setiap weight, jadi optimizer masih perlu tahu seberapa jauh harus melangkah. Jarak langkah itu diatur oleh learning rate, yaitu angka yang kita tentukan sebelum training.</p>
+
+<p><strong>Memilih learning rate</strong></p>
+<table>
+<thead><tr><th>Learning rate</th><th>Yang terjadi</th><th>Tanda di loss</th></tr></thead>
+<tbody>
+<tr><td>Terlalu besar</td><td>Langkahnya bisa melompati titik optimal</td><td>Naik turun dan makin besar (divergen)</td></tr>
+<tr><td>Pas</td><td>Langkahnya makin mendekati titik terbaik</td><td>Turun dengan stabil</td></tr>
+<tr><td>Terlalu kecil</td><td>Langkahnya sangat pendek</td><td>Turun sangat lambat</td></tr>
+</tbody>
+</table>
+<p>Solusinya bisa memakai learning rate schedule, yaitu learning rate yang diturunkan selama training: langkah besar di awal supaya cepat, lalu langkah kecil di akhir supaya stabil. Contohnya step decay, exponential decay, dan cosine annealing.</p>
+
+<p><strong>Memilih optimizer</strong></p>
+<table>
+<thead><tr><th>Optimizer</th><th>Cara kerja</th><th>Pakai kalau</th><th>Kekurangan</th></tr></thead>
+<tbody>
+<tr><td>Adam</td><td>Gabungan Momentum dan RMSProp, jadi langkahnya menyesuaikan sendiri</td><td>Default untuk kebanyakan tugas</td><td>Bisa overfit</td></tr>
+<tr><td>SGD</td><td>Langsung memakai gradient dan learning rate</td><td>Ingin kontrol penuh</td><td>Sensitif terhadap learning rate</td></tr>
+<tr><td>Momentum</td><td>Langkah sekarang ikut membawa arah langkah sebelumnya, seperti bola menggelinding</td><td>Masalah convex, atau langkahnya zig-zag</td><td>Perlu tuning</td></tr>
+<tr><td>RMSProp</td><td>Setiap weight punya LR sendiri, dan nilainya mengecil kalau gradient-nya sering besar serta sebaliknya</td><td>Sering dipakai di RNN</td><td>Sensitif terhadap pengaturan</td></tr>
+</tbody>
+</table>
+<p>Catatan: kata SGD di tabel ini adalah nama optimizer. Kata yang sama juga dipakai untuk "update per 1 data" di tahap ambil data, jadi perhatikan konteksnya.</p>
+<p>Setelah update, model mengambil batch berikutnya dan mengulang tahap 1 sampai 5.</p>
+<p>Satu epoch selesai kalau seluruh data train sudah terpakai satu kali.</p>
+
+<h4>Akhir Epoch: Cek Hasil Belajar</h4>
+<p>Di akhir setiap epoch, kita membandingkan training loss dengan validation loss, yaitu loss pada data yang tidak dipakai untuk belajar.</p>
+
+<p><strong>Masalah di tahap ini: Underfitting dan Overfitting</strong></p>
+
+<p><strong>Solusi overfitting: Regularization</strong></p>
+<p>Regularization adalah teknik yang ditambahkan ke training supaya model tidak menghafal. Ini bukan tahap baru, karena setiap teknik menempel ke tahap yang sudah dibahas.</p>
+<table>
+<thead><tr><th>Pilih</th><th>Menempel di</th><th>Pakai kalau</th><th>Cara kerja</th></tr></thead>
+<tbody>
+<tr><td>Data augmentation</td><td>Tahap 1</td><td>Data gambar sedikit</td><td>Rotasi, crop, dan flip acak, jadi data terlihat lebih beragam</td></tr>
+<tr><td>Dropout</td><td>Tahap 2</td><td>Fully connected layer yang besar</td><td>Mematikan 20&ndash;50% neuron secara acak, jadi model tidak bergantung pada neuron tertentu</td></tr>
+<tr><td>L2 (weight decay)</td><td>Tahap 3</td><td>Weight membesar</td><td>Loss ditambah penalti untuk weight besar, jadi model lebih sederhana</td></tr>
+<tr><td>Early stopping</td><td>Akhir epoch</td><td>Hampir selalu, karena paling murah</td><td>Berhenti saat validation loss mulai naik, lalu memakai weight terbaiknya</td></tr>
+</tbody>
+</table>
+<p>Dropout dan augmentation hanya aktif saat training, karena saat evaluasi model harus melihat data apa adanya.</p>
+
+<p><strong>Tabel Ringkasan: gejala, masalah, dan solusinya</strong></p>
+<table>
+<thead><tr><th>Gejala</th><th>Masalah</th><th>Terjadi di</th><th>Solusi utama</th></tr></thead>
+<tbody>
+<tr><td>Banyak neuron selalu 0, loss macet</td><td>Dying ReLU</td><td>Tahap 2</td><td>LeakyReLU, learning rate lebih kecil</td></tr>
+<tr><td>Loss turun sangat lambat</td><td>Vanishing gradient, atau learning rate terlalu kecil</td><td>Tahap 4 atau 5</td><td>ReLU dengan He initialization, BatchNorm, naikkan learning rate</td></tr>
+<tr><td>Loss naik turun liar, membesar, atau NaN</td><td>Exploding gradient, atau learning rate terlalu besar</td><td>Tahap 4 atau 5</td><td>Turunkan learning rate, BatchNorm</td></tr>
+<tr><td>Training dan validation loss sama-sama tinggi</td><td>Underfitting</td><td>Akhir epoch</td><td>Model lebih besar, training lebih lama</td></tr>
+<tr><td>Training loss turun, validation loss naik</td><td>Overfitting</td><td>Akhir epoch</td><td>Early stopping, dropout, L2, augmentation</td></tr>
+</tbody>
+</table>
+
+<h3>Evaluation</h3>
+<p>Evaluation adalah proses mengukur seberapa baik model kita bekerja pada data yang tidak dipakai saat training (Test Set).</p>
+<p>Ukuran yang dipakai untuk menilainya disebut metric, yaitu angka yang menunjukkan kualitas tebakan model, misalnya accuracy untuk klasifikasi atau MAE untuk regresi.</p>
+<p>Loss dan metric punya tugas berbeda: loss dipakai model untuk belajar, sedangkan metric dipakai manusia untuk menilai.</p>
+<p>Metric yang digunakan untuk evaluasi harus sesuai dengan tujuan model dan jenis kesalahan yang paling krusial.</p>
+<table>
+<thead><tr><th>Metric</th><th>Menilai apa</th><th>Dipakai kalau</th></tr></thead>
+<tbody>
+<tr><td>Accuracy = (TP + TN) &divide; total</td><td>Berapa persen semua tebakan yang benar</td><td>Klasifikasi, dan jumlah data tiap kelas seimbang</td></tr>
+<tr><td>Precision = TP &divide; (TP + FP)</td><td>Dari yang ditebak positif, berapa yang benar positif</td><td>Klasifikasi, dan alarm palsu mahal. Contoh: email penting masuk folder spam</td></tr>
+<tr><td>Recall = TP &divide; (TP + FN)</td><td>Dari yang benar positif, berapa yang berhasil tertangkap</td><td>Klasifikasi, dan kasus yang lolos mahal. Contoh: fraud atau penyakit yang tidak terdeteksi</td></tr>
+<tr><td>F1 = 2PR &divide; (P + R)</td><td>Keseimbangan precision dan recall</td><td>Klasifikasi, jumlah data tiap kelas tidak seimbang, dan keduanya sama penting</td></tr>
+<tr><td>AUC</td><td>Seberapa baik model memisahkan dua kelas di berbagai batas keputusan. Nilai 0,5 setara menebak acak, dan 1 berarti sempurna</td><td>Klasifikasi, dan batas keputusannya belum ditentukan</td></tr>
+<tr><td>MSE</td><td>Rata-rata kesalahan, dengan error besar dihukum lebih berat</td><td>Regresi, dan error besar sangat merugikan</td></tr>
+<tr><td>MAE</td><td>Rata-rata besar kesalahan, dalam satuan yang sama dengan data</td><td>Regresi, ada outlier, atau hasilnya perlu mudah dibaca</td></tr>
+<tr><td>R&sup2;</td><td>Seberapa baik model dibanding selalu menebak rata-rata</td><td>Regresi, dan ingin tahu seberapa baik model menjelaskan data</td></tr>
+</tbody>
+</table>
+
+<p><strong>Confusion matrix: TP, FP, FN, dan TN</strong></p>
+<p>Confusion matrix adalah tabel yang menunjukkan pola kesalahan model, dengan membandingkan kondisi asli dan tebakan.</p>
+<p>Contohnya, model mendeteksi fraud pada 100 transaksi, dengan fraud sebagai kelas positif.</p>
+<ul>
+<li>TP (True Positive): fraud yang ditebak fraud.</li>
+<li>TN (True Negative): transaksi aman yang ditebak aman.</li>
+<li>FP (False Positive): transaksi aman yang ditebak fraud, atau alarm palsu.</li>
+<li>FN (False Negative): fraud yang ditebak aman, atau kasus yang lolos.</li>
+</ul>
+
+<figure>
+<img src="images/eval1_confusion.svg" alt="Diagram confusion matrix 2x2. Judul Tebakan model (kolom Fraud, Aman), baris Kondisi asli (Fraud, Aman). Sel TP=40 benar tertangkap, FN=20 lolos, FP=10 alarm palsu, TN=30 benar aman. Accuracy = (TP+TN) bagi total = (40+30)/100 = 0,70. Precision = TP bagi (TP+FP) = 40/(40+10) = 0,80. Recall = TP bagi (TP+FN) = 40/(40+20) = 0,67. F1 = 2 kali P kali R bagi (P+R) = 2 x 0,80 x 0,67 / 1,47 = 0,73.">
+<figcaption>Confusion matrix contoh deteksi fraud: TP=40, FN=20, FP=10, TN=30. Accuracy 0,70; Precision 0,80; Recall 0,67; F1 0,73.</figcaption>
+</figure>
+
+<p>Recall 0,67 artinya sepertiga kasus fraud masih lolos. Kalau fraud yang lolos sangat mahal, recall ini perlu ditingkatkan walaupun accuracy-nya 0,70.</p>
+
+<p><strong>Train, validation, dan test</strong></p>
+<ul>
+<li>Train: dipakai untuk mengubah weight.</li>
+<li>Validation: dipakai untuk memantau overfitting dan memilih pengaturan model, misalnya kapan early stopping dilakukan. Weight tidak diubah dari data ini.</li>
+<li>Test: dipakai untuk penilaian akhir setelah model selesai dipilih.</li>
+</ul>
+<p>Kalau data test ikut dipakai untuk memilih model, nilai akhirnya bisa terlihat terlalu bagus. Penjelasan pembagian ini adalah tambahan, karena PPT hanya menyebut validation dan evaluasi.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. CNN</h2>
+
+<h3>Cheat sheet</h3>
+<p>C = channel, T = tinggi, L = lebar, K = ukuran kernel, P = padding, S = stride.</p>
+<table>
+<thead><tr><th>Komponen</th><th>Tugas</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
+<tbody>
+<tr><td>Convolution</td><td>Mencari pola dengan kernel, untuk mendapatkan fitur. Makin dalam layernya, makin spesifik fiturnya, dari tepi sampai bentuk.</td><td>C = jumlah kernel. T dan L = (T &minus; K + 2P) &divide; S + 1, lalu hasil akhirnya dibulatkan ke bawah</td><td>(K &times; K &times; C input + 1) &times; jumlah kernel Conv</td></tr>
+<tr><td>ReLU</td><td>Membuat model non-linear, supaya bisa mempelajari pola yang rumit.</td><td>Tetap</td><td>0</td></tr>
+<tr><td>Max atau average pooling</td><td>Memperkecil ukuran, supaya komputasi lebih ringan, overfitting berkurang, dan hasilnya tahan terhadap geseran kecil.</td><td>C tetap. T dan L = (T &minus; K + 2P) &divide; S + 1, lalu hasil akhirnya dibulatkan ke bawah. Pooling 2&times;2 defaultnya: K=2, P=0, S=2.</td><td>0</td></tr>
+<tr><td>Flatten</td><td>Meratakan jadi satu baris, supaya bisa masuk ke fully connected, yang hanya menerima input satu baris.</td><td>C &times; T &times; L</td><td>0</td></tr>
+<tr><td>Fully connected</td><td>Menggabungkan semua fitur yang ditemukan, supaya menjadi keputusan atau tebakan.</td><td>Jumlah neuron</td><td>(jumlah input + 1) &times; jumlah neuron</td></tr>
+<tr><td>BatchNorm</td><td>Menormalkan output layer di setiap batch, supaya training lebih stabil.</td><td>Tetap</td><td>2 &times; C, yaitu &gamma; dan &beta; untuk setiap channel</td></tr>
+<tr><td>Dropout</td><td>Mematikan sebagian neuron secara acak saat training, supaya model tidak bergantung pada neuron tertentu.</td><td>Tetap</td><td>0</td></tr>
+<tr><td>Softmax atau sigmoid</td><td>Mengubah output jadi peluang, supaya kelas dengan peluang terbesar menjadi jawaban.</td><td>Tetap</td><td>0</td></tr>
+</tbody>
+</table>
+<p>Kerjakan dari atas ke bawah: cari ukuran output dulu, lalu hitung parameternya, karena layer berikutnya memakai ukuran itu sebagai input.</p>
+<p><strong>Jangan sampai salah:</strong></p>
+<ul>
+<li>C input diambil dari output layer sebelumnya, bukan selalu 1 atau 3.</li>
+<li>Jangan lupa + 1 di convolution dan fully connected, kecuali soal menyebut tanpa bias.</li>
+<li>Padding dan stride tidak masuk rumus parameter, karena keduanya hanya mengubah ukuran output.</li>
+<li>Hasil ukuran yang tidak bulat dibulatkan ke bawah. Contohnya, (32 &minus; 3 + 2 &times; 1) &divide; 2 + 1 = 16,5, jadi ukurannya 16.</li>
+<li>Di TensorFlow, padding='same' memakai rumus T output = T input &divide; S, lalu dibulatkan ke atas.</li>
+</ul>
+
+<h3>Komponen dan cara kerja tiap layer</h3>
+<p>Urutan yang umum adalah Convolution, ReLU, dan Pooling, yang bisa diulang beberapa kali, lalu Flatten, Fully connected, dan Output.</p>
+<p>Pola umumnya: tinggi dan lebar mengecil, sedangkan jumlah channel bertambah.</p>
+
+<figure>
+<img src="images/cnn_alur.svg" alt="Diagram alur CNN layer demi layer, menunjukkan urutan layer khas CNN dari input sampai output: convolution, ReLU, pooling, diulang, lalu flatten, fully connected, output.">
+<figcaption>Alur CNN layer demi layer, dari input sampai output.</figcaption>
+</figure>
+
+<figure>
+<img src="images/cnn_cara_kerja.svg" alt="Diagram cara kerja CNN: proses convolution (kernel dikali-jumlah piksel), max pooling (ambil angka terbesar tiap kotak), dan flatten (feature map disusun jadi satu baris).">
+<figcaption>Cara kerja convolution, pooling, dan flatten.</figcaption>
+</figure>
+
+<ul>
+<li><strong>Convolution</strong>: kernel digeser ke seluruh gambar. Di setiap posisi, kernel dikali piksel di bawahnya lalu dijumlahkan, sehingga satu kernel menghasilkan satu feature map.</li>
+<li><strong>ReLU</strong>: angka negatif menjadi 0, dan angka positif tetap.</li>
+<li><strong>Pooling</strong>: setiap kotak diringkas menjadi satu angka. Max mengambil angka terbesar, sedangkan average mengambil rata-rata.</li>
+<li><strong>Flatten</strong>: feature map disusun menjadi satu baris, dan jumlah angkanya tetap.</li>
+<li><strong>Fully connected</strong>: setiap input terhubung ke semua neuron, sama seperti layer di MLP.</li>
+<li><strong>Output</strong>: softmax memberi peluang tiap kelas, sedangkan sigmoid memberi satu peluang untuk 2 kelas.</li>
+</ul>
+<p>BatchNorm dan dropout bersifat tambahan. Di PPT, keduanya disarankan untuk performa dan mencegah overfitting.</p>
+
+<h3>Istilah</h3>
+<ul>
+<li>Kernel adalah kotak kecil berisi weight yang digeser ke seluruh gambar untuk mencari satu pola, misalnya tepi.</li>
+<li>Feature map adalah peta hasil pencarian satu kernel, yang menunjukkan di mana pola itu ditemukan.</li>
+<li>Channel adalah jumlah lapisan angka pada data. Gambar hitam putih punya 1 channel, gambar RGB punya 3, dan setelah convolution jumlahnya sama dengan jumlah feature map.</li>
+<li>Stride adalah jarak geser kernel.</li>
+<li>Padding adalah tambahan angka nol di pinggir gambar.</li>
+</ul>
+
+<h3>Kenapa rumus parameternya begitu?</h3>
+<ul>
+<li>K &times; K: kernel berukuran K &times; K punya satu weight di setiap kotaknya.</li>
+<li>&times; C input: kernel harus melihat semua channel input, jadi kotak-kotak itu ada di setiap channel.</li>
+<li>+ 1: setiap kernel atau neuron punya satu bias.</li>
+<li>&times; jumlah kernel atau neuron: setiap kernel atau neuron punya weight sendiri.</li>
+</ul>
+<p>Tinggi dan lebar gambar tidak masuk rumus convolution, karena weight kernel yang sama dipakai ulang di semua posisi.</p>
+
+<h3>Cara membaca bentuk arsitektur</h3>
+<p>Posisi channel bisa berbeda, jadi cek dulu sebelum menghitung. Biasanya bakal ada pasangan angka yang sama, yang beda sendiri itu channel.</p>
+<ul>
+<li>1 &times; 28 &times; 28 (kode PyTorch): channel di depan, yaitu 1 channel.</li>
+<li>6@28x28 (gambar LeNet-5): channel sebelum @, yaitu 6 channel.</li>
+<li>224x224x64 (gambar VGG): channel di belakang, yaitu 64 channel.</li>
+</ul>
+
+<h3>Contoh: SimpleCNN</h3>
+<p>Arsitektur dari PPT sesi 4, dengan input 1 &times; 28 &times; 28. Semua convolution memakai K = 3, P = 1, S = 1, dan max pooling memakai K = 2, P = 0, S = 2.</p>
+<table>
+<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
+<tbody>
+<tr><td>Input</td><td>1 &times; 28 &times; 28</td><td>0</td></tr>
+<tr><td>Conv 16 kernel</td><td>(28 &minus; 3 + 2&times;1) &divide; 1 + 1 = 28, jadi 16 &times; 28 &times; 28</td><td>(3&times;3&times;1 + 1) &times; 16 = 160</td></tr>
+<tr><td>Max pool</td><td>(28 &minus; 2 + 2&times;0) &divide; 2 + 1 = 14, jadi 16 &times; 14 &times; 14</td><td>0</td></tr>
+<tr><td>Conv 32 kernel</td><td>(14 &minus; 3 + 2&times;1) &divide; 1 + 1 = 14, jadi 32 &times; 14 &times; 14</td><td>(3&times;3&times;16 + 1) &times; 32 = 4.640</td></tr>
+<tr><td>Max pool</td><td>(14 &minus; 2 + 2&times;0) &divide; 2 + 1 = 7, jadi 32 &times; 7 &times; 7</td><td>0</td></tr>
+<tr><td>Flatten</td><td>32 &times; 7 &times; 7 = 1.568</td><td>0</td></tr>
+<tr><td>Fully connected 10</td><td>10</td><td>(1.568 + 1) &times; 10 = 15.690</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>160 + 4.640 + 15.690 = 20.490</strong></td></tr>
+</tbody>
+</table>
+<p>ReLU tidak ditulis di tabel, karena ukuran dan parameternya tidak berubah.</p>
+
+<h3>Soal latihan</h3>
+<h4>Soal 1: LeNet-5</h4>
+<p>Input 1 &times; 32 &times; 32. Kernel convolution berukuran 5 &times; 5, tanpa padding. Urutan ukuran output dari gambar arsitekturnya adalah 6@28x28, 6@14x14, 16@10x10, 16@5x5, lalu fully connected 120, 84, dan 10. Hitung jumlah parameter setiap layer dan totalnya.</p>
+<p><em>Lihat jawaban:</em></p>
+<div class="answer-block">
+<table>
+<thead><tr><th>Layer</th><th>Hitungan</th><th>Parameter</th></tr></thead>
+<tbody>
+<tr><td>Conv 6 kernel, output 6@28x28</td><td>(5&times;5&times;1 + 1) &times; 6 = 26 &times; 6</td><td>156</td></tr>
+<tr><td>Pooling, output 6@14x14</td><td></td><td>0</td></tr>
+<tr><td>Conv 16 kernel, output 16@10x10</td><td>(5&times;5&times;6 + 1) &times; 16 = 151 &times; 16</td><td>2.416</td></tr>
+<tr><td>Pooling, output 16@5x5</td><td></td><td>0</td></tr>
+<tr><td>Flatten</td><td>16&times;5&times;5 = 400 angka</td><td>0</td></tr>
+<tr><td>Fully connected 120</td><td>(400+1) &times; 120</td><td>48.120</td></tr>
+<tr><td>Fully connected 84</td><td>(120+1) &times; 84</td><td>10.164</td></tr>
+<tr><td>Output 10</td><td>(84+1) &times; 10</td><td>850</td></tr>
+<tr><td><strong>Total</strong></td><td>156+2.416+48.120+10.164+850</td><td><strong>61.706</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Soal 2: potongan VGG</h4>
+<p>Input 224 &times; 224 &times; 3. Blok pertama berisi dua conv 3 &times; 3 dengan 64 kernel dan padding 1. Di bagian akhir, output pooling 7 &times; 7 &times; 512 masuk ke fully connected 4.096 neuron. Hitung parameter ketiga layer itu.</p>
+<p><em>Lihat jawaban:</em></p>
+<div class="answer-block">
+<table>
+<thead><tr><th>Layer</th><th>Hitungan</th><th>Parameter</th></tr></thead>
+<tbody>
+<tr><td>Conv pertama, output 224&times;224&times;64</td><td>(3&times;3&times;3+1) &times; 64 = 28 &times; 64</td><td>1.792</td></tr>
+<tr><td>Conv kedua, output 224&times;224&times;64</td><td>(3&times;3&times;64+1) &times; 64 = 577 &times; 64</td><td>36.928</td></tr>
+<tr><td>Flatten</td><td>7&times;7&times;512 = 25.088 angka</td><td>0</td></tr>
+<tr><td>Fully connected 4.096</td><td>(25.088+1) &times; 4.096</td><td>102.764.544</td></tr>
+</tbody>
+</table>
+<p>Perhatikan bahwa fully connected jauh lebih mahal daripada conv, karena tidak memakai weight sharing.</p>
+</div>
+
+<h4>Soal 3: dari kode Torch</h4>
+<p>Input 3 &times; 32 &times; 32. Tentukan angka yang hilang di Linear, ukuran output setiap layer, jumlah parameter setiap layer, dan totalnya.</p>
+<pre><code>nn.Conv2d(3, 8, kernel_size=3, stride=1, padding=1),
+nn.ReLU(),
+nn.MaxPool2d(2),
+nn.Conv2d(8, 16, 5),
+nn.ReLU(),
+nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=1),
+nn.ReLU(),
+nn.MaxPool2d(2),
+nn.Flatten(),
+nn.Linear(?, 64),
+nn.ReLU(),
+nn.Linear(64, 5)</code></pre>
+<p><em>Lihat jawaban:</em></p>
+<div class="answer-block">
+<p>Cara membaca kode:</p>
+<ul>
+<li>Conv2d(C input, jumlah kernel, K, S, P): kalau stride dan padding tidak ditulis, nilainya S = 1 dan P = 0.</li>
+<li>MaxPool2d(2): K = 2, dan kalau stride tidak ditulis, nilainya sama dengan K, jadi S = 2. Padding-nya P = 0.</li>
+</ul>
+<table>
+<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
+<tbody>
+<tr><td>Conv2d(3, 8, K=3, S=1, P=1)</td><td>(32&minus;3+2&times;1)&divide;1+1 = 32, jadi 8&times;32&times;32</td><td>(3&times;3&times;3+1)&times;8 = 224</td></tr>
+<tr><td>MaxPool2d(2)</td><td>(32&minus;2+2&times;0)&divide;2+1 = 16, jadi 8&times;16&times;16</td><td>0</td></tr>
+<tr><td>Conv2d(8, 16, K=5, S=1, P=0)</td><td>(16&minus;5+2&times;0)&divide;1+1 = 12, jadi 16&times;12&times;12</td><td>(5&times;5&times;8+1)&times;16 = 3.216</td></tr>
+<tr><td>Conv2d(16, 32, K=4, S=2, P=1)</td><td>(12&minus;4+2&times;1)&divide;2+1 = 6, jadi 32&times;6&times;6</td><td>(4&times;4&times;16+1)&times;32 = 8.224</td></tr>
+<tr><td>MaxPool2d(2)</td><td>(6&minus;2+2&times;0)&divide;2+1 = 3, jadi 32&times;3&times;3</td><td>0</td></tr>
+<tr><td>Flatten</td><td>32&times;3&times;3 = 288, jadi angka yang hilang adalah 288</td><td>0</td></tr>
+<tr><td>Linear(288, 64)</td><td>64</td><td>(288+1)&times;64 = 18.496</td></tr>
+<tr><td>Linear(64, 5)</td><td>5</td><td>(64+1)&times;5 = 325</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>224+3.216+8.224+18.496+325 = 30.485</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Soal 4: hanya tahu ukuran output</h4>
+<p>Jenis layernya tidak diberi tahu. Convolution memakai stride 1. Kalau ukurannya tetap, K = 3 dan padding 1. Kalau ukurannya mengecil, tidak ada padding. Tentukan jenis setiap layer, lalu hitung jumlah parameternya.</p>
+<p>Urutan ukuran: 1 &times; 64 &times; 64, lalu 8 &times; 64 &times; 64, 8 &times; 32 &times; 32, 16 &times; 28 &times; 28, 16 &times; 14 &times; 14, 3.136, 100, dan 4.</p>
+<p><em>Lihat jawaban:</em></p>
+<div class="answer-block">
+<p>Cara mengenali layer dari perubahan ukuran:</p>
+<ul>
+<li>Channel berubah: convolution.</li>
+<li>Channel tetap, tinggi dan lebar mengecil: biasanya pooling, terutama kalau ukurannya menjadi setengah. Conv tanpa padding juga bisa memberi perubahan seperti ini, jadi cek penjelasan di soal.</li>
+<li>Tiga angka menjadi satu angka: flatten.</li>
+<li>Satu angka menjadi satu angka lain: fully connected.</li>
+<li>Ukuran tidak berubah: ReLU atau softmax, dan parameternya 0.</li>
+</ul>
+<p>Ukuran output saja tidak selalu cukup untuk menentukan K. Misalnya, 32 menjadi 28 bisa berasal dari K=5 dengan P=0, atau K=7 dengan P=1. Karena itu, K atau padding harus diberi tahu di soal. Kalau stride 1 dan tidak ada padding, K = T input &minus; T output + 1.</p>
+<table>
+<thead><tr><th>Perubahan ukuran</th><th>Jenis layer</th><th>Jumlah parameter</th></tr></thead>
+<tbody>
+<tr><td>1&times;64&times;64 ke 8&times;64&times;64</td><td>Conv 8 kernel, K=3</td><td>(3&times;3&times;1+1)&times;8 = 80</td></tr>
+<tr><td>8&times;64&times;64 ke 8&times;32&times;32</td><td>Max pooling 2&times;2</td><td>0</td></tr>
+<tr><td>8&times;32&times;32 ke 16&times;28&times;28</td><td>Conv 16 kernel, K = 32&minus;28+1 = 5</td><td>(5&times;5&times;8+1)&times;16 = 3.216</td></tr>
+<tr><td>16&times;28&times;28 ke 16&times;14&times;14</td><td>Max pooling 2&times;2</td><td>0</td></tr>
+<tr><td>16&times;14&times;14 ke 3.136</td><td>Flatten, karena 16&times;14&times;14 = 3.136</td><td>0</td></tr>
+<tr><td>3.136 ke 100</td><td>Fully connected</td><td>(3.136+1)&times;100 = 313.700</td></tr>
+<tr><td>100 ke 4</td><td>Fully connected</td><td>(100+1)&times;4 = 404</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>80+3.216+313.700+404 = 317.400</strong></td></tr>
+</tbody>
+</table>
+<p>ReLU tidak terlihat dari urutan ukuran, tapi itu tidak mengubah hasil karena parameternya 0.</p>
+</div>
+
+<h4>Soal 5: dari kode TensorFlow</h4>
+<p>Tentukan ukuran output setiap layer, jumlah parameter setiap layer, dan totalnya.</p>
+<pre><code>model = tf.keras.Sequential([
+    tf.keras.layers.Input(shape=(64, 64, 3)),
+    tf.keras.layers.Conv2D(16, (3, 3), padding='same', activation='relu'),
+    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Conv2D(32, (5, 5), activation='relu'),
+    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Conv2D(64, (3, 3), strides=2, padding='same', activation='relu'),
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(32, activation="relu"),
-    tf.keras.layers.Dense(len(CLASS_LIST), activation="softmax")
-])
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])</code></pre>
+<p><em>Lihat jawaban:</em></p>
+<div class="answer-block">
+<p>Cara membaca kode:</p>
+<ul>
+<li>Urutan ukuran: TensorFlow menulis channel di belakang, jadi (64, 64, 3) artinya T=64, L=64, dan C=3.</li>
+<li>Conv2D(jumlah kernel, (K, K)): C input tidak ditulis, jadi ambil dari output layer sebelumnya. Kalau stride tidak ditulis, S=1.</li>
+<li>padding='valid': ini nilai kalau padding tidak ditulis, dan artinya P=0.</li>
+<li>padding='same': T output = T input &divide; S, dibulatkan ke atas.</li>
+<li>MaxPooling2D((2,2)): K=2, P=0, dan kalau stride tidak ditulis, S=2.</li>
+<li>Dense(jumlah neuron): sama dengan fully connected, dan jumlah input diambil dari output layer sebelumnya.</li>
+</ul>
+<table>
+<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
+<tbody>
+<tr><td>Conv2D(16, K=3, same)</td><td>64&divide;1 = 64, jadi 64&times;64&times;16</td><td>(3&times;3&times;3+1)&times;16 = 448</td></tr>
+<tr><td>MaxPooling2D((2,2))</td><td>(64&minus;2+2&times;0)&divide;2+1 = 32, jadi 32&times;32&times;16</td><td>0</td></tr>
+<tr><td>Conv2D(32, K=5, valid)</td><td>(32&minus;5+2&times;0)&divide;1+1 = 28, jadi 28&times;28&times;32</td><td>(5&times;5&times;16+1)&times;32 = 12.832</td></tr>
+<tr><td>MaxPooling2D((2,2))</td><td>(28&minus;2+2&times;0)&divide;2+1 = 14, jadi 14&times;14&times;32</td><td>0</td></tr>
+<tr><td>Conv2D(64, K=3, S=2, same)</td><td>14&divide;2 = 7, jadi 7&times;7&times;64</td><td>(3&times;3&times;32+1)&times;64 = 18.496</td></tr>
+<tr><td>Flatten</td><td>7&times;7&times;64 = 3.136</td><td>0</td></tr>
+<tr><td>Dense(128)</td><td>128</td><td>(3.136+1)&times;128 = 401.536</td></tr>
+<tr><td>Dense(10)</td><td>10</td><td>(128+1)&times;10 = 1.290</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>448+12.832+18.496+401.536+1.290 = 434.602</strong></td></tr>
+</tbody>
+</table>
+<p>Activation yang ditulis di dalam Conv2D dan Dense tidak menambah parameter.</p>
+</div>
+</section>
 
-model.compile(
-    optimizer="adam",
-    loss="categorical_crossentropy",  # multi-class, so categorical_crossentropy
-    metrics=["accuracy"]
-)</code></pre>
-    </div>
-  </div>
+<section id="sec-4">
+<h2>4. Generative Model (GAN)</h2>
 
-  <div class="cell">
-    <div class="cell-label">Training run (actual output)</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>history = model.fit(
-    x_train, y_train,
-    validation_data=(x_val, y_val),
-    epochs=EPOCHS,
-    batch_size=BATCH_SIZE
-)
+<h3>1. Prinsip kerja generative model</h3>
+<p>Model yang sudah kita bahas tugasnya menebak, misalnya diberi foto lalu menjawab "ini kucing". Model seperti ini disebut discriminative model, yang mempelajari P(y|x), yaitu peluang label kalau datanya diketahui.</p>
+<p>Generative model adalah model yang belajar membuat data baru yang mirip data latih, misalnya foto wajah orang yang sebenarnya tidak ada. Model ini mempelajari P(x) atau P(x|y), yaitu bentuk data itu sendiri.</p>
+<p>Masalahnya, foto buatan model tidak punya satu jawaban benar untuk dibandingkan. Jadi, loss biasa sulit menilai apakah fotonya sudah bagus.</p>
+<p>GAN (Generative Adversarial Network) menyelesaikan masalah ini dengan melatih penilainya juga, sehingga ada dua neural network yang saling bersaing.</p>
 
-Epoch  1/10  — accuracy: 0.2656 — loss: 1.4107 — val_accuracy: 0.2250 — val_loss: 1.5491
-Epoch  2/10  — accuracy: 0.3875 — loss: 1.3379 — val_accuracy: 0.6250 — val_loss: 1.2104
-Epoch  3/10  — accuracy: 0.5844 — loss: 1.1494 — val_accuracy: 0.8000 — val_loss: 0.9145
-Epoch  4/10  — accuracy: 0.6938 — loss: 0.9018 — val_accuracy: 0.7250 — val_loss: 0.7772
-Epoch  5/10  — accuracy: 0.7312 — loss: 0.7116 — val_accuracy: 0.7250 — val_loss: 0.7780
-Epoch  6/10  — accuracy: 0.7500 — loss: 0.6110 — val_accuracy: 0.7000 — val_loss: 0.6550
-Epoch  7/10  — accuracy: 0.8406 — loss: 0.4224 — val_accuracy: 0.7250 — val_loss: 0.5456
-Epoch  8/10  — accuracy: 0.8906 — loss: 0.3420 — val_accuracy: 0.7750 — val_loss: 0.6956
-Epoch  9/10  — accuracy: 0.9094 — loss: 0.2749 — val_accuracy: 0.8000 — val_loss: 0.5970
-Epoch 10/10  — accuracy: 0.9312 — loss: 0.2209 — val_accuracy: 0.7250 — val_loss: 0.5473</code></pre>
-    </div>
-  </div>
+<p><strong>Generative model lain: VAE dan Diffusion</strong></p>
+<p>GAN bukan satu-satunya generative model. Ketiganya sama-sama membuat data baru, tapi prinsip kerjanya berbeda.</p>
+<table>
+<thead><tr><th>Aspek</th><th>GAN</th><th>VAE</th><th>Diffusion</th></tr></thead>
+<tbody>
+<tr><td>Prinsip kerja</td><td>Generator dan discriminator saling bersaing</td><td>Encoder dan decoder belajar lewat latent berupa distribusi</td><td>Noise ditambahkan bertahap, lalu model belajar menghapusnya</td></tr>
+<tr><td>Kualitas</td><td>Tinggi</td><td>Sedang</td><td>Sangat tinggi</td></tr>
+<tr><td>Stabilitas training</td><td>Rendah</td><td>Tinggi</td><td>Tinggi</td></tr>
+<tr><td>Kecepatan membuat data</td><td>Cepat</td><td>Cepat</td><td>Lambat</td></tr>
+<tr><td>Contoh aplikasi</td><td>Wajah sintetis, super-resolution</td><td>Representation learning, deteksi anomali</td><td>Text-to-image, inpainting, video</td></tr>
+</tbody>
+</table>
+<p>Cara kerja Diffusion:</p>
+<ul>
+<li>Forward process: data diberi noise sedikit demi sedikit.</li>
+<li>Reverse process: model belajar menebak noise di setiap langkah, lalu menghapusnya.</li>
+<li>Membuat data baru: mulai dari noise murni, lalu noise dihapus bertahap sampai menjadi data.</li>
+</ul>
+<p>Diffusion lebih tahan terhadap mode collapse, tapi proses membuat datanya lebih lambat karena harus melewati banyak langkah.</p>
 
-  <div class="cell">
-    <div class="cell-label">Evaluation on the test set</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>model.evaluate(x_test, y_test)
-# -> loss: 0.6861, accuracy: 0.7250</code></pre>
-    </div>
-    <div class="stat-row">
-      <div class="stat"><div class="label">Test accuracy</div><div class="value">72.5%</div></div>
-      <div class="stat"><div class="label">Test loss</div><div class="value">0.686</div></div>
-      <div class="stat"><div class="label">Final train accuracy</div><div class="value">93.1%</div></div>
-    </div>
-  </div>
+<h3>2. Arsitektur GAN</h3>
+<table>
+<thead><tr><th>Pemain</th><th>Input</th><th>Output</th><th>Tujuan</th></tr></thead>
+<tbody>
+<tr><td>Generator (G)</td><td>Noise, yaitu deretan angka acak</td><td>Data palsu</td><td>Membuat data palsu yang dikira asli oleh D</td></tr>
+<tr><td>Discriminator (D)</td><td>Data asli atau data palsu</td><td>Peluang data itu asli, 0 sampai 1</td><td>Membedakan data asli dan data palsu</td></tr>
+</tbody>
+</table>
 
-  <div class="cell">
-    <div class="cell-label">Prediction vs. actual (test set)</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>prediction_result = model.predict(x_test)
-for i, prediction in enumerate(prediction_result):
-  print(f"Actual : {CLASS_LIST[np.argmax(y_test[i])]} | Prediction : {CLASS_LIST[np.argmax(prediction)]}")</code></pre>
-    </div>
-    <table>
-      <thead><tr><th>#</th><th>Actual</th><th>Prediction</th><th>Match</th></tr></thead>
-      <tbody id="predTable"></tbody>
-    </table>
-  </div>
+<figure>
+<img src="images/gan_arsitektur.svg" alt="Diagram arsitektur GAN: noise masuk ke Generator menghasilkan data palsu, dataset asli masuk ke Discriminator bersama data palsu, Discriminator menghasilkan peluang data itu asli.">
+<figcaption>Arsitektur GAN: noise ke Generator, dataset asli ke Discriminator.</figcaption>
+</figure>
 
-  <div class="cell">
-    <div class="cell-label">Showing sample predictions as images</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code># what the quiz actually asks you to show
-plt.figure(figsize=(20, 4))
-for i in range(10):
-  plt.subplot(1, 10, i+1)
-  plt.imshow(x_test[i], cmap="gray")
-  plt.text(-1, -1, f"Actual : {CLASS_LIST[np.argmax(y_test[i])]} | Prediction : {CLASS_LIST[np.argmax(prediction_result[i])]}")
-  plt.axis(False)
-plt.show()
+<ul>
+<li>D sebagai classifier: D adalah binary classifier, yaitu model yang mengelompokkan data ke dua kelas: asli atau palsu.</li>
+<li>Noise: dipakai supaya hasil G beragam, karena angka acak yang berbeda menghasilkan foto yang berbeda.</li>
+<li>Data latih: kumpulan data asli, misalnya foto wajah, dan hanya D yang melihatnya.</li>
+<li>Setelah training: biasanya G yang dipakai untuk membuat data baru.</li>
+</ul>
+<p>Bayangkan pemalsu uang (G) melawan polisi (D): makin jeli polisinya, pemalsunya harus makin terampil. Bedanya, pemalsu sungguhan bisa melihat uang asli, sedangkan G tidak pernah melihat data asli.</p>
 
-# alternate 2-row layout used for the TM1 quiz
-plt.figure(figsize=(20, 8))
-for i in range(5):
-  plt.subplot(2, 5, i+1)
-  plt.imshow(x_test[i], cmap="gray")
-  plt.text(-1, -1, f"Actual : {CLASS_LIST[np.argmax(y_test[i])]} | Prediction : {CLASS_LIST[np.argmax(prediction_result[i])]}")
-  plt.axis(False)
+<h3>3. Proses training</h3>
+<p>Training GAN disebut adversarial training, yaitu G dan D dilatih bergantian sambil saling bersaing.</p>
+<p>Di setiap batch, D dilatih lebih dulu, lalu G. Saat satu model dilatih, weight model lainnya tidak diubah.</p>
 
-  plt.subplot(2, 5, i+6)
-  plt.imshow(x_test[i+5], cmap="gray")
-  plt.text(-1, -1, f"Actual : {CLASS_LIST[np.argmax(y_test[i+5])]} | Prediction : {CLASS_LIST[np.argmax(prediction_result[i+5])]}")
-  plt.axis(False)
-plt.show()</code></pre>
-    </div>
-    <p class="note">Rendered plot images weren't saved in the exported notebook — this is exactly what generates them if you re-run the notebook.</p>
-  </div>
+<figure>
+<img src="images/gan_dua_giliran.svg" alt="Diagram dua giliran training GAN: giliran 1 melatih Discriminator dengan foto asli dan foto palsu, giliran 2 melatih Generator supaya foto palsunya dinilai asli oleh Discriminator.">
+<figcaption>Dua giliran training GAN: melatih D lalu melatih G.</figcaption>
+</figure>
 
-  <div class="cell">
-    <div class="cell-label">Plot of evaluation metrics</div>
-    <div class="code-wrap">
-      <button class="copy-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
-      <pre><code>plt.figure(figsize=(20,4))
+<p><strong>Giliran 1: melatih D</strong></p>
+<p>Kesalahan D adalah menilai foto asli sebagai palsu, atau menilai foto palsu sebagai asli.</p>
+<ol>
+<li>Jalankan G untuk mengubah noise menjadi foto palsu.</li>
+<li>Beri D foto asli dengan label 1 dan foto palsu dengan label 0.</li>
+<li>Hitung rata-rata loss foto asli dan rata-rata loss foto palsu, lalu jumlahkan menjadi loss D.</li>
+<li>Backpropagation menghitung gradient, lalu update weight D saja.</li>
+</ol>
+<table>
+<thead><tr><th>Foto</th><th>Label</th><th>Output D</th><th>Hitungan</th><th>Loss</th><th>Artinya</th></tr></thead>
+<tbody>
+<tr><td>Asli</td><td>1</td><td>0,9</td><td>&minus;ln(0,9)</td><td>0,11</td><td>D benar</td></tr>
+<tr><td>Palsu</td><td>0</td><td>0,2</td><td>&minus;ln(1&minus;0,2)</td><td>0,22</td><td>D benar</td></tr>
+<tr><td>Asli</td><td>1</td><td>0,1</td><td>&minus;ln(0,1)</td><td>2,30</td><td>D salah, karena foto asli dinilai palsu</td></tr>
+<tr><td>Palsu</td><td>0</td><td>0,9</td><td>&minus;ln(1&minus;0,9)</td><td>2,30</td><td>D salah, karena foto palsu dinilai asli</td></tr>
+</tbody>
+</table>
+<p>Jadi, dengan satu foto asli dan satu foto palsu:</p>
+<ul>
+<li>D benar: loss D = 0,11 + 0,22 = 0,33.</li>
+<li>D salah: loss D = 2,30 + 2,30 = 4,60.</li>
+</ul>
+<p>Loss D besar berarti D banyak salah, dan gradient-nya mengubah weight D supaya output berikutnya lebih dekat ke label.</p>
 
-plt.subplot(1, 2, 1)
-plt.plot(history.history["accuracy"], label="Training Accuracy")
-plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
-plt.legend(); plt.xlabel("Number of Epoch"); plt.ylabel("Accuracy")
+<p><strong>Giliran 2: melatih G</strong></p>
+<p>Kesalahan G adalah membuat foto yang masih dinilai palsu oleh D.</p>
+<ol>
+<li>Buat foto palsu dari noise, lalu beri ke D.</li>
+<li>Hitung loss dengan label 1, karena G ingin fotonya dikira asli.</li>
+<li>Backpropagation mengalirkan gradient melewati D sampai ke G.</li>
+<li>Update weight G saja.</li>
+</ol>
+<table>
+<thead><tr><th>Output D untuk foto palsu</th><th>Hitungan</th><th>Loss G</th><th>Artinya</th></tr></thead>
+<tbody>
+<tr><td>0,2</td><td>&minus;ln(0,2)</td><td>1,61</td><td>G gagal menipu D</td></tr>
+<tr><td>0,5</td><td>&minus;ln(0,5)</td><td>0,69</td><td>D ragu-ragu</td></tr>
+<tr><td>0,9</td><td>&minus;ln(0,9)</td><td>0,11</td><td>G berhasil menipu D</td></tr>
+</tbody>
+</table>
+<p>Loss G besar berarti foto G masih mudah dikenali sebagai palsu, dan gradient-nya mengubah weight G supaya output D untuk foto berikutnya naik.</p>
 
-plt.subplot(1, 2, 2)
-plt.plot(history.history["loss"], label="Training Loss")
-plt.plot(history.history["val_loss"], label="Validation Loss")
-plt.legend(); plt.xlabel("Number of Epoch"); plt.ylabel("Loss")
+<p><strong>Kode training di PPT</strong></p>
+<pre><code># Train Discriminator
+loss_D = loss_fn(D(real), 1) + loss_fn(D(fake.detach()), 0)
+loss_D.backward()
 
-plt.show()</code></pre>
-    </div>
-  </div>
+# Train Generator
+loss_G = loss_fn(D(fake), 1)
+loss_G.backward()</code></pre>
+<ul>
+<li>loss_fn(D(real), 1): foto asli harus dinilai asli.</li>
+<li>loss_fn(D(fake.detach()), 0): foto palsu harus dinilai palsu. Fungsi detach() menghentikan gradient supaya tidak mengalir ke G.</li>
+<li>loss_fn(D(fake), 1): G ingin foto palsunya dinilai asli.</li>
+</ul>
+
+<p><strong>Kenapa G akhirnya bisa membuat wajah?</strong></p>
+<p>G tidak diajari cara membuat wajah. G hanya terus berubah supaya D menjawab "asli", dan yang dikenal D sebagai asli adalah wajah.</p>
+<ul>
+<li>Awalnya acak: weight G masih acak, jadi gambarnya hanya bintik-bintik.</li>
+<li>D menilai: D belajar dari foto wajah asli, jadi bintik-bintik itu dinilai palsu.</li>
+<li>G mendapat arah: gradient memberi tahu ke arah mana weight G harus berubah supaya output D naik.</li>
+<li>Diulang ribuan kali: setiap perubahan kecil, tapi gambarnya pelan-pelan makin mirip wajah.</li>
+</ul>
+
+<figure>
+<img src="images/gan_perkembangan_g.svg" alt="Diagram perkembangan output Generator dari noise acak berbintik-bintik, pelan-pelan menjadi wajah yang semakin realistis setelah banyak iterasi training.">
+<figcaption>Perkembangan output Generator dari noise menjadi wajah realistis.</figcaption>
+</figure>
+
+<p>Gambar ini hanya ilustrasi, bukan hasil training sungguhan. Dataset menentukan apa yang akhirnya dibuat G. Kalau D belajar dari foto kucing, G akan membuat gambar kucing.</p>
+
+<p><strong>Kapan G dianggap berhasil?</strong></p>
+<p>G berhasil kalau D tidak bisa lagi membedakan foto asli dan foto palsu. Saat itu, D hanya bisa menebak seperti melempar koin, sehingga tebakannya benar sekitar 50%.</p>
+<p>Contohnya, D diberi 100 foto yang terdiri dari 50 foto asli dan 50 foto palsu, dan keduanya sudah tidak bisa dibedakan:</p>
+<table>
+<thead><tr><th>Strategi D</th><th>Tebakan yang benar</th></tr></thead>
+<tbody>
+<tr><td>Selalu menjawab asli</td><td>50 foto asli, jadi 50%</td></tr>
+<tr><td>Selalu menjawab palsu</td><td>50 foto palsu, jadi 50%</td></tr>
+<tr><td>Menebak acak</td><td>Sekitar 50 foto, jadi sekitar 50%</td></tr>
+</tbody>
+</table>
+<p>50% bukan nilai maksimal. Angka ini muncul karena jumlah foto asli dan palsu sama, dan ini adalah kondisi seimbang yang ideal secara teori.</p>
+<p>Cara membaca output D untuk foto palsu:</p>
+<table>
+<thead><tr><th>Output D</th><th>Artinya</th></tr></thead>
+<tbody>
+<tr><td>Mendekati 0</td><td>D masih mudah mengenali foto palsu, jadi G masih perlu belajar</td></tr>
+<tr><td>Sekitar 0,5</td><td>D tidak bisa membedakan, dan ini kondisi seimbang yang ideal</td></tr>
+<tr><td>Mendekati 1</td><td>D tertipu untuk sementara, lalu D belajar lagi di giliran berikutnya</td></tr>
+</tbody>
+</table>
+<p>Output D sekitar 0,5 belum menjamin fotonya bagus, karena D yang lemah juga bisa memberi nilai itu. Jadi, hasilnya tetap perlu dicek langsung atau dengan FID.</p>
+
+<h3>4. Training GAN yang optimal</h3>
+<p>Karena dua model saling mengejar, training GAN lebih sulit stabil daripada training biasa.</p>
+<p>Training dianggap optimal kalau empat target ini tercapai. Setiap target punya masalah yang muncul kalau target itu gagal.</p>
+<table>
+<thead><tr><th>Target</th><th>Masalah kalau gagal</th><th>Lakukan ini</th><th>Agar apa</th></tr></thead>
+<tbody>
+<tr><td>1. Variasi lengkap</td><td>Mode collapse: G terus membuat wajah yang mirip, karena wajah itu berhasil menipu D</td><td>Deteksi: lihat hasilnya langsung, lalu pantau FID dan IS. Perbaiki: minibatch discrimination, atau Conditional GAN kalau datanya punya label.</td><td>Hasil yang seragam cepat ketahuan, dan G terdorong membuat variasi yang lebih lengkap</td></tr>
+<tr><td>2. Konvergen</td><td>Non-convergence: G dan D terus saling mengalahkan, sehingga loss naik turun tanpa mencapai titik seimbang</td><td>Pakai batch normalization, DCGAN untuk gambar, dan BCEWithLogits</td><td>Training dan perhitungan loss lebih stabil</td></tr>
+<tr><td>3. D dan G seimbang</td><td>Vanishing gradient: D terlalu kuat dan selalu tahu mana yang palsu, sehingga G hampir tidak mendapat gradient untuk belajar</td><td>Pakai label smoothing atau noise injection, serta LeakyReLU</td><td>D tidak terlalu yakin, dan gradient tetap mengalir ke G</td></tr>
+<tr><td>4. Kualitas terukur naik</td><td>Evaluasi sulit: loss G turun belum tentu berarti fotonya makin bagus</td><td>Pakai FID dan IS, serta lihat hasilnya langsung</td><td>Kemajuan bisa dinilai dengan angka dan mata</td></tr>
+</tbody>
+</table>
+<p>Konvergen di GAN berarti G dan D mencapai titik seimbang, bukan loss mendekati 0. Kalau loss D mendekati 0, D justru bisa terlalu kuat.</p>
+
+<figure>
+<img src="images/gan_mode_collapse.svg" alt="Perbandingan training sehat dengan mode collapse: training sehat menghasilkan wajah-wajah yang beragam, mode collapse menghasilkan wajah yang sama berulang-ulang karena Generator hanya mengandalkan satu pola yang berhasil menipu Discriminator.">
+<figcaption>Training sehat menghasilkan variasi wajah, mode collapse menghasilkan wajah yang berulang.</figcaption>
+</figure>
+
+<p>FID dan IS mengukur hasil, bukan memperbaiki training. Keduanya dipakai untuk mengetahui apakah cara yang lain berhasil.</p>
+
+<p><strong>Varian GAN, cukup tahu</strong></p>
+<ul>
+<li>Conditional GAN: label diberikan ke G dan D, supaya kita bisa memilih yang dibuat, misalnya angka 3.</li>
+<li>StyleGAN: arsitektur berbasis style yang bisa menghasilkan wajah sangat realistis.</li>
+</ul>
+</section>
+
+<section id="sec-5">
+<h2>5. MLP</h2>
+
+<h3>Single Layer Perceptron vs. Multi Layer Perceptron</h3>
+<p><strong>Single-layer: belum deep learning</strong></p>
+<p>Single-layer adalah model yang input-nya langsung terhubung ke output, tanpa layer di tengah.</p>
+<p>Contohnya perceptron, dan cara hitungnya sama dengan linear model: setiap fitur dikali weight, lalu dijumlahkan.</p>
+<p>Karena output langsung dihitung dari fitur mentah, batas antar kelasnya hanya bisa garis lurus, dan fitur yang lebih rumit harus dibuat manusia.</p>
+<p>Jadi single-layer belum termasuk deep learning.</p>
+
+<p><strong>Masuk deep learning: tambahkan hidden layer</strong></p>
+<p>Hidden layer adalah layer di antara input dan output. Layer ini mengubah keadaan karena mengolah input menjadi fitur baru, jadi output tidak lagi melihat fitur mentah.</p>
+<p>Activation function di dalamnya membuat tumpukan layer tidak bisa diringkas menjadi satu linear model, sehingga model bisa mempelajari pola non-linear.</p>
+<p>Weight-nya dipelajari saat training, jadi fitur baru itu dibentuk sendiri oleh model, bukan dibuat manusia.</p>
+<p>Secara ketat, sebutan "deep" biasanya dipakai untuk jaringan dengan banyak hidden layer, tapi slide membahas MLP sebagai dasar deep learning.</p>
+
+<h3>3. Kelebihan MLP</h3>
+<ul>
+<li>Bisa mempelajari pola non-linear, karena punya hidden layer dan activation function.</li>
+<li>Membentuk fiturnya sendiri, jadi tidak bergantung pada feature engineering manual.</li>
+<li>Fleksibel, karena bisa untuk regresi dan klasifikasi hanya dengan mengganti output layer dan loss.</li>
+<li>Cocok untuk data tabular, yaitu data berbentuk tabel dengan setiap kolom sebagai satu fitur.</li>
+<li>Sangat kuat secara teori, karena satu hidden layer bisa mendekati fungsi kontinu apa pun (Universal Approximation Theorem), walaupun dalam praktik model yang lebih dalam lebih efisien.</li>
+</ul>
+
+<h3>4. Namun, MLP punya beberapa limitasi</h3>
+
+<h4>1. Kurang cocok untuk gambar besar atau rumit karena kehilangan informasi posisi</h4>
+<ul>
+<li>Masalah: MLP harus meratakan gambar menjadi satu baris angka (flatten) sebelum diproses.</li>
+<li>Kenapa: setelah di-flatten, piksel yang bertetangga tidak lagi dianggap berdekatan, padahal tepi dan bentuk terbentuk dari piksel yang bertetangga.</li>
+<li>Kenali di soal: datanya berupa foto, misalnya rontgen atau daun.</li>
+<li>Solusi: CNN, karena kernel-nya melihat piksel yang bertetangga secara langsung.</li>
+<li>Contoh jawaban: "MLP masih bisa dipakai untuk gambar kecil dan sederhana. Di PPT, MLP mencapai sekitar 97% pada MNIST, yaitu gambar angka 28 &times; 28 hitam putih."</li>
+</ul>
+
+<figure>
+<img src="images/mlp_flatten.svg" alt="Diagram keterbatasan MLP: gambar 3x3 di-flatten menjadi satu baris angka, sehingga piksel yang tadinya bertetangga (misalnya atas-bawah) menjadi jauh posisinya dalam baris hasil flatten, hubungan spasial antar piksel hilang.">
+<figcaption>Flatten pada gambar 3&times;3 menghilangkan hubungan antar piksel yang bertetangga.</figcaption>
+</figure>
+
+<h4>2. Parameter meledak pada input besar</h4>
+<ul>
+<li>Masalah: setiap input terhubung ke semua neuron, jadi jumlah parameter cepat membengkak.</li>
+<li>Kenapa: foto 224 &times; 224 RGB punya 150.528 angka. Ke 1.000 neuron saja butuh (150.528 + 1) &times; 1.000 = 150.529.000 parameter, sedangkan satu conv 3 &times; 3 dengan 64 kernel hanya 1.792.</li>
+<li>Kenali di soal: resolusi gambar tinggi, jumlah fitur sangat banyak, atau komputasi terbatas.</li>
+<li>Solusi: CNN dengan weight sharing, atau kurangi dimensi input.</li>
+<li>Contoh jawaban: "Dengan input 150.528 angka, layer pertama MLP saja membutuhkan sekitar 150 juta parameter, karena setiap angka input punya weight sendiri di setiap neuron. Akibatnya, training berat dan mudah overfit. CNN mengatasinya dengan weight sharing. CNN memakai kernel, yaitu kotak kecil berisi weight yang digeser ke seluruh gambar untuk mencari satu pola. Weight yang sama dipakai ulang di semua posisi, jadi jumlahnya tidak ikut naik saat gambar membesar. Hasilnya, satu conv layer 3 &times; 3 dengan 64 kernel hanya membutuhkan 1.792 parameter."</li>
+</ul>
+
+<h4>3. Mudah overfit kalau modelnya terlalu kompleks</h4>
+
+<h4>4. Condong ke kelas mayoritas pada data tidak seimbang</h4>
+<ul>
+<li>Masalah: accuracy terlihat tinggi, tapi kelas minoritas hampir tidak tertangkap.</li>
+<li>Kenapa: loss menghitung semua data sama rata, jadi menebak kelas terbanyak sudah membuat loss kecil.</li>
+<li>Kenali di soal: persentase kelasnya timpang, misalnya gagal bayar 5% atau fraud 1%.</li>
+<li>Solusi: class weight, oversampling atau undersampling, lalu nilai dengan recall dan F1.</li>
+<li>Contoh jawaban: "Nasabah gagal bayar hanya 5%, sehingga model yang selalu menebak lancar sudah mendapat accuracy 95% walaupun tidak menangkap satu pun kasus gagal bayar. Karena itu dipakai class weight yang lebih besar untuk kelas gagal bayar, dan model dinilai dengan recall dan F1."</li>
+</ul>
+
+<h4>5. Vanishing gradient kalau terlalu dalam</h4>
+<ul>
+<li>Masalah: layer awal hampir tidak belajar.</li>
+<li>Kenapa: chain rule mengalikan banyak angka kecil, terutama kalau memakai sigmoid.</li>
+<li>Kenali di soal: jaringannya banyak layer, memakai sigmoid, dan loss turun sangat lambat.</li>
+<li>Solusi: ReLU dengan He initialization, BatchNorm, atau residual connection.</li>
+<li>Contoh jawaban: "Loss turun sangat lambat karena jaringan 10 layer memakai sigmoid, sehingga gradient mengecil saat dikalikan sampai ke layer awal. Solusinya mengganti activation dengan ReLU dan He initialization, karena turunan ReLU bernilai 1 untuk input positif."</li>
+</ul>
+
+<h4>6. Exploding gradient kalau gradient-nya membesar</h4>
+<ul>
+<li>Masalah: update weight terlalu jauh, jadi training tidak stabil.</li>
+<li>Kenapa: chain rule mengalikan banyak angka besar, jadi gradient makin besar sampai tidak terkendali.</li>
+<li>Kenali di soal: loss melompat-lompat atau menjadi NaN.</li>
+<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau BatchNorm.</li>
+<li>Contoh jawaban: "Loss melompat-lompat lalu menjadi NaN, yang menunjukkan exploding gradient karena gradient membesar saat dikalikan antar layer. Solusinya menurunkan learning rate dan memakai initialization yang sesuai, supaya update weight tidak terlalu jauh."</li>
+</ul>
+
+<h4>7. Dying ReLU kalau neuron berhenti aktif</h4>
+<ul>
+<li>Masalah: neuron ReLU selalu mengeluarkan 0, jadi berhenti belajar.</li>
+<li>Kenapa: ReLU mengeluarkan 0 untuk input negatif, dan gradient-nya juga 0, jadi weight neuron itu tidak berubah lagi.</li>
+<li>Kenali di soal: memakai ReLU, banyak neuron selalu bernilai 0, dan loss macet.</li>
+<li>Solusi: LeakyReLU atau parametric ReLU, atau kecilkan learning rate.</li>
+<li>Contoh jawaban: "Loss macet dan banyak neuron ReLU selalu bernilai 0, yang menunjukkan dying ReLU. Solusinya mengganti activation dengan LeakyReLU, karena input negatif tetap punya gradient kecil sehingga neuron masih bisa belajar."</li>
+</ul>
+
+<h4>8. Underfitting kalau model belum cukup belajar</h4>
+<ul>
+<li>Masalah: model belum menangkap pola data, jadi hasilnya buruk di data train dan data baru.</li>
+<li>Kenapa: model terlalu kecil, training terlalu singkat, atau regularization terlalu kuat.</li>
+<li>Kenali di soal: training loss dan validation loss sama-sama tinggi.</li>
+<li>Solusi: perbesar model, latih lebih lama, atau kurangi regularization.</li>
+<li>Contoh jawaban: "Training loss dan validation loss sama-sama tinggi, yang menunjukkan underfitting. Solusinya menambah neuron atau hidden layer dan melatih lebih lama, supaya model punya kemampuan yang cukup untuk menangkap pola data."</li>
+</ul>
+
+<h4>9. Learning rate tidak tepat</h4>
+<ul>
+<li>Masalah: training tidak stabil atau berjalan sangat lambat.</li>
+<li>Kenapa: learning rate terlalu besar membuat langkahnya melompati titik terbaik, sedangkan learning rate terlalu kecil membuat langkahnya sangat pendek.</li>
+<li>Kenali di soal: loss naik turun dan membesar, atau loss turun sangat lambat.</li>
+<li>Solusi: sesuaikan learning rate, pakai learning rate schedule, atau pakai Adam.</li>
+<li>Contoh jawaban: "Loss naik turun dan makin besar, yang menunjukkan learning rate terlalu besar. Solusinya menurunkan learning rate atau memakai learning rate schedule, supaya langkah update tidak melompati titik terbaik."</li>
+</ul>
+
+<h4>10. Tidak mengenal urutan data (tambahan di luar PPT, pelengkap bukan jawaban utama)</h4>
+<ul>
+<li>Masalah: MLP melihat input sebagai satu vektor, jadi urutannya tidak punya arti khusus.</li>
+<li>Kenali di soal: data berurutan, misalnya pembacaan sensor per menit.</li>
+<li>Solusi: masukkan jendela data masa lalu sebagai fitur, atau pakai RNN.</li>
+<li>Contoh jawaban: "Kerusakan mesin terlihat dari urutan pembacaan sensor per menit, sedangkan MLP tidak mengenal urutan. Agar tetap bisa dipakai, beberapa pembacaan terakhir dijadikan fitur, tapi model sekuensial seperti RNN lebih tepat."</li>
+</ul>
+
+<h4>11. Keputusannya sulit dijelaskan (tambahan di luar PPT, pelengkap bukan jawaban utama)</h4>
+<ul>
+<li>Masalah: alasan di balik tebakan sulit ditelusuri.</li>
+<li>Kenapa: keputusannya tersebar di ribuan weight.</li>
+<li>Kenali di soal: bidang yang menuntut alasan, misalnya penolakan kredit atau diagnosis medis.</li>
+<li>Solusi: analisis fitur yang paling berpengaruh, atau pakai model yang lebih mudah dijelaskan.</li>
+<li>Contoh jawaban: "Bank perlu menjelaskan alasan penolakan kredit, sedangkan keputusan MLP tersebar di ribuan weight. Karena itu perlu analisis fitur yang paling berpengaruh."</li>
+</ul>
+
+<h3>5. Pola jawaban studi kasus</h3>
+<ol>
+<li>Tulis limitasinya, misalnya "class imbalance".</li>
+<li>Ambil bukti dari soal, misalnya "gagal bayar hanya 5%".</li>
+<li>Jelaskan akibatnya, misalnya "model condong menebak lancar".</li>
+<li>Sebut solusinya, misalnya "class weight".</li>
+<li>Beri alasan solusinya bekerja, misalnya "kesalahan pada kelas gagal bayar jadi lebih mahal".</li>
+</ol>
+<p>Pilih limitasi yang memang terlihat di soal, bukan semua limitasi di daftar ini. Angka di contoh jawaban hanya ilustrasi.</p>
+
+<h3>6. Contoh studi kasus lengkap</h3>
+<p>Dua kasus ini adalah latihan buatan, bukan soal dari dosen. Soalnya dibuat bercabang seperti yang disebut di kisi-kisi.</p>
+
+<h4>Kasus 1: klasifikasi nasabah gagal bayar</h4>
+<p>Bank punya 10.000 data nasabah dengan 30 kolom, dan hanya 5% nasabah yang gagal bayar. Bank ingin menebak nasabah yang akan gagal bayar.</p>
+<ol type="a">
+<li>Tentukan jenis tugas, arsitektur MLP, activation, loss, dan metric.</li>
+<li>Model mendapat accuracy 95%, tapi recall gagal bayar hanya 10%. Apa masalahnya, dan bagaimana solusinya?</li>
+<li>Setelah epoch 20, training loss terus turun, tapi validation loss naik. Apa masalahnya, dan bagaimana solusinya?</li>
+<li>Bank ingin menambahkan foto dokumen 224 &times; 224 RGB ke input. Apa limitasi MLP, dan bagaimana solusinya?</li>
+</ol>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<p><strong>a. Tugas dan arsitektur</strong></p>
+<ul>
+<li>Tugas: klasifikasi 2 kelas, karena jawabannya gagal bayar atau lancar.</li>
+<li>Arsitektur: 30-64-32-1 dengan fully connected, karena datanya tabel dan ada 30 kolom.</li>
+<li>Parameter: (30 + 1) &times; 64 = 1.984, (64 + 1) &times; 32 = 2.080, dan (32 + 1) &times; 1 = 33, jadi totalnya 4.097.</li>
+<li>Activation: hidden layer memakai ReLU supaya gradient tidak mudah menyusut, dan output memakai sigmoid supaya hasilnya satu peluang.</li>
+<li>Loss: binary cross entropy, karena tugasnya klasifikasi 2 kelas.</li>
+<li>Metric: recall dan F1, karena accuracy bisa menyesatkan pada data tidak seimbang.</li>
+</ul>
+<p><strong>b. Data tidak seimbang</strong></p>
+<ul>
+<li>Masalah: model condong ke kelas lancar. Menebak semua nasabah lancar saja sudah menghasilkan accuracy 95%.</li>
+<li>Solusi: pakai class weight yang lebih besar untuk kelas gagal bayar, atau oversampling, supaya kesalahan pada kelas itu lebih berpengaruh terhadap loss.</li>
+</ul>
+<p><strong>c. Overfitting</strong></p>
+<ul>
+<li>Masalah: model mulai menghafal data train, karena training loss turun tapi validation loss naik.</li>
+<li>Solusi: pakai early stopping supaya training berhenti saat validation loss mulai naik, lalu tambahkan dropout atau L2 supaya model tidak terlalu kompleks.</li>
+</ul>
+<p><strong>d. Input gambar</strong></p>
+<ul>
+<li>Masalah: foto harus di-flatten menjadi 224 &times; 224 &times; 3 = 150.528 angka, sehingga hubungan antar piksel hilang dan jumlah parameter meledak.</li>
+<li>Solusi: ambil fitur foto dengan CNN karena memakai weight sharing, lalu gabungkan fitur itu dengan data tabel sebelum masuk ke fully connected layer.</li>
+</ul>
+</div>
+
+<h4>Kasus 2: regresi harga rumah</h4>
+<p>Perusahaan properti ingin memprediksi harga rumah dari 12 fitur. Sebagian kecil rumah mewah harganya jauh lebih mahal daripada rumah lain.</p>
+<ol type="a">
+<li>Tentukan jenis tugas, arsitektur MLP, activation, loss, dan metric.</li>
+<li>Prediksi terlalu terpengaruh oleh rumah mewah. Apa yang perlu diubah?</li>
+<li>Loss melompat-lompat lalu menjadi NaN. Apa masalahnya, dan bagaimana solusinya?</li>
+<li>Pada percobaan lain, training loss dan validation loss sama-sama tinggi. Apa masalahnya, dan bagaimana solusinya?</li>
+</ol>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<p><strong>a. Tugas dan arsitektur</strong></p>
+<ul>
+<li>Tugas: regresi, karena jawabannya berupa angka kontinu.</li>
+<li>Arsitektur: 12-32-16-1 dengan fully connected, karena ada 12 fitur tabel dan outputnya satu angka.</li>
+<li>Parameter: (12 + 1) &times; 32 = 416, (32 + 1) &times; 16 = 528, dan (16 + 1) &times; 1 = 17, jadi totalnya 961.</li>
+<li>Activation: hidden layer memakai ReLU, dan output tanpa activation supaya nilainya tidak dibatasi.</li>
+<li>Loss dan metric: loss MSE, lalu model dinilai dengan MAE dan R&sup2;.</li>
+</ul>
+<p><strong>b. Outlier</strong></p>
+<ul>
+<li>Masalah: rumah mewah adalah outlier, dan MSE menghukum error besar jauh lebih berat.</li>
+<li>Solusi: ganti loss menjadi MAE, karena lebih tahan terhadap outlier.</li>
+</ul>
+<p><strong>c. Exploding gradient atau learning rate terlalu besar</strong></p>
+<ul>
+<li>Masalah: update weight terlalu jauh, sehingga training tidak stabil.</li>
+<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau tambahkan BatchNorm.</li>
+</ul>
+<p><strong>d. Underfitting</strong></p>
+<ul>
+<li>Masalah: model belum cukup belajar, karena hasilnya buruk di data train dan data validation.</li>
+<li>Solusi: tambah neuron atau hidden layer, atau latih lebih lama.</li>
+</ul>
+</div>
+</section>
+
+<section id="sec-6">
+<h2>6. Autoencoder</h2>
+
+<h3>1. Kenapa butuh autoencoder?</h3>
+<p>Masalahnya, data sering besar, tapi tidak semua isinya penting. Foto angka 28 &times; 28 berisi 784 angka, padahal banyak piksel pinggir hampir selalu hitam dan piksel yang bertetangga nilainya mirip.</p>
+<p>Data sebesar ini berat diproses, dan kita sering tidak punya label untuk memberi tahu model bagian mana yang penting.</p>
+<p>Kita butuh cara untuk meringkas data secara otomatis, tanpa label, dan tetap menyimpan polanya.</p>
+<p>Tapi bagaimana cara tahu ringkasannya bagus? Kalau data asli bisa disusun kembali dari ringkasan itu, berarti pola pentingnya masih tersimpan.</p>
+<p>Dari ide inilah muncul autoencoder. Autoencoder adalah neural network yang belajar menyusun ulang input-nya sendiri melalui sebuah ringkasan.</p>
+
+<figure>
+<img src="images/ae_alur.svg" alt="Diagram alur autoencoder: Input 784 angka ke Encoder (meringkas) ke Latent 32 angka (hasil ringkasan) ke Decoder (menyusun ulang) ke Output 784 angka ke Loss (seberapa beda output dan input). Input juga menjadi jawaban yang dibandingkan, jadi tidak perlu label.">
+<figcaption>Alur autoencoder: input diringkas encoder menjadi latent, lalu disusun ulang decoder, loss dibandingkan dengan input itu sendiri.</figcaption>
+</figure>
+
+<ul>
+<li>Encoder: meringkas input menjadi latent.</li>
+<li>Latent: hasil ringkasan data. Ruang tempat ringkasan ini berada disebut latent space.</li>
+<li>Decoder: menyusun ulang input dari latent.</li>
+<li>Loss: mengukur seberapa beda output dengan input. Yang paling umum adalah MSE, dan bisa juga binary cross entropy untuk data biner atau L1.</li>
+</ul>
+
+<p><strong>Kalau hanya mengecil lalu membesar lagi, apa gunanya?</strong></p>
+<p>Menyusun ulang input adalah proses saat training, sedangkan kegunaannya baru dipakai setelah training selesai.</p>
+<p>Saat training, kita tidak punya label sebagai jawaban yang benar. Karena itu, output dibandingkan dengan input-nya sendiri, supaya model tetap bisa menghitung loss dan belajar.</p>
+<p>Setelah encoder dan decoder dilatih bersama, kita memakai bagian yang sesuai dengan tugasnya.</p>
+<table>
+<thead><tr><th>Yang dipakai</th><th>Input</th><th>Output</th><th>Tugas</th><th>Contoh</th></tr></thead>
+<tbody>
+<tr><td>Encoder saja</td><td>Data</td><td>Latent</td><td>Meringkas data</td><td>Mengecilkan data, mencari gambar yang mirip</td></tr>
+<tr><td>Decoder saja</td><td>Latent</td><td>Data</td><td>Membuat data dari latent</td><td>Membuat data baru dengan VAE</td></tr>
+<tr><td>Encoder dan decoder</td><td>Data</td><td>Data hasil susun ulang</td><td>Membersihkan data atau mengecek selisihnya</td><td>Membersihkan noise, mendeteksi anomali</td></tr>
+</tbody>
+</table>
+<p>Latent bukan komponen yang dilatih. Latent adalah hasil keluaran encoder, jadi nilainya mengikuti input. Yang punya weight dan dilatih hanya encoder dan decoder.</p>
+<p>Decoder yang dipakai sendiri biasanya berguna kalau latent-nya tertata seperti di VAE. Di vanilla, latent acak sering menghasilkan gambar yang tidak jelas.</p>
+
+<h3>2. Memilih tipe autoencoder</h3>
+<p>Tipe dipilih dari tujuan kasusnya, jadi cocokkan tugas di soal dengan penjelasan setiap tipe.</p>
+
+<figure>
+<img src="images/ae_pilih_tipe.svg" alt="Diagram keputusan memilih tipe autoencoder: Apa tugas di kasusnya? Jika meringkas data, mendeteksi anomali, atau mencari yang mirip, pilih Vanilla (latent lebih kecil). Jika mengembalikan data berbintik menjadi bersih, pilih Denoising (input bernoise, target bersih). Jika memisahkan fitur atau butuh latent lebih besar dari input, pilih Sparse (boleh overcomplete). Jika membuat data baru yang belum ada, pilih VAE (latent berupa distribusi).">
+<figcaption>Diagram keputusan memilih tipe autoencoder berdasarkan tujuan kasus.</figcaption>
+</figure>
+
+<p><strong>Vanilla: meringkas data</strong></p>
+<p>Pilih vanilla kalau kasusnya meminta salah satu tugas ini:</p>
+<ul>
+<li>Mengecilkan ukuran data: data punya banyak fitur atau gambarnya besar, lalu kamu ingin ringkasan yang lebih kecil untuk diproses model berikutnya. Contohnya, data pelanggan dengan 200 kolom diringkas menjadi 20 angka sebelum dipakai model lain.</li>
+<li>Mendeteksi anomali: kamu punya banyak data normal, tapi sangat sedikit data rusak, dan ingin mengenali kondisi yang tidak biasa. Contohnya, mesin pabrik yang jarang rusak.</li>
+<li>Mencari data yang mirip: kamu ingin menemukan gambar atau produk yang mirip dengan membandingkan ringkasannya, tanpa perlu label kelas. Contohnya, toko online mencari produk yang mirip dengan foto yang diunggah pengguna.</li>
+</ul>
+<p>Cara kerja: latent yang kecil memaksa model hanya menyimpan pola penting.</p>
+<p>Latent: harus lebih kecil dari input, supaya model tidak hanya menyalin input.</p>
+<p>Untuk anomali, model dilatih dengan data normal. Data yang tidak biasa sulit disusun ulang, sehingga loss-nya tinggi.</p>
+
+<figure>
+<img src="images/ae_anomali.svg" alt="Diagram deteksi anomali dengan autoencoder: baris atas, data normal masuk ke autoencoder (dilatih data normal), output mirip input, loss kecil, dianggap normal. Baris bawah, data rusak masuk ke autoencoder yang sama, output tidak mirip input, loss besar, dianggap anomali.">
+<figcaption>Deteksi anomali: data normal menghasilkan loss kecil, data rusak menghasilkan loss besar.</figcaption>
+</figure>
+
+<p><strong>Denoising: membersihkan data</strong></p>
+<p>Pilih denoising kalau kasusnya meminta salah satu tugas ini:</p>
+<ul>
+<li>Mengembalikan data rusak menjadi bersih: data yang masuk berbintik atau terganggu, dan kamu ingin hasil yang lebih bersih. Contohnya, foto hasil scan yang berbintik atau sinyal sensor yang terganggu.</li>
+<li>Mengambil fitur yang tahan gangguan: data saat dipakai nanti tidak selalu sempurna, tapi model harus tetap menangkap pola pentingnya. Contohnya, kamera pabrik kadang menghasilkan gambar berbintik, tapi bentuk barang tetap harus dikenali.</li>
+</ul>
+<p>Cara kerja: input diberi noise, tapi jawaban yang dibandingkan tetap data bersih.</p>
+<p>Latent: biasanya lebih kecil dari input.</p>
+<p>Saat training, kamu perlu punya data bersih, karena noise ditambahkan ke data itu dan targetnya tetap versi bersihnya.</p>
+
+<figure>
+<img src="images/ae_denoising.svg" alt="Diagram denoising autoencoder: data bersih (angka 7) ditambah noise menjadi input berbintik, masuk Encoder, Latent, Decoder, Output (angka 7 bersih), dibandingkan dengan Loss (MSE). Yang dibandingkan adalah data bersih, bukan input berbintik.">
+<figcaption>Denoising autoencoder: input berbintik disusun ulang menjadi versi bersih, dibandingkan dengan data bersih asli.</figcaption>
+</figure>
+
+<p><strong>Sparse: menemukan fitur yang mudah dijelaskan</strong></p>
+<p>Pilih sparse kalau kasusnya meminta salah satu tugas ini:</p>
+<ul>
+<li>Mengetahui pola penyusun data: kamu ingin setiap neuron mewakili pola yang berbeda, supaya hasilnya lebih mudah dijelaskan. Contohnya, mencari bagian-bagian yang menyusun gambar angka.</li>
+<li>Menyediakan banyak fitur: kasus membutuhkan banyak pola, sampai latent perlu lebih besar dari input. Contohnya, foto wajah punya banyak pola kecil, seperti bentuk mata, alis, dan hidung, yang ingin dipisahkan ke neuron yang berbeda.</li>
+</ul>
+<p>Cara kerja: loss ditambah penalti, sehingga hanya sedikit neuron latent yang aktif untuk setiap input.</p>
+<p>Latent: boleh lebih besar dari input, karena penalti mencegah model hanya menyalin input.</p>
+<p>Gambar ini hanya ilustrasi, karena pola yang dipelajari neuron tidak selalu serapi ini.</p>
+
+<figure>
+<img src="images/ae_sparse.svg" alt="Perbandingan Vanilla vs Sparse: Vanilla, latent kecil, hampir semua neuron aktif, 8 neuron menyimpan pola yang bercampur. Sparse, latent besar, tapi hanya sedikit neuron yang aktif, tiga contoh angka (7, 1, 8) masing-masing mengaktifkan hanya 2 neuron berbeda yang mewakili pola spesifik seperti garis atas/garis miring, garis tegak, lingkaran atas/lingkaran bawah.">
+<figcaption>Vanilla: hampir semua neuron aktif dengan pola bercampur. Sparse: hanya sedikit neuron aktif per input, tiap neuron mewakili pola spesifik.</figcaption>
+</figure>
+
+<p><strong>VAE: membuat data baru</strong></p>
+<p>Masalah di vanilla: setiap foto menjadi satu titik di latent, dan ruang di antara titik-titik itu tidak terlatih. Kalau kita mengambil latent acak, decoder bisa menghasilkan gambar yang tidak jelas.</p>
+<p>VAE menata latent supaya titik yang diambil dari area itu lebih mungkin menjadi data yang masuk akal.</p>
+
+<figure>
+<img src="images/ae_peta_latent.svg" alt="Perbandingan peta latent Vanilla vs VAE: Vanilla, titik terpisah (kets, boots, sandal sebagai titik-titik terpencar), area kosong tidak terlatih, z acak mendarat di area kosong menghasilkan gambar tidak jelas. VAE, area saling berdekatan dan tertata (kets, boots, sandal sebagai area/kelompok elips yang saling tumpang tindih), z acak lebih mungkin mendarat di area yang sudah dilatih dan menghasilkan sepatu baru yang masuk akal.">
+<figcaption>Peta latent Vanilla (titik terpisah, ada area kosong) dibandingkan VAE (area tertata dan saling berdekatan).</figcaption>
+</figure>
+
+<p>Pilih VAE kalau kasusnya meminta salah satu tugas ini:</p>
+<ul>
+<li>Membuat data baru yang mirip dataset: toko sepatu punya 10.000 foto katalog dan ingin membuat desain sepatu baru yang belum ada, bukan mencari atau membersihkan foto yang sudah ada.</li>
+<li>Menambah data latih: jumlah foto sepatu masih kurang untuk melatih model lain, sehingga VAE dilatih dengan foto yang ada, lalu membuat foto sepatu tambahan yang mirip.</li>
+<li>Membuat transisi halus antar data: aplikasi desain ingin menampilkan perubahan bertahap dari sepatu kets ke sepatu boots, dengan mengambil beberapa titik di antara latent keduanya.</li>
+</ul>
+<p>Cara kerja saat training:</p>
+<ol>
+<li>Foto sepatu masuk ke encoder.</li>
+<li>Encoder menghasilkan &mu;, yaitu pusat area, dan &sigma;, yaitu lebar area, bukan satu titik.</li>
+<li>Model mengambil satu titik z secara acak dari area itu: z = &mu; + &sigma; &times; &epsilon;, dengan &epsilon; sebagai angka acak. Contohnya, kalau &mu; = 2, &sigma; = 0,5, dan &epsilon; = &minus;0,4, maka z = 1,8.</li>
+<li>Decoder menyusun ulang foto sepatu dari z.</li>
+<li>Loss dihitung dari reconstruction + KL divergence.</li>
+</ol>
+<p>Fungsi dua loss:</p>
+<ul>
+<li>Reconstruction: memaksa hasil susun ulang mirip foto asli.</li>
+<li>KL divergence: memaksa semua area latent berkumpul mendekati distribusi normal, supaya ruang latent tidak berlubang.</li>
+</ul>
+<p>Cara memakai setelah training: ambil z acak dari distribusi normal, lalu masukkan ke decoder untuk mendapatkan desain baru. Encoder tidak diperlukan untuk tugas ini.</p>
+<p>Latent: biasanya lebih kecil dari input, dan berupa distribusi, bukan satu titik.</p>
+<p>Bayangkan vanilla seperti menyimpan alamat rumah yang tepat, sedangkan VAE menyimpan satu lingkungan. Bedanya, lingkungan di VAE dipelajari sendiri dan ditata supaya saling berdekatan.</p>
+<p>VAE biasa tidak otomatis bisa diminta membuat kelas tertentu. Untuk itu, model dilatih khusus pada kelas tersebut atau diberi label kelas.</p>
+<p>Contoh sepatu adalah contoh tambahan, bukan dari PPT.</p>
+<p>Dibandingkan PCA yang linear, autoencoder bisa mempelajari pola non-linear, dan keduanya tidak butuh label.</p>
+
+<h3>3. Menentukan bentuk arsitektur</h3>
+<p>Setiap bagian arsitektur harus punya alasan. Kerjakan enam keputusan ini berurutan, karena setiap keputusan menjadi bagian dari justifikasi.</p>
+<ol>
+<li>Ukuran input dan output</li>
+<li>Jenis layer</li>
+<li>Ukuran latent</li>
+<li>Simetris atau tidak</li>
+<li>Activation</li>
+<li>Loss</li>
+</ol>
+<p>Perbandingan bentuk latent dan simetri:</p>
+
+<figure>
+<img src="images/ae_bentuk.svg" alt="Perbandingan bentuk arsitektur autoencoder: Undercomplete (784-128-32-128-784, latent lebih kecil dari input, dipakai di vanilla/denoising), Overcomplete (784-1024 dengan pola titik jarang/sparse-784, latent lebih besar dari input, hanya sparse, sedikit neuron aktif), Tidak simetris (784-256-32-784, decoder lebih kecil dari encoder, dipakai kalau hanya encoder yang dipakai).">
+<figcaption>Tiga bentuk arsitektur autoencoder: Undercomplete, Overcomplete, dan Tidak simetris.</figcaption>
+</figure>
+
+<p><strong>Kenapa overcomplete tidak boleh di vanilla?</strong></p>
+<p>Overcomplete adalah bentuk dengan latent lebih besar dari input.</p>
+<ul>
+<li>Di vanilla: tidak ada yang memaksa model meringkas, jadi model bisa hanya menyalin input ke output. Loss-nya kecil, tapi tidak ada pola yang dipelajari.</li>
+<li>Di sparse: penalti membuat hanya sedikit neuron yang aktif, jadi model tetap harus memilih pola yang penting walaupun latent-nya besar.</li>
+</ul>
+<p>Rumus loss sparse: reconstruction loss + &lambda;|z|, dengan &lambda; sebagai pengatur kekuatan penalti dan z sebagai nilai latent. Selain L1, PPT juga menyebut KL divergence sebagai penalti.</p>
+
+<p><strong>Kesalahan umum saat merancang autoencoder</strong></p>
+<table>
+<thead><tr><th>Kesalahan</th><th>Akibat</th><th>Perbaikan</th></tr></thead>
+<tbody>
+<tr><td>Latent terlalu besar di vanilla</td><td>Model hanya menyalin input</td><td>Perkecil latent, atau pakai sparse kalau memang butuh latent besar</td></tr>
+<tr><td>Data selalu masuk tanpa noise</td><td>Model bisa overfit pada data train</td><td>Pakai denoising kalau model harus tahan gangguan</td></tr>
+<tr><td>Input tidak dinormalkan</td><td>Rentang output sulit disamakan dengan input</td><td>Normalkan input ke 0 sampai 1</td></tr>
+<tr><td>Lupa sigmoid pada output piksel</td><td>Nilai output bisa keluar dari rentang 0 sampai 1</td><td>Pakai sigmoid di layer output</td></tr>
+<tr><td>Tidak memantau data validation</td><td>Overfitting tidak terlihat</td><td>Pantau reconstruction loss di data validation</td></tr>
+</tbody>
+</table>
+
+<h3>4. Template jawaban studi kasus</h3>
+<ol>
+<li>Tipe: "Dipilih [tipe] karena kasus ini membutuhkan [tujuan]."</li>
+<li>Bentuk: "Arsitekturnya [ukuran layer], memakai [fully connected atau Conv] karena datanya [jenis data]."</li>
+<li>Latent: "Ukuran latent [angka], lebih [kecil atau besar] dari input, karena [alasan]."</li>
+<li>Simetri: "Bentuknya [simetris atau tidak simetris] karena [alasan]."</li>
+<li>Activation dan loss: "Hidden layer memakai [activation] karena [alasan], output memakai [activation] karena [rentang data], dan loss-nya [nama loss] karena [jenis data]."</li>
+</ol>
+
+<h3>5. Contoh kasus</h3>
+<p>Angka arsitektur dan pasangan kasus dengan tipe adalah contoh dan rekomendasi, bukan dari PPT. Saat ujian, yang dinilai adalah kesesuaian alasannya dengan kasus.</p>
+
+<h4>Kasus 1: deteksi anomali sensor industri</h4>
+<p>Pabrik punya 20 sensor dan banyak data kondisi normal, tapi sangat sedikit data kerusakan.</p>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<ul>
+<li>Tipe: vanilla, karena model bisa dilatih dengan data normal, lalu data yang loss-nya tinggi dianggap anomali.</li>
+<li>Bentuk: 20-12-6-12-20, memakai fully connected karena datanya berupa tabel angka sensor.</li>
+<li>Latent: 6, lebih kecil dari input, supaya model hanya menyimpan pola kondisi normal dan tidak menyalin input.</li>
+<li>Simetri: simetris, karena encoder dan decoder sama-sama perlu kuat untuk menyusun ulang data dengan baik.</li>
+<li>Activation dan loss: hidden layer memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena input dinormalkan ke 0 sampai 1, dan loss-nya MSE karena nilainya kontinu.</li>
+</ul>
+</div>
+
+<h4>Kasus 2: membersihkan foto berbintik</h4>
+<p>Foto hitam putih 64 &times; 64 banyak mengandung bintik, dan kita ingin mendapatkan versi bersihnya.</p>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<ul>
+<li>Tipe: denoising, karena input yang diberi noise dilatih untuk kembali ke gambar bersih.</li>
+<li>Bentuk: 1 &times; 64 &times; 64, 16 &times; 32 &times; 32, 8 &times; 16 &times; 16, 16 &times; 32 &times; 32, lalu 1 &times; 64 &times; 64. Bentuk ini memakai Conv dan ConvTranspose karena datanya gambar dan hubungan antar piksel harus dijaga.</li>
+<li>Latent: 8 &times; 16 &times; 16 = 2.048 angka, lebih kecil dari input 4.096 angka, supaya noise tidak ikut tersimpan.</li>
+<li>Simetri: simetris, karena decoder harus mengembalikan ukuran gambar secara bertahap.</li>
+<li>Activation dan loss: Conv dan ConvTranspose di tengah memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE terhadap gambar bersih, bukan gambar berbintik.</li>
+</ul>
+</div>
+
+<h4>Kasus 3: mencari fitur yang mudah dijelaskan</h4>
+<p>Peneliti ingin mengetahui fitur-fitur yang menyusun gambar angka 28 &times; 28, dan setiap neuron diharapkan mewakili fitur yang berbeda.</p>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<ul>
+<li>Tipe: sparse, karena hanya sedikit neuron aktif, sehingga fiturnya lebih mudah dipisahkan dan dijelaskan.</li>
+<li>Bentuk: 784-1024-784, memakai fully connected karena gambar di-flatten seperti contoh MNIST di PPT.</li>
+<li>Latent: 1.024, lebih besar dari input (overcomplete), supaya tersedia banyak neuron untuk banyak fitur. Bentuk ini aman karena penalti sparse mencegah model hanya menyalin input.</li>
+<li>Simetri: simetris, karena tidak ada kebutuhan khusus untuk membuat salah satu sisi lebih kecil.</li>
+<li>Activation dan loss: hidden layer memakai ReLU, sehingga banyak neuron bisa bernilai 0. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE + &lambda;|z| karena neuron yang aktif perlu dibatasi.</li>
+</ul>
+</div>
+
+<h4>Kasus 4: membuat gambar baru</h4>
+<p>Kita ingin membuat gambar angka 28 &times; 28 baru yang tidak ada di dataset.</p>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<ul>
+<li>Tipe: VAE, karena latent-nya kontinu dan bisa diambil sampelnya untuk membuat data baru.</li>
+<li>Bentuk: 784-256, lalu &mu; dan &sigma; berukuran 32, kemudian z-256-784. Bentuk ini memakai fully connected karena gambar di-flatten.</li>
+<li>Latent: 32, lebih kecil dari input, supaya model mempelajari pola umum angka.</li>
+<li>Simetri: simetris, karena decoder harus cukup kuat untuk membuat gambar dari sampel z.</li>
+<li>Activation dan loss: hidden layer memakai ReLU. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya reconstruction + KL divergence. KL memaksa distribusi latent mendekati normal, supaya sampelnya menghasilkan gambar yang masuk akal.</li>
+</ul>
+</div>
+
+<h4>Kasus 5: mencari gambar yang mirip</h4>
+<p>Toko online ingin mencari gambar yang mirip dengan gambar 28 &times; 28 yang diunggah pengguna.</p>
+<p>Lihat jawaban:</p>
+<div class="answer-block">
+<ul>
+<li>Tipe: vanilla, karena tujuannya mendapatkan ringkasan data, lalu membandingkan kemiripan latent-nya.</li>
+<li>Bentuk: 784-256-32-784, memakai fully connected karena gambar di-flatten.</li>
+<li>Latent: 32, lebih kecil dari input, supaya gambar yang mirip punya ringkasan yang berdekatan dan pencariannya lebih ringan.</li>
+<li>Simetri: tidak simetris, karena setelah training hanya encoder yang dipakai untuk pencarian, jadi decoder dibuat lebih kecil supaya training lebih ringan.</li>
+<li>Activation dan loss: hidden layer memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE karena nilainya kontinu.</li>
+</ul>
+</div>
+</section>
+
+<div class="qa-box" id="qaBox">
+<h2>Tanya tentang materi ini</h2>
+<p>Ketik pertanyaan, jawabannya diambil langsung dari isi halaman ini. Tidak ada koneksi internet yang dipakai.</p>
+<div class="qa-row">
+<input type="text" id="qaInput" placeholder="misalnya: apa itu dying ReLU?">
+<button id="qaBtn" type="button">Tanya</button>
+</div>
+<p class="qa-examples">
+Contoh:
+<span class="qa-ex">Bagaimana cara menghitung ukuran output convolution?</span>
+<span class="qa-ex">Kapan pakai autoencoder denoising?</span>
+<span class="qa-ex">Apa itu dying ReLU?</span>
+</p>
+<div id="qaAnswer"></div>
+</div>
 
 </div>
 
 <script>
-var classes = ["Broccoli","Carrot","Cucumber","Tomato"];
-var actual = ["Broccoli","Tomato","Cucumber","Carrot","Tomato","Carrot","Cucumber","Broccoli","Cucumber","Broccoli","Carrot","Broccoli","Carrot","Cucumber","Tomato","Tomato","Broccoli","Tomato","Broccoli","Broccoli","Broccoli","Cucumber","Broccoli","Carrot","Tomato","Broccoli","Carrot","Tomato","Broccoli","Carrot","Cucumber","Tomato","Broccoli","Cucumber","Cucumber","Broccoli","Cucumber","Broccoli","Tomato","Tomato"];
-var predicted = ["Broccoli","Tomato","Cucumber","Carrot","Broccoli","Tomato","Cucumber","Broccoli","Tomato","Tomato","Carrot","Tomato","Carrot","Cucumber","Tomato","Tomato","Broccoli","Carrot","Broccoli","Broccoli","Tomato","Tomato","Broccoli","Carrot","Tomato","Broccoli","Carrot","Tomato","Tomato","Carrot","Cucumber","Tomato","Broccoli","Broccoli","Cucumber","Broccoli","Tomato","Broccoli","Tomato","Tomato"];
-var rows = "";
-for (var i = 0; i < actual.length; i++) {
-  var match = actual[i] === predicted[i];
-  rows += "<tr><td>" + (i+1) + "</td><td>" + actual[i] + "</td><td>" + predicted[i] + "</td><td class=\"" + (match ? "ok" : "bad") + "\">" + (match ? "Correct" : "Wrong") + "</td></tr>";
-}
-document.getElementById("predTable").innerHTML = rows;
+(function(){
+  var STOPWORDS = ["apa","yang","itu","adalah","bagaimana","kenapa","mengapa","dan","atau","di","ke","dari","untuk","dengan","pada","ini","nya","saya","kamu","kita","bisa","jadi","juga","akan","ada","yaitu","karena","cara","tolong","jelaskan","tentang","sih"];
 
-document.querySelectorAll(".copy-btn").forEach(function(btn){
-  btn.addEventListener("click", function(){
-    var code = btn.parentElement.querySelector("pre code").innerText;
-    navigator.clipboard.writeText(code).then(function(){
-      btn.classList.add("copied");
-      var label = btn.querySelector("svg").nextSibling;
-      btn.lastChild.textContent = "Copied!";
-      setTimeout(function(){
-        btn.classList.remove("copied");
-        btn.lastChild.textContent = "Copy";
-      }, 1500);
+  function tokenize(str){
+    return str.toLowerCase()
+      .replace(/[^a-z0-9à-ɏ\s]/g, " ")
+      .split(/\s+/)
+      .filter(function(t){ return t.length > 1 && STOPWORDS.indexOf(t) === -1; });
+  }
+
+  // Build section index from h2/h3/h4 headings within <section> blocks
+  var sections = [];
+  document.querySelectorAll("section").forEach(function(sec){
+    var nodes = Array.prototype.slice.call(sec.children);
+    var current = null;
+    nodes.forEach(function(node){
+      var tag = node.tagName ? node.tagName.toLowerCase() : "";
+      if (tag === "h2" || tag === "h3" || tag === "h4") {
+        if (current) sections.push(current);
+        current = { heading: node.textContent.trim(), level: tag, nodes: [node] };
+      } else if (current) {
+        current.nodes.push(node);
+      } else {
+        current = { heading: sec.id, level: "h2", nodes: [node] };
+      }
+    });
+    if (current) sections.push(current);
+  });
+
+  // Merge any heading-only / near-empty section into the next one, so a thin
+  // subheading (e.g. an h2 with no body before its first h3) never becomes a
+  // dead-end answer with nothing useful in it.
+  for (var mi = sections.length - 2; mi >= 0; mi--) {
+    var bodyLen = sections[mi].nodes.slice(1).reduce(function(sum, n){ return sum + (n.textContent || "").trim().length; }, 0);
+    if (bodyLen < 20) {
+      sections[mi].nodes = sections[mi].nodes.concat(sections[mi + 1].nodes);
+      sections.splice(mi + 1, 1);
+    }
+  }
+
+  sections.forEach(function(s){
+    var html = "";
+    var text = s.heading + " ";
+    s.nodes.forEach(function(n){ html += n.outerHTML; text += " " + n.textContent; });
+    s.html = html;
+    s.text = text.toLowerCase();
+    s.tokens = tokenize(s.text);
+    s.headingTokens = tokenize(s.heading);
+  });
+
+  function answer(question){
+    var qTokens = tokenize(question);
+    if (qTokens.length === 0) return null;
+    var best = null, bestScore = 0;
+    sections.forEach(function(s){
+      var score = 0;
+      qTokens.forEach(function(qt){
+        s.tokens.forEach(function(st){ if (st === qt) score += 1; else if (st.length > 2 && qt.length > 2 && (st.indexOf(qt) !== -1 || qt.indexOf(st) !== -1)) score += 0.3; });
+        if (s.headingTokens.indexOf(qt) !== -1) score += 3;
+        else s.headingTokens.forEach(function(ht){ if (ht.length > 2 && qt.length > 2 && (ht.indexOf(qt) !== -1 || qt.indexOf(ht) !== -1)) score += 1; });
+      });
+      if (score > bestScore) { bestScore = score; best = s; }
+    });
+    if (!best || bestScore < 0.5) return null;
+    return best;
+  }
+
+  function renderAnswer(question){
+    var box = document.getElementById("qaAnswer");
+    try {
+      var result = answer(question);
+      if (!result) {
+        box.innerHTML = '<p class="qa-empty">Tidak ditemukan bagian yang cocok di materi ini untuk pertanyaan itu. Coba kata kunci lain, misalnya nama istilah, nama layer, atau nama model (contoh: "pooling", "dying relu", "vae").</p>';
+        return;
+      }
+      box.innerHTML = '<div class="qa-heading">Bagian paling relevan: ' + result.heading + '</div>' + result.html;
+    } catch (err) {
+      box.innerHTML = '<p class="qa-empty">Terjadi kendala saat mencari jawaban. Coba pertanyaan lain atau muat ulang halaman.</p>';
+    }
+  }
+
+  document.getElementById("qaBtn").addEventListener("click", function(){
+    var q = document.getElementById("qaInput").value.trim();
+    if (q) renderAnswer(q);
+  });
+  document.getElementById("qaInput").addEventListener("keydown", function(e){
+    if (e.key === "Enter") { e.preventDefault(); document.getElementById("qaBtn").click(); }
+  });
+  document.querySelectorAll(".qa-ex").forEach(function(el){
+    el.addEventListener("click", function(){
+      document.getElementById("qaInput").value = el.textContent;
+      renderAnswer(el.textContent);
     });
   });
-});
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker.register("sw.js").catch(function () {});
-  });
-}
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+})();
 </script>
 </body>
 </html>
