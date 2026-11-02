@@ -105,7 +105,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <p><b>Tanda berhasil:</b> di kertas ada daftar tabel, garis hubungan antartabel, dan daftar halaman.</p>
 
 <h3>Langkah 2. Isi Pembuat Kode (di bawah, bagian B)</h3>
-<p>Tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
+<p>Pilih file soal (PDF atau Word .docx) atau tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
 <p><b>Tanda berhasil:</b> muncul tulisan hijau &ldquo;Kode berhasil dibuat&rdquo; dan daftar kotak kode bernomor.</p>
 
 <h3>Langkah 3. Buka project Laravel</h3>
@@ -194,9 +194,10 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <form class="fm" id="gForm" onsubmit="return false">
 <fieldset>
 <legend>Langkah 1. Tempel soal (opsional)</legend>
-<p class="hint">Tempel teks soal di bawah, atau pilih file teks (.txt). Untuk PDF/Word: buka dokumen, tekan Ctrl+A, Ctrl+C, lalu tempel di sini. Alat akan menandai kalimat relasi, daftar nilai, nama halaman, dan nama website.</p>
+<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, atau teks .txt) atau tempel teks soal di kotak. File dibaca langsung di browser ini, <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. Alat menandai relasi antar tabel, daftar nilai, nama halaman, fitur, dan poin kebutuhan.</p>
 <textarea id="gSoal" rows="6" placeholder="Tempel teks soal di sini..."></textarea>
-<div style="margin-top:6px"><input type="file" id="gFile" accept=".txt,.md,text/plain"> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<p id="gStatus" class="hint" style="margin-top:6px"></p>
 <div id="gHasil" style="margin-top:8px"></div>
 </fieldset>
 
@@ -2071,6 +2072,358 @@ $category->foods()->count();
 
 </script>
 <script>
+/* Pembaca teks PDF dan DOCX, murni JavaScript, tanpa internet dan tanpa library. */
+(function (root) {
+  /* ---------- inflate (port dari puff.c) ---------- */
+  var LB = [3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258];
+  var LE = [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+  var DB = [1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577];
+  var DE = [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+  var ORD = [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
+  function build(lens, n) {
+    var count = new Uint16Array(16), symbol = new Uint16Array(n), offs = new Uint16Array(16), i;
+    for (i = 0; i < n; i++) count[lens[i]]++;
+    for (i = 1; i < 15; i++) offs[i + 1] = offs[i] + count[i];
+    for (i = 0; i < n; i++) if (lens[i]) symbol[offs[lens[i]]++] = i;
+    return { count: count, symbol: symbol };
+  }
+  var FIXL, FIXD;
+  function inflate(src, pos) {
+    var bb = 0, bc = 0, out = new Uint8Array(Math.max(1024, src.length * 4)), o = 0;
+    function need(n) { if (o + n > out.length) { var t = new Uint8Array(Math.max(out.length * 2, o + n)); t.set(out); out = t; } }
+    function bits(n) {
+      while (bc < n) { if (pos >= src.length) throw new Error('eof'); bb |= src[pos++] << bc; bc += 8; }
+      var v = bb & ((1 << n) - 1); bb >>>= n; bc -= n; return v;
+    }
+    function dec(h) {
+      var code = 0, first = 0, index = 0;
+      for (var len = 1; len <= 15; len++) {
+        code |= bits(1); var c = h.count[len];
+        if (code - c < first) return h.symbol[index + (code - first)];
+        index += c; first += c; first <<= 1; code <<= 1;
+      }
+      throw new Error('bad code');
+    }
+    function codes(lc, dc) {
+      for (;;) {
+        var sym = dec(lc);
+        if (sym < 256) { need(1); out[o++] = sym; }
+        else if (sym === 256) return;
+        else {
+          sym -= 257; if (sym >= 29) throw new Error('bad sym');
+          var len = LB[sym] + bits(LE[sym]), ds = dec(dc), dist = DB[ds] + bits(DE[ds]);
+          if (dist > o) throw new Error('bad dist');
+          need(len); for (var k = 0; k < len; k++) { out[o] = out[o - dist]; o++; }
+        }
+      }
+    }
+    try {
+      var last;
+      do {
+        last = bits(1); var type = bits(2);
+        if (type === 0) {
+          bb = 0; bc = 0;
+          var len = src[pos] | (src[pos + 1] << 8); pos += 4;
+          need(len); for (var i = 0; i < len; i++) out[o++] = src[pos++];
+        } else if (type === 1) {
+          if (!FIXL) {
+            var l = new Uint8Array(288), j; for (j = 0; j < 144; j++) l[j] = 8; for (; j < 256; j++) l[j] = 9; for (; j < 280; j++) l[j] = 7; for (; j < 288; j++) l[j] = 8;
+            FIXL = build(l, 288); var d = new Uint8Array(30); for (j = 0; j < 30; j++) d[j] = 5; FIXD = build(d, 30);
+          }
+          codes(FIXL, FIXD);
+        } else if (type === 2) {
+          var nl = bits(5) + 257, nd = bits(5) + 1, nc = bits(4) + 4, lens = new Uint8Array(320), x;
+          for (x = 0; x < nc; x++) lens[ORD[x]] = bits(3);
+          for (; x < 19; x++) lens[ORD[x]] = 0;
+          var cl = build(lens, 19); x = 0;
+          var ll = new Uint8Array(nl + nd);
+          while (x < nl + nd) {
+            var s = dec(cl);
+            if (s < 16) ll[x++] = s;
+            else {
+              var prev = 0, rep;
+              if (s === 16) { prev = ll[x - 1]; rep = 3 + bits(2); } else if (s === 17) rep = 3 + bits(3); else rep = 11 + bits(7);
+              while (rep--) ll[x++] = prev;
+            }
+          }
+          codes(build(ll.subarray(0, nl), nl), build(ll.subarray(nl), nd));
+        } else throw new Error('bad block');
+      } while (!last);
+    } catch (e) { /* data rusak/terpotong: pakai hasil sebagian */ }
+    return out.subarray(0, o);
+  }
+
+  /* ---------- util ---------- */
+  function u16(b, p) { return b[p] | (b[p + 1] << 8); }
+  function u32(b, p) { return (b[p] | (b[p + 1] << 8) | (b[p + 2] << 16) | (b[p + 3] * 16777216)) >>> 0; }
+  function toLatin1(b) { var s = '', i = 0, CH = 8192; for (; i < b.length; i += CH) s += String.fromCharCode.apply(null, b.subarray(i, i + CH)); return s; }
+  function toUtf8(b) { try { return new TextDecoder('utf-8').decode(b); } catch (e) { return toLatin1(b); } }
+  function decodeEntities(s) {
+    return s.replace(/&#x([0-9a-fA-F]+);/g, function (m, h) { return String.fromCodePoint(parseInt(h, 16)); })
+      .replace(/&#(\d+);/g, function (m, d) { return String.fromCodePoint(parseInt(d, 10)); })
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
+  }
+
+  /* ---------- DOCX ---------- */
+  function unzipFile(b, wanted) {
+    var e = -1, i;
+    for (i = b.length - 22; i >= Math.max(0, b.length - 70000); i--) if (b[i] === 0x50 && b[i + 1] === 0x4b && b[i + 2] === 5 && b[i + 3] === 6) { e = i; break; }
+    if (e < 0) throw new Error('bukan file zip/docx yang valid');
+    var n = u16(b, e + 10), p = u32(b, e + 16), res = {};
+    for (i = 0; i < n; i++) {
+      if (u32(b, p) !== 0x02014b50) break;
+      var method = u16(b, p + 10), csize = u32(b, p + 20), nlen = u16(b, p + 28), xlen = u16(b, p + 30), clen = u16(b, p + 32), loff = u32(b, p + 42);
+      var name = toLatin1(b.subarray(p + 46, p + 46 + nlen));
+      if (wanted(name)) {
+        var ds = loff + 30 + u16(b, loff + 26) + u16(b, loff + 28), raw = b.subarray(ds, ds + csize);
+        res[name] = method === 0 ? raw : inflate(raw, 0);
+      }
+      p += 46 + nlen + xlen + clen;
+    }
+    return res;
+  }
+  function docxToText(xml) {
+    xml = xml.replace(/<w:tab\s*\/>/g, '\t').replace(/<w:(?:br|cr)\b[^>]*\/>/g, '\n')
+      .replace(/<\/w:tc>/g, '\t').replace(/<\/w:tr>/g, '\n').replace(/<\/w:p>/g, '\n')
+      .replace(/<w:p[ >\/][^>]*>/g, function (m) { return m; });
+    var out = '', re = /<w:t(?:\s[^>]*)?>([\s\S]*?)<\/w:t>|(\t|\n)/g, m;
+    while ((m = re.exec(xml))) out += m[1] !== undefined ? decodeEntities(m[1]) : m[2];
+    return out.replace(/\n\t/g, '\t').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  function extractDocx(b) {
+    var f = unzipFile(b, function (n) { return n === 'word/document.xml'; });
+    var d = f['word/document.xml']; if (!d) throw new Error('word/document.xml tidak ditemukan (bukan .docx Word?)');
+    var text = docxToText(toUtf8(d));
+    return { text: text, info: 'DOCX: ' + text.length + ' karakter.' };
+  }
+
+  /* ---------- PDF ---------- */
+  function balanced(s, i) { // s[i..] diawali "<<", kembalikan teks sampai ">>" yang menutup
+    var depth = 0, j = i;
+    for (; j < s.length - 1; j++) {
+      if (s[j] === '<' && s[j + 1] === '<') { depth++; j++; } else if (s[j] === '>' && s[j + 1] === '>') { depth--; j++; if (!depth) return s.substring(i, j + 1); }
+    }
+    return s.substring(i);
+  }
+  function getKey(d, key) { // nilai setelah /Key : dict inline, array, referensi, atau token
+    var re = new RegExp('/' + key + '(?![A-Za-z0-9])\\s*'), m = re.exec(d); if (!m) return null;
+    var i = m.index + m[0].length;
+    if (d.substr(i, 2) === '<<') return { dict: balanced(d, i) };
+    if (d[i] === '[') { var k = d.indexOf(']', i); return { arr: d.substring(i, k + 1) }; }
+    var r = /^(\d+)\s+\d+\s+R/.exec(d.substr(i, 30)); if (r) return { ref: +r[1] };
+    var t = /^[^\s\/>\[]+/.exec(d.substr(i, 40)); return { tok: t ? t[0] : '' };
+  }
+  function refs(s) { var r = [], re = /(\d+)\s+\d+\s+R/g, m; while ((m = re.exec(s))) r.push(+m[1]); return r; }
+
+  function parseObjects(b) {
+    var s = toLatin1(b), objs = {}, re = /(\d+)\s+(\d+)\s+obj\b/g, m, unsupported = 0;
+    var starts = [];
+    while ((m = re.exec(s))) starts.push({ num: +m[1], at: m.index + m[0].length });
+    starts.forEach(function (st, idx) {
+      var end = s.indexOf('endobj', st.at); if (end < 0) end = s.length;
+      var body = s.substring(st.at, end), si = body.indexOf('stream');
+      var dict = si >= 0 ? body.substring(0, si) : body, data = null;
+      if (si >= 0) {
+        var ds = st.at + si + 6; if (s[ds] === '\r') ds++; if (s[ds] === '\n') ds++;
+        var de = s.indexOf('endstream', ds); if (de < 0) de = end;
+        var raw = b.subarray(ds, de);
+        if (/\/FlateDecode|\/Fl\b/.test(dict)) data = inflate(raw, 2);
+        else if (/\/Filter/.test(dict)) { unsupported++; data = null; }
+        else data = raw;
+      }
+      objs[st.num] = { dict: dict, data: data };
+      if (data && /\/Type\s*\/ObjStm/.test(dict)) {
+        var N = +(/\/N\s+(\d+)/.exec(dict) || [0, 0])[1], F = +(/\/First\s+(\d+)/.exec(dict) || [0, 0])[1];
+        var t = toLatin1(data), nums = t.substring(0, F).trim().split(/\s+/).map(Number), k;
+        for (k = 0; k < N; k++) {
+          var on = nums[k * 2], oo = nums[k * 2 + 1], oe = k + 1 < N ? nums[(k + 1) * 2 + 1] : t.length - F;
+          objs[on] = objs[on] || { dict: t.substring(F + oo, F + oe), data: null };
+        }
+      }
+    });
+    objs.__unsupported = unsupported;
+    return objs;
+  }
+  function parseCMap(txt) {
+    var map = {}, width = 1, m, re;
+    var cs = /begincodespacerange([\s\S]*?)endcodespacerange/g;
+    while ((m = cs.exec(txt))) { var h = /<([0-9a-fA-F]+)>/.exec(m[1]); if (h) width = Math.max(width, h[1].length / 2); }
+    function hexU(h) { var s = ''; for (var i = 0; i + 3 < h.length + 1; i += 4) s += String.fromCharCode(parseInt(h.substr(i, 4), 16)); if (h.length === 2) s = String.fromCharCode(parseInt(h, 16)); return s; }
+    re = /beginbfchar([\s\S]*?)endbfchar/g;
+    while ((m = re.exec(txt))) {
+      var pr = /<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]*)>/g, p;
+      while ((p = pr.exec(m[1]))) { map[parseInt(p[1], 16)] = hexU(p[2]); width = Math.max(width, p[1].length / 2); }
+    }
+    re = /beginbfrange([\s\S]*?)endbfrange/g;
+    while ((m = re.exec(txt))) {
+      var rr = /<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*(\[[^\]]*\]|<[0-9a-fA-F]*>)/g, q;
+      while ((q = rr.exec(m[1]))) {
+        var lo = parseInt(q[1], 16), hi = parseInt(q[2], 16); width = Math.max(width, q[1].length / 2);
+        if (q[3][0] === '[') { var items = q[3].match(/<[0-9a-fA-F]*>/g) || []; for (var a = 0; a <= hi - lo && a < items.length; a++) map[lo + a] = hexU(items[a].slice(1, -1)); }
+        else { var base = q[3].slice(1, -1), cp = base.length ? parseInt(base.substr(base.length - 4), 16) : 0, pre = base.length > 4 ? hexU(base.substr(0, base.length - 4)) : ''; for (var c = lo; c <= hi && c - lo < 70000; c++) map[c] = pre + String.fromCharCode(cp + (c - lo)); }
+      }
+    }
+    return { map: map, width: width };
+  }
+  var WIN = { 0x80: '€', 0x91: '‘', 0x92: '’', 0x93: '“', 0x94: '”', 0x95: '•', 0x96: '–', 0x97: '—', 0x85: '…' };
+
+  function parseContent(str, fonts, objs, frags) {
+    var i = 0, n = str.length, stack = [], font = null, fcache = {}, size = 12, tx = 0, ty = 0, lx = 0, ly = 0, lead = 0, sc = 1;
+    function fontInfo(name) {
+      if (fcache[name] !== undefined) return fcache[name];
+      var num = fonts[name], info = { cmap: null, width: 1 };
+      if (num && objs[num]) {
+        var tu = getKey(objs[num].dict, 'ToUnicode');
+        if (tu && tu.ref && objs[tu.ref] && objs[tu.ref].data) { var c = parseCMap(toLatin1(objs[tu.ref].data)); info.cmap = c.map; info.width = c.width; }
+        else if (/\/Subtype\s*\/Type0/.test(objs[num].dict)) info.width = 2;
+      }
+      return (fcache[name] = info);
+    }
+    function decode(bytes) {
+      var f = font ? fontInfo(font) : { cmap: null, width: 1 }, s = '';
+      if (f.width >= 2) { for (var k = 0; k + 1 < bytes.length; k += 2) { var code = (bytes[k] << 8) | bytes[k + 1]; s += f.cmap && f.cmap[code] !== undefined ? f.cmap[code] : ''; } }
+      else for (var j = 0; j < bytes.length; j++) { var cc = bytes[j]; s += f.cmap && f.cmap[cc] !== undefined ? f.cmap[cc] : (WIN[cc] || String.fromCharCode(cc)); }
+      return s;
+    }
+    var pend = null;
+    function show(txt) {
+      if (!txt) return;
+      var eff = Math.abs(size * sc) || 10;
+      if (pend && Math.abs(pend.y - ty) < 0.01 && Math.abs(pend.endx - tx) < 0.01) { pend.s += txt; pend.endx += txt.length * 0.5 * eff; tx = pend.endx; return; }
+      pend = { x: tx, y: ty, s: txt, size: eff, endx: tx + txt.length * 0.5 * eff };
+      frags.push(pend); tx = pend.endx;
+    }
+    function num(k) { return stack[stack.length - k] && stack[stack.length - k].num; }
+    while (i < n) {
+      var ch = str[i];
+      if (ch === ' ' || ch === '\n' || ch === '\r' || ch === '\t' || ch === '\f' || ch === '\0') { i++; continue; }
+      if (ch === '%') { while (i < n && str[i] !== '\n' && str[i] !== '\r') i++; continue; }
+      if (ch === '(') {
+        var depth = 1, bytes = []; i++;
+        while (i < n && depth) {
+          var c = str[i];
+          if (c === '\\') {
+            var d = str[i + 1];
+            if (d >= '0' && d <= '7') { var o = d; if (str[i + 2] >= '0' && str[i + 2] <= '7') { o += str[i + 2]; if (str[i + 3] >= '0' && str[i + 3] <= '7') o += str[i + 3]; } bytes.push(parseInt(o, 8) & 255); i += 1 + o.length; continue; }
+            var map = { n: 10, r: 13, t: 9, b: 8, f: 12 };
+            if (d === '\r' || d === '\n') { i += 2; continue; }
+            bytes.push(map[d] !== undefined ? map[d] : d.charCodeAt(0)); i += 2; continue;
+          }
+          if (c === '(') depth++; else if (c === ')') { depth--; if (!depth) { i++; break; } }
+          bytes.push(c.charCodeAt(0) & 255); i++;
+        }
+        stack.push({ s: bytes }); continue;
+      }
+      if (ch === '<' && str[i + 1] !== '<') {
+        var e = str.indexOf('>', i), hx = str.substring(i + 1, e).replace(/\s+/g, ''); if (hx.length % 2) hx += '0';
+        var hb = []; for (var h = 0; h < hx.length; h += 2) hb.push(parseInt(hx.substr(h, 2), 16)); stack.push({ s: hb }); i = e + 1; continue;
+      }
+      if (ch === '<' || ch === '>') { i += str[i + 1] === ch ? 2 : 1; continue; }
+      if (ch === '[') { stack.push('['); i++; continue; }
+      if (ch === ']') { var arr = [], it; while (stack.length && (it = stack.pop()) !== '[') arr.unshift(it); stack.push({ a: arr }); i++; continue; }
+      if (ch === '/') { var mm = /^\/[^\s\/\[\]()<>%]*/.exec(str.substr(i, 100)); stack.push({ name: mm[0].substring(1) }); i += mm[0].length; continue; }
+      var tk = /^[^\s\/\[\]()<>%]+/.exec(str.substr(i, 60)); if (!tk) { i++; continue; }
+      var t = tk[0]; i += t.length;
+      if (/^[+-]?(\d+\.?\d*|\.\d+)$/.test(t)) { stack.push({ num: parseFloat(t) }); continue; }
+      var top = stack[stack.length - 1];
+      switch (t) {
+        case 'BT': tx = 0; ty = 0; lx = 0; ly = 0; sc = 1; pend = null; break;
+        case 'ET': pend = null; break;
+        case 'Tf': if (stack.length >= 2 && stack[stack.length - 2].name) { font = stack[stack.length - 2].name; size = num(1) || size; } break;
+        case 'TL': if (num(1) !== undefined) lead = num(1); break;
+        case 'Tm': if (stack.length >= 6) { sc = Math.abs(num(3)) || 1; lx = num(2); ly = num(1); tx = lx; ty = ly; pend = null; } break;
+        case 'Td': if (stack.length >= 2) { lx += num(2); ly += num(1); tx = lx; ty = ly; pend = null; } break;
+        case 'TD': if (stack.length >= 2) { lead = -num(1); lx += num(2); ly += num(1); tx = lx; ty = ly; pend = null; } break;
+        case 'T*': ly -= lead; tx = lx; ty = ly; pend = null; break;
+        case 'Tj': if (top && top.s) show(decode(top.s)); break;
+        case "'": case '"': ly -= lead; tx = lx; ty = ly; pend = null; if (top && top.s) show(decode(top.s)); break;
+        case 'TJ': if (top && top.a) top.a.forEach(function (el) { if (el.s) show(decode(el.s)); else if (el.num !== undefined && el.num < -250) show(' '); }); break;
+      }
+      stack = [];
+    }
+  }
+  function layout(frags) {
+    var f = frags.filter(function (x) { return x.s.replace(/\s/g, '') !== '' || true; });
+    f.sort(function (a, b) { return b.y - a.y || a.x - b.x; });
+    var lines = [], cur = null;
+    f.forEach(function (x) {
+      if (cur && Math.abs(cur.y - x.y) <= Math.max(1.5, x.size * 0.4)) cur.items.push(x);
+      else { cur = { y: x.y, items: [x] }; lines.push(cur); }
+    });
+    return lines.map(function (ln) {
+      ln.items.sort(function (a, b) { return a.x - b.x; });
+      var out = '', prev = null;
+      ln.items.forEach(function (it) {
+        if (prev) {
+          var gap = it.x - prev.endx, sp = /\s$/.test(out) || /^\s/.test(it.s);
+          if (!sp && gap > it.size * 0.3) out += ' ';
+          else if (!sp && gap > it.size * 0.08 && /[A-Za-z0-9.,;:)]$/.test(out) && /^[A-Za-z0-9(]/.test(it.s) && gap > it.size * 0.2) out += ' ';
+        }
+        out += it.s; prev = it;
+      });
+      return out.replace(/[ \t]+$/, '');
+    });
+  }
+  function pageOrder(objs) {
+    var root = null, k;
+    for (k in objs) if (k !== '__unsupported' && /\/Type\s*\/Catalog/.test(objs[k].dict)) { root = objs[k]; break; }
+    var pages = [];
+    function walk(num, depth) {
+      var o = objs[num]; if (!o || depth > 30) return;
+      if (/\/Type\s*\/Page\b(?!s)/.test(o.dict) && !/\/Kids/.test(o.dict)) { pages.push(num); return; }
+      var kids = getKey(o.dict, 'Kids'); if (kids && kids.arr) refs(kids.arr).forEach(function (r) { walk(r, depth + 1); });
+    }
+    var pr = root && getKey(root.dict, 'Pages'); if (pr && pr.ref) walk(pr.ref, 0);
+    if (!pages.length) Object.keys(objs).forEach(function (n) { if (n !== '__unsupported' && /\/Type\s*\/Page\b(?!s)/.test(objs[n].dict)) pages.push(+n); });
+    pages.sort(function (a, b) { return 0; });
+    return pages;
+  }
+  function pageFonts(objs, num) {
+    var fonts = {}, guard = 0, cur = num;
+    while (cur && objs[cur] && guard++ < 20) {
+      var res = getKey(objs[cur].dict, 'Resources'), rd = null;
+      if (res && res.dict) rd = res.dict; else if (res && res.ref && objs[res.ref]) rd = objs[res.ref].dict;
+      if (rd) {
+        var f = getKey(rd, 'Font'), fd = null;
+        if (f && f.dict) fd = f.dict; else if (f && f.ref && objs[f.ref]) fd = objs[f.ref].dict;
+        if (fd) { var re = /\/([^\s\/\[\]<>()]+)\s+(\d+)\s+\d+\s+R/g, m; while ((m = re.exec(fd))) fonts[m[1]] = +m[2]; return fonts; }
+      }
+      var par = getKey(objs[cur].dict, 'Parent'); cur = par && par.ref;
+    }
+    return fonts;
+  }
+  function extractPdf(b) {
+    var objs = parseObjects(b), pages = pageOrder(objs), outAll = [], got = 0;
+    if (/\/Encrypt\b/.test(toLatin1(b.subarray(Math.max(0, b.length - 4000))))) throw new Error('PDF dikunci/terenkripsi. Salin teksnya manual lalu tempel.');
+    pages.forEach(function (pn) {
+      var o = objs[pn], c = getKey(o.dict, 'Contents'), list = [];
+      if (c && c.ref) { var d = objs[c.ref]; if (d && d.data) list = [c.ref]; else if (d && /^\s*\[/.test(d.dict.replace(/^[\s\S]*?obj/, ''))) list = refs(d.dict); }
+      if (c && c.arr) list = refs(c.arr);
+      var fonts = pageFonts(objs, pn), frags = [];
+      var all = list.map(function (r) { return objs[r] && objs[r].data ? toLatin1(objs[r].data) : ''; }).join('\n');
+      parseContent(all, fonts, objs, frags);
+      var t = layout(frags).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+      if (t) { got++; outAll.push(t); }
+    });
+    var text = outAll.join('\n\n');
+    return { text: text, info: 'PDF: ' + pages.length + ' halaman, teks ditemukan di ' + got + ' halaman, ' + text.length + ' karakter.', pages: pages.length, unsupported: objs.__unsupported };
+  }
+
+  function extract(bytes, name) {
+    var n = (name || '').toLowerCase();
+    var isPdf = bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46;
+    var isZip = bytes[0] === 0x50 && bytes[1] === 0x4b;
+    if (isPdf || /\.pdf$/.test(n)) return extractPdf(bytes);
+    if (isZip || /\.docx$/.test(n)) return extractDocx(bytes);
+    if (bytes[0] === 0xd0 && bytes[1] === 0xcf) throw new Error('Ini file Word lama (.doc). Buka di Word lalu "Simpan sebagai" .docx, atau salin teksnya lalu tempel.');
+    return { text: toUtf8(bytes), info: 'Teks biasa: ' + bytes.length + ' byte.' };
+  }
+  root.SoalReader = { extract: extract, extractPdf: extractPdf, extractDocx: extractDocx, inflate: inflate };
+  if (typeof module !== 'undefined') module.exports = root.SoalReader;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var D = {
@@ -2174,13 +2527,34 @@ $category->foods()->count();
   }
 
   /* ---------- analisis soal ---------- */
+  function kal0(teks) { var r = []; teks.split(/\n+/).forEach(function (b) { b.split(/\.\s+(?=[A-Z0-9])/).forEach(function (k) { if (k.trim()) r.push(k.trim()); }); }); return r; }
+  function pasangan(teks) {
+    var t = teks.replace(/\s+/g, ' '), hits = [], m;
+    var VB = '(?:dapat |bisa |boleh |hanya |akan |juga )*(?:memiliki|mempunyai|menerbitkan|menulis|membuat|punya|menghasilkan|mengelola|berisi|memuat|terdiri dari|menaungi|mengajar|menerima|merujuk ke|merujuk pada|dimiliki oleh|ditulis oleh|dibuat oleh|diterbitkan oleh|termasuk ke dalam|termasuk dalam|masuk ke|masuk dalam|berada di|tergabung dalam|mengikuti|mengambil|menjual|menyewa|meminjam|di[a-z]{3,15} oleh|di[a-z]{3,15} dalam|me[a-z]{4,15} ke)';
+    var re = new RegExp('\\b(?:satu|setiap|tiap|seorang|sebuah)\\s+([a-z][a-z\\- ]{1,40}?)\\s+' + VB + '\\s+(lebih dari satu|banyak|beberapa|satu)\\s+([a-z][a-z\\- ]{1,40}?)(?=[,.;:()]|\\s+dan\\b|\\s+namun|\\s+tetapi|\\s+serta|\\s+yang\\b|$)', 'gi');
+    while ((m = re.exec(t))) hits.push({ a: m[1].toLowerCase().trim(), q: /satu$/i.test(m[2]) && !/lebih/i.test(m[2]) ? 1 : 2, b: m[3].toLowerCase().trim() });
+    var en = /\b(?:one|each|every|a|an)\s+([a-z][a-z\- ]{1,30}?)\s+(?:can |may )?(?:has|have|owns|writes|publishes|contains|manages)\s+(many|multiple|several|one)\s+([a-z][a-z\- ]{1,30}?)(?=[,.;]|\s+and\b|\s+but\b|$)/gi;
+    while ((m = en.exec(t))) hits.push({ a: m[1].toLowerCase().trim(), q: /^one$/i.test(m[2]) ? 1 : 2, b: m[3].toLowerCase().trim().replace(/s$/, '') });
+    var out = [], seen = {};
+    hits.forEach(function (x) {
+      if (x.q !== 2) return;
+      var key = [x.a, x.b].sort().join('|'); if (seen[key]) return; seen[key] = 1;
+      var rev = hits.some(function (y) { return y.q === 2 && y.a === x.b && y.b === x.a; });
+      out.push(rev ? 'Banyak-ke-banyak antara "' + x.a + '" dan "' + x.b + '" (butuh tabel pivot).'
+        : 'Satu-ke-banyak: satu "' + x.a + '" punya banyak "' + x.b + '" ("' + x.a + '" = induk, "' + x.b + '" = item; kolom foreign key ada di tabel "' + x.b + '").');
+    });
+    return out;
+  }
+
   function analisis(teks) {
     var h = { site: null, daftar: [], relasi: [], halaman: [], fitur: [], saran: [] };
-    var m = teks.match(/\b([A-Z][A-Za-z]{2,}(?:[A-Z][A-Za-z]+)*!)/); if (m) h.site = m[1];
+    var cnt = {}, sm, sre = /\b([A-Z][A-Za-z]{3,}!)/g;
+    while ((sm = sre.exec(teks))) { if (/[a-z]/.test(sm[1]) && /[a-z][A-Z]/.test(sm[1])) cnt[sm[1]] = (cnt[sm[1]] || 0) + 1; }
+    var best = null; Object.keys(cnt).forEach(function (w) { if (!best || cnt[w] > cnt[best]) best = w; }); if (best) h.site = best;
     var re = /(?:yaitu|diantaranya|antara lain)\s*:?\s*([^\n.]{6,240})/gi, x;
     while ((x = re.exec(teks))) {
       var items = x[1].split(/,|\sdan\s|\sserta\s/).map(function (s) { return s.replace(/^[\s:]+|[\s.]+$/g, ''); }).filter(function (s) { return s && s.length < 40; });
-      if (items.length >= 2 && /^[A-Z0-9]/.test(items[0])) h.daftar.push(items);
+      if (items.length >= 2) h.daftar.push(items);
     }
     var kal = [];
     teks.split(/\n+/).forEach(function (b) { b.split(/\.\s+/).forEach(function (k) { k = k.trim(); if (k) kal.push(k); }); });
@@ -2192,6 +2566,9 @@ $category->foods()->count();
     while ((mm = pg.exec(teks))) { if (h.halaman.indexOf(mm[1] + ' Page') < 0) h.halaman.push(mm[1] + ' Page'); }
     var md = /Modul\s+([A-Z][A-Za-z ]{2,25})/g;
     while ((mm = md.exec(teks))) { var t = 'Modul ' + mm[1].trim(); if (h.halaman.indexOf(t) < 0) h.halaman.push(t); }
+    h.pasangan = pasangan(teks);
+    h.kebutuhan = [];
+    kal0(teks).forEach(function (k) { if (/^\s*(?:\d{1,2}[.)]|[a-z][.)]|[-•*●\uF0B7\uF0A7]|\[[A-Za-z0-9 ]*\])\s*\S/.test(k) && k.length > 14 && k.length < 260 && h.kebutuhan.length < 20) h.kebutuhan.push(k.replace(/^\s*[\uF0B7\uF0A7]\s*/, '')); });
     if (/\b(cari|pencarian|search|filter)\b/i.test(teks)) h.saran.push('Ada kata cari/filter: centang Halaman Kelola dan pencarian/filter.');
     if (/\b(tambah|ubah|edit|hapus|delete|crud)\b/i.test(teks)) h.saran.push('Ada kata tambah/ubah/hapus: centang Halaman Kelola.');
     if (/(upload|unggah)/i.test(teks)) h.saran.push('Ada upload: centang Halaman Kelola (sudah mendukung upload gambar).');
@@ -2210,6 +2587,7 @@ $category->foods()->count();
       var ul = el('ul'); arr.forEach(function (a) { ul.appendChild(el('li', a)); }); w.appendChild(ul);
     }
     if (h.site) w.appendChild(el('div', 'Nama website terdeteksi: ' + h.site + ' (sudah diisi di Langkah 2).'));
+    sec('Relasi antar tabel yang terbaca dari soal (gunakan nama bahasa Inggris untuk model; periksa sendiri):', h.pasangan || []);
     sec('Kalimat tentang hubungan antar tabel (cari pola "satu A punya banyak B"):', h.relasi);
     if (h.daftar.length) {
       w.appendChild(el('div', 'Daftar yang ditemukan (jika salah satunya adalah daftar kategori, klik tombolnya):', 'muted'));
@@ -2223,8 +2601,9 @@ $category->foods()->count();
     }
     sec('Halaman/modul yang disebut:', h.halaman);
     sec('Kalimat fitur/requirement:', h.fitur);
+    sec('Poin/daftar kebutuhan (bernomor atau berpoin) di soal:', h.kebutuhan || []);
     sec('Saran pengaturan:', h.saran);
-    if (!h.relasi.length && !h.daftar.length && !h.halaman.length && !h.fitur.length) w.appendChild(el('div', 'Tidak ada pola yang dikenali. Isi formulir secara manual berdasarkan kertas coretan Anda.'));
+    if (!h.relasi.length && !h.daftar.length && !h.halaman.length && !h.fitur.length && !(h.pasangan || []).length && !(h.kebutuhan || []).length) w.appendChild(el('div', 'Tidak ada pola yang dikenali. Isi formulir secara manual berdasarkan kertas coretan Anda.'));
     box.appendChild(w);
   }
 
@@ -2241,9 +2620,24 @@ $category->foods()->count();
     var h = analisis(t); if (h.site) { $('gSite').value = h.site; save(); } tampilAnalisis(h);
   });
   $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); });
+  function status(msg, ok) { var s = $('gStatus'); s.textContent = msg; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
   $('gFile').addEventListener('change', function (e) {
     var f = e.target.files[0]; if (!f) return;
-    var rd = new FileReader(); rd.onload = function () { $('gSoal').value = String(rd.result); $('gAnalisis').click(); }; rd.readAsText(f);
+    if (f.size > 60 * 1024 * 1024) { status('File terlalu besar (maksimal 60 MB).', false); return; }
+    status('Membaca "' + f.name + '" ...');
+    var done = function (buf) {
+      try {
+        var r = window.SoalReader.extract(new Uint8Array(buf), f.name);
+        if (!r.text || !r.text.trim()) {
+          status('Tidak ada teks yang bisa dibaca. Kemungkinan PDF berupa gambar/hasil scan (membutuhkan OCR, tidak tersedia offline). Ketik atau salin teks soal secara manual.', false); return;
+        }
+        $('gSoal').value = r.text; status('Berhasil. ' + r.info + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
+        $('gAnalisis').click();
+      } catch (err) { status('Gagal membaca file: ' + err.message, false); }
+    };
+    if (f.arrayBuffer) f.arrayBuffer().then(done, function () { status('File tidak dapat dibaca.', false); });
+    else { var rd = new FileReader(); rd.onload = function () { done(rd.result); }; rd.onerror = function () { status('File tidak dapat dibaca.', false); }; rd.readAsArrayBuffer(f); }
+    e.target.value = '';
   });
 })();
 
