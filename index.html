@@ -107,9 +107,10 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 </ol>
 <p><b>Tanda berhasil:</b> di kertas ada daftar tabel, garis hubungan antartabel, dan daftar halaman.</p>
 
-<h3>Langkah 2. Isi Pembuat Kode (di bawah, bagian B)</h3>
-<p>Pilih file soal (PDF, Word .docx, atau foto/screenshot soal; PDF hasil scan dibaca otomatis dengan OCR) atau tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
-<p><b>Tanda berhasil:</b> muncul tulisan hijau &ldquo;Kode berhasil dibuat&rdquo; dan daftar kotak kode bernomor.</p>
+<h3>Langkah 2. Unggah soal pada Pembuat Kode (di bawah, bagian B)</h3>
+<p>Pilih file soal (PDF, Word, foto/screenshot, dan lainnya) atau tempel teks soal, lalu <b>tunggu</b>. Sistem otomatis membaca berkas (PDF scan dan foto dibaca dengan OCR), menebak struktur soal, membuat seluruh kode, dan menyiapkan dokumentasi. Jika file memuat beberapa soal, pilih yang sesuai pada daftar yang muncul.</p>
+<p>Baca kotak <b>&ldquo;Hasil tebakan otomatis&rdquo;</b>. Cocokkan dengan soal Anda: nama item, induk, grup, daftar nama grup, dan fitur. Jika ada yang salah, perbaiki isian formulir di bawahnya lalu klik <b>Buat Kode</b> lagi.</p>
+<p><b>Tanda berhasil:</b> muncul tulisan hijau &ldquo;Kode berhasil dibuat&rdquo; dan tombol unduhan (ZIP proyek dan dokumentasi .docx).</p>
 
 <h3>Langkah 3. Buka project Laravel</h3>
 <ol>
@@ -137,8 +138,10 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 </ol>
 <p><b>Tanda berhasil:</b> file .env tersimpan dan (jika mysql) database kosong sudah terlihat di phpMyAdmin.</p>
 
+<div class="box"><b>Jalan pintas (disarankan): ZIP proyek.</b> Pada hasil Pembuat Kode, klik <b>Unduh seluruh file proyek (.zip)</b>. Ekstrak ZIP itu ke folder project Laravel dan pilih &ldquo;Replace/Ganti semua&rdquo;. Semua file (migration, model, factory, seeder, route, controller, view) langsung berada di tempat yang benar. Dengan cara ini <b>Langkah 6 dan 7 di bawah tidak perlu dilakukan</b>; langsung lanjut ke Langkah 8. Jangan jalankan <code class="i">make:migration</code> lebih dulu agar tidak ada tabel ganda.</div>
+
 <h3>Langkah 6. Jalankan perintah pembuat file</h3>
-<p>Di halaman ini, salin blok <b>&ldquo;Perintah terminal&rdquo;</b> dari hasil Pembuat Kode. Di <b>terminal 3</b> (buka lagi cara yang sama, atau pakai terminal editor), tempel lalu Enter. Jika hanya baris pertama yang jalan, tempel satu baris satu kali. Perintah ini membuat file-file <b>kosong</b> pada tempat yang benar.</p>
+<p><i>(Lewati langkah ini jika memakai ZIP proyek.)</i> Di halaman ini, salin blok <b>&ldquo;Perintah terminal&rdquo;</b> dari hasil Pembuat Kode. Di <b>terminal 3</b> (buka lagi cara yang sama, atau pakai terminal editor), tempel lalu Enter. Jika hanya baris pertama yang jalan, tempel satu baris satu kali. Perintah ini membuat file-file <b>kosong</b> pada tempat yang benar.</p>
 <p><b>Tanda berhasil:</b> setiap baris menampilkan tulisan hijau/putih &ldquo;INFO ... created successfully&rdquo; dan tidak ada tulisan merah.</p>
 
 <h3>Langkah 7. Isi setiap file dengan kode hasil pembuat</h3>
@@ -162,7 +165,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 
 <h3>Langkah 10. Dokumentasi dan pengumpulan</h3>
 <ol>
-<li>Salin &ldquo;Draf dokumentasi&rdquo; dari hasil Pembuat Kode ke Word. Sesuaikan jika ada yang berbeda dari yang Anda buat.</li>
+<li>Klik <b>Unduh dokumentasi (.docx)</b> pada hasil Pembuat Kode. Dokumen Word itu sudah berisi deskripsi aplikasi, rancangan database, routing, controller, model, view, migration, seeder, beserta penjelasannya, dan kotak kosong untuk screenshot lengkap dengan alamat halaman yang harus difoto. Anda juga bisa memakai &ldquo;Salin dokumentasi (teks)&rdquo;.</li>
 <li>Tempel screenshot di bagian yang sesuai.</li>
 <li>Simpan sebagai Word atau PDF sesuai permintaan soal.</li>
 <li>Kumpulkan: folder project lengkap + dokumen. Periksa dengan daftar di bagian &ldquo;17. Cek sebelum kumpul&rdquo;.</li>
@@ -197,10 +200,11 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <form class="fm" id="gForm" onsubmit="return false">
 <fieldset>
 <legend>Langkah 1. Tempel soal (opsional)</legend>
-<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, teks .txt, atau <b>foto/screenshot soal</b>) atau tempel teks soal di kotak. <b>PDF hasil scan dan gambar dibaca dengan OCR</b> langsung di browser ini; gambar juga bisa ditempel dengan Ctrl+V di kotak teks. Semuanya <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. OCR butuh waktu (sekitar 5 sampai 30 detik per halaman) dan hasilnya perlu diperiksa karena bisa ada salah baca. Alat menandai relasi antar tabel, daftar nilai, nama halaman, fitur, dan poin kebutuhan.</p>
+<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, teks .txt, atau <b>foto/screenshot soal</b>) atau tempel teks soal di kotak. <b>PDF hasil scan dan gambar dibaca dengan OCR</b> langsung di browser ini; gambar juga bisa ditempel dengan Ctrl+V di kotak teks. Semuanya <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. OCR butuh waktu (sekitar 5 sampai 30 detik per halaman) dan hasilnya perlu diperiksa karena bisa ada salah baca. Setelah berkas terbaca, sistem <b>otomatis</b> menebak struktur soal (induk, item, grup, kolom, fitur), membuat seluruh kode, dan menyusun dokumentasi Word (.docx). Setiap tebakan ditampilkan beserta alasannya agar bisa diperiksa dan dikoreksi.</p>
 <textarea id="gSoal" rows="6" placeholder="Tempel teks soal di sini..."></textarea>
-<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="gHal" style="width:110px;display:inline-block" placeholder="semua"><br> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="gHal" style="width:110px;display:inline-block" placeholder="semua"><br> <button type="button" id="gOto" class="big">Proses otomatis</button> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
 <p id="gStatus" class="hint" style="margin-top:6px"></p>
+<div id="gAuto" style="margin-top:8px"></div>
 <div id="gHasil" style="margin-top:8px"></div>
 </fieldset>
 
@@ -2526,14 +2530,141 @@ $category->foods()->count();
     return { images: out, skipped: skipped, pages: pages.length };
   }
 
+
+  /* ---------- format lain: PPTX, XLSX, ODF, RTF, HTML, DOC lama ---------- */
+  function xmlText(xml, tags) {
+    var out = '', re = new RegExp('<(?:' + tags + ')(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:' + tags + ')>|(\\n|\\t)', 'g'), m;
+    while ((m = re.exec(xml))) out += m[1] !== undefined ? decodeEntities(m[1].replace(/<[^>]+>/g, '')) : m[2];
+    return out;
+  }
+  function numSort(a, b) { return (+(a.match(/(\d+)\.xml$/) || [0, 0])[1]) - (+(b.match(/(\d+)\.xml$/) || [0, 0])[1]); }
+  function extractPptx(b, names) {
+    var slides = names.filter(function (n) { return /^ppt\/slides\/slide\d+\.xml$/.test(n); }).sort(numSort);
+    var f = unzipFile(b, function (n) { return slides.indexOf(n) >= 0; }), out = [];
+    slides.forEach(function (n, i) {
+      var x = toUtf8(f[n]).replace(/<a:br\s*\/>/g, '\n').replace(/<\/a:p>/g, '\n');
+      out.push('[Slide ' + (i + 1) + ']\n' + xmlText(x, 'a:t').replace(/\n{3,}/g, '\n\n').trim());
+    });
+    var t = out.join('\n\n'); return { text: t, info: 'PPTX: ' + slides.length + ' slide, ' + t.length + ' karakter.' };
+  }
+  function extractXlsx(b, names) {
+    var sheets = names.filter(function (n) { return /^xl\/worksheets\/sheet\d+\.xml$/.test(n); }).sort(numSort);
+    var f = unzipFile(b, function (n) { return n === 'xl/sharedStrings.xml' || sheets.indexOf(n) >= 0; }), shared = [];
+    if (f['xl/sharedStrings.xml']) {
+      var sx = toUtf8(f['xl/sharedStrings.xml']), re = /<si>([\s\S]*?)<\/si>/g, m;
+      while ((m = re.exec(sx))) shared.push(xmlText(m[1], 't'));
+    }
+    var out = [];
+    sheets.forEach(function (n, i) {
+      var x = toUtf8(f[n]), rows = [], rr = /<row\b[^>]*>([\s\S]*?)<\/row>/g, rm;
+      while ((rm = rr.exec(x))) {
+        var cells = [], cr = /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g, cm;
+        while ((cm = cr.exec(rm[1]))) {
+          var attrs = cm[1], body = cm[2] || '', v = /<v>([\s\S]*?)<\/v>/.exec(body), val = '';
+          if (/t="s"/.test(attrs) && v) val = shared[+v[1]] || ''; else if (/t="inlineStr"/.test(attrs)) val = xmlText(body, 't'); else if (v) val = decodeEntities(v[1]);
+          cells.push(val);
+        }
+        rows.push(cells.join('\t').replace(/\t+$/, ''));
+      }
+      out.push('[Sheet ' + (i + 1) + ']\n' + rows.filter(Boolean).join('\n'));
+    });
+    var t = out.join('\n\n'); return { text: t, info: 'XLSX: ' + sheets.length + ' sheet, ' + t.length + ' karakter.' };
+  }
+  function extractOdf(b) {
+    var f = unzipFile(b, function (n) { return n === 'content.xml'; }), x = f['content.xml'];
+    if (!x) throw new Error('content.xml tidak ditemukan');
+    x = toUtf8(x).replace(/<text:tab\s*\/>/g, '\t').replace(/<text:line-break\s*\/>/g, '\n').replace(/<text:s(?:\s+text:c="(\d+)")?\s*\/>/g, function (m, c) { return new Array((+c || 1) + 1).join(' '); })
+      .replace(/<\/text:(?:p|h)>/g, '\n').replace(/<\/table:table-cell>/g, '\t').replace(/<\/table:table-row>/g, '\n').replace(/<[^>]+>/g, '');
+    var t = decodeEntities(x).replace(/\t+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    return { text: t, info: 'OpenDocument: ' + t.length + ' karakter.' };
+  }
+  function extractOffice(b) {
+    var names = []; unzipFile(b, function (n) { names.push(n); return false; });
+    if (names.indexOf('word/document.xml') >= 0) return extractDocx(b);
+    if (names.some(function (n) { return /^ppt\/slides\/slide\d+\.xml$/.test(n); })) return extractPptx(b, names);
+    if (names.indexOf('xl/workbook.xml') >= 0) return extractXlsx(b, names);
+    if (names.indexOf('content.xml') >= 0) return extractOdf(b);
+    throw new Error('Berkas ZIP ini bukan dokumen Word/PowerPoint/Excel/OpenDocument yang dikenali.');
+  }
+  function extractRtf(s) {
+    var out = '', i = 0, n = s.length, stack = [], skip = 0, uc = 1, skipFallback = 0;
+    var SKIPD = /^\\(?:fonttbl|colortbl|stylesheet|info|pict|object|header|footer|footnote|\*)/;
+    while (i < n) {
+      var c = s[i];
+      if (c === '{') { stack.push({ skip: skip, uc: uc }); i++; if (!skip && SKIPD.test(s.substr(i, 14))) skip = 1; continue; }
+      if (c === '}') { var st = stack.pop(); if (st) { skip = st.skip; uc = st.uc; } i++; continue; }
+      if (c === '\\') {
+        var d = s[i + 1];
+        if (d === '\\' || d === '{' || d === '}') { if (!skip) out += d; i += 2; continue; }
+        if (d === "'") { if (!skip) { var code = parseInt(s.substr(i + 2, 2), 16); out += WIN[code] || String.fromCharCode(code); } i += 4; continue; }
+        var m = /^\\([a-zA-Z]+)(-?\d+)?\s?/.exec(s.substr(i, 40));
+        if (m) {
+          var w = m[1], v = m[2];
+          if (!skip) {
+            if (w === 'par' || w === 'line' || w === 'sect' || w === 'page') out += '\n'; else if (w === 'tab') out += '\t';
+            else if (w === 'u' && v !== undefined) { var cp = +v; if (cp < 0) cp += 65536; out += String.fromCharCode(cp); skipFallback = uc; }
+            else if (w === 'uc' && v !== undefined) uc = +v;
+          }
+          i += m[0].length;
+          if (skipFallback && w === 'u') { var k = skipFallback; while (k-- > 0 && i < n) { if (s[i] === '\\' && s[i + 1] === "'") i += 4; else i++; } skipFallback = 0; }
+          continue;
+        }
+        i += 2; continue;
+      }
+      if (!skip && c !== '\r' && c !== '\n') out += c;
+      i++;
+    }
+    return out.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  function extractHtml(s) {
+    s = s.replace(/<(script|style|head)[\s\S]*?<\/\1>/gi, '').replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|div|li|tr|h[1-6]|table|section|article)>/gi, '\n').replace(/<\/t[dh]>/gi, '\t').replace(/<[^>]+>/g, '');
+    return decodeEntities(s).replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+  function extractDocLegacy(b) {
+    // Mode sederhana untuk .doc lama: ambil potongan teks yang terbaca (8-bit dan UTF-16) dari berkas.
+    var runs = [], cur = '', i;
+    for (i = 0; i < b.length; i++) {
+      var c = b[i];
+      if ((c >= 32 && c < 127) || c === 13 || c === 9 || (c >= 0xc0 && c <= 0xff) || c === 0x92 || c === 0x93 || c === 0x94 || c === 0x96) cur += c === 13 ? '\n' : String.fromCharCode(c === 0x92 ? 39 : (c === 0x93 || c === 0x94 ? 34 : (c === 0x96 ? 45 : c)));
+      else { if (cur.length >= 12) runs.push(cur); cur = ''; }
+    }
+    if (cur.length >= 12) runs.push(cur);
+    var u = '';
+    for (i = 0; i + 1 < b.length; i += 2) {
+      var ch = b[i] | (b[i + 1] << 8);
+      if ((ch >= 32 && ch < 0x250) || ch === 13 || ch === 9 || (ch >= 0x2018 && ch <= 0x201d)) u += ch === 13 ? '\n' : String.fromCharCode(ch);
+      else { if (u.length >= 12) runs.push(u); u = ''; }
+    }
+    if (u.length >= 12) runs.push(u);
+    var good = runs.filter(function (r) { var letters = (r.match(/[A-Za-z]/g) || []).length, spaces = (r.match(/ /g) || []).length; return letters / r.length > 0.55 && spaces / r.length > 0.05 && !/^(Microsoft|Times New|Arial|Calibri|Normal|Default|Root Entry|WordDocument|SummaryInformation|Document ?Summary)/i.test(r); });
+    var seen = {}, out = [];
+    good.forEach(function (r) { var k = r.trim(); if (!seen[k]) { seen[k] = 1; out.push(k); } });
+    return { text: out.join('\n'), info: 'DOC lama (mode sederhana): ' + out.length + ' potongan teks. Hasil bisa tidak lengkap atau bercampur; periksa. Lebih baik simpan sebagai .docx di Word.' };
+  }
+  function decodeText(b) {
+    if (b[0] === 0xff && b[1] === 0xfe) return new TextDecoder('utf-16le').decode(b.subarray(2));
+    if (b[0] === 0xfe && b[1] === 0xff) { var sw = new Uint8Array(b.length - 2); for (var i = 0; i + 1 < b.length - 2 + 1; i += 2) { sw[i] = b[i + 3]; sw[i + 1] = b[i + 2]; } return new TextDecoder('utf-16le').decode(sw); }
+    var t = toUtf8(b.subarray(b[0] === 0xef && b[1] === 0xbb ? 3 : 0));
+    return t;
+  }
+
   function extract(bytes, name) {
     var n = (name || '').toLowerCase();
     var isPdf = bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46;
     var isZip = bytes[0] === 0x50 && bytes[1] === 0x4b;
     if (isPdf || /\.pdf$/.test(n)) return extractPdf(bytes);
-    if (isZip || /\.docx$/.test(n)) return extractDocx(bytes);
-    if (bytes[0] === 0xd0 && bytes[1] === 0xcf) throw new Error('Ini file Word lama (.doc). Buka di Word lalu "Simpan sebagai" .docx, atau salin teksnya lalu tempel.');
-    return { text: toUtf8(bytes), info: 'Teks biasa: ' + bytes.length + ' byte.' };
+    if (isZip) {
+      var r = extractOffice(bytes); return r;
+    }
+    if (bytes[0] === 0xd0 && bytes[1] === 0xcf && bytes[2] === 0x11 && bytes[3] === 0xe0) {
+      if (/\.(xls|ppt)$/.test(n)) throw new Error('Format Excel/PowerPoint lama (.xls/.ppt) belum didukung. Simpan sebagai .xlsx/.pptx lalu unggah lagi.');
+      return extractDocLegacy(bytes);
+    }
+    var head = toLatin1(bytes.subarray(0, 12));
+    if (/^\{\\rtf/.test(head) || /\.rtf$/.test(n)) { var rt = extractRtf(toLatin1(bytes)); return { text: rt, info: 'RTF: ' + rt.length + ' karakter.' }; }
+    var txt = decodeText(bytes);
+    if (/\.html?$/.test(n) || /^\s*<(!doctype html|html)/i.test(txt)) { var ht = extractHtml(txt); return { text: ht, info: 'HTML: ' + ht.length + ' karakter.' }; }
+    return { text: txt, info: 'Teks biasa: ' + txt.length + ' karakter.' };
   }
   root.SoalReader = { extractPdfImages: extractPdfImages, extract: extract, extractPdf: extractPdf, extractDocx: extractDocx, inflate: inflate };
   if (typeof module !== 'undefined') module.exports = root.SoalReader;
@@ -2652,6 +2783,470 @@ $category->foods()->count();
 })(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script>
+/* Analisis otomatis soal -> isian formulir. Berbasis aturan + kamus (offline). Semua keputusan disertai alasan agar bisa diperiksa. */
+(function (root) {
+  var ID = { // kata Indonesia -> Inggris (bentuk tunggal)
+    'tempat wisata': 'Destination', 'objek wisata': 'Destination', 'rumah sakit': 'Hospital', 'program studi': 'Program', 'mata pelajaran': 'Subject', 'tempat makan': 'Restaurant', 'jenis kelamin': 'Gender',
+    'makanan': 'Food', 'minuman': 'Drink', 'kategori': 'Category', 'buku': 'Book', 'penulis': 'Author', 'pengarang': 'Author', 'penerbit': 'Publisher',
+    'dosen': 'Lecturer', 'mahasiswa': 'Student', 'siswa': 'Student', 'murid': 'Student', 'guru': 'Teacher', 'mata kuliah': 'Course', 'matakuliah': 'Course', 'kuliah': 'Course',
+    'kelas': 'Classroom', 'jurusan': 'Major', 'fakultas': 'Faculty', 'prodi': 'Program', 'produk': 'Product', 'barang': 'Item', 'toko': 'Store', 'pelanggan': 'Customer',
+    'pembeli': 'Buyer', 'penjual': 'Seller', 'pesanan': 'Order', 'transaksi': 'Transaction', 'pembayaran': 'Payment', 'keranjang': 'Cart', 'artikel': 'Article',
+    'berita': 'News', 'komentar': 'Comment', 'film': 'Movie', 'aktor': 'Actor', 'sutradara': 'Director', 'resep': 'Recipe', 'bahan': 'Ingredient', 'wisata': 'Destination',
+    'destinasi': 'Destination', 'kamar': 'Room', 'reservasi': 'Reservation', 'pemesanan': 'Booking', 'dokter': 'Doctor', 'pasien': 'Patient', 'obat': 'Medicine',
+    'jadwal': 'Schedule', 'pegawai': 'Employee', 'karyawan': 'Employee', 'departemen': 'Department', 'divisi': 'Division', 'jabatan': 'Position', 'proyek': 'Project',
+    'tugas': 'Task', 'tim': 'Team', 'anggota': 'Member', 'pengguna': 'Member', 'acara': 'Event', 'tiket': 'Ticket', 'peserta': 'Participant', 'kendaraan': 'Vehicle',
+    'mobil': 'Car', 'motor': 'Motorcycle', 'sewa': 'Rental', 'perpustakaan': 'Library', 'peminjaman': 'Loan', 'lagu': 'Song', 'artis': 'Artist', 'galeri': 'Gallery',
+    'foto': 'Photo', 'gambar': 'Image', 'kursus': 'Course', 'materi': 'Material', 'ujian': 'Exam', 'nilai': 'Grade', 'absensi': 'Attendance', 'tempat': 'Place',
+    'restoran': 'Restaurant', 'meja': 'Table', 'cabang': 'Branch', 'pemasok': 'Supplier', 'gudang': 'Warehouse', 'stok': 'Stock', 'faktur': 'Invoice', 'ulasan': 'Review',
+    'pekerjaan': 'Job', 'lowongan': 'Vacancy', 'pelamar': 'Applicant', 'perusahaan': 'Company', 'kota': 'City', 'provinsi': 'Province', 'negara': 'Country', 'alamat': 'Address',
+    'rumah': 'House', 'properti': 'Property', 'agen': 'Agent', 'hewan': 'Animal', 'tanaman': 'Plant', 'olahraga': 'Sport', 'pertandingan': 'Match', 'pemain': 'Player',
+    'klub': 'Club', 'donasi': 'Donation', 'donatur': 'Donor', 'relawan': 'Volunteer', 'organisasi': 'Organization', 'kegiatan': 'Activity', 'laporan': 'Report',
+    'pengumuman': 'Announcement', 'layanan': 'Service', 'paket': 'Package', 'merek': 'Brand', 'ukuran': 'Size', 'warna': 'Color', 'diskon': 'Discount', 'kupon': 'Coupon'
+  };
+  var EN = 'food reviewer review category product book author student teacher course order customer post comment article news movie genre recipe hotel room doctor patient employee department project task team member event ticket destination travel tour store shop item brand tag profile address payment publisher lecturer supplier invoice artist song album playlist photo image video'.split(' ');
+  var RESERVED = { 'class': 'SchoolClass', 'list': 'ListItem', 'object': 'ObjectItem', 'user': 'Member', 'request': 'RequestItem', 'response': 'ResponseItem', 'route': 'RouteItem', 'model': 'ModelItem', 'controller': 'ControllerItem', 'interface': 'InterfaceItem', 'abstract': 'AbstractItem', 'final': 'FinalItem', 'static': 'StaticItem', 'array': 'ArrayItem', 'string': 'StringItem', 'null': 'NullItem', 'trait': 'TraitItem', 'namespace': 'NamespaceItem', 'use': 'UseItem', 'print': 'PrintItem', 'echo': 'EchoItem', 'home': 'HomePage', 'about': 'AboutPage' };
+  var titleCase = function (s) { return s.replace(/\b([a-z])/g, function (m) { return m.toUpperCase(); }); };
+  var studly = function (a) { return a.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(''); };
+
+  function translate(name) {
+    var n = name.toLowerCase().trim(), conf = 'tinggi', flagId = false;
+    if (ID[n]) return { cls: ID[n], label: titleCase(n), conf: 'tinggi', how: 'kamus' };
+    var words = n.split(/\s+/), mapped = [];
+    for (var i = 0; i < words.length; i++) {
+      var two = words[i] + ' ' + (words[i + 1] || '');
+      if (ID[two]) { mapped.push(ID[two]); flagId = true; i++; continue; }
+      if (ID[words[i]]) { mapped.push(ID[words[i]]); flagId = true; continue; }
+      var w = words[i].replace(/[^a-z0-9]/g, '');
+      if (!w) continue;
+      if (EN.indexOf(w) < 0) conf = 'rendah';
+      mapped.push(w.charAt(0).toUpperCase() + w.slice(1));
+    }
+    if (flagId && mapped.length > 1) mapped.reverse(); // bahasa Indonesia: inti di depan
+    var cls = mapped.join('').replace(/[^A-Za-z0-9]/g, '');
+    if (!cls) return { cls: 'Item', label: titleCase(n), conf: 'rendah', how: 'cadangan' };
+    if (/^\d/.test(cls)) cls = 'T' + cls;
+    var key = cls.toLowerCase();
+    if (RESERVED[key]) { cls = RESERVED[key]; conf = 'sedang'; }
+    return { cls: cls, label: titleCase(n), conf: conf, how: conf === 'tinggi' ? 'kamus/Inggris' : 'diambil dari soal' };
+  }
+
+  function hitsRelasi(t) {
+    t = t.replace(/\s+/g, ' ');
+    var hits = [], m;
+    var VB = '(?:dapat |bisa |boleh |hanya |akan |juga |selalu )*(?:memiliki|mempunyai|menerbitkan|menulis|membuat|punya|menghasilkan|mengelola|berisi|memuat|terdiri dari|menaungi|mengajar|menerima|merujuk ke|merujuk pada|dimiliki oleh|ditulis oleh|dibuat oleh|diterbitkan oleh|termasuk ke dalam|termasuk dalam|masuk ke|masuk dalam|berada di|tergabung dalam|mengikuti|mengambil|menjual|menyewa|meminjam|menginput|mengunggah|memesan|melakukan|di[a-z]{3,15} oleh|di[a-z]{3,15} dalam|me[a-z]{4,15} ke)';
+    var re = new RegExp('\\b(?:satu|setiap|tiap|seorang|sebuah)\\s+([a-z][a-z\\- ]{1,40}?)\\s+' + VB + '\\s+(lebih dari satu|banyak|beberapa|satu)\\s+([a-z][a-z\\- ]{1,40}?)(?=[,.;:()]|\\s+dan\\b|\\s+namun|\\s+tetapi|\\s+serta|\\s+yang\\b|$)', 'gi');
+    while ((m = re.exec(t))) hits.push({ a: m[1].toLowerCase().trim(), many: !(/satu$/i.test(m[2]) && !/lebih/i.test(m[2])), b: m[3].toLowerCase().trim(), s: m[0] });
+    var en = /\b(?:one|each|every|a|an)\s+([a-z][a-z\- ]{1,30}?)\s+(?:can |may )?(?:has|have|owns|writes|publishes|contains|manages)\s+(many|multiple|several|one)\s+([a-z][a-z\- ]{1,30}?)(?=[,.;]|\s+and\b|\s+but\b|$)/gi;
+    while ((m = en.exec(t))) hits.push({ a: m[1].toLowerCase().trim(), many: !/^one$/i.test(m[2]), b: m[3].toLowerCase().trim().replace(/s$/, ''), s: m[0] });
+    return hits;
+  }
+  function same(a, b) { if (a === b) return true; var A = a.split(' '), B = b.split(' '); return A[A.length - 1] === B[B.length - 1]; }
+
+
+  function siteOf(T) {
+    var wa = /(?:^|\n)\s*([A-Z][A-Za-z0-9!]{2,30})\s*:\s*Web Application/.exec(T); if (wa) return wa[1];
+    var cnt = {}, sm, sre = /\b([A-Z][A-Za-z]{3,}!)/g;
+    while ((sm = sre.exec(T))) if (/[a-z][A-Z]/.test(sm[1])) cnt[sm[1]] = (cnt[sm[1]] || 0) + 1;
+    var site = null; Object.keys(cnt).forEach(function (w) { if (!site || cnt[w] > cnt[site]) site = w; });
+    if (!site) { var q = /(?:website|situs|aplikasi|sistem)\s+([A-Z][A-Za-z0-9]{3,30})\s+(?:merupakan|adalah|memiliki)/.exec(T); if (q) site = q[1]; }
+    return site;
+  }
+  // Pecah berkas yang memuat beberapa soal/varian (dipisah judul "Kasus ...").
+  function split(text) {
+    var T = String(text || ''), idx = [], re = /Kasus\s*(?:\(\d+%\)|:)/g, m;
+    while ((m = re.exec(T))) idx.push(m.index);
+    var out = [];
+    if (idx.length >= 2) {
+      for (var i = 0; i < idx.length; i++) {
+        var seg = T.slice(idx[i], idx[i + 1] === undefined ? T.length : idx[i + 1]);
+        var h = hitsRelasi(seg); if (!h.length) continue;
+        var first = seg.replace(/Kasus\s*(?:\(\d+%\)|:)/, '').split('\n').filter(function (x) { return x.trim(); })[0].trim().slice(0, 60);
+        out.push({ title: (siteOf(seg) || first) + ' (' + h[0].a + ' / ' + h[0].b + ')', text: seg });
+      }
+    }
+    if (!out.length) out.push({ title: (siteOf(T) || 'Seluruh teks'), text: T });
+    return out;
+  }
+
+  function analyze(text) {
+    var T = String(text || ''), L = T.toLowerCase(), notes = [], warn = [];
+    var hits = hitsRelasi(T);
+    if (!hits.length) return { manual: true, notes: ['Tidak ditemukan kalimat hubungan antar tabel (pola "satu A punya banyak B"). Isi formulir secara manual.'], level: 'rendah' };
+    // kelompokkan nama entitas
+    var names = [];
+    hits.forEach(function (h) { [h.a, h.b].forEach(function (x) { if (names.indexOf(x) < 0) names.push(x); }); });
+    var canon = {};
+    names.forEach(function (n) {
+      var best = n;
+      names.forEach(function (o) { if (same(n, o) && (o.split(' ').length < best.split(' ').length)) best = o; });
+      canon[n] = best;
+    });
+    var edges = []; // A punya banyak B (kanonik)
+    hits.forEach(function (h) { if (h.many && canon[h.a] !== canon[h.b]) edges.push([canon[h.a], canon[h.b], h]); });
+    var has = function (x, y) { return edges.some(function (e) { return e[0] === x && e[1] === y; }); };
+    var oneN = [], nn = [], seen = {};
+    edges.forEach(function (e) {
+      var k = [e[0], e[1]].sort().join('|'); if (seen[k]) return; seen[k] = 1;
+      if (has(e[1], e[0])) nn.push([e[0], e[1]]); else oneN.push([e[0], e[1], e[2]]);
+    });
+    var count = function (n) { var c = 0, i = -1; while ((i = L.indexOf(n, i + 1)) >= 0) c++; return c; };
+    var parent = null, item = null, group = null;
+    if (oneN.length) {
+      parent = oneN[0][0]; item = oneN[0][1];
+      var g = nn.filter(function (p) { return p[0] === item || p[1] === item; })[0];
+      if (g) group = g[0] === item ? g[1] : g[0];
+      if (oneN.length > 1) warn.push('Ada lebih dari satu relasi satu-ke-banyak di teks (misalnya beberapa varian soal). Yang dipakai: yang pertama. Jika berkas berisi beberapa soal, hapus bagian lain di kotak teks lalu proses ulang.');
+    } else if (nn.length) {
+      var p = nn[0]; item = count(p[0]) >= count(p[1]) ? p[1] : p[0]; item = count(p[0]) >= count(p[1]) ? p[0] : p[1];
+      group = item === p[0] ? p[1] : p[0];
+      warn.push('Hanya relasi banyak-ke-banyak yang terbaca. Item utama dipilih dari kata yang paling sering muncul; periksa.');
+    } else {
+      return { manual: true, notes: ['Kalimat relasi ditemukan tetapi jenis relasinya tidak jelas. Isi formulir secara manual.'], level: 'rendah' };
+    }
+    var I = translate(item), P = parent ? translate(parent) : null, G = group ? translate(group) : null;
+    notes.push('Item utama: "' + item + '" -> model ' + I.cls + ' (' + I.how + ').');
+    if (P) notes.push('Induk (pemilik item, satu-ke-banyak): "' + parent + '" -> model ' + P.cls + ' (' + P.how + ').');
+    if (G) notes.push('Grup (banyak-ke-banyak dengan item): "' + group + '" -> model ' + G.cls + ' (' + G.how + ').');
+    [I, P, G].forEach(function (x) { if (x && x.conf === 'rendah') warn.push('Nama model "' + x.cls + '" diambil langsung dari kata di soal. Jika bukan bahasa Inggris atau kurang tepat, ganti di formulir.'); if (x && x.conf === 'sedang') warn.push('Nama model diubah otomatis karena bentrok dengan nama bawaan PHP/Laravel: ' + x.cls + '.'); });
+
+    // situs
+    var site = siteOf(T);
+    if (!site) { var wq = /(?:aplikasi|website|situs|sistem)\s+(?:bernama\s+)?["“]([^"”]{3,40})["”]/i.exec(T); if (wq) site = wq[1]; }
+    if (!site) { site = 'Website ' + I.label; warn.push('Nama website tidak ditemukan di soal; dipakai nama sementara.'); }
+    notes.push('Nama website: ' + site + '.');
+
+    // kolom item
+    var f = [];
+    f.push(/\bjudul\b/.test(L) ? 'title:string' : 'name:string');
+    if (/(gambar|foto|poster|cover|thumbnail|banner)/.test(L)) f.push('image:image');
+    if (/\b(harga|price|tarif|biaya)\b/.test(L)) f.push('price:decimal');
+    if (/\b(stok|stock|persediaan)\b/.test(L)) f.push('stock:integer');
+    if (/(ringkas|singkat|sinopsis)/.test(L)) f.push('summary:text');
+    f.push(/(review|ulasan)/.test(L) ? 'review:text' : 'description:text');
+    if (/\b(tanggal|tgl)\b/.test(L)) f.push('event_date:date');
+    if (/\b(alamat)\b/.test(L)) f.push('address:string');
+    if (/\b(telepon|telp|whatsapp|no\.? ?hp)\b/.test(L)) f.push('phone:string');
+    if (/\b(tahun)\b/.test(L)) f.push('year:integer');
+    var hasRating = /(rating|peringkat|terbaik|\btop\b|bintang|teratas|terpopuler)/.test(L);
+    if (hasRating) f.push('rating:decimal');
+    if (/(terviral|viral|populer|unggulan|featured|rekomendasi)/.test(L)) f.push(/viral/.test(L) ? 'is_viral:boolean' : 'is_featured:boolean');
+    if (f.indexOf('summary:text') < 0 && f.indexOf('review:text') >= 0 && /(singkat|ringkas)/.test(L)) f.splice(f.indexOf('review:text'), 0, 'summary:text');
+    notes.push('Kolom item (tebakan dari kata di soal): ' + f.join(', ') + '. Tambah/hapus di formulir jika perlu.');
+
+    // nilai grup
+    var vals = '';
+    if (G) {
+      var Tf = T.replace(/\s*\n\s*/g, ' '), Lf = Tf.toLowerCase();
+      var gw = group.split(' ').pop().replace(/[^a-z0-9]/g, '');
+      var re = new RegExp('(?:yaitu|diantaranya|antara lain|seperti|' + gw + ')\\s*:?\\s*(?:adalah\\s+|yaitu\\s*:?\\s*)?([A-Z0-9][^.]{5,240})', 'gi'), x, best = null;
+      while ((x = re.exec(Tf))) {
+        var before = Lf.substring(Math.max(0, x.index - 60), x.index + x[0].toLowerCase().indexOf(x[1].toLowerCase()));
+        var items = x[1].split(/,|\sdan\s|\sserta\s/).map(function (s) { return s.replace(/^[\s:]+|[\s.]+$/g, ''); }).filter(function (s) { return s && s.length < 40 && s.split(' ').length <= 4; });
+        if (items.length >= 2 && /^[A-Z0-9]/.test(items[0]) && (before.indexOf(group.split(' ').pop()) >= 0 || (hits[0] && before.indexOf(group) >= 0))) { best = items; break; }
+      }
+      if (best) { vals = best.join(', '); notes.push('Nama ' + G.label + ' diambil dari soal: ' + vals + '.'); }
+      else { vals = G.label + ' 1, ' + G.label + ' 2, ' + G.label + ' 3'; warn.push('Daftar nama ' + G.label + ' tidak ditemukan di soal; diisi nama sementara. Ganti di kolom "Nama-nama grup".'); }
+    }
+
+    // fitur
+    var negAdmin = /(tidak|bukan)[^.]{0,50}\badmin\b|fokus pada user|hanya (?:untuk |pada )?user/.test(L);
+    var crud = /\b(tambah|menambah|menambahkan|ubah|mengubah|edit|mengedit|hapus|menghapus|delete|crud|kelola|mengelola|manajemen|input data|menginput)\b/.test(L) && !negAdmin;
+    var search = /\b(cari|mencari|pencarian|search|filter|menyaring)\b/.test(L);
+    if (search && !crud) { crud = true; warn.push('Soal menyebut pencarian/filter; halaman Kelola diaktifkan karena pencarian ada di sana. Matikan jika tidak perlu.'); }
+    var top = f.indexOf('rating:decimal') >= 0 && /(\btop\b|terbaik|terpopuler|teratas|peringkat|ranking|challenge)/.test(L);
+    notes.push('Fitur: ' + (crud ? 'halaman Kelola (tambah/ubah/hapus)' : 'tanpa halaman Kelola') + (search ? ', pencarian/filter' : '') + (top ? ', fitur Top' : '') + '.' + (negAdmin ? ' (Soal menyatakan fokus pada user, bukan admin.)' : ''));
+
+    // about
+    var about = '', Tx = T.replace(/\s+/g, ' '), si = Tx.search(new RegExp(site.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ' (?:merupakan|adalah|menyediakan|memungkinkan)'));
+    if (si >= 0) { var rest = Tx.slice(si), m1 = new RegExp('^' + site.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[^.!?]*[.!?]').exec(rest); if (m1) { about = m1[0]; var m2 = /^\s*([A-Z][^.!?]{10,220}[.!?])/.exec(rest.slice(m1[0].length)); if (m2) about += ' ' + m2[1].trim(); } }
+
+    var level = (oneN.length && nn.length && I.conf === 'tinggi' && (!P || P.conf === 'tinggi') && (!G || G.conf === 'tinggi')) ? 'tinggi' : (warn.length > 1 ? 'rendah' : 'sedang');
+    var form = {
+      gSite: site, gBtn: 'Baca selengkapnya', gAbout: about,
+      iCls: I.cls, iLabel: I.label, iPl: '', iFields: f.join('\n'), iSamples: '',
+      useParent: !!P, pCls: P ? P.cls : 'Parent', pLabel: P ? P.label : 'Induk', pPl: '', pFields: 'name:string\nphoto:image\nbio:text',
+      useGroup: !!G, cCls: G ? G.cls : 'Category', cLabel: G ? G.label : 'Kategori', cPl: '', cFields: 'name:string', cVals: vals,
+      optCrud: crud, optSearch: crud && search, optTop: top, nParent: 4, nItem: 3, gBoot: 'vite'
+    };
+    return { manual: false, form: form, notes: notes, warn: warn, level: level };
+  }
+  root.AutoSoal = { split: split, analyze: analyze, translate: translate };
+  if (typeof module !== 'undefined') module.exports = root.AutoSoal;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+/* Penyusun dokumentasi (.docx dan teks) dari hasil KodeGen. Murni JavaScript, offline. */
+(function (root) {
+  var TYPEDESC = { string: 'varchar(255)', text: 'text', integer: 'integer', decimal: 'decimal', date: 'date', boolean: 'boolean (0/1)', image: 'varchar(255), boleh kosong (path atau URL gambar)' };
+  var human = function (n) { var t = n.replace(/_/g, ' '); return t.charAt(0).toUpperCase() + t.slice(1); };
+  var METHOD = {
+    index: 'menampilkan daftar data', create: 'menampilkan form tambah data', store: 'memvalidasi dan menyimpan data baru ke database', show: 'menampilkan satu data secara rinci',
+    edit: 'menampilkan form ubah data', update: 'memvalidasi dan menyimpan perubahan data', destroy: 'menghapus data', rules: 'menyimpan aturan validasi yang dipakai store dan update'
+  };
+
+  function build(r, cfg) {
+    var I = r.info.I, P = r.info.P, G = r.info.G, crud = r.info.crud, top = r.info.top, site = (cfg.site || 'Website').trim();
+    var vals = G ? String(cfg.groupVals || '').split(/[\n,]/).map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    var pivot = G ? [I.sn, G.sn].sort().join('_') : null;
+    var D = [], n = { fig: 0 };
+    var H1 = function (x, brk) { D.push({ t: 'h1', x: x, brk: brk }); }, H2 = function (x) { D.push({ t: 'h2', x: x }); }, H3 = function (x) { D.push({ t: 'h3', x: x }); };
+    var Pp = function (x) { D.push({ t: 'p', x: x }); }, UL = function (a) { D.push({ t: 'ul', items: a }); }, CODE = function (x) { D.push({ t: 'code', x: x }); };
+    var TBL = function (rows) { D.push({ t: 'table', rows: rows }); };
+    var file = function (p) { return r.files.filter(function (f) { return f.path === p; })[0]; };
+
+    D.push({ t: 'title', x: 'Dokumentasi Project ' + site });
+    D.push({ t: 'sub', x: 'Ujian Tengah Semester - Web Programming (Laravel)' });
+    TBL([['Nama', ': ...................................................'], ['NIM', ': ...................................................'], ['Kelas', ': ...................................................']]);
+
+    H1('1. Deskripsi Aplikasi', true);
+    Pp((cfg.about && cfg.about.trim()) ? cfg.about.trim() : (site + ' adalah aplikasi web yang menyajikan informasi ' + I.label.toLowerCase() + '.'));
+    Pp(site + ' dibangun dengan framework Laravel yang menerapkan pola arsitektur MVC (Model, View, Controller). Model mengelola data dan relasi antar tabel melalui Eloquent ORM, View menampilkan halaman dengan template Blade dan Bootstrap, sedangkan Controller menerima permintaan dari route, mengambil data dari model, lalu mengirimkannya ke view.');
+    var pages = ['Home: menampilkan poster' + (top ? ', ' + I.label + ' Top' : '') + ' dan ' + I.label + ' pilihan.'];
+    if (G) pages.push(G.label + ': dropdown ' + G.label + ' dan daftar ' + I.label + ' pada ' + G.label + ' yang dipilih.');
+    if (P) pages.push(P.label + ': dropdown ' + P.label + ' dan daftar ' + I.label + ' milik ' + P.label + ' yang dipilih.');
+    pages.push('Detail ' + I.label + ': informasi lengkap ' + I.label + (P ? ' beserta ' + P.label : '') + '.');
+    pages.push('About Us: informasi dasar website.');
+    if (crud) pages.push('Kelola ' + I.label + ': daftar, tambah, ubah, hapus' + (r.files.some(function (f) { return /q"/.test(f.code); }) ? '' : '') + ', dengan validasi dan upload gambar.');
+    Pp('Halaman yang tersedia:'); UL(pages);
+    Pp('Teknologi yang dipakai: PHP, Laravel (Route, Controller, Model, Migration, Seeder/Factory), Blade Template Engine, Bootstrap 5, database MySQL/SQLite, dan Faker untuk data contoh.');
+
+    H1('2. Rancangan Database', true);
+    function colRows(E, fk) {
+      var rows = [['Nama kolom', 'Tipe data', 'Keterangan'], ['id', 'bigint unsigned', 'Primary key, auto increment']];
+      if (fk) rows.push([fk.col, 'bigint unsigned', 'Foreign key ke tabel ' + fk.table + ' (hapus berantai)']);
+      E.fields.forEach(function (f) {
+        var role = f.n === E.r.title ? 'Judul/nama ' + E.label : (f.n === E.r.image ? 'Gambar' : (f.n === E.r.summary ? 'Ringkasan singkat' : (f.n === E.r.body ? 'Isi lengkap' : (f.n === E.r.rating ? 'Nilai untuk peringkat' : (f.n === E.r.flag ? 'Penanda ' + human(f.n).toLowerCase() : human(f.n))))));
+        rows.push([f.n, TYPEDESC[f.type || f.t], role]);
+      });
+      rows.push(['created_at, updated_at', 'timestamp', 'Dibuat otomatis oleh Laravel']);
+      return rows;
+    }
+    var tabs = [];
+    if (P) tabs.push([P, null]); if (G) tabs.push([G, null]); tabs.push([I, P ? { col: P.sn + '_id', table: P.table } : null]);
+    tabs.forEach(function (x) { H2('Tabel ' + x[0].table); Pp('Tabel ini menyimpan data ' + x[0].label + '.'); TBL(colRows(x[0], x[1])); });
+    if (G) { H2('Tabel ' + pivot + ' (pivot)'); Pp('Tabel perantara untuk relasi banyak-ke-banyak antara ' + I.label + ' dan ' + G.label + '.'); TBL([['Nama kolom', 'Tipe data', 'Keterangan'], ['id', 'bigint unsigned', 'Primary key, auto increment'], [G.sn + '_id', 'bigint unsigned', 'Foreign key ke tabel ' + G.table], [I.sn + '_id', 'bigint unsigned', 'Foreign key ke tabel ' + I.table], ['created_at, updated_at', 'timestamp', 'Dibuat otomatis oleh Laravel']]); }
+    H2('Relasi antar tabel');
+    var rel = [];
+    if (P) rel.push('Satu-ke-banyak (one to many): satu ' + P.label + ' memiliki banyak ' + I.label + '; satu ' + I.label + ' dimiliki oleh satu ' + P.label + '. Foreign key ' + P.sn + '_id berada di tabel ' + I.table + '.');
+    if (G) rel.push('Banyak-ke-banyak (many to many): satu ' + I.label + ' dapat masuk ke banyak ' + G.label + ', dan satu ' + G.label + ' dapat memiliki banyak ' + I.label + '. Relasi disimpan pada tabel pivot ' + pivot + '.');
+    UL(rel);
+    Pp('Diagram relasi (teks): ' + (P ? P.label + ' (1) -- (N) ' : '') + I.label + (G ? ' (N) -- (N) ' + G.label : '') + '.');
+
+    H1('3. Routing', true);
+    Pp('Route didefinisikan pada file routes/web.php. Setiap route menghubungkan sebuah URL dengan method pada controller (atau view langsung untuk halaman statis). Route yang diberi nama (name) dipakai oleh helper route() agar link tidak perlu ditulis manual.');
+    var C = function (c) { return c + 'Controller'; }, rt = [['Method', 'URL', 'Nama route', 'Tujuan', 'Fungsi']];
+    rt.push(['GET', '/', 'home', 'HomeController@index', 'Halaman Home']);
+    if (G) { rt.push(['GET', '/' + G.url, G.sn + '.index', C(G.cls) + '@index', 'Daftar ' + G.label]); rt.push(['GET', '/' + G.url + '/{' + G.v + '}', G.sn + '.show', C(G.cls) + '@show', I.label + ' pada ' + G.label + ' terpilih']); }
+    if (P) { rt.push(['GET', '/' + P.url, P.sn + '.index', C(P.cls) + '@index', 'Daftar ' + P.label]); rt.push(['GET', '/' + P.url + '/{' + P.v + '}', P.sn + '.show', C(P.cls) + '@show', I.label + ' milik ' + P.label + ' terpilih']); }
+    if (crud) {
+      rt.push(['GET', '/' + I.url, I.sn + '.index', C(I.cls) + '@index', 'Daftar ' + I.label + ' (kelola)']); rt.push(['GET', '/' + I.url + '/create', I.sn + '.create', C(I.cls) + '@create', 'Form tambah']);
+      rt.push(['POST', '/' + I.url, I.sn + '.store', C(I.cls) + '@store', 'Simpan data baru']); rt.push(['GET', '/' + I.url + '/{' + I.v + '}', I.sn + '.show', C(I.cls) + '@show', 'Detail ' + I.label]);
+      rt.push(['GET', '/' + I.url + '/{' + I.v + '}/edit', I.sn + '.edit', C(I.cls) + '@edit', 'Form ubah']); rt.push(['PUT/PATCH', '/' + I.url + '/{' + I.v + '}', I.sn + '.update', C(I.cls) + '@update', 'Simpan perubahan']);
+      rt.push(['DELETE', '/' + I.url + '/{' + I.v + '}', I.sn + '.destroy', C(I.cls) + '@destroy', 'Hapus data']);
+    } else rt.push(['GET', '/' + I.url + '/{' + I.v + '}', I.sn + '.show', C(I.cls) + '@show', 'Detail ' + I.label]);
+    rt.push(['GET', '/about', 'about', 'view about', 'Halaman About Us']);
+    TBL(rt);
+    if (crud) Pp('Route::resource membuat tujuh route CRUD sekaligus (index, create, store, show, edit, update, destroy). Parameter seperti {' + I.v + '} memakai route model binding: Laravel otomatis mengambil data dari database dan mengirimkannya sebagai objek ke method controller.');
+    else Pp('Parameter seperti {' + I.v + '} memakai route model binding: Laravel otomatis mengambil data dari database dan mengirimkannya sebagai objek ke method controller.');
+    Pp('Kode routes/web.php:'); CODE(file('routes/web.php').code);
+
+    H1('4. Controller', true);
+    Pp('Controller berada di folder app/Http/Controllers. Controller menerima permintaan dari route, mengambil data lewat model, dan mengirimkan data ke view.');
+    r.files.filter(function (f) { return /^app\/Http\/Controllers\//.test(f.path); }).forEach(function (f) {
+      var name = f.path.split('/').pop().replace('.php', ''), meths = [], re = /(?:public|private) function (\w+)/g, m;
+      while ((m = re.exec(f.code))) meths.push(m[1]);
+      H2(name);
+      var desc = { HomeController: 'Mengambil data untuk halaman Home: ' + I.label + ' pilihan' + (top ? ' dan ' + I.label + ' ' + (I.r.rating || '') + ' tertinggi (fitur Top)' : '') + '.' };
+      if (G) desc[C(G.cls)] = 'Mengelola halaman ' + G.label + ': daftar (dropdown) dan ' + I.label + ' pada ' + G.label + ' yang dipilih.';
+      if (P) desc[C(P.cls)] = 'Mengelola halaman ' + P.label + ': daftar (dropdown) dan ' + I.label + ' milik ' + P.label + ' yang dipilih.';
+      desc[C(I.cls)] = crud ? 'Menangani detail ' + I.label + ' serta pengelolaan data (tambah, ubah, hapus) lengkap dengan validasi' + (r.files.some(function (x) { return /storage/.test(x.code) && x.path === f.path; }) ? ', upload gambar,' : '') + (/when\(/.test(f.code) ? ' dan pencarian/filter' : '') + '.' : 'Menampilkan halaman detail ' + I.label + '.';
+      Pp(desc[name] || 'Controller aplikasi.');
+      UL(meths.map(function (mm) {
+        var t = METHOD[mm] || 'memproses permintaan';
+        if (name === 'HomeController' && mm === 'index') t = 'mengambil data lalu menampilkan halaman Home';
+        else if (G && name === C(G.cls)) t = mm === 'index' ? 'menampilkan daftar ' + G.label + ' (dropdown)' : 'menampilkan ' + I.label + ' pada ' + G.label + ' yang dipilih';
+        else if (P && name === C(P.cls)) t = mm === 'index' ? 'menampilkan daftar ' + P.label + ' (dropdown)' : 'menampilkan ' + I.label + ' milik ' + P.label + ' yang dipilih';
+        return mm + '(): ' + t + '.';
+      }));
+      CODE(f.code);
+    });
+
+    H1('5. Model', true);
+    Pp('Model berada di folder app/Models. Setiap model mewakili satu tabel dan mendefinisikan relasi Eloquent. Properti $table menentukan nama tabel dan $guarded = [] mengizinkan pengisian massal (mass assignment) lewat create() dan update().');
+    r.files.filter(function (f) { return /^app\/Models\//.test(f.path); }).forEach(function (f) {
+      var name = f.path.split('/').pop().replace('.php', ''), rels = [], re = /\/\/ ([^\n]+)\n\s+public function (\w+)\(\)\n\s+\{\n\s+return \$this->(\w+)\((\w+)::class/g, m;
+      H2('Model ' + name);
+      while ((m = re.exec(f.code))) rels.push('Method ' + m[2] + '(): ' + m[1] + ' (' + m[3] + ' ke model ' + m[4] + ').');
+      var acc = /function get(\w+)UrlAttribute/.exec(f.code);
+      if (rels.length) { Pp('Relasi yang didefinisikan:'); UL(rels); }
+      if (acc) Pp('Accessor get' + acc[1] + 'UrlAttribute() membentuk alamat gambar yang siap dipakai di view (URL dari seeder, file upload di storage, atau gambar pengganti jika kosong).');
+      CODE(f.code);
+    });
+
+    H1('6. View dan Blade', true);
+    Pp('View berada di folder resources/views dan ditulis dengan Blade. Layout utama (layouts/app.blade.php) berisi kerangka halaman dengan @yield(\'title\') dan @yield(\'content\'). Setiap halaman memakai @extends(\'layouts.app\') lalu mengisi bagian tersebut dengan @section. Bagian yang dipakai ulang (navbar dan kartu) dipisahkan sebagai partial dan dipanggil dengan @include. Perulangan memakai @foreach/@forelse dan kondisi memakai @if.');
+    var vp = function (p) {
+      if (p === 'resources/views/layouts/app.blade.php') return 'Layout utama: memuat Bootstrap, navbar, pesan sukses, dan footer.';
+      if (p === 'resources/views/partials/navbar.blade.php') return 'Navbar yang dipakai semua halaman.';
+      if (/partials\/.*-card/.test(p)) return 'Kartu ' + I.label + ' (poster, nama, ringkasan, tombol detail) yang dipakai ulang.';
+      if (p === 'resources/views/home.blade.php') return 'Halaman Home.';
+      if (p === 'resources/views/about.blade.php') return 'Halaman About Us.';
+      if (G && p === 'resources/views/' + G.sn + '/index.blade.php') return 'Daftar ' + G.label + ' dengan dropdown.';
+      if (G && p === 'resources/views/' + G.sn + '/show.blade.php') return I.label + ' pada ' + G.label + ' yang dipilih (dengan dropdown pengganti).';
+      if (P && p === 'resources/views/' + P.sn + '/index.blade.php') return 'Daftar ' + P.label + ' dengan dropdown.';
+      if (P && p === 'resources/views/' + P.sn + '/show.blade.php') return I.label + ' milik ' + P.label + ' yang dipilih.';
+      if (p === 'resources/views/' + I.sn + '/show.blade.php') return 'Halaman detail ' + I.label + '.';
+      if (p === 'resources/views/' + I.sn + '/index.blade.php') return 'Halaman kelola: tabel data' + (/request\('q'\)/.test(file(p).code) ? ', pencarian, filter,' : '') + ' dan paginasi.';
+      if (p === 'resources/views/' + I.sn + '/_form.blade.php') return 'Form tambah/ubah (dipakai bersama) lengkap dengan @csrf, validasi, dan pesan error.';
+      if (p === 'resources/views/' + I.sn + '/create.blade.php') return 'Halaman tambah data.';
+      if (p === 'resources/views/' + I.sn + '/edit.blade.php') return 'Halaman ubah data.';
+      return 'Tampilan aplikasi.';
+    };
+    var views = r.files.filter(function (f) { return /^resources\/views\//.test(f.path); });
+    TBL([['File', 'Fungsi']].concat(views.map(function (f) { return [f.path.replace('resources/views/', ''), vp(f.path)]; })));
+    views.forEach(function (f) { H3(f.path.replace('resources/views/', '')); Pp(vp(f.path)); CODE(f.code); });
+
+    H1('7. Migration', true);
+    Pp('Migration adalah version control untuk database: struktur tabel ditulis sebagai kode di folder database/migrations dan dijalankan dengan php artisan migrate. Method up() membuat tabel, method down() membatalkannya.');
+    r.files.filter(function (f) { return /^database\/migrations\//.test(f.path); }).forEach(function (f) {
+      var t = /Schema::create\('(\w+)'/.exec(f.code)[1]; H2('Tabel ' + t); Pp('Membuat tabel ' + t + '.' + (/foreignId/.test(f.code) ? ' Memuat foreign key (foreignId...constrained) dengan cascadeOnDelete.' : '')); CODE(f.code);
+    });
+
+    H1('8. Seeder dan Factory', true);
+    Pp('Factory mendefinisikan cara membuat data contoh acak memakai Faker, sedangkan Seeder (DatabaseSeeder) menjalankan factory dan mengisi tabel relasi. Data diisi dengan php artisan migrate:fresh --seed.');
+    if (G) Pp(G.label + ' diisi dengan data tetap: ' + vals.join(', ') + '. Setiap ' + I.label + ' dihubungkan secara acak ke ' + Math.min(2, vals.length) + ' ' + G.label + ' melalui tabel pivot.');
+    r.files.filter(function (f) { return /^database\/(factories|seeders)\//.test(f.path); }).forEach(function (f) { H3(f.path); CODE(f.code); });
+
+    H1('9. Cara Menjalankan', false);
+    Pp('Perintah yang dijalankan (terminal di folder project):'); CODE('npm run dev\nphp artisan migrate:fresh --seed' + (crud ? '\nphp artisan storage:link' : '') + '\nphp artisan serve');
+    Pp('Lalu buka http://127.0.0.1:8000 pada browser.');
+
+    H1('10. Hasil Tampilan (Screenshot)', true);
+    Pp('Tempel screenshot masing-masing halaman pada kotak di bawah. Pastikan alamat (URL) di browser ikut terlihat.');
+    var shots = [['Halaman Home', 'http://127.0.0.1:8000/', 'Poster, ' + (top ? I.label + ' Top, ' : '') + I.label + ' pilihan, navbar.']];
+    if (G) { shots.push(['Halaman ' + G.label + ' (dropdown dibuka)', 'http://127.0.0.1:8000/' + G.url, 'Dropdown ' + G.label + ' terbuka menampilkan semua pilihan.']); shots.push([I.label + ' pada ' + G.label + ' terpilih', 'http://127.0.0.1:8000/' + G.url + '/1', 'Hanya ' + I.label + ' pada ' + G.label + ' tersebut.']); }
+    if (P) { shots.push(['Halaman ' + P.label + ' (dropdown dibuka)', 'http://127.0.0.1:8000/' + P.url, 'Dropdown ' + P.label + ' terbuka.']); shots.push([I.label + ' milik ' + P.label + ' terpilih', 'http://127.0.0.1:8000/' + P.url + '/1', 'Daftar ' + I.label + ' milik ' + P.label + ' tersebut.']); }
+    shots.push(['Halaman detail ' + I.label, 'http://127.0.0.1:8000/' + I.url + '/1', 'Poster, nama, ' + (P ? P.label + ', ' : '') + 'dan isi lengkap.']);
+    shots.push(['Halaman About Us', 'http://127.0.0.1:8000/about', 'Informasi dasar website.']);
+    if (crud) { shots.push(['Halaman kelola ' + I.label, 'http://127.0.0.1:8000/' + I.url, 'Tabel data' + (/q=|request\('q'\)/.test(r.files.map(function (f) { return f.code; }).join('')) ? ', kolom pencarian dan filter' : '') + ' serta tombol Tambah, Ubah, Hapus.']); shots.push(['Form tambah ' + I.label, 'http://127.0.0.1:8000/' + I.url + '/create', 'Form dengan semua input.']); shots.push(['Form ubah ' + I.label, 'http://127.0.0.1:8000/' + I.url + '/1/edit', 'Form berisi data lama.']); }
+    shots.push(['Isi tabel di database (phpMyAdmin atau sejenisnya)', '', 'Tampilkan isi tabel ' + tabs.map(function (x) { return x[0].table; }).concat(G ? [pivot] : []).join(', ') + '.']);
+    shots.forEach(function (s) { n.fig++; D.push({ t: 'shot', x: 'Gambar ' + n.fig + '. ' + s[0], url: s[1], note: s[2] }); });
+
+    H1('11. Kesimpulan', false);
+    Pp('Aplikasi ' + site + ' telah dibangun dengan menerapkan komponen utama Laravel: Routing, Controller, Model, View dan Blade (layout, section, yield, include), Migration, serta Seeder/Factory (Faker), dengan relasi ' + (P ? 'satu-ke-banyak' : '') + (P && G ? ' dan ' : '') + (G ? 'banyak-ke-banyak' : '') + ' antar tabel. Seluruh halaman yang diminta pada soal dapat diakses dan berfungsi sebagaimana ditunjukkan pada bagian screenshot.');
+    return D;
+  }
+
+  /* ---------- keluaran teks ---------- */
+  function toText(D) {
+    var o = [];
+    D.forEach(function (b) {
+      if (b.t === 'title') o.push(b.x.toUpperCase(), '');
+      else if (b.t === 'sub') o.push(b.x, '');
+      else if (b.t === 'h1') o.push('', b.x.toUpperCase(), '');
+      else if (b.t === 'h2') o.push('', b.x);
+      else if (b.t === 'h3') o.push('', b.x);
+      else if (b.t === 'p') o.push(b.x, '');
+      else if (b.t === 'ul') { b.items.forEach(function (i) { o.push('- ' + i); }); o.push(''); }
+      else if (b.t === 'code') { o.push(b.x.split('\n').map(function (l) { return '    ' + l; }).join('\n'), ''); }
+      else if (b.t === 'table') { b.rows.forEach(function (r) { o.push(r.join('\t')); }); o.push(''); }
+      else if (b.t === 'shot') o.push(b.x + (b.url ? '  (' + b.url + ')' : ''), '[Tempel screenshot di sini] ' + b.note, '');
+    });
+    return o.join('\n');
+  }
+
+  /* ---------- penulis .docx ---------- */
+  var enc = new TextEncoder();
+  var esc = function (s) { return String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+  var CRC; function crc32(b) {
+    if (!CRC) { CRC = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; CRC[n] = c >>> 0; } }
+    var c2 = 0xffffffff; for (var i = 0; i < b.length; i++) c2 = CRC[(c2 ^ b[i]) & 255] ^ (c2 >>> 8); return (c2 ^ 0xffffffff) >>> 0;
+  }
+  function zip(files) {
+    var parts = [], cd = [], off = 0;
+    function w16(a, v) { a.push(v & 255, (v >> 8) & 255); } function w32(a, v) { a.push(v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255); }
+    files.forEach(function (f) {
+      var name = enc.encode(f.name), data = f.data, crc = crc32(data), h = [];
+      w32(h, 0x04034b50); w16(h, 20); w16(h, 0x0800); w16(h, 0); w16(h, 0); w16(h, 0x21); w32(h, crc); w32(h, data.length); w32(h, data.length); w16(h, name.length); w16(h, 0);
+      parts.push(new Uint8Array(h), name, data);
+      var c = []; w32(c, 0x02014b50); w16(c, 20); w16(c, 20); w16(c, 0x0800); w16(c, 0); w16(c, 0); w16(c, 0x21); w32(c, crc); w32(c, data.length); w32(c, data.length); w16(c, name.length); w16(c, 0); w16(c, 0); w16(c, 0); w16(c, 0); w32(c, 0); w32(c, off);
+      cd.push(new Uint8Array(c), name);
+      off += h.length + name.length + data.length;
+    });
+    var cdLen = cd.reduce(function (a, b) { return a + b.length; }, 0), e = []; w32(e, 0x06054b50); w16(e, 0); w16(e, 0); w16(e, files.length); w16(e, files.length); w32(e, cdLen); w32(e, off); w16(e, 0);
+    var all = parts.concat(cd, [new Uint8Array(e)]), total = all.reduce(function (a, b) { return a + b.length; }, 0), out = new Uint8Array(total), p = 0;
+    all.forEach(function (a) { out.set(a, p); p += a.length; }); return out;
+  }
+  function run(text, o) {
+    o = o || {};
+    var rp = (o.font ? '<w:rFonts w:ascii="' + o.font + '" w:hAnsi="' + o.font + '" w:cs="' + o.font + '"/>' : '') + (o.b ? '<w:b/>' : '') + (o.i ? '<w:i/>' : '') + (o.color ? '<w:color w:val="' + o.color + '"/>' : '') + (o.sz ? '<w:sz w:val="' + o.sz + '"/><w:szCs w:val="' + o.sz + '"/>' : '');
+    return '<w:r>' + (rp ? '<w:rPr>' + rp + '</w:rPr>' : '') + '<w:t xml:space="preserve">' + esc(text) + '</w:t></w:r>';
+  }
+  function para(inner, o) {
+    o = o || {};
+    var pp = (o.style ? '<w:pStyle w:val="' + o.style + '"/>' : '') + (o.keep ? '<w:keepNext/>' : '') + (o.brk ? '<w:pageBreakBefore/>' : '') + (o.shade ? '<w:shd w:val="clear" w:color="auto" w:fill="' + o.shade + '"/>' : '') +
+      (o.num ? '<w:ind w:left="360" w:hanging="260"/>' : '') + (o.after !== undefined ? '<w:spacing w:before="0" w:after="' + o.after + '" w:line="240" w:lineRule="auto"/>' : '') + (o.jc ? '<w:jc w:val="' + o.jc + '"/>' : '');
+    return '<w:p>' + (pp ? '<w:pPr>' + pp + '</w:pPr>' : '') + inner + '</w:p>';
+  }
+  function table(rows, o) {
+    o = o || {}; var cols = rows[0].length, w = Math.floor(9000 / cols), grid = '';
+    for (var i = 0; i < cols; i++) grid += '<w:gridCol w:w="' + w + '"/>';
+    var b = '<w:tblBorders>' + ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(function (s) { return '<w:' + s + ' w:val="single" w:sz="4" w:space="0" w:color="808080"/>'; }).join('') + '</w:tblBorders>';
+    var x = '<w:tbl><w:tblPr><w:tblW w:w="9000" w:type="dxa"/>' + (o.noBorder ? '' : b) + '<w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>' + grid + '</w:tblGrid>';
+    rows.forEach(function (r, ri) {
+      x += '<w:tr>' + (o.height ? '<w:trPr><w:trHeight w:val="' + o.height + '" w:hRule="atLeast"/></w:trPr>' : '');
+      r.forEach(function (c) {
+        var head = o.head && ri === 0;
+        x += '<w:tc><w:tcPr><w:tcW w:w="' + w + '" w:type="dxa"/>' + (head ? '<w:shd w:val="clear" w:color="auto" w:fill="D9D9D9"/>' : '') + (o.height ? '<w:vAlign w:val="center"/>' : '') + '</w:tcPr>' + para(run(c, { b: head, sz: o.sz || 20, color: o.color }), { after: 40, jc: o.jc }) + '</w:tc>';
+      });
+      x += '</w:tr>';
+    });
+    return x + '</w:tbl>' + para('', { after: 120 });
+  }
+  function toDocx(D) {
+    var body = '';
+    D.forEach(function (b) {
+      if (b.t === 'title') body += para(run(b.x, { b: true, sz: 44 }), { style: 'Title', jc: 'center', after: 200 });
+      else if (b.t === 'sub') body += para(run(b.x, { sz: 26 }), { jc: 'center', after: 400 });
+      else if (b.t === 'h1') body += para(run(b.x), { style: 'Heading1', brk: b.brk, keep: true });
+      else if (b.t === 'h2') body += para(run(b.x), { style: 'Heading2', keep: true });
+      else if (b.t === 'h3') body += para(run(b.x), { style: 'Heading3', keep: true });
+      else if (b.t === 'p') body += para(run(b.x), { after: 120 });
+      else if (b.t === 'ul') b.items.forEach(function (i) { body += para(run('\u2022  ' + i), { num: true, after: 40 }); });
+      else if (b.t === 'code') b.x.split('\n').forEach(function (l) { body += para(run(l.replace(/\t/g, '    '), { font: 'Courier New', sz: 17 }), { shade: 'F2F2F2', after: 0 }); }), body += para('', { after: 120 });
+      else if (b.t === 'table') body += table(b.rows, { head: b.rows[0] && b.rows[0].length > 2 || b.rows[0][0] === 'File' || b.rows[0][0] === 'Method' || b.rows[0][0] === 'Nama kolom', noBorder: b.rows[0][0] === 'Nama' });
+      else if (b.t === 'shot') {
+        body += para(run(b.x, { b: true }), { keep: true, after: 40 });
+        body += para(run((b.url ? 'Alamat: ' + b.url + '. ' : '') + b.note, { i: true, sz: 20, color: '555555' }), { keep: true, after: 60 });
+        body += table([['[Tempel screenshot di sini]']], { height: 3600, jc: 'center', color: '808080', sz: 20 });
+      }
+    });
+    var NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+    var doc = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ' + NS + '><w:body>' + body + '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>';
+    var styles = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ' + NS + '><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" w:eastAsia="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="id-ID"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>' +
+      '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>' +
+      '<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:qFormat/></w:style>' +
+      '<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="360" w:after="120"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:color w:val="1F3864"/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr></w:style>' +
+      '<w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="240" w:after="80"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:color w:val="2F5496"/><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr></w:style>' +
+      '<w:style w:type="paragraph" w:styleId="Heading3"><w:name w:val="heading 3"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="60"/><w:outlineLvl w:val="2"/></w:pPr><w:rPr><w:b/><w:color w:val="404040"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:style></w:styles>';
+    var ct = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>';
+    var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+    var drels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>';
+    return zip([{ name: '[Content_Types].xml', data: enc.encode(ct) }, { name: '_rels/.rels', data: enc.encode(rels) }, { name: 'word/document.xml', data: enc.encode(doc) }, { name: 'word/_rels/document.xml.rels', data: enc.encode(drels) }, { name: 'word/styles.xml', data: enc.encode(styles) }]);
+  }
+  function projectZip(files) {
+    var n = 0, list = files.map(function (f) {
+      var p = f.path;
+      if (/^database\/migrations\/xxxx_/.test(p)) { n++; p = p.replace('xxxx_', '2025_01_01_' + ('000000' + n).slice(-6) + '_'); }
+      return { name: p, data: enc.encode(f.code + '\n') };
+    });
+    return zip(list);
+  }
+  root.Dokumen = { build: build, toText: toText, toDocx: toDocx, projectZip: projectZip };
+  if (typeof module !== 'undefined') module.exports = root.Dokumen;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var D = {
@@ -2718,7 +3313,8 @@ $category->foods()->count();
     return w;
   }
 
-  function render(r) {
+  function unduh(bytes, nama, tipe) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([bytes], { type: tipe })); a.download = nama; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+  function render(r, cfg) {
     var out = $('gOut'); out.innerHTML = '';
     if (r.errors.length) {
       var bx = el('div', undefined, 'box'); bx.style.borderLeftColor = '#a33';
@@ -2739,7 +3335,21 @@ $category->foods()->count();
       var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([t], { type: 'text/plain' })); a.download = 'kode-uts.txt';
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
     });
-    tools.appendChild(bd); out.appendChild(tools);
+    tools.appendChild(bd);
+    var slug = (cfg.site || 'proyek').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'proyek';
+    var bz = el('button', 'Unduh seluruh file proyek (.zip)'); bz.type = 'button'; bz.style.marginLeft = '8px';
+    bz.addEventListener('click', function () { unduh(window.Dokumen.projectZip(r.files), 'proyek-' + slug + '.zip', 'application/zip'); });
+    var bw = el('button', 'Unduh dokumentasi (.docx)'); bw.type = 'button'; bw.style.marginLeft = '8px';
+    var doc = null; var getDoc = function () { return doc || (doc = window.Dokumen.build(r, cfg)); };
+    bw.addEventListener('click', function () { unduh(window.Dokumen.toDocx(getDoc()), 'Dokumentasi-' + slug + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'); });
+    var bt = el('button', 'Salin dokumentasi (teks)'); bt.type = 'button'; bt.style.marginLeft = '8px';
+    bt.addEventListener('click', function () { salin(window.Dokumen.toText(getDoc()), bt); });
+    tools.appendChild(bz); tools.appendChild(bw); tools.appendChild(bt);
+    out.appendChild(tools);
+    var tip = el('div', undefined, 'box');
+    tip.appendChild(el('b', 'Cara tercepat: '));
+    tip.appendChild(document.createTextNode('(1) Unduh ZIP proyek, ekstrak ke folder project Laravel dan pilih "Replace"/"Ganti" jika ditanya. ZIP sudah berisi migration, model, factory, seeder, route, controller, dan semua view pada folder yang benar, sehingga langkah membuat file dan menempel satu per satu tidak perlu. Jangan jalankan make:migration lebih dulu agar tidak ada tabel ganda. (2) Jalankan: php artisan migrate:fresh --seed' + (r.info.crud ? ' dan php artisan storage:link' : '') + '. (3) Buka halaman di browser dan ambil screenshot. (4) Unduh dokumentasi (.docx), tempel screenshot pada kotak yang tersedia.'));
+    out.appendChild(tip);
 
     out.appendChild(el('h3', 'Langkah 6. Perintah terminal'));
     out.appendChild(blok('terminal (di folder project)', r.commands, 'Tempel di terminal lalu Enter. Jika hanya baris pertama yang jalan, tempel satu baris satu kali.'));
@@ -2835,19 +3445,60 @@ $category->foods()->count();
     box.appendChild(w);
   }
 
+
+  /* ---------- proses otomatis ---------- */
+  var segs = [], autoTarget = null;
+  function tampilAuto(res) {
+    var box = autoTarget; box.innerHTML = '';
+    var w = el('div', undefined, 'box');
+    if (res.manual) { w.style.borderLeftColor = '#a33'; w.appendChild(el('b', 'Proses otomatis belum bisa menentukan struktur soal.')); res.notes.forEach(function (n) { w.appendChild(el('div', n)); }); w.appendChild(el('div', 'Isi formulir di bawah secara manual, lalu klik Buat Kode.')); box.appendChild(w); return; }
+    w.style.borderLeftColor = res.level === 'tinggi' ? '#4a7a4a' : (res.level === 'sedang' ? '#b08a2e' : '#a33');
+    w.appendChild(el('b', 'Hasil tebakan otomatis (keyakinan: ' + res.level + '). Periksa sebelum dipakai:'));
+    var ul = el('ul'); res.notes.forEach(function (n) { ul.appendChild(el('li', n)); }); w.appendChild(ul);
+    if (res.warn && res.warn.length) { w.appendChild(el('b', 'Perlu diperhatikan:')); var u2 = el('ul'); res.warn.forEach(function (n) { u2.appendChild(el('li', n)); }); w.appendChild(u2); }
+    w.appendChild(el('div', 'Kode dan dokumentasi sudah dibuat dari tebakan ini (lihat hasil di bawah formulir). Jika ada yang salah, koreksi isian formulir lalu klik Buat Kode lagi.', 'muted'));
+    box.appendChild(w);
+  }
+  function jalankanSegmen(i) {
+    var res = window.AutoSoal.analyze(segs[i].text);
+    tampilAuto(res);
+    if (res.manual) { $('gOut').innerHTML = ''; return; }
+    setAll(Object.assign({}, D, res.form)); save();
+    $('gBuat').click();
+    $('gAuto').scrollIntoView();
+  }
+  function otomatis(text) {
+    segs = window.AutoSoal.split(text);
+    var box = $('gAuto'); box.innerHTML = '';
+    if (segs.length > 1) {
+      var p = el('div', undefined, 'box'); p.appendChild(el('b', 'Berkas ini memuat ' + segs.length + ' bagian soal/varian. Pilih yang akan dikerjakan: '));
+      var sel = document.createElement('select'); sel.id = 'gVarian'; sel.style.cssText = 'width:100%;margin-top:6px;padding:5px';
+      segs.forEach(function (s, i) { var o = document.createElement('option'); o.value = i; o.textContent = (i + 1) + '. ' + s.title; sel.appendChild(o); });
+      sel.addEventListener('change', function () { jalankanSegmen(+sel.value); });
+      p.appendChild(sel); box.appendChild(p);
+    }
+    autoTarget = el('div'); box.appendChild(autoTarget);
+    jalankanSegmen(0);
+  }
+  $('gOto').addEventListener('click', function () {
+    var t = $('gSoal').value;
+    if (!t.trim()) { $('gAuto').innerHTML = ''; $('gAuto').appendChild(el('div', 'Isi dulu teks soal atau pilih berkas soal.', 'box')); return; }
+    otomatis(t);
+  });
+
   /* ---------- pasang ---------- */
   var saved = null; try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
   setAll(saved ? Object.assign({}, D, saved) : D);
   $('gForm').addEventListener('input', function () { toggle(); save(); });
   $('gForm').addEventListener('change', function () { toggle(); save(); });
-  $('gBuat').addEventListener('click', function () { save(); render(window.KodeGen.generate(config())); });
+  $('gBuat').addEventListener('click', function () { save(); var c = config(); render(window.KodeGen.generate(c), c); });
   $('gReset').addEventListener('click', function () { setAll(D); save(); $('gOut').innerHTML = ''; });
   $('gAnalisis').addEventListener('click', function () {
     var t = $('gSoal').value;
     if (!t.trim()) { $('gHasil').innerHTML = ''; $('gHasil').appendChild(el('div', 'Isi dulu teks soal di kotak di atas.', 'box')); return; }
     var h = analisis(t); if (h.site) { $('gSite').value = h.site; save(); } tampilAnalisis(h);
   });
-  $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); });
+  $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); otomatis(SOAL); });
   function status(msg, ok) { var s = $('gStatus'); s.textContent = msg; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
   async function proses(f) {
     status('Membaca "' + (f.name || 'gambar') + '" ...');
@@ -2857,6 +3508,7 @@ $category->foods()->count();
       $('gSoal').value = r.text;
       status('Berhasil. ' + r.info + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
       $('gAnalisis').click();
+      otomatis(r.text);
     } catch (err) { status('Gagal: ' + err.message, false); }
   }
   $('gFile').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; e.target.value = ''; proses(f); });
@@ -3397,8 +4049,10 @@ $category->foods()->count();
     if (!qs.length) { out.appendChild(el('div', 'Tempel daftar pertanyaan atau pilih file terlebih dahulu.', 'box')); return; }
     var total = qs.length; if (qs.length > 60) qs = qs.slice(0, 60);
     out.appendChild(el('p', total + ' pertanyaan terdeteksi' + (total > 60 ? ' (hanya 60 pertama yang dijawab; pecah daftar menjadi bagian lebih kecil)' : '') + '. Periksa setiap jawaban; jika "tidak ditemukan", sistem tidak menebak.', 'muted'));
+    var kumpul = [];
     qs.forEach(function (q, i) {
       var r = window.KBSearch(q);
+      kumpul.push('Pertanyaan ' + (i + 1) + ': ' + q + '\nJawaban: ' + (r.length ? r[0].e.a : '(tidak ditemukan di basis pengetahuan)') + '\n');
       var h = el('h3', 'Pertanyaan ' + (i + 1) + ': ' + q); out.appendChild(h);
       if (!r.length) {
         var b = el('div', undefined, 'box'); b.style.borderLeftColor = '#a33';
@@ -3408,6 +4062,9 @@ $category->foods()->count();
         if (r.length > 1) { var d = document.createElement('details'); d.appendChild(el('summary', 'Topik terkait (' + (r.length - 1) + ')')); r.slice(1).forEach(function (x) { d.appendChild(kartu(x.e, false)); }); out.appendChild(d); }
       }
     });
+    var bs = el('button', 'Salin semua jawaban (teks)'); bs.type = 'button'; bs.style.margin = '10px 0';
+    bs.addEventListener('click', function () { salin(kumpul.join('\n'), bs); });
+    out.insertBefore(bs, out.children[1] || null);
   }
   function status(m, ok) { var s = $('tStatus'); s.textContent = m; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
   $('tJawab').addEventListener('click', jawabBanyak);
