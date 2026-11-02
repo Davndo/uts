@@ -89,6 +89,9 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <li>Coba sekali Pembuat Kode memakai soal contoh (bagian B) sampai Anda terbiasa. Di hari ujian, gunakan browser dan komputer yang sama jika memungkinkan. Jika komputer ujian berbeda, simpan halaman ini juga sebagai file (tekan Ctrl+S, simpan di flashdisk) lalu buka file tersebut.</li>
 </ol>
 
+<div class="fm"><p><button type="button" id="cekOff" class="big">Cek kesiapan offline</button></p><div id="cekOffOut"></div></div>
+<div class="box">Kunjungan pertama mengunduh sekitar 12 MB (termasuk mesin OCR untuk membaca foto dan PDF scan), jadi tunggu sampai selesai di jaringan yang stabil. Setelah itu tekan tombol di atas: semua baris harus bertanda <b>Siap</b>. Jika ada yang &ldquo;Belum&rdquo;, muat ulang halaman (F5) beberapa kali dengan internet menyala, lalu cek lagi.</div>
+
 <h3>Saat ujian: 10 langkah</h3>
 
 <h3>Langkah 1. Baca soal dan temukan tiga hal</h3>
@@ -105,7 +108,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <p><b>Tanda berhasil:</b> di kertas ada daftar tabel, garis hubungan antartabel, dan daftar halaman.</p>
 
 <h3>Langkah 2. Isi Pembuat Kode (di bawah, bagian B)</h3>
-<p>Pilih file soal (PDF atau Word .docx) atau tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
+<p>Pilih file soal (PDF, Word .docx, atau foto/screenshot soal; PDF hasil scan dibaca otomatis dengan OCR) atau tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
 <p><b>Tanda berhasil:</b> muncul tulisan hijau &ldquo;Kode berhasil dibuat&rdquo; dan daftar kotak kode bernomor.</p>
 
 <h3>Langkah 3. Buka project Laravel</h3>
@@ -194,9 +197,9 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <form class="fm" id="gForm" onsubmit="return false">
 <fieldset>
 <legend>Langkah 1. Tempel soal (opsional)</legend>
-<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, atau teks .txt) atau tempel teks soal di kotak. File dibaca langsung di browser ini, <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. Alat menandai relasi antar tabel, daftar nilai, nama halaman, fitur, dan poin kebutuhan.</p>
+<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, teks .txt, atau <b>foto/screenshot soal</b>) atau tempel teks soal di kotak. <b>PDF hasil scan dan gambar dibaca dengan OCR</b> langsung di browser ini; gambar juga bisa ditempel dengan Ctrl+V di kotak teks. Semuanya <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. OCR butuh waktu (sekitar 5 sampai 30 detik per halaman) dan hasilnya perlu diperiksa karena bisa ada salah baca. Alat menandai relasi antar tabel, daftar nilai, nama halaman, fitur, dan poin kebutuhan.</p>
 <textarea id="gSoal" rows="6" placeholder="Tempel teks soal di sini..."></textarea>
-<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="gHal" style="width:110px;display:inline-block" placeholder="semua"><br> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
 <p id="gStatus" class="hint" style="margin-top:6px"></p>
 <div id="gHasil" style="margin-top:8px"></div>
 </fieldset>
@@ -285,9 +288,9 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <div id="tOut"></div>
 <h3>Jawab banyak pertanyaan sekaligus</h3>
 <div class="fm">
-<p class="hint">Tempel daftar pertanyaan teori (misalnya soal nomor 1, 2, 3 ...) atau pilih file soal (PDF, Word .docx, atau .txt). Setiap pertanyaan dicarikan jawabannya satu per satu, tanpa internet.</p>
+<p class="hint">Tempel daftar pertanyaan teori (misalnya soal nomor 1, 2, 3 ...) atau pilih file soal (PDF, Word .docx, .txt, atau <b>foto/screenshot soal</b>). Untuk PDF hasil scan dan gambar, sistem memakai OCR (membaca teks dari gambar) langsung di browser. Gambar juga bisa ditempel dengan Ctrl+V. Semuanya tanpa internet.</p>
 <textarea id="tBanyak" rows="5" placeholder="1. Jelaskan apa itu migration...&#10;2. Sebutkan perbedaan @include dan @extends..."></textarea>
-<p style="margin:8px 0"><input type="file" id="tFile" accept=".pdf,.docx,.txt,.md"> <button type="button" id="tJawab" class="big">Jawab semua</button></p>
+<p style="margin:8px 0"><input type="file" id="tFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*"> <button type="button" id="tJawab" class="big">Jawab semua</button><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="tHal" style="width:110px;display:inline-block" placeholder="semua"></p>
 <p id="tStatus" class="hint"></p>
 </div>
 <div id="tBanyakOut"></div>
@@ -2219,7 +2222,7 @@ $category->foods()->count();
     if (d.substr(i, 2) === '<<') return { dict: balanced(d, i) };
     if (d[i] === '[') { var k = d.indexOf(']', i); return { arr: d.substring(i, k + 1) }; }
     var r = /^(\d+)\s+\d+\s+R/.exec(d.substr(i, 30)); if (r) return { ref: +r[1] };
-    var t = /^[^\s\/>\[]+/.exec(d.substr(i, 40)); return { tok: t ? t[0] : '' };
+    var t = /^\/?[^\s\/>\[]+/.exec(d.substr(i, 40)); return { tok: t ? t[0] : '' };
   }
   function refs(s) { var r = [], re = /(\d+)\s+\d+\s+R/g, m; while ((m = re.exec(s))) r.push(+m[1]); return r; }
 
@@ -2230,16 +2233,17 @@ $category->foods()->count();
     starts.forEach(function (st, idx) {
       var end = s.indexOf('endobj', st.at); if (end < 0) end = s.length;
       var body = s.substring(st.at, end), si = body.indexOf('stream');
-      var dict = si >= 0 ? body.substring(0, si) : body, data = null;
+      var dict = si >= 0 ? body.substring(0, si) : body, data = null, rawImg = null;
       if (si >= 0) {
         var ds = st.at + si + 6; if (s[ds] === '\r') ds++; if (s[ds] === '\n') ds++;
         var de = s.indexOf('endstream', ds); if (de < 0) de = end;
         var raw = b.subarray(ds, de);
+        if (/\/Subtype\s*\/Image/.test(dict)) rawImg = raw;
         if (/\/FlateDecode|\/Fl\b/.test(dict)) data = inflate(raw, 2);
         else if (/\/Filter/.test(dict)) { unsupported++; data = null; }
         else data = raw;
       }
-      objs[st.num] = { dict: dict, data: data };
+      objs[st.num] = { dict: dict, data: data, raw: rawImg };
       if (data && /\/Type\s*\/ObjStm/.test(dict)) {
         var N = +(/\/N\s+(\d+)/.exec(dict) || [0, 0])[1], F = +(/\/First\s+(\d+)/.exec(dict) || [0, 0])[1];
         var t = toLatin1(data), nums = t.substring(0, F).trim().split(/\s+/).map(Number), k;
@@ -2417,6 +2421,111 @@ $category->foods()->count();
     return { text: text, info: 'PDF: ' + pages.length + ' halaman, teks ditemukan di ' + got + ' halaman, ' + text.length + ' karakter.', pages: pages.length, unsupported: objs.__unsupported };
   }
 
+
+  /* ---------- gambar di dalam PDF (untuk OCR PDF hasil scan) ---------- */
+  function filtersOf(d) {
+    var m = /\/Filter\s*(\[[^\]]*\]|\/[A-Za-z0-9]+)/.exec(d); if (!m) return [];
+    return (m[1].match(/\/[A-Za-z0-9]+/g) || []).map(function (x) { return x.substring(1); });
+  }
+  function numKey(d, key) { var m = new RegExp('/' + key + '\\s+(-?\\d+)').exec(d); return m ? +m[1] : null; }
+  function unpredict(data, colors, bpc, columns) {
+    var bpp = Math.max(1, Math.ceil(colors * bpc / 8)), row = Math.ceil(columns * colors * bpc / 8), rows = Math.floor(data.length / (row + 1));
+    var out = new Uint8Array(rows * row), r, i;
+    for (r = 0; r < rows; r++) {
+      var ft = data[r * (row + 1)], src = r * (row + 1) + 1, dst = r * row, up = (r - 1) * row;
+      for (i = 0; i < row; i++) {
+        var x = data[src + i], a = i >= bpp ? out[dst + i - bpp] : 0, bb = r > 0 ? out[up + i] : 0, c = (r > 0 && i >= bpp) ? out[up + i - bpp] : 0, v;
+        if (ft === 0) v = x; else if (ft === 1) v = x + a; else if (ft === 2) v = x + bb; else if (ft === 3) v = x + ((a + bb) >> 1);
+        else { var pp = a + bb - c, pa = Math.abs(pp - a), pb = Math.abs(pp - bb), pc = Math.abs(pp - c); v = x + (pa <= pb && pa <= pc ? a : (pb <= pc ? bb : c)); }
+        out[dst + i] = v & 255;
+      }
+    }
+    return out;
+  }
+  function colorSpace(objs, d) {
+    var cs = getKey(d, 'ColorSpace'); if (!cs) return { n: 1 };
+    var t = cs.dict || cs.arr || cs.tok || '';
+    if (cs.ref && objs[cs.ref]) t = objs[cs.ref].dict.replace(/^[\s\S]*?(?=\[|\/)/, '');
+    if (/Indexed|\/I\b/.test(t)) {
+      var hex = /<([0-9a-fA-F\s]+)>/.exec(t), pal = null, base = /DeviceGray|CalGray/.test(t) ? 1 : (/DeviceCMYK/.test(t) ? 4 : 3);
+      if (hex) { var h = hex[1].replace(/\s+/g, ''); pal = new Uint8Array(h.length / 2); for (var i = 0; i < pal.length; i++) pal[i] = parseInt(h.substr(i * 2, 2), 16); }
+      else { var rf = refs(t); for (var k = 0; k < rf.length; k++) if (objs[rf[k]] && objs[rf[k]].data) { pal = objs[rf[k]].data; break; } }
+      return { n: 1, indexed: true, pal: pal, base: base };
+    }
+    if (/DeviceRGB|CalRGB/.test(t)) return { n: 3 };
+    if (/DeviceCMYK/.test(t)) return { n: 4 };
+    if (/ICCBased/.test(t)) { var r = refs(t)[0], n = r && objs[r] ? numKey(objs[r].dict, 'N') : 3; return { n: n || 3 }; }
+    return { n: 1 };
+  }
+  function imageFromObj(objs, o) {
+    var d = o.dict, w = numKey(d, 'Width'), h = numKey(d, 'Height'), fl = filtersOf(d);
+    if (!w || !h || !o.raw) return null;
+    if (fl.indexOf('DCTDecode') >= 0 || fl.indexOf('DCT') >= 0) return { kind: 'jpeg', bytes: fl[0] === 'FlateDecode' ? inflate(o.raw, 2) : o.raw, w: w, h: h };
+    var bad = fl.filter(function (f) { return f !== 'FlateDecode' && f !== 'Fl'; });
+    if (bad.length) return { unsupported: bad[0], w: w, h: h };
+    var data = fl.length ? inflate(o.raw, 2) : o.raw, cs = colorSpace(objs, d), isMask = /\/ImageMask\s+true/.test(d);
+    var bpc = numKey(d, 'BitsPerComponent') || (isMask ? 1 : 8);
+    var dp = getKey(d, 'DecodeParms'), dps = dp && dp.dict ? dp.dict : '', pred = numKey(dps, 'Predictor');
+    var comps = cs.n; if (isMask) { comps = 1; bpc = 1; }
+    if (pred && pred >= 10) data = unpredict(data, numKey(dps, 'Colors') || comps, numKey(dps, 'BitsPerComponent') || bpc, numKey(dps, 'Columns') || w);
+    var inv = /\/Decode\s*\[\s*1\s+0\s*\]/.test(d), row = Math.ceil(w * comps * bpc / 8), px = new Uint8ClampedArray(w * h * 4), y, x, p, q, r, g, b;
+    for (y = 0; y < h; y++) for (x = 0; x < w; x++) {
+      p = y * row; q = (y * w + x) * 4;
+      if (cs.indexed) {
+        var idx = bpc === 8 ? data[p + x] : (data[p + ((x * bpc) >> 3)] >> (8 - bpc - ((x * bpc) & 7))) & ((1 << bpc) - 1), pa = cs.pal || [], bs = cs.base;
+        r = pa[idx * bs] || 0; g = pa[idx * bs + (bs > 1 ? 1 : 0)] || 0; b = pa[idx * bs + (bs > 1 ? 2 : 0)] || 0;
+      } else if (comps === 1) {
+        var v;
+        if (bpc === 8) v = data[p + x]; else v = ((data[p + ((x * bpc) >> 3)] >> (8 - bpc - ((x * bpc) & 7))) & ((1 << bpc) - 1)) * 255 / ((1 << bpc) - 1);
+        if (inv) v = 255 - v; r = g = b = v;
+      } else if (comps === 3) { var o3 = p + x * 3; r = data[o3]; g = data[o3 + 1]; b = data[o3 + 2]; if (inv) { r = 255 - r; g = 255 - g; b = 255 - b; } }
+      else { var o4 = p + x * 4, cc = data[o4], mm = data[o4 + 1], yy = data[o4 + 2], kk = data[o4 + 3]; r = (255 - cc) * (255 - kk) / 255; g = (255 - mm) * (255 - kk) / 255; b = (255 - yy) * (255 - kk) / 255; }
+      px[q] = r; px[q + 1] = g; px[q + 2] = b; px[q + 3] = 255;
+    }
+    return { kind: 'rgba', data: px, w: w, h: h };
+  }
+  function xobjectsOf(objs, num) {
+    var map = {}, guard = 0, cur = num;
+    while (cur && objs[cur] && guard++ < 20) {
+      var res = getKey(objs[cur].dict, 'Resources'), rd = null;
+      if (res && res.dict) rd = res.dict; else if (res && res.ref && objs[res.ref]) rd = objs[res.ref].dict;
+      if (rd) {
+        var f = getKey(rd, 'XObject'), fd = null;
+        if (f && f.dict) fd = f.dict; else if (f && f.ref && objs[f.ref]) fd = objs[f.ref].dict;
+        if (fd) { var re = /\/([^\s\/\[\]<>()]+)\s+(\d+)\s+\d+\s+R/g, m; while ((m = re.exec(fd))) map[m[1]] = +m[2]; return map; }
+      }
+      var par = getKey(objs[cur].dict, 'Parent'); cur = par && par.ref;
+    }
+    return map;
+  }
+  function extractPdfImages(b) {
+    var objs = parseObjects(b), pages = pageOrder(objs), out = [], skipped = [];
+    function collect(map, names, pageNo, depth) {
+      names.forEach(function (nm) {
+        var num = map[nm], o = num && objs[num]; if (!o) return;
+        if (/\/Subtype\s*\/Image/.test(o.dict)) {
+          var im = imageFromObj(objs, o);
+          if (!im) return;
+          if (im.unsupported) { skipped.push(im.unsupported); return; }
+          if (im.w * im.h < 40000) return;
+          im.page = pageNo; out.push(im);
+        } else if (/\/Subtype\s*\/Form/.test(o.dict) && depth < 2) {
+          var m2 = xobjectsOf(objs, num); collect(m2, Object.keys(m2), pageNo, depth + 1);
+        }
+      });
+    }
+    pages.forEach(function (pn, i) {
+      var o = objs[pn], c = getKey(o.dict, 'Contents'), list = [];
+      if (c && c.ref) { var d0 = objs[c.ref]; if (d0 && d0.data) list = [c.ref]; else if (d0) list = refs(d0.dict); }
+      if (c && c.arr) list = refs(c.arr);
+      var cont = list.map(function (r) { return objs[r] && objs[r].data ? toLatin1(objs[r].data) : ''; }).join('\n');
+      var map = xobjectsOf(objs, pn), names = [], re = /\/([^\s\/\[\]<>()]+)\s+Do\b/g, m;
+      while ((m = re.exec(cont))) if (names.indexOf(m[1]) < 0) names.push(m[1]);
+      collect(map, names, i + 1, 0);
+    });
+    return { images: out, skipped: skipped, pages: pages.length };
+  }
+
   function extract(bytes, name) {
     var n = (name || '').toLowerCase();
     var isPdf = bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46;
@@ -2426,10 +2535,121 @@ $category->foods()->count();
     if (bytes[0] === 0xd0 && bytes[1] === 0xcf) throw new Error('Ini file Word lama (.doc). Buka di Word lalu "Simpan sebagai" .docx, atau salin teksnya lalu tempel.');
     return { text: toUtf8(bytes), info: 'Teks biasa: ' + bytes.length + ' byte.' };
   }
-  root.SoalReader = { extract: extract, extractPdf: extractPdf, extractDocx: extractDocx, inflate: inflate };
+  root.SoalReader = { extractPdfImages: extractPdfImages, extract: extract, extractPdf: extractPdf, extractDocx: extractDocx, inflate: inflate };
   if (typeof module !== 'undefined') module.exports = root.SoalReader;
 })(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+/* Pembaca berkas serba guna + OCR offline (Tesseract.js dari folder ocr/). */
+(function (root) {
+  var BASE = new URL('./', document.baseURI).href;
+  var workerP = null, busy = false, hook = null;
 
+  function loadScript(src) {
+    return new Promise(function (ok, bad) {
+      var s = document.createElement('script'); s.src = src; s.onload = ok;
+      s.onerror = function () { bad(new Error('Berkas OCR tidak ditemukan. Buka halaman ini sekali dengan internet (agar semua berkas OCR tersimpan), lalu coba lagi. Perlu dibuka lewat alamat web (https), bukan file lokal.')); };
+      document.head.appendChild(s);
+    });
+  }
+  function getWorker() {
+    if (workerP) return workerP;
+    workerP = (async function () {
+      if (!root.Tesseract) await loadScript(BASE + 'ocr/tesseract.min.js');
+      return root.Tesseract.createWorker(['ind', 'eng'], 1, {
+        workerPath: BASE + 'ocr/worker.min.js', corePath: BASE + 'ocr', langPath: BASE + 'ocr/lang',
+        cacheMethod: 'none', workerBlobURL: false,
+        logger: function (m) { if (hook) hook(m); }
+      });
+    })();
+    workerP.catch(function () { workerP = null; });
+    return workerP;
+  }
+  async function toCanvas(item) {
+    var c = document.createElement('canvas'), w, h, src;
+    if (item.kind === 'rgba') {
+      var raw = document.createElement('canvas'); raw.width = item.w; raw.height = item.h;
+      raw.getContext('2d').putImageData(new ImageData(item.data, item.w, item.h), 0, 0); src = raw; w = item.w; h = item.h;
+    } else {
+      var blob = item.blob || new Blob([item.bytes], { type: 'image/jpeg' });
+      src = await createImageBitmap(blob); w = src.width; h = src.height;
+    }
+    var s = 1; if (w < 1500) s = Math.min(3, 2000 / w); else if (w > 3200) s = 3200 / w;
+    c.width = Math.max(1, Math.round(w * s)); c.height = Math.max(1, Math.round(h * s));
+    var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.imageSmoothingQuality = 'high'; g.drawImage(src, 0, 0, c.width, c.height);
+    if (src.close) src.close();
+    return c;
+  }
+  async function ocr(items, status) {
+    if (busy) throw new Error('OCR sedang berjalan. Tunggu sampai selesai.');
+    busy = true;
+    try {
+      status('Memuat mesin OCR (pertama kali bisa beberapa detik) ...');
+      var w = await getWorker(), out = [];
+      for (var i = 0; i < items.length; i++) {
+        var label = items.length > 1 ? 'halaman ' + (items[i].page || i + 1) + ' (' + (i + 1) + ' dari ' + items.length + ')' : 'gambar';
+        hook = function (m) { if (m.status === 'recognizing text') status('OCR ' + label + ': ' + Math.round((m.progress || 0) * 100) + '%'); };
+        status('OCR ' + label + ': mulai ...');
+        var cv = await toCanvas(items[i]);
+        var r = await w.recognize(cv);
+        out.push((r.data.text || '').trim());
+      }
+      hook = null;
+      return out.filter(Boolean).join('\n\n');
+    } finally { busy = false; }
+  }
+  function inRange(spec, n) {
+    if (!spec || !spec.trim()) return true;
+    return spec.split(',').some(function (p) {
+      var m = /^\s*(\d+)\s*(?:-\s*(\d+))?\s*$/.exec(p); if (!m) return false;
+      var a = +m[1], b = m[2] ? +m[2] : a; return n >= a && n <= b;
+    });
+  }
+  function isImageBytes(b) {
+    return (b[0] === 0xff && b[1] === 0xd8) || (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) || (b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46) ||
+      (b[0] === 0x42 && b[1] === 0x4d) || (b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[8] === 0x57 && b[9] === 0x45);
+  }
+  var NOTE = ' Hasil OCR bisa ada salah baca (huruf mirip, tanda baca); periksa dan perbaiki di kotak teks.';
+
+  async function bacaBerkas(file, status, hal) {
+    var name = file.name || 'gambar', buf = new Uint8Array(await file.arrayBuffer());
+    var isImg = /^image\//.test(file.type || '') || /\.(jpe?g|png|webp|bmp|gif)$/i.test(name) || isImageBytes(buf);
+    if (isImg) {
+      var t0 = await ocr([{ blob: file }], status);
+      return { text: t0, info: 'OCR gambar: ' + t0.length + ' karakter.' + NOTE, pages: 1 };
+    }
+    var r = root.SoalReader.extract(buf, name);
+    if (r.text && r.text.trim()) return r;
+    if (!/pdf/i.test(name) && !(buf[0] === 0x25 && buf[1] === 0x50)) return r;
+    status('PDF ini tidak berisi teks (hasil scan). Mengambil gambar halaman ...');
+    var im = root.SoalReader.extractPdfImages(buf), list = im.images.filter(function (x) { return inRange(hal, x.page); });
+    if (!list.length) {
+      if (im.skipped.length) throw new Error('Gambar di dalam PDF memakai format ' + im.skipped[0] + ' yang belum didukung. Cara lain: tampilkan PDF, ambil screenshot halaman (Windows + Shift + S), lalu tempel (Ctrl+V) di kotak teks atau unggah screenshot sebagai gambar.');
+      throw new Error(hal && hal.trim() ? 'Tidak ada halaman gambar pada rentang "' + hal + '".' : 'PDF tidak berisi teks maupun gambar halaman yang bisa dibaca. Coba screenshot halaman lalu tempel (Ctrl+V) atau unggah sebagai gambar.');
+    }
+    var cut = '';
+    if (!(hal && hal.trim()) && list.length > 12) { cut = ' Hanya 12 halaman pertama dibaca; isi kolom "Halaman" untuk memilih halaman lain.'; list = list.slice(0, 12); }
+    var t = await ocr(list, status);
+    return { text: t, info: 'OCR PDF scan: ' + list.length + ' halaman, ' + t.length + ' karakter.' + cut + NOTE, pages: list.length };
+  }
+
+  async function cekOffline() {
+    var daftar = [['index.html (halaman ini)', 'index.html'], ['Mesin OCR (tesseract.min.js)', 'ocr/tesseract.min.js'], ['Pekerja OCR (worker.min.js)', 'ocr/worker.min.js'],
+      ['Inti OCR (SIMD)', 'ocr/tesseract-core-simd-lstm.wasm.js'], ['Inti OCR (cadangan)', 'ocr/tesseract-core-lstm.wasm.js'],
+      ['Data bahasa Indonesia', 'ocr/lang/ind.traineddata.gz'], ['Data bahasa Inggris', 'ocr/lang/eng.traineddata.gz']];
+    var res = [], ctrl = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+    for (var i = 0; i < daftar.length; i++) {
+      var ok = false;
+      try { ok = !!(await caches.match(new URL(daftar[i][1], BASE).href, { ignoreSearch: true })); } catch (e) {}
+      res.push({ nama: daftar[i][0], ok: ok });
+    }
+    return { sw: ctrl, items: res };
+  }
+  root.cekOffline = cekOffline;
+  root.bacaBerkas = bacaBerkas;
+  root.OcrReader = { ocr: ocr, inRange: inRange };
+  if (typeof module !== 'undefined') module.exports = { inRange: inRange };
+})(typeof window !== 'undefined' ? window : globalThis);
 </script>
 <script>
 (function () {
@@ -2629,26 +2849,31 @@ $category->foods()->count();
   });
   $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); });
   function status(msg, ok) { var s = $('gStatus'); s.textContent = msg; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
-  $('gFile').addEventListener('change', function (e) {
-    var f = e.target.files[0]; if (!f) return;
-    if (f.size > 60 * 1024 * 1024) { status('File terlalu besar (maksimal 60 MB).', false); return; }
-    status('Membaca "' + f.name + '" ...');
-    var done = function (buf) {
-      try {
-        var r = window.SoalReader.extract(new Uint8Array(buf), f.name);
-        if (!r.text || !r.text.trim()) {
-          status('Tidak ada teks yang bisa dibaca. Kemungkinan PDF berupa gambar/hasil scan (membutuhkan OCR, tidak tersedia offline). Ketik atau salin teks soal secara manual.', false); return;
-        }
-        $('gSoal').value = r.text; status('Berhasil. ' + r.info + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
-        $('gAnalisis').click();
-      } catch (err) { status('Gagal membaca file: ' + err.message, false); }
-    };
-    if (f.arrayBuffer) f.arrayBuffer().then(done, function () { status('File tidak dapat dibaca.', false); });
-    else { var rd = new FileReader(); rd.onload = function () { done(rd.result); }; rd.onerror = function () { status('File tidak dapat dibaca.', false); }; rd.readAsArrayBuffer(f); }
-    e.target.value = '';
+  async function proses(f) {
+    status('Membaca "' + (f.name || 'gambar') + '" ...');
+    try {
+      var r = await window.bacaBerkas(f, status, ($('gHal') || {}).value);
+      if (!r.text || !r.text.trim()) { status('Tidak ada teks yang dapat dibaca dari berkas ini.', false); return; }
+      $('gSoal').value = r.text;
+      status('Berhasil. ' + r.info + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
+      $('gAnalisis').click();
+    } catch (err) { status('Gagal: ' + err.message, false); }
+  }
+  $('gFile').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; e.target.value = ''; proses(f); });
+  $('gSoal').addEventListener('paste', function (e) {
+    var it = (e.clipboardData || {}).items || [];
+    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) { e.preventDefault(); proses(f); return; } }
+  });
+  $('cekOff').addEventListener('click', async function () {
+    var box = $('cekOffOut'); box.innerHTML = ''; box.appendChild(el('p', 'Memeriksa ...'));
+    var r = await window.cekOffline(); box.innerHTML = '';
+    var ul = el('ul');
+    ul.appendChild(el('li', 'Service worker (penyimpanan offline): ' + (r.sw ? 'Siap' : 'Belum aktif. Muat ulang halaman (F5) satu kali lalu cek lagi.')));
+    r.items.forEach(function (x) { ul.appendChild(el('li', x.nama + ': ' + (x.ok ? 'Siap' : 'Belum tersimpan'))); });
+    var semua = r.sw && r.items.every(function (x) { return x.ok; });
+    box.appendChild(ul); box.appendChild(el('p', semua ? 'Semua siap. Halaman ini dapat dipakai tanpa internet, termasuk OCR.' : 'Belum semua siap. Ikuti petunjuk di atas.', 'muted'));
   });
 })();
-
 </script>
 <script>
 /* Basis pengetahuan teori (tetap, offline). Tidak ada tebakan: yang tidak ada di sini dijawab "tidak ditemukan". */
@@ -3170,7 +3395,8 @@ $category->foods()->count();
     var out = $('tBanyakOut'); out.innerHTML = '';
     var qs = pecah($('tBanyak').value);
     if (!qs.length) { out.appendChild(el('div', 'Tempel daftar pertanyaan atau pilih file terlebih dahulu.', 'box')); return; }
-    out.appendChild(el('p', qs.length + ' pertanyaan terdeteksi. Periksa setiap jawaban; jika "tidak ditemukan", sistem tidak menebak.', 'muted'));
+    var total = qs.length; if (qs.length > 60) qs = qs.slice(0, 60);
+    out.appendChild(el('p', total + ' pertanyaan terdeteksi' + (total > 60 ? ' (hanya 60 pertama yang dijawab; pecah daftar menjadi bagian lebih kecil)' : '') + '. Periksa setiap jawaban; jika "tidak ditemukan", sistem tidak menebak.', 'muted'));
     qs.forEach(function (q, i) {
       var r = window.KBSearch(q);
       var h = el('h3', 'Pertanyaan ' + (i + 1) + ': ' + q); out.appendChild(h);
@@ -3185,17 +3411,18 @@ $category->foods()->count();
   }
   function status(m, ok) { var s = $('tStatus'); s.textContent = m; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
   $('tJawab').addEventListener('click', jawabBanyak);
-  $('tFile').addEventListener('change', function (e) {
-    var f = e.target.files[0]; if (!f) return;
-    status('Membaca "' + f.name + '" ...');
-    f.arrayBuffer().then(function (buf) {
-      try {
-        var r = window.SoalReader.extract(new Uint8Array(buf), f.name);
-        if (!r.text.trim()) { status('Tidak ada teks yang bisa dibaca (kemungkinan PDF hasil scan). Ketik atau salin teksnya.', false); return; }
-        $('tBanyak').value = r.text; status('Berhasil. ' + r.info, true); jawabBanyak();
-      } catch (err) { status('Gagal membaca file: ' + err.message, false); }
-    }, function () { status('File tidak dapat dibaca.', false); });
-    e.target.value = '';
+  async function prosesT(f) {
+    status('Membaca "' + (f.name || 'gambar') + '" ...');
+    try {
+      var r = await window.bacaBerkas(f, status, ($('tHal') || {}).value);
+      if (!r.text || !r.text.trim()) { status('Tidak ada teks yang dapat dibaca dari berkas ini.', false); return; }
+      $('tBanyak').value = r.text; status('Berhasil. ' + r.info, true); jawabBanyak();
+    } catch (err) { status('Gagal: ' + err.message, false); }
+  }
+  $('tFile').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; e.target.value = ''; prosesT(f); });
+  $('tBanyak').addEventListener('paste', function (e) {
+    var it = (e.clipboardData || {}).items || [];
+    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) { e.preventDefault(); prosesT(f); return; } }
   });
   var grup = {};
   window.KB.forEach(function (e) { (grup[e.t] = grup[e.t] || []).push(e); });
@@ -3206,7 +3433,6 @@ $category->foods()->count();
     d.appendChild(s); grup[t].forEach(function (e) { d.appendChild(kartu(e, false)); }); box.appendChild(d);
   });
 })();
-
 </script>
 </body>
 </html>
