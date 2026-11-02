@@ -81,6 +81,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <h2 id="mulai">A. Mulai dari sini: panduan dari nol</h2>
 <p>Bagian ini ditulis untuk orang yang belum pernah memakai Laravel. Ikuti urutannya dari atas ke bawah, jangan melompat. Setiap langkah ada tulisan <b>Tanda berhasil</b> supaya Anda tahu langkah itu sudah benar sebelum lanjut.</p>
 
+<div class="box" id="portabelBox"><b>Versi portabel (disarankan untuk ujian tanpa internet sama sekali):</b> satu file HTML (sekitar 10 MB) yang sudah berisi semuanya, termasuk OCR. <a href="catatan-offline.html" download="catatan-offline.html">Unduh catatan-offline.html</a>, simpan di laptop atau flashdisk, lalu buka dengan Chrome atau Edge (klik dua kali). Tidak perlu internet, server, atau instalasi apa pun. Langkah persiapan di bawah hanya untuk memakai halaman ini lewat alamat web.</div>
 <h3>Sebelum hari ujian (cukup sekali, butuh internet)</h3>
 <ol>
 <li>Buka halaman ini di browser (Chrome atau Edge) lewat alamat <code class="i">https://davndo.github.io/uts/</code>. Tunggu sampai halaman tampil penuh.</li>
@@ -2683,8 +2684,27 @@ $category->foods()->count();
       document.head.appendChild(s);
     });
   }
+  function b64(s) { var bin = atob(s), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+  var SIMD_TEST = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 5, 1, 96, 0, 1, 123, 3, 2, 1, 0, 10, 10, 1, 8, 0, 65, 0, 253, 15, 253, 98, 11]);
+  // Mode tertanam (berkas portabel): semua aset ada di dalam halaman ini, tanpa server dan tanpa internet.
+  async function workerTertanam() {
+    var E = root.__EMB, inf = function (k) { return root.SoalReader.inflate(b64(E[k]), 0); };
+    var td = new TextDecoder('utf-8');
+    var tessSrc = td.decode(inf('t'));
+    var core = td.decode(inf(WebAssembly.validate(SIMD_TEST) ? 'c1' : 'c0'));
+    var wsrc = td.decode(inf('w'));
+    if (!root.Tesseract) { var s0 = document.createElement('script'); s0.text = tessSrc; document.head.appendChild(s0); }
+    // inti OCR dan data bahasa digabung ke skrip pekerja (tanpa importScripts/fetch ke berkas lain)
+    var pre = 'self.__LANG={ind:"' + E.ind + '",eng:"' + E.eng + '"};(function(){var f=self.fetch;self.fetch=function(u,o){var m=/\\/(\\w+)\\.traineddata(\\.gz)?$/.exec(String(u));if(m&&self.__LANG[m[1]]){var b=atob(self.__LANG[m[1]]),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return Promise.resolve(new Response(a));}return f.apply(self,arguments)}})();\n';
+    var wurl = URL.createObjectURL(new Blob([pre, core, '\n', wsrc], { type: 'text/javascript' }));
+    return root.Tesseract.createWorker(['ind', 'eng'], 1, {
+      workerPath: wurl, workerBlobURL: false, corePath: 'tertanam.js', langPath: 'tertanam', cacheMethod: 'none',
+      logger: function (m) { if (hook) hook(m); }
+    });
+  }
   function getWorker() {
     if (workerP) return workerP;
+    if (root.__EMB) { workerP = workerTertanam(); workerP.catch(function () { workerP = null; }); return workerP; }
     workerP = (async function () {
       if (!root.Tesseract) await loadScript(BASE + 'ocr/tesseract.min.js');
       return root.Tesseract.createWorker(['ind', 'eng'], 1, {
@@ -2768,6 +2788,7 @@ $category->foods()->count();
     var daftar = [['index.html (halaman ini)', 'index.html'], ['Mesin OCR (tesseract.min.js)', 'ocr/tesseract.min.js'], ['Pekerja OCR (worker.min.js)', 'ocr/worker.min.js'],
       ['Inti OCR (SIMD)', 'ocr/tesseract-core-simd-lstm.wasm.js'], ['Inti OCR (cadangan)', 'ocr/tesseract-core-lstm.wasm.js'],
       ['Data bahasa Indonesia', 'ocr/lang/ind.traineddata.gz'], ['Data bahasa Inggris', 'ocr/lang/eng.traineddata.gz']];
+    if (root.__EMB) return { sw: true, tertanam: true, items: daftar.map(function (d) { return { nama: d[0], ok: true }; }) };
     var res = [], ctrl = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
     for (var i = 0; i < daftar.length; i++) {
       var ok = false;
