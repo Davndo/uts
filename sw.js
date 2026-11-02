@@ -1,5 +1,5 @@
 // Service worker: semua aset di-cache saat instal, lalu dilayani offline (cache-first).
-const CACHE = 'catatan-web-v5';
+const CACHE = 'catatan-web-v6';
 const ASET = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', (e) => {
