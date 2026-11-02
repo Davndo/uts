@@ -1,5 +1,5 @@
 // Service worker: semua aset di-cache saat instal, lalu dilayani offline (cache-first).
-const CACHE = 'catatan-web-v9';
+const CACHE = 'catatan-web-v10';
 const ASET = ['./', './index.html', './manifest.json', './icon.svg'];
 // Berkas OCR (mesin Tesseract + data bahasa). Dicache satu per satu agar kegagalan satu berkas tidak membatalkan instalasi.
 const OCR = [
@@ -8,7 +8,9 @@ const OCR = [
   './ocr/tesseract-core-simd-lstm.wasm.js',
   './ocr/tesseract-core-lstm.wasm.js',
   './ocr/lang/ind.traineddata.gz',
-  './ocr/lang/eng.traineddata.gz'
+  './ocr/lang/eng.traineddata.gz',
+  './ocr/pdf.min.js',
+  './ocr/pdf.worker.min.js'
 ];
 
 self.addEventListener('install', (e) => {

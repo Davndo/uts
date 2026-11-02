@@ -201,9 +201,9 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <form class="fm" id="gForm" onsubmit="return false">
 <fieldset>
 <legend>Langkah 1. Tempel soal (opsional)</legend>
-<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, teks .txt, atau <b>foto/screenshot soal</b>) atau tempel teks soal di kotak. <b>PDF hasil scan dan gambar dibaca dengan OCR</b> langsung di browser ini; gambar juga bisa ditempel dengan Ctrl+V di kotak teks. Semuanya <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. OCR butuh waktu (sekitar 5 sampai 30 detik per halaman) dan hasilnya perlu diperiksa karena bisa ada salah baca. Setelah berkas terbaca, sistem <b>otomatis</b> menebak struktur soal (induk, item, grup, kolom, fitur), membuat seluruh kode, dan menyusun dokumentasi Word (.docx). Setiap tebakan ditampilkan beserta alasannya agar bisa diperiksa dan dikoreksi.</p>
+<p class="hint">Pilih file soal (<b>PDF</b>, <b>Word .docx</b>, teks .txt, atau <b>foto/screenshot soal</b>) atau tempel teks soal di kotak. <b>PDF hasil scan dan gambar dibaca dengan OCR</b> langsung di browser ini; <b>beberapa halaman:</b> pilih banyak berkas/gambar sekaligus (Ctrl atau Shift saat memilih), seret-lepas ke kotak teks, atau tempel screenshot satu per satu dengan Ctrl+V (setiap tempel <b>menambah</b> teks baru di bawah teks sebelumnya; satu tempel = satu gambar, jadi ulangi untuk tiap halaman). Semuanya <b>tanpa internet dan tanpa diunggah ke mana pun</b>, dan berlaku untuk soal apa pun. OCR butuh waktu (sekitar 5 sampai 30 detik per halaman) dan hasilnya perlu diperiksa karena bisa ada salah baca. Setelah berkas terbaca, sistem <b>otomatis</b> menebak struktur soal (induk, item, grup, kolom, fitur), membuat seluruh kode, dan menyusun dokumentasi Word (.docx). Setiap tebakan ditampilkan beserta alasannya agar bisa diperiksa dan dikoreksi.</p>
 <textarea id="gSoal" rows="6" placeholder="Tempel teks soal di sini..."></textarea>
-<div style="margin-top:6px"><input type="file" id="gFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="gHal" style="width:110px;display:inline-block" placeholder="semua"><br> <button type="button" id="gOto" class="big">Proses otomatis</button> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<div style="margin-top:6px"><input type="file" id="gFile" multiple accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="gHal" style="width:110px;display:inline-block" placeholder="semua"><br> <button type="button" id="gOto" class="big">Proses otomatis</button> <button type="button" id="gKosong">Kosongkan teks soal</button> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
 <p id="gStatus" class="hint" style="margin-top:6px"></p>
 <div id="gAuto" style="margin-top:8px"></div>
 <div id="gHasil" style="margin-top:8px"></div>
@@ -295,7 +295,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <div class="fm">
 <p class="hint">Tempel daftar pertanyaan teori (misalnya soal nomor 1, 2, 3 ...) atau pilih file soal (PDF, Word .docx, .txt, atau <b>foto/screenshot soal</b>). Untuk PDF hasil scan dan gambar, sistem memakai OCR (membaca teks dari gambar) langsung di browser. Gambar juga bisa ditempel dengan Ctrl+V. Semuanya tanpa internet.</p>
 <textarea id="tBanyak" rows="5" placeholder="1. Jelaskan apa itu migration...&#10;2. Sebutkan perbedaan @include dan @extends..."></textarea>
-<p style="margin:8px 0"><input type="file" id="tFile" accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*"> <button type="button" id="tJawab" class="big">Jawab semua</button><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="tHal" style="width:110px;display:inline-block" placeholder="semua"></p>
+<p style="margin:8px 0"><input type="file" id="tFile" multiple accept=".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp,.bmp,image/*"> <button type="button" id="tJawab" class="big">Jawab semua</button><br><span class="hint">Halaman PDF scan yang dibaca (opsional, contoh 1-3):</span> <input type="text" id="tHal" style="width:110px;display:inline-block" placeholder="semua"></p>
 <p id="tStatus" class="hint"></p>
 </div>
 <div id="tBanyakOut"></div>
@@ -2717,6 +2717,7 @@ $category->foods()->count();
     return workerP;
   }
   async function toCanvas(item) {
+    if (item.kind === 'canvas') return item.canvas;
     var c = document.createElement('canvas'), w, h, src;
     if (item.kind === 'rgba') {
       var raw = document.createElement('canvas'); raw.width = item.w; raw.height = item.h;
@@ -2760,6 +2761,44 @@ $category->foods()->count();
     return (b[0] === 0xff && b[1] === 0xd8) || (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) || (b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46) ||
       (b[0] === 0x42 && b[1] === 0x4d) || (b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[8] === 0x57 && b[9] === 0x45);
   }
+
+  var pdfP = null;
+  function loadPdfjs() {
+    if (pdfP) return pdfP;
+    pdfP = (async function () {
+      if (!root.pdfjsLib) {
+        if (root.__EMB && root.__EMB.p) {
+          var inf = function (k) { return root.SoalReader.inflate(b64(root.__EMB[k]), 0); }, td = new TextDecoder('utf-8');
+          var sc = document.createElement('script'); sc.text = td.decode(inf('p')); document.head.appendChild(sc);
+          var wu = URL.createObjectURL(new Blob([inf('pw')], { type: 'text/javascript' }));
+          root.pdfjsLib.GlobalWorkerOptions.workerSrc = wu;
+          try { root.pdfjsLib.GlobalWorkerOptions.workerPort = new Worker(wu); } catch (e) { /* pakai jalur bawaan */ }
+        } else {
+          await loadScript(BASE + 'ocr/pdf.min.js');
+          root.pdfjsLib.GlobalWorkerOptions.workerSrc = BASE + 'ocr/pdf.worker.min.js';
+        }
+      }
+      return root.pdfjsLib;
+    })();
+    pdfP.catch(function () { pdfP = null; });
+    return pdfP;
+  }
+  // Menggambar halaman PDF ke kanvas (untuk PDF tanpa teks yang gambarnya tidak bisa diambil langsung).
+  async function renderPdf(buf, hal, status, maxN) {
+    var lib = await loadPdfjs();
+    var pdf = await lib.getDocument({ data: buf.slice(), isEvalSupported: false }).promise, items = [], n = pdf.numPages;
+    for (var p = 1; p <= n; p++) {
+      if (!inRange(hal, p)) continue;
+      if (!(hal && hal.trim()) && items.length >= maxN) break;
+      status('Menggambar halaman ' + p + ' dari ' + n + ' ...');
+      var page = await pdf.getPage(p), w0 = page.getViewport({ scale: 1 }).width, sc = Math.max(1.5, Math.min(4, 2200 / w0)), vp = page.getViewport({ scale: sc });
+      var cv = document.createElement('canvas'); cv.width = Math.ceil(vp.width); cv.height = Math.ceil(vp.height);
+      var g = cv.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, cv.width, cv.height);
+      await page.render({ canvasContext: g, viewport: vp }).promise;
+      items.push({ kind: 'canvas', canvas: cv, page: p });
+    }
+    return { items: items, total: n };
+  }
   var NOTE = ' Hasil OCR bisa ada salah baca (huruf mirip, tanda baca); periksa dan perbaiki di kotak teks.';
 
   async function bacaBerkas(file, status, hal) {
@@ -2774,19 +2813,26 @@ $category->foods()->count();
     if (!/pdf/i.test(name) && !(buf[0] === 0x25 && buf[1] === 0x50)) return r;
     status('PDF ini tidak berisi teks (hasil scan). Mengambil gambar halaman ...');
     var im = root.SoalReader.extractPdfImages(buf), list = im.images.filter(function (x) { return inRange(hal, x.page); });
+    var viaRender = false;
     if (!list.length) {
-      if (im.skipped.length) throw new Error('Gambar di dalam PDF memakai format ' + im.skipped[0] + ' yang belum didukung. Cara lain: tampilkan PDF, ambil screenshot halaman (Windows + Shift + S), lalu tempel (Ctrl+V) di kotak teks atau unggah screenshot sebagai gambar.');
-      throw new Error(hal && hal.trim() ? 'Tidak ada halaman gambar pada rentang "' + hal + '".' : 'PDF tidak berisi teks maupun gambar halaman yang bisa dibaca. Coba screenshot halaman lalu tempel (Ctrl+V) atau unggah sebagai gambar.');
+      // cadangan: gambar halaman PDF dengan pembaca PDF lengkap, lalu OCR
+      status('Gambar halaman tidak bisa diambil langsung. Menggambar halaman PDF ...');
+      try {
+        var rr = await renderPdf(buf, hal, status, 12); list = rr.items; viaRender = true;
+        if (!list.length) throw new Error(hal && hal.trim() ? 'tidak ada halaman pada rentang "' + hal + '"' : 'PDF tidak memiliki halaman');
+      } catch (err) {
+        throw new Error('PDF tidak bisa dibaca (' + (err && err.message ? err.message : err) + '). Cara lain: tampilkan PDF, ambil screenshot halaman (Windows + Shift + S) lalu tempel (Ctrl+V) satu per satu di kotak teks, atau pilih beberapa gambar sekaligus.');
+      }
     }
     var cut = '';
     if (!(hal && hal.trim()) && list.length > 12) { cut = ' Hanya 12 halaman pertama dibaca; isi kolom "Halaman" untuk memilih halaman lain.'; list = list.slice(0, 12); }
     var t = await ocr(list, status);
-    return { text: t, info: 'OCR PDF scan: ' + list.length + ' halaman, ' + t.length + ' karakter.' + cut + NOTE, pages: list.length };
+    return { text: t, info: 'OCR PDF scan' + (viaRender ? ' (halaman digambar ulang)' : '') + ': ' + list.length + ' halaman, ' + t.length + ' karakter.' + cut + NOTE, pages: list.length };
   }
 
   async function cekOffline() {
     var daftar = [['index.html (halaman ini)', 'index.html'], ['Mesin OCR (tesseract.min.js)', 'ocr/tesseract.min.js'], ['Pekerja OCR (worker.min.js)', 'ocr/worker.min.js'],
-      ['Inti OCR (SIMD)', 'ocr/tesseract-core-simd-lstm.wasm.js'], ['Inti OCR (cadangan)', 'ocr/tesseract-core-lstm.wasm.js'],
+      ['Pembaca PDF (pdf.min.js)', 'ocr/pdf.min.js'], ['Pekerja pembaca PDF', 'ocr/pdf.worker.min.js'], ['Inti OCR (SIMD)', 'ocr/tesseract-core-simd-lstm.wasm.js'], ['Inti OCR (cadangan)', 'ocr/tesseract-core-lstm.wasm.js'],
       ['Data bahasa Indonesia', 'ocr/lang/ind.traineddata.gz'], ['Data bahasa Inggris', 'ocr/lang/eng.traineddata.gz']];
     if (root.__EMB) return { sw: true, tertanam: true, items: daftar.map(function (d) { return { nama: d[0], ok: true }; }) };
     var res = [], ctrl = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
@@ -2798,6 +2844,20 @@ $category->foods()->count();
     return { sw: ctrl, items: res };
   }
   root.cekOffline = cekOffline;
+  // Banyak berkas/gambar sekaligus: dibaca berurutan (urutan nama alami), teksnya digabung.
+  async function bacaBanyak(files, status, hal) {
+    files = Array.prototype.slice.call(files);
+    if (files.length > 1) files.sort(function (a, b) { return String(a.name || '').localeCompare(String(b.name || ''), undefined, { numeric: true }); });
+    var texts = [], infos = [], pages = 0;
+    for (var i = 0; i < files.length; i++) {
+      var f = files[i], pre = files.length > 1 ? 'Berkas ' + (i + 1) + ' dari ' + files.length + ' (' + (f.name || 'gambar') + '): ' : '';
+      var r = await bacaBerkas(f, function (m) { status(pre + m); }, hal);
+      if (r.text && r.text.trim()) texts.push(r.text.trim());
+      infos.push(r.info); pages += r.pages || 1;
+    }
+    return { text: texts.join('\n\n'), info: files.length > 1 ? files.length + ' berkas dibaca. ' + infos[infos.length - 1] : infos[0], pages: pages };
+  }
+  root.bacaBanyak = bacaBanyak;
   root.bacaBerkas = bacaBerkas;
   root.OcrReader = { ocr: ocr, inRange: inRange };
   if (typeof module !== 'undefined') module.exports = { inRange: inRange };
@@ -3521,22 +3581,33 @@ $category->foods()->count();
   });
   $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); otomatis(SOAL); });
   function status(msg, ok) { var s = $('gStatus'); s.textContent = msg; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
-  async function proses(f) {
-    status('Membaca "' + (f.name || 'gambar') + '" ...');
+  var antrian = Promise.resolve(), bagian = 0;
+  function prosesFiles(files, tambah) {
+    files = Array.prototype.slice.call(files); if (!files.length) return;
+    antrian = antrian.then(function () { return prosesAsync(files, tambah); });
+  }
+  async function prosesAsync(files, tambah) {
+    status('Membaca ' + files.length + ' berkas ...');
     try {
-      var r = await window.bacaBerkas(f, status, ($('gHal') || {}).value);
+      var r = await window.bacaBanyak(files, status, ($('gHal') || {}).value);
       if (!r.text || !r.text.trim()) { status('Tidak ada teks yang dapat dibaca dari berkas ini.', false); return; }
-      $('gSoal').value = r.text;
-      status('Berhasil. ' + r.info + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
+      var lama = tambah ? $('gSoal').value.trim() : '';
+      bagian = tambah && lama ? bagian + 1 : 1;
+      $('gSoal').value = lama ? lama + '\n\n' + r.text : r.text;
+      status('Berhasil. ' + r.info + (bagian > 1 ? ' Teks ditambahkan ke kotak (bagian ke-' + bagian + '); tempel/tambah lagi untuk halaman berikutnya.' : '') + ' Periksa teks di kotak lalu lihat temuan di bawah.' + (r.pages > 12 ? ' File ini panjang: jika berisi beberapa soal/varian, hapus bagian yang tidak perlu di kotak teks, lalu klik "Cari hal penting di soal" lagi.' : ''), true);
       $('gAnalisis').click();
-      otomatis(r.text);
+      otomatis($('gSoal').value);
     } catch (err) { status('Gagal: ' + err.message, false); }
   }
-  $('gFile').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; e.target.value = ''; proses(f); });
+  $('gFile').addEventListener('change', function (e) { var fs = Array.prototype.slice.call(e.target.files); e.target.value = ''; prosesFiles(fs, false); });
   $('gSoal').addEventListener('paste', function (e) {
-    var it = (e.clipboardData || {}).items || [];
-    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) { e.preventDefault(); proses(f); return; } }
+    var it = (e.clipboardData || {}).items || [], imgs = [];
+    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) imgs.push(f); }
+    if (imgs.length) { e.preventDefault(); prosesFiles(imgs, true); }
   });
+  $('gSoal').addEventListener('dragover', function (e) { e.preventDefault(); });
+  $('gSoal').addEventListener('drop', function (e) { var fs = (e.dataTransfer || {}).files; if (fs && fs.length) { e.preventDefault(); prosesFiles(fs, true); } });
+  $('gKosong').addEventListener('click', function () { $('gSoal').value = ''; bagian = 0; $('gAuto').innerHTML = ''; $('gHasil').innerHTML = ''; $('gOut').innerHTML = ''; status('Kotak soal dikosongkan. Pilih berkas atau tempel gambar untuk mulai lagi.'); });
   $('cekOff').addEventListener('click', async function () {
     var box = $('cekOffOut'); box.innerHTML = ''; box.appendChild(el('p', 'Memeriksa ...'));
     var r = await window.cekOffline(); box.innerHTML = '';
@@ -4089,19 +4160,27 @@ $category->foods()->count();
   }
   function status(m, ok) { var s = $('tStatus'); s.textContent = m; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
   $('tJawab').addEventListener('click', jawabBanyak);
-  async function prosesT(f) {
-    status('Membaca "' + (f.name || 'gambar') + '" ...');
-    try {
-      var r = await window.bacaBerkas(f, status, ($('tHal') || {}).value);
-      if (!r.text || !r.text.trim()) { status('Tidak ada teks yang dapat dibaca dari berkas ini.', false); return; }
-      $('tBanyak').value = r.text; status('Berhasil. ' + r.info, true); jawabBanyak();
-    } catch (err) { status('Gagal: ' + err.message, false); }
+  var antrianT = Promise.resolve();
+  function prosesT(files, tambah) {
+    files = Array.prototype.slice.call(files); if (!files.length) return;
+    antrianT = antrianT.then(async function () {
+      status('Membaca ' + files.length + ' berkas ...');
+      try {
+        var r = await window.bacaBanyak(files, status, ($('tHal') || {}).value);
+        if (!r.text || !r.text.trim()) { status('Tidak ada teks yang dapat dibaca dari berkas ini.', false); return; }
+        var lama = tambah ? $('tBanyak').value.trim() : '';
+        $('tBanyak').value = lama ? lama + '\n\n' + r.text : r.text; status('Berhasil. ' + r.info + (lama ? ' Teks ditambahkan; tempel/tambah lagi untuk halaman berikutnya.' : ''), true); jawabBanyak();
+      } catch (err) { status('Gagal: ' + err.message, false); }
+    });
   }
-  $('tFile').addEventListener('change', function (e) { var f = e.target.files[0]; if (!f) return; e.target.value = ''; prosesT(f); });
+  $('tFile').addEventListener('change', function (e) { var fs = Array.prototype.slice.call(e.target.files); e.target.value = ''; prosesT(fs, false); });
   $('tBanyak').addEventListener('paste', function (e) {
-    var it = (e.clipboardData || {}).items || [];
-    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) { e.preventDefault(); prosesT(f); return; } }
+    var it = (e.clipboardData || {}).items || [], imgs = [];
+    for (var i = 0; i < it.length; i++) if (it[i].type.indexOf('image/') === 0) { var f = it[i].getAsFile(); if (f) imgs.push(f); }
+    if (imgs.length) { e.preventDefault(); prosesT(imgs, true); }
   });
+  $('tBanyak').addEventListener('dragover', function (e) { e.preventDefault(); });
+  $('tBanyak').addEventListener('drop', function (e) { var fs = (e.dataTransfer || {}).files; if (fs && fs.length) { e.preventDefault(); prosesT(fs, true); } });
   var grup = {};
   window.KB.forEach(function (e) { (grup[e.t] = grup[e.t] || []).push(e); });
   var box = $('tTopik');
