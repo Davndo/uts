@@ -53,7 +53,8 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <b>Daftar isi</b>
 <a href="#mulai"><b>A. Panduan dari nol</b></a>
 <a href="#pembuat"><b>B. Pembuat Kode</b></a>
-<span style="display:block;margin:10px 0 4px;color:#777">C. Referensi manual</span>
+<a href="#teori"><b>C. Tanya jawab teori</b></a>
+<span style="display:block;margin:10px 0 4px;color:#777">D. Referensi manual</span>
 <a href="#petunjuk">0. Cara pakai</a>
 <a href="#info">1. Info ujian</a>
 <a href="#alur">2. Alur kerja</a>
@@ -273,7 +274,18 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 </form>
 <div id="gOut"></div>
 
-<h2 id="referensi">C. Referensi manual</h2>
+<h2 id="teori">C. Tanya jawab teori (offline)</h2>
+<div class="box"><b>Cara kerja dan batasannya, jujur:</b> bagian ini adalah <b>basis pengetahuan tetap</b> berisi sekitar 80 jawaban teori untuk materi ujian (Route, Controller, Blade, Layout, Bootstrap, Migration, Eloquent, Relasi, Seeder). Jawaban dicari dengan kata kunci, <b>tidak dikarang oleh sistem</b>. Jika pertanyaan tidak cocok dengan isi basis pengetahuan, sistem menjawab &ldquo;tidak ditemukan&rdquo; dan tidak menebak. Jawaban ditulis dari konsep standar Laravel dan Bootstrap, tetapi tidak bisa dibuktikan 100% benar untuk setiap versi tanpa membandingkan dengan dokumentasi resmi. Untuk hal yang Anda ragukan, cek di laravel.com atau getbootstrap.com (keduanya whitelist ujian).</div>
+<div class="fm">
+<label for="tQ">Ketik pertanyaan teori</label>
+<input type="text" id="tQ" placeholder="Contoh: perbedaan @yield dan @section / apa itu migration / jelaskan relasi one to many">
+<p style="margin:8px 0"><button type="button" id="tCari" class="big">Cari jawaban</button> <button type="button" id="tHapus">Bersihkan</button></p>
+</div>
+<div id="tOut"></div>
+<h3>Jelajahi semua topik</h3>
+<div id="tTopik"></div>
+
+<h2 id="referensi">D. Referensi manual</h2>
 <p>Bagian di bawah dipakai jika ingin menulis kode sendiri atau memahami hasil Pembuat Kode. Isinya sama dengan yang dibuat otomatis.</p>
 
 <h2 id="petunjuk">0. Cara pakai (baca dulu)</h2>
@@ -2232,6 +2244,313 @@ $category->foods()->count();
   $('gFile').addEventListener('change', function (e) {
     var f = e.target.files[0]; if (!f) return;
     var rd = new FileReader(); rd.onload = function () { $('gSoal').value = String(rd.result); $('gAnalisis').click(); }; rd.readAsText(f);
+  });
+})();
+
+</script>
+<script>
+/* Basis pengetahuan teori (tetap, offline). Tidak ada tebakan: yang tidak ada di sini dijawab "tidak ditemukan". */
+(function (root) {
+  var KB = [
+  /* ===== UMUM ===== */
+  { t: 'Umum', q: 'Apa itu Laravel?', k: 'laravel framework php pengertian definisi',
+    a: 'Laravel adalah framework PHP open source yang menerapkan pola arsitektur MVC (Model, View, Controller). Laravel menyediakan fitur siap pakai seperti routing, templating (Blade), ORM (Eloquent), migration, dan Artisan sehingga pengembangan aplikasi web menjadi lebih terstruktur dan cepat.' },
+  { t: 'Umum', q: 'Apa itu MVC dan apa fungsi masing-masing bagiannya?', k: 'mvc model view controller arsitektur pola',
+    a: 'MVC adalah pola arsitektur yang memisahkan aplikasi menjadi tiga bagian.\nModel: mewakili data dan berinteraksi dengan database (di Laravel berupa class Eloquent).\nView: bagian tampilan yang dilihat pengguna (di Laravel berupa file Blade).\nController: perantara yang menerima request, memanggil model bila perlu, lalu memilih view atau response yang dikembalikan.' },
+  { t: 'Umum', q: 'Bagaimana alur sebuah request diproses di Laravel?', k: 'alur request lifecycle proses response',
+    a: 'Browser mengirim request ke public/index.php. Laravel mencocokkan URL dengan route di routes/web.php. Request melewati middleware yang terpasang, lalu diteruskan ke controller (atau closure). Controller mengambil data lewat model jika perlu, kemudian mengembalikan view atau response. Hasilnya dikirim kembali ke browser.' },
+  { t: 'Umum', q: 'Apa itu Artisan?', k: 'artisan cli command line perintah php artisan',
+    a: 'Artisan adalah antarmuka command line bawaan Laravel. Dijalankan dengan perintah php artisan, dipakai untuk membuat file (make:model, make:controller, make:migration), menjalankan migration, menjalankan seeder, menjalankan server pengembangan, dan tugas lainnya. Daftar perintah dapat dilihat dengan php artisan list.' },
+  { t: 'Umum', q: 'Apa fungsi file .env?', k: 'env environment konfigurasi database app_key',
+    a: 'File .env menyimpan konfigurasi yang bergantung pada lingkungan, seperti koneksi database (DB_DATABASE, DB_USERNAME, DB_PASSWORD), APP_KEY, dan APP_DEBUG. Nilainya dibaca oleh file konfigurasi di folder config. File ini biasanya tidak dimasukkan ke repository karena berisi data sensitif.' },
+  { t: 'Umum', q: 'Apa saja folder penting pada project Laravel?', k: 'struktur folder direktori app routes resources database public config',
+    a: 'app: kode aplikasi (app/Models dan app/Http/Controllers).\nroutes: definisi route (web.php).\nresources/views: file tampilan Blade.\ndatabase: migrations, seeders, dan factories.\npublic: file yang diakses publik (index.php, aset).\nconfig: file konfigurasi.\nstorage: file log, cache, dan upload.' },
+  { t: 'Umum', q: 'Apa fungsi php artisan serve dan npm run dev?', k: 'serve npm run dev vite server lokal 8000',
+    a: 'php artisan serve menjalankan server pengembangan PHP lokal, secara bawaan di alamat http://127.0.0.1:8000. npm run dev menjalankan Vite untuk memproses aset front-end (CSS dan JavaScript) dengan pembaruan otomatis saat file berubah. Pada soal ujian ini, npm run dev dijalankan lebih dulu sebelum php artisan serve.' },
+  { t: 'Umum', q: 'Apa perbedaan metode GET dan POST?', k: 'get post http method perbedaan form',
+    a: 'GET dipakai untuk mengambil/menampilkan data; parameternya tampak di URL dan tidak mengubah data di server. POST dipakai untuk mengirim data yang akan diproses atau disimpan; data dikirim di body request, tidak tampak di URL. Pada Laravel, form POST wajib menyertakan token CSRF lewat @csrf.' },
+  { t: 'Umum', q: 'Apa itu CSRF dan mengapa form Laravel butuh @csrf?', k: 'csrf token 419 page expired keamanan',
+    a: 'CSRF (Cross-Site Request Forgery) adalah serangan yang membuat pengguna tanpa sadar mengirim request ke aplikasi tempat ia sedang login. Laravel melindunginya dengan token. Direktif @csrf menambahkan input tersembunyi berisi token di dalam form. Jika token tidak ada atau tidak cocok, Laravel menolak request dengan error 419 Page Expired.' },
+
+  /* ===== ROUTE ===== */
+  { t: 'Route', q: 'Apa itu Route di Laravel?', k: 'route routing web.php url pengertian',
+    a: 'Route adalah aturan yang menghubungkan sebuah URL (dan metode HTTP) dengan kode yang akan menanganinya, yaitu closure atau method controller. Route aplikasi web didefinisikan di file routes/web.php.',
+    c: "Route::get('/about', function () {\n    return view('about');\n});\n\nRoute::get('/food', [FoodController::class, 'index']);" },
+  { t: 'Route', q: 'Apa saja metode HTTP yang tersedia pada Route?', k: 'route method get post put patch delete any match',
+    a: 'Laravel menyediakan Route::get, Route::post, Route::put, Route::patch, Route::delete, dan Route::options. Selain itu ada Route::match untuk beberapa metode tertentu dan Route::any untuk semua metode.',
+    c: "Route::post('/food', [FoodController::class, 'store']);\nRoute::match(['get', 'post'], '/cari', fn () => 'ok');\nRoute::any('/semua', fn () => 'ok');" },
+  { t: 'Route', q: 'Bagaimana membuat route dengan parameter?', k: 'route parameter id wajib opsional constraint where',
+    a: 'Parameter ditulis di dalam kurung kurawal pada URL dan diterima sebagai argumen di closure atau method controller. Parameter opsional diberi tanda tanya dan harus punya nilai bawaan. Format parameter dapat dibatasi dengan where atau whereNumber.',
+    c: "Route::get('/food/{id}', [FoodController::class, 'show']);\nRoute::get('/user/{name?}', function ($name = 'tamu') {\n    return $name;\n});\nRoute::get('/food/{id}', [FoodController::class, 'show'])->whereNumber('id');" },
+  { t: 'Route', q: 'Apa itu named route dan apa manfaatnya?', k: 'named route nama route name helper route()',
+    a: 'Named route adalah route yang diberi nama lewat method name(). Nama itu dipakai untuk membuat URL dengan helper route(). Manfaatnya: jika URL berubah, cukup diubah di file route dan semua link yang memakai nama tetap benar.',
+    c: "Route::get('/about', fn () => view('about'))->name('about');\n\n<a href=\"{{ route('about') }}\">About</a>\nredirect()->route('about');" },
+  { t: 'Route', q: 'Apa itu route group?', k: 'route group prefix middleware name controller',
+    a: 'Route group mengelompokkan beberapa route yang berbagi atribut yang sama, misalnya prefix URL, middleware, atau awalan nama, supaya tidak perlu ditulis berulang.',
+    c: "Route::prefix('admin')->name('admin.')->group(function () {\n    Route::get('/food', [FoodController::class, 'index'])->name('food.index');\n});\n// URL: /admin/food, nama: admin.food.index" },
+  { t: 'Route', q: 'Apa fungsi Route::view dan Route::redirect?', k: 'route view redirect halaman statis',
+    a: 'Route::view menampilkan sebuah view langsung tanpa controller, cocok untuk halaman statis. Route::redirect mengarahkan satu URL ke URL lain (kode status bawaan 302).',
+    c: "Route::view('/about', 'about');\nRoute::redirect('/lama', '/baru', 301);" },
+  { t: 'Route', q: 'Apa itu Route Model Binding?', k: 'route model binding implicit otomatis model parameter slug',
+    a: 'Route model binding adalah fitur yang otomatis mengambil data model dari database berdasarkan parameter route. Pada implicit binding, nama parameter route harus sama dengan nama variabel yang di-type-hint pada method. Jika data tidak ditemukan, Laravel mengembalikan 404. Secara bawaan pencarian memakai kolom id; kolom lain dapat ditentukan dengan {model:kolom}.',
+    c: "Route::get('/food/{food}', [FoodController::class, 'show']);\n\npublic function show(Food $food)\n{\n    return view('food.show', compact('food'));\n}\n\n// pakai kolom slug:\nRoute::get('/food/{food:slug}', [FoodController::class, 'show']);" },
+  { t: 'Route', q: 'Apa itu Route::resource dan route apa saja yang dibuatnya?', k: 'route resource resource controller crud 7 route restful',
+    a: 'Route::resource membuat tujuh route CRUD sekaligus yang mengarah ke method standar sebuah resource controller: index (GET daftar), create (GET form tambah), store (POST simpan), show (GET detail), edit (GET form ubah), update (PUT/PATCH perbarui), destroy (DELETE hapus). Dapat dibatasi dengan only() atau except(). Route::apiResource membuat versi tanpa create dan edit.',
+    c: "Route::resource('food', FoodController::class);\nRoute::resource('food', FoodController::class)->only(['index', 'show']);" },
+  { t: 'Route', q: 'Apa itu middleware?', k: 'middleware filter request auth',
+    a: 'Middleware adalah lapisan yang memeriksa atau memodifikasi request sebelum mencapai controller, misalnya memeriksa apakah pengguna sudah login (auth). Middleware dipasang pada route dengan method middleware().',
+    c: "Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');" },
+  { t: 'Route', q: 'Apa perbedaan routes/web.php dan routes/api.php?', k: 'web.php api.php perbedaan stateless session',
+    a: 'Route di web.php memakai grup middleware web (mendukung session, cookie, dan perlindungan CSRF) dan ditujukan untuk halaman web. Route di api.php bersifat stateless (tanpa session) dan secara bawaan diberi prefix /api. Pada Laravel 11 ke atas, file api.php tidak ada secara bawaan dan dibuat dengan php artisan install:api.' },
+  { t: 'Route', q: 'Bagaimana melihat daftar semua route?', k: 'route:list melihat daftar route artisan',
+    a: 'Jalankan perintah php artisan route:list di terminal. Perintah ini menampilkan metode HTTP, URI, nama route, dan action (controller) setiap route.' },
+
+  /* ===== CONTROLLER ===== */
+  { t: 'Controller', q: 'Apa itu Controller dan bagaimana membuatnya?', k: 'controller pengertian make:controller membuat',
+    a: 'Controller adalah class yang mengelompokkan logika penanganan request agar file route tetap ringkas. Controller disimpan di app/Http/Controllers dan dibuat dengan php artisan make:controller NamaController. Setiap method controller menangani satu aksi, misalnya menampilkan daftar atau menyimpan data.',
+    c: "php artisan make:controller FoodController\n\nclass FoodController extends Controller\n{\n    public function index()\n    {\n        $foods = Food::all();\n        return view('food.index', compact('foods'));\n    }\n}" },
+  { t: 'Controller', q: 'Apa itu resource controller dan method apa saja di dalamnya?', k: 'resource controller index create store show edit update destroy',
+    a: 'Resource controller dibuat dengan php artisan make:controller NamaController --resource. Isinya tujuh method standar CRUD: index (menampilkan daftar), create (menampilkan form tambah), store (menyimpan data baru), show (menampilkan satu data), edit (menampilkan form ubah), update (menyimpan perubahan), dan destroy (menghapus data).' },
+  { t: 'Controller', q: 'Apa itu invokable controller?', k: 'invokable controller __invoke single action',
+    a: 'Invokable controller adalah controller yang hanya punya satu aksi, ditulis sebagai method __invoke. Dibuat dengan php artisan make:controller NamaController --invokable dan dipasang di route cukup dengan nama class-nya.',
+    c: "Route::get('/about', AboutController::class);" },
+  { t: 'Controller', q: 'Bagaimana mengirim data dari controller ke view?', k: 'kirim data view compact with array',
+    a: 'Ada tiga cara umum: memberikan array sebagai argumen kedua view(), memakai compact() dengan nama variabel, atau memakai method with().',
+    c: "return view('food.index', ['foods' => $foods]);\nreturn view('food.index', compact('foods'));\nreturn view('food.index')->with('foods', $foods);" },
+  { t: 'Controller', q: 'Bagaimana cara mengambil input dari form (Request)?', k: 'request input form $request all only',
+    a: 'Tambahkan type-hint Illuminate\\Http\\Request pada method controller. Nilai input diambil dengan $request->input(\'nama\'), $request->nama, $request->all(), atau $request->only([...]). File upload diambil dengan $request->file(\'nama\').',
+    c: "public function store(Request $request)\n{\n    $nama = $request->input('name');\n    $semua = $request->all();\n}" },
+  { t: 'Controller', q: 'Bagaimana melakukan validasi input di Laravel?', k: 'validasi validate rules required error errors old',
+    a: 'Gunakan $request->validate([...]) dengan aturan per field (misalnya required, string, max:255, numeric, exists:tabel,kolom, image). Jika gagal, Laravel otomatis mengembalikan pengguna ke halaman sebelumnya beserta pesan error dan input lama. Di Blade, pesan ditampilkan dengan $errors atau @error, dan input lama dengan old().',
+    c: "$data = $request->validate([\n    'name'   => 'required|string|max:255',\n    'rating' => 'required|numeric|min:0|max:5',\n]);\n\n@error('name') <div class=\"text-danger\">{{ $message }}</div> @enderror\n<input name=\"name\" value=\"{{ old('name') }}\">" },
+  { t: 'Controller', q: 'Bagaimana redirect dan menampilkan pesan sukses?', k: 'redirect with flash session success pesan',
+    a: 'Gunakan redirect()->route(\'nama\') dan tambahkan pesan flash dengan with(). Pesan flash tersimpan di session hanya untuk request berikutnya, lalu dibaca di view dengan session(\'success\').',
+    c: "return redirect()->route('food.index')->with('success', 'Data berhasil disimpan.');\n\n@if (session('success'))\n    <div class=\"alert alert-success\">{{ session('success') }}</div>\n@endif" },
+  { t: 'Controller', q: 'Apa perbedaan return view dan redirect?', k: 'view redirect perbedaan response',
+    a: 'return view() langsung merender halaman Blade pada request yang sama dan URL tidak berubah. redirect() menyuruh browser membuat request baru ke URL lain (biasanya dipakai setelah menyimpan data agar form tidak terkirim ulang saat halaman di-refresh).' },
+
+  /* ===== BLADE & LAYOUT ===== */
+  { t: 'Blade', q: 'Apa itu Blade?', k: 'blade template engine pengertian blade.php',
+    a: 'Blade adalah template engine bawaan Laravel. File Blade berekstensi .blade.php dan disimpan di resources/views. Blade memungkinkan penulisan HTML yang dicampur sintaks seperti {{ }}, @if, dan @foreach. File Blade dikompilasi menjadi kode PHP biasa dan di-cache, sehingga tidak memperlambat aplikasi.' },
+  { t: 'Blade', q: 'Apa perbedaan {{ }} dan {!! !!} pada Blade?', k: 'escape xss htmlspecialchars kurung kurawal unescaped',
+    a: '{{ $var }} menampilkan nilai dengan escape HTML (htmlspecialchars), sehingga aman dari serangan XSS. {!! $var !!} menampilkan nilai apa adanya tanpa escape, sehingga hanya boleh dipakai untuk data yang tepercaya.' },
+  { t: 'Blade', q: 'Apa saja direktif Blade untuk kondisi dan perulangan?', k: 'direktif if foreach forelse for while unless isset empty loop',
+    a: 'Kondisi: @if, @elseif, @else, @endif; @unless; @isset; @empty. Perulangan: @foreach, @forelse (dengan @empty bila data kosong), @for, @while. Di dalam perulangan tersedia variabel $loop, misalnya $loop->index (mulai 0), $loop->iteration (mulai 1), $loop->first, $loop->last, dan $loop->count.',
+    c: "@forelse ($foods as $food)\n    <li>{{ $loop->iteration }}. {{ $food->name }}</li>\n@empty\n    <li>Belum ada data.</li>\n@endforelse" },
+  { t: 'Layout', q: 'Bagaimana membuat layout dengan @extends, @section, dan @yield?', k: 'layout extends section yield template inheritance master',
+    a: 'Buat file layout (misalnya resources/views/layouts/app.blade.php) yang berisi kerangka halaman dan menaruh @yield(\'nama\') di tempat konten yang berubah-ubah. Setiap halaman memakai @extends(\'layouts.app\') lalu mengisi bagian itu dengan @section(\'nama\') ... @endsection. Cara ini disebut template inheritance.',
+    c: "{{-- layouts/app.blade.php --}}\n<title>@yield('title')</title>\n<body>\n    @yield('content')\n</body>\n\n{{-- about.blade.php --}}\n@extends('layouts.app')\n@section('title', 'About')\n@section('content')\n    <h1>About</h1>\n@endsection" },
+  { t: 'Layout', q: 'Apa perbedaan @yield dan @section?', k: 'yield section perbedaan',
+    a: '@yield dipakai di file layout untuk menandai tempat yang akan diisi konten dari halaman anak (dapat diberi nilai bawaan sebagai argumen kedua). @section dipakai di halaman anak untuk mendefinisikan konten yang akan ditampilkan pada @yield dengan nama yang sama.' },
+  { t: 'Layout', q: 'Apa perbedaan @extends dan @include?', k: 'extends include perbedaan partial',
+    a: '@extends membuat halaman mewarisi sebuah layout, sehingga halaman itu menjadi bagian yang mengisi layout. @include menyisipkan potongan view (partial) ke tempat tertentu, misalnya navbar atau kartu, dan dapat menerima data tambahan sebagai array.',
+    c: "@extends('layouts.app')\n@include('partials.navbar')\n@include('partials.card', ['food' => $food])" },
+  { t: 'Layout', q: 'Apa fungsi @stack dan @push?', k: 'stack push script css tambahan',
+    a: '@stack menyediakan tempat di layout untuk menampung potongan konten (misalnya script atau CSS tambahan), sedangkan @push di halaman anak menambahkan potongan ke stack dengan nama yang sama.',
+    c: "{{-- layout --}}\n@stack('scripts')\n\n{{-- halaman --}}\n@push('scripts')\n    <script>console.log('halo');<\/script>\n@endpush" },
+  { t: 'Blade', q: 'Apa itu Blade component?', k: 'component x-alert komponen blade make:component',
+    a: 'Blade component adalah potongan tampilan yang dapat dipakai ulang dengan sintaks tag HTML seperti <x-alert />. Dapat dibuat dengan php artisan make:component NamaKomponen; view-nya berada di resources/views/components.' },
+  { t: 'Blade', q: 'Apa fungsi @method dan mengapa dibutuhkan?', k: 'method spoofing put patch delete form',
+    a: 'Form HTML hanya mendukung metode GET dan POST. Untuk metode PUT, PATCH, atau DELETE, form tetap dikirim dengan POST dan ditambahkan @method(\'PUT\') (atau PATCH/DELETE) yang membuat input tersembunyi bernama _method agar Laravel menganggapnya sebagai metode tersebut.',
+    c: "<form action=\"{{ route('food.update', $food) }}\" method=\"POST\">\n    @csrf\n    @method('PUT')\n    ...\n</form>" },
+  { t: 'Blade', q: 'Apa fungsi helper asset(), route(), dan url()?', k: 'helper asset route url link',
+    a: 'asset() membuat URL ke file di folder public (gambar, CSS, JS). route() membuat URL dari nama route. url() membuat URL absolut dari path.',
+    c: "<img src=\"{{ asset('images/logo.png') }}\">\n<a href=\"{{ route('home') }}\">Home</a>\n<a href=\"{{ url('/about') }}\">About</a>" },
+  { t: 'Blade', q: 'Bagaimana menulis komentar dan kode PHP di Blade?', k: 'komentar php blade',
+    a: 'Komentar Blade ditulis {{-- komentar --}} dan tidak muncul di HTML hasil. Kode PHP biasa dapat ditulis di antara @php dan @endphp.' },
+
+  /* ===== BOOTSTRAP ===== */
+  { t: 'Bootstrap', q: 'Apa itu Bootstrap?', k: 'bootstrap framework css pengertian responsif',
+    a: 'Bootstrap adalah framework CSS (dan JavaScript) front-end yang menyediakan sistem grid, komponen siap pakai (navbar, card, modal, dan lainnya), serta utility class untuk membangun tampilan web yang responsif dengan cepat. Bootstrap 5 tidak lagi membutuhkan jQuery.' },
+  { t: 'Bootstrap', q: 'Bagaimana cara kerja grid system Bootstrap?', k: 'grid container row col 12 kolom breakpoint',
+    a: 'Grid Bootstrap berbasis 12 kolom. Struktur dasarnya: .container berisi .row, dan .row berisi .col-*. Jumlah kolom pada satu baris dijumlahkan hingga 12; jika lebih, kolom turun ke baris berikutnya. Kelas seperti col-md-6 berarti lebar 6 dari 12 kolom mulai ukuran layar md ke atas.',
+    c: "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-md-4\">Kolom 1</div>\n    <div class=\"col-md-4\">Kolom 2</div>\n    <div class=\"col-md-4\">Kolom 3</div>\n  </div>\n</div>" },
+  { t: 'Bootstrap', q: 'Apa saja breakpoint pada Bootstrap 5?', k: 'breakpoint xs sm md lg xl xxl lebar layar responsif',
+    a: 'Breakpoint Bootstrap 5: xs (kurang dari 576px, tanpa infix), sm (576px ke atas), md (768px ke atas), lg (992px ke atas), xl (1200px ke atas), dan xxl (1400px ke atas). Kelas dengan infix breakpoint berlaku mulai ukuran itu ke atas.' },
+  { t: 'Bootstrap', q: 'Apa perbedaan container dan container-fluid?', k: 'container container-fluid lebar perbedaan',
+    a: '.container memiliki lebar maksimum tetap yang berubah pada tiap breakpoint dan berada di tengah halaman. .container-fluid selalu selebar 100% layar pada semua ukuran.' },
+  { t: 'Bootstrap', q: 'Bagaimana memakai kelas spacing (margin dan padding) di Bootstrap?', k: 'spacing margin padding mt mb px py ms me utility',
+    a: 'Format: {properti}{sisi}-{ukuran}. Properti: m (margin) atau p (padding). Sisi: t (atas), b (bawah), s (awal/kiri), e (akhir/kanan), x (kiri dan kanan), y (atas dan bawah), atau tanpa sisi (semua sisi). Ukuran: 0 sampai 5, dan auto untuk margin. Contoh: mt-3, px-2, mb-0, ms-auto.' },
+  { t: 'Bootstrap', q: 'Sebutkan komponen umum Bootstrap.', k: 'komponen navbar card dropdown modal alert button badge table pagination',
+    a: 'Komponen umum: navbar (menu navigasi), card (kartu konten), dropdown (menu tarik-turun), modal (jendela dialog), alert (pesan), button, badge, table, form control, pagination, dan carousel.' },
+  { t: 'Bootstrap', q: 'Bagaimana membuat dropdown di Bootstrap 5?', k: 'dropdown menu data-bs-toggle',
+    a: 'Dropdown terdiri dari pembungkus .dropdown, tombol dengan atribut data-bs-toggle="dropdown", dan daftar .dropdown-menu berisi .dropdown-item. Dropdown membutuhkan JavaScript Bootstrap (bundle yang sudah menyertakan Popper).',
+    c: "<div class=\"dropdown\">\n  <button class=\"btn btn-outline-secondary dropdown-toggle\" data-bs-toggle=\"dropdown\">Pilih</button>\n  <ul class=\"dropdown-menu\">\n    <li><a class=\"dropdown-item\" href=\"#\">Satu</a></li>\n    <li><a class=\"dropdown-item\" href=\"#\">Dua</a></li>\n  </ul>\n</div>" },
+  { t: 'Bootstrap', q: 'Bagaimana membuat navbar responsif di Bootstrap?', k: 'navbar responsif toggler collapse expand',
+    a: 'Gunakan .navbar dengan .navbar-expand-lg agar menu tampil horizontal pada layar lg ke atas dan menciut di layar lebih kecil. Tombol .navbar-toggler dengan data-bs-toggle="collapse" dan data-bs-target mengarah ke elemen .collapse.navbar-collapse yang berisi menu.' },
+  { t: 'Bootstrap', q: 'Bagaimana membuat card di Bootstrap?', k: 'card kartu card-body card-title img-top',
+    a: 'Card dibuat dengan .card, berisi .card-img-top (gambar, opsional) dan .card-body yang berisi .card-title dan .card-text.',
+    c: "<div class=\"card\">\n  <img src=\"...\" class=\"card-img-top\" alt=\"\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">Judul</h5>\n    <p class=\"card-text\">Isi singkat.</p>\n    <a href=\"#\" class=\"btn btn-primary\">Baca selengkapnya</a>\n  </div>\n</div>" },
+  { t: 'Bootstrap', q: 'Apa perbedaan Bootstrap 4 dan Bootstrap 5?', k: 'bootstrap 4 5 perbedaan jquery data-bs',
+    a: 'Bootstrap 5 menghapus ketergantungan pada jQuery, memakai atribut data-bs-* (bukan data-*), mengganti kelas arah kiri/kanan menjadi awal/akhir (ml/mr menjadi ms/me), dan menambahkan breakpoint xxl.' },
+  { t: 'Bootstrap', q: 'Bagaimana memasang Bootstrap di Laravel?', k: 'pasang install bootstrap laravel cdn npm vite',
+    a: 'Cara pertama: memuat file CSS dan JS Bootstrap lewat CDN di layout (membutuhkan internet). Cara kedua: menginstal lewat npm (npm install bootstrap), mengimpor CSS dan JS-nya pada resources/css/app.css dan resources/js/app.js, lalu memuat keduanya di layout dengan @vite. Pada ujian ini project dengan Bootstrap sudah tersedia di E:/projects.' },
+  { t: 'Bootstrap', q: 'Bagaimana membuat form dan menampilkan error di Bootstrap?', k: 'form control label select check is-invalid invalid-feedback',
+    a: 'Gunakan .form-label untuk label, .form-control untuk input teks dan textarea, .form-select untuk select, dan .form-check untuk checkbox/radio. Input yang salah diberi kelas .is-invalid dan pesannya ditaruh pada elemen .invalid-feedback.',
+    c: "<input type=\"text\" name=\"name\" class=\"form-control @error('name') is-invalid @enderror\">\n@error('name') <div class=\"invalid-feedback\">{{ $message }}</div> @enderror" },
+
+  /* ===== MIGRATION ===== */
+  { t: 'Migration', q: 'Apa itu Migration?', k: 'migration migrasi pengertian version control skema database',
+    a: 'Migration adalah file PHP yang mendefinisikan struktur tabel database sehingga perubahan skema tercatat dan dapat dibagikan seperti version control. File disimpan di database/migrations dan dibuat dengan php artisan make:migration. Method up() berisi perubahan yang diterapkan (misalnya membuat tabel) dan method down() berisi cara membatalkannya.',
+    c: "Schema::create('foods', function (Blueprint $table) {\n    $table->id();\n    $table->string('name');\n    $table->timestamps();\n});" },
+  { t: 'Migration', q: 'Apa perbedaan migrate, migrate:rollback, migrate:reset, migrate:refresh, dan migrate:fresh?', k: 'migrate rollback reset refresh fresh status perbedaan perintah',
+    a: 'migrate: menjalankan migration yang belum dijalankan.\nmigrate:rollback: membatalkan batch migration terakhir (dapat dibatasi dengan --step).\nmigrate:reset: membatalkan seluruh migration.\nmigrate:refresh: membatalkan seluruh migration lalu menjalankannya kembali.\nmigrate:fresh: menghapus semua tabel di database lalu menjalankan semua migration dari awal.\nmigrate:status: melihat status tiap migration.\nTambahan --seed menjalankan seeder setelah migrasi.' },
+  { t: 'Migration', q: 'Apa saja tipe kolom yang umum pada migration?', k: 'tipe kolom string text integer boolean decimal date timestamps id',
+    a: 'id() (kunci utama auto-increment bernama id), string() (teks pendek), text() dan longText() (teks panjang), integer() dan bigInteger() (bilangan bulat), boolean(), decimal(), date(), dateTime(), foreignId() (kolom kunci asing), dan timestamps() (menambah created_at dan updated_at).' },
+  { t: 'Migration', q: 'Apa saja modifier kolom pada migration?', k: 'modifier nullable default unique index kolom',
+    a: 'Modifier ditambahkan setelah tipe kolom, antara lain ->nullable() (boleh kosong), ->default(nilai) (nilai bawaan), ->unique() (nilai tidak boleh sama), dan ->index() (membuat indeks).',
+    c: "$table->string('photo')->nullable();\n$table->boolean('is_viral')->default(false);\n$table->string('email')->unique();" },
+  { t: 'Migration', q: 'Bagaimana membuat foreign key pada migration?', k: 'foreign key foreignid constrained cascade kunci asing relasi',
+    a: 'Gunakan foreignId(\'nama_id\')->constrained(). Method constrained() menentukan tabel acuan dari nama kolom (reviewer_id mengacu ke tabel reviewers); jika nama tabel berbeda, tulis sebagai argumen. cascadeOnDelete() membuat baris anak ikut terhapus saat baris induk dihapus. Tabel induk harus dibuat lebih dulu daripada tabel anak.',
+    c: "$table->foreignId('reviewer_id')->constrained()->cascadeOnDelete();\n$table->foreignId('food_id')->constrained('foods')->cascadeOnDelete();" },
+  { t: 'Migration', q: 'Bagaimana menambah kolom pada tabel yang sudah ada?', k: 'tambah kolom schema::table alter migration baru',
+    a: 'Buat migration baru (misalnya php artisan make:migration add_rating_to_foods_table --table=foods) lalu gunakan Schema::table() untuk menambah kolom. Migration lama yang sudah dijalankan sebaiknya tidak diubah. Selama masih tahap pengembangan, migrate:fresh dapat dipakai untuk membangun ulang seluruh tabel.',
+    c: "Schema::table('foods', function (Blueprint $table) {\n    $table->decimal('rating', 3, 1)->default(0);\n});" },
+  { t: 'Migration', q: 'Mengapa urutan migration penting?', k: 'urutan migration timestamp nama file foreign key error',
+    a: 'Migration dijalankan berdasarkan urutan awalan timestamp pada nama file. Tabel yang memiliki foreign key harus dibuat setelah tabel yang diacunya, jika tidak muncul error "Cannot add foreign key constraint". Tabel pivot dibuat paling akhir.' },
+  { t: 'Migration', q: 'Apa itu tabel pivot dan bagaimana aturan penamaannya?', k: 'pivot tabel perantara banyak ke banyak nama category_food',
+    a: 'Tabel pivot adalah tabel perantara pada relasi banyak-ke-banyak yang menyimpan pasangan id kedua tabel. Menurut konvensi Laravel, namanya adalah nama kedua model dalam bentuk tunggal, huruf kecil snake_case, dan diurutkan abjad, misalnya category_food, dengan kolom category_id dan food_id.' },
+  { t: 'Migration', q: 'Apa itu soft delete?', k: 'soft delete softdeletes deleted_at restore trashed',
+    a: 'Soft delete menandai data sebagai terhapus tanpa benar-benar menghapus barisnya. Caranya: tambahkan $table->softDeletes() pada migration (membuat kolom deleted_at) dan gunakan trait SoftDeletes pada model. Data dapat dikembalikan dengan restore(), ditampilkan dengan withTrashed(), dan dihapus permanen dengan forceDelete().' },
+
+  /* ===== ELOQUENT & RELASI ===== */
+  { t: 'Eloquent', q: 'Apa itu Eloquent ORM?', k: 'eloquent orm pengertian model object relational mapping',
+    a: 'Eloquent adalah ORM (Object Relational Mapping) bawaan Laravel. Setiap tabel diwakili sebuah class model, dan baris tabel diperlakukan sebagai objek sehingga data dapat dibaca dan disimpan tanpa menulis SQL manual. Model dibuat dengan php artisan make:model NamaModel (tambahkan -m untuk sekaligus membuat migration).' },
+  { t: 'Eloquent', q: 'Apa saja konvensi penamaan Eloquent?', k: 'konvensi nama tabel primary key timestamps table primarykey',
+    a: 'Nama tabel adalah bentuk jamak snake_case dari nama model (model Reviewer menjadi tabel reviewers). Kunci utama bernama id. Model mengharapkan kolom created_at dan updated_at. Semua konvensi dapat diubah: protected $table, protected $primaryKey, dan public $timestamps = false.' },
+  { t: 'Eloquent', q: 'Apa itu mass assignment, $fillable, dan $guarded?', k: 'mass assignment fillable guarded create update keamanan',
+    a: 'Mass assignment adalah pengisian banyak kolom sekaligus lewat create() atau update() dengan array. Untuk keamanan, Laravel hanya mengizinkan kolom yang terdaftar. $fillable adalah daftar kolom yang boleh diisi (whitelist), sedangkan $guarded adalah daftar kolom yang dilarang (blacklist). $guarded = [] berarti semua kolom boleh diisi.',
+    c: "protected $fillable = ['name', 'summary'];\n// atau\nprotected $guarded = [];" },
+  { t: 'Eloquent', q: 'Apa saja method dasar Eloquent untuk CRUD?', k: 'crud all find findorfail first where create save update delete destroy',
+    a: 'Membaca: all() (semua data), find($id) (satu data atau null), findOrFail($id) (404 bila tidak ada), first(), where(...)->get(). Menyimpan: create([...]) atau membuat objek lalu save(). Mengubah: $model->update([...]). Menghapus: $model->delete() atau Model::destroy($id).',
+    c: "Food::all();\nFood::find(1);\nFood::where('is_viral', true)->get();\nFood::create(['name' => 'Soto']);\n$food->update(['name' => 'Rawon']);\n$food->delete();" },
+  { t: 'Relasi', q: 'Bagaimana membuat relasi satu-ke-banyak (one to many)?', k: 'one to many hasmany belongsto satu ke banyak relasi reviewer food',
+    a: 'Pada sisi "satu" (induk) gunakan hasMany, dan pada sisi "banyak" (anak) gunakan belongsTo. Tabel anak menyimpan kolom foreign key ke induk (misalnya reviewer_id). Contoh: satu Reviewer memiliki banyak Food, dan setiap Food dimiliki satu Reviewer.',
+    c: "// Reviewer.php\npublic function foods()\n{\n    return $this->hasMany(Food::class);\n}\n\n// Food.php\npublic function reviewer()\n{\n    return $this->belongsTo(Reviewer::class);\n}\n\n$reviewer->foods;   // koleksi makanan\n$food->reviewer;    // satu reviewer" },
+  { t: 'Relasi', q: 'Apa perbedaan hasMany dan belongsTo?', k: 'hasmany belongsto perbedaan beda relasi',
+    a: 'hasMany dipakai pada model sisi "satu" (induk) untuk menyatakan bahwa induk memiliki banyak data anak. belongsTo dipakai pada model sisi "banyak" (anak) untuk menyatakan bahwa anak dimiliki oleh satu induk. Kolom foreign key berada di tabel anak, dan relasi belongsTo-lah yang membaca kolom itu.',
+    c: "// Reviewer (induk)\npublic function foods() { return $this->hasMany(Food::class); }\n\n// Food (anak, memiliki reviewer_id)\npublic function reviewer() { return $this->belongsTo(Reviewer::class); }" },
+  { t: 'Relasi', q: 'Bagaimana membuat relasi banyak-ke-banyak (many to many)?', k: 'many to many belongstomany banyak ke banyak pivot attach sync detach',
+    a: 'Kedua model memakai belongsToMany dan relasi disimpan di tabel pivot. Data pivot dikelola dengan attach() (menambah), detach() (menghapus), sync() (mengganti seluruhnya dengan daftar yang diberikan), dan toggle().',
+    c: "// Food.php\npublic function categories()\n{\n    return $this->belongsToMany(Category::class);\n}\n// Category.php\npublic function foods()\n{\n    return $this->belongsToMany(Food::class);\n}\n\n$food->categories()->attach([1, 2]);\n$food->categories()->sync([1, 3]);" },
+  { t: 'Relasi', q: 'Bagaimana membuat relasi satu-ke-satu (one to one)?', k: 'one to one hasone satu ke satu relasi',
+    a: 'Sisi pemilik memakai hasOne dan sisi yang menyimpan foreign key memakai belongsTo. Kolom foreign key di tabel anak sebaiknya diberi unique agar satu induk hanya punya satu data anak.',
+    c: "public function profile()\n{\n    return $this->hasOne(Profile::class);\n}\n\npublic function reviewer()\n{\n    return $this->belongsTo(Reviewer::class);\n}" },
+  { t: 'Relasi', q: 'Tabel mana yang menyimpan foreign key pada relasi satu-ke-banyak?', k: 'foreign key letak tabel anak banyak belongsto',
+    a: 'Foreign key disimpan di tabel pada sisi "banyak" (tabel anak). Model pada sisi inilah yang memakai belongsTo. Contoh: kolom reviewer_id berada di tabel foods.' },
+  { t: 'Relasi', q: 'Apa itu eager loading dan masalah N+1?', k: 'eager loading with n+1 query performa lazy',
+    a: 'Masalah N+1 terjadi ketika memuat daftar data lalu mengakses relasinya di dalam perulangan, sehingga menjalankan satu query awal ditambah satu query tambahan untuk setiap baris. Eager loading memakai with() untuk mengambil relasi sekaligus dalam jumlah query yang tetap.',
+    c: "$foods = Food::with('reviewer', 'categories')->get();" },
+  { t: 'Relasi', q: 'Bagaimana menampilkan data dari tabel yang berelasi di view?', k: 'tampilkan relasi view blade reviewer name foreach',
+    a: 'Akses relasi sebagai properti dari objek model. Untuk relasi satu data gunakan $food->reviewer->name; untuk relasi banyak data lakukan perulangan.',
+    c: "{{ $food->reviewer->name }}\n\n@foreach ($food->categories as $category)\n    <span class=\"badge text-bg-secondary\">{{ $category->name }}</span>\n@endforeach" },
+  { t: 'Eloquent', q: 'Bagaimana memfilter data berdasarkan relasi (whereHas)?', k: 'wherehas filter relasi has query kategori',
+    a: 'whereHas() menambahkan syarat pada tabel relasi. Contoh: mengambil makanan yang termasuk kategori tertentu. Alternatif untuk satu kategori yang sudah diketahui: $category->foods.',
+    c: "Food::whereHas('categories', function ($q) {\n    $q->where('name', 'Dessert');\n})->get();" },
+  { t: 'Eloquent', q: 'Bagaimana membuat pagination?', k: 'pagination paginate links halaman simplepaginate',
+    a: 'Gunakan paginate(jumlah) pada query (nilai bawaan 15 per halaman), lalu tampilkan nomor halaman di view dengan {{ $items->links() }}. Agar tampilannya memakai gaya Bootstrap 5, panggil Paginator::useBootstrapFive() di method boot AppServiceProvider.',
+    c: "$foods = Food::latest()->paginate(6);\n\n{{ $foods->links() }}" },
+  { t: 'Eloquent', q: 'Apa perbedaan Query Builder dan Eloquent?', k: 'query builder eloquent perbedaan db::table',
+    a: 'Query Builder (DB::table(\'foods\')->...) membangun query langsung terhadap tabel dan mengembalikan objek biasa. Eloquent bekerja melalui model, mengembalikan objek model yang mengenal relasi, dan mendukung fitur seperti accessor, soft delete, serta eager loading.' },
+  { t: 'Eloquent', q: 'Apa itu accessor pada Eloquent?', k: 'accessor mutator atribut getattribute',
+    a: 'Accessor adalah method pada model untuk mengubah atau membentuk nilai atribut saat dibaca. Gaya lama memakai method bernama getNamaAttribute() (diakses sebagai $model->nama); Laravel versi baru juga menyediakan pendefinisian atribut dengan Illuminate\\Database\\Eloquent\\Casts\\Attribute.',
+    c: "public function getImageUrlAttribute()\n{\n    return asset('storage/' . $this->image);\n}\n// dipakai: $food->image_url" },
+
+  /* ===== SEEDER ===== */
+  { t: 'Seeder', q: 'Apa itu Seeder dan Factory?', k: 'seeder factory pengertian data awal db:seed',
+    a: 'Seeder adalah class yang mengisi database dengan data awal atau data contoh; semua seeder dipanggil dari DatabaseSeeder dan dijalankan dengan php artisan db:seed (atau migrate:fresh --seed). Factory mendefinisikan cara membuat data model secara acak (memakai Faker) sehingga banyak data contoh dapat dibuat sekaligus.',
+    c: "php artisan make:seeder FoodSeeder\nphp artisan make:factory FoodFactory\nphp artisan db:seed\nphp artisan db:seed --class=FoodSeeder" },
+  { t: 'Seeder', q: 'Apa itu Faker dan bagaimana cara memakainya?', k: 'faker fake data palsu acak fakerphp',
+    a: 'Faker adalah library PHP untuk menghasilkan data palsu seperti nama, kalimat, paragraf, angka, dan tanggal. Di Laravel dapat dipanggil lewat helper fake() di dalam factory atau seeder. Dokumentasinya ada di fakerphp.org.',
+    c: "'name'    => fake()->name(),\n'summary' => fake()->sentence(),\n'review'  => fake()->paragraph(),\n'rating'  => fake()->randomFloat(1, 1, 5)," },
+  { t: 'Seeder', q: 'Bagaimana membuat banyak data dengan Factory?', k: 'factory create count make banyak data',
+    a: 'Panggil Model::factory() lalu tentukan jumlah dengan count() atau argumen angka, dan simpan ke database dengan create() (make() hanya membuat objek tanpa menyimpan). Untuk relasi satu-ke-banyak, gunakan for($induk).',
+    c: "Reviewer::factory(4)->create();\nFood::factory(3)->for($reviewer)->create();" },
+
+  /* ===== DOKUMENTASI/UJIAN ===== */
+  { t: 'Ujian', q: 'Apa yang harus ada dalam dokumentasi pengerjaan UTS?', k: 'dokumentasi uts word pdf screenshot isi',
+    a: 'Berdasarkan petunjuk soal: dokumen Word atau PDF yang menjelaskan secara detail routing, controller, model, view dan blade (serta migration dan seeder), disertai screenshot output dari tampilan website untuk setiap fitur yang berhasil dikerjakan. Tanpa screenshot, project dianggap tidak berjalan. Source code (folder project) juga wajib dikumpulkan.' }
+  ];
+
+  var STOP = 'perbedaan apa itu yang dan di ke dari untuk adalah jelaskan sebutkan bagaimana cara saja dengan atau pada dalam sebuah suatu ada akan agar bisa dapat apakah mengapa kenapa saya anda kita'.split(' ');
+  function norm(s) { return String(s).toLowerCase().replace(/[^a-z0-9_:\-\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function tokens(s) { return norm(s).split(' ').filter(function (w) { return w && STOP.indexOf(w) < 0; }); }
+  var ALIAS = { migrasi: 'migration', relasi: 'relationship', hubungan: 'relasi', tampilan: 'view', templat: 'template', rute: 'route', pengontrol: 'controller', basisdata: 'database', 'database': 'database', 'perbedaan': 'perbedaan', beda: 'perbedaan', bedanya: 'perbedaan', 'bedanya': 'perbedaan' };
+
+  function search(query) {
+    var tk = tokens(query).map(function (w) { return ALIAS[w] || w; }).filter(function (w) { return STOP.indexOf(w) < 0; });
+    if (!tk.length) return [];
+    var res = [];
+    KB.forEach(function (e, i) {
+      var q = norm(e.q), k = norm(e.k), a = norm(e.a), score = 0, hitsQK = 0;
+      tk.forEach(function (w) {
+        var pre = w.length >= 5 ? w.slice(0, w.length - 1) : w;
+        var inQ = q.split(' ').some(function (x) { return x === w || (w.length >= 5 && x.indexOf(pre) === 0); });
+        var inK = k.split(' ').some(function (x) { return x === w || (w.length >= 5 && x.indexOf(pre) === 0); });
+        var inA = (' ' + a + ' ').indexOf(' ' + w) >= 0;
+        if (inQ) { score += 4; hitsQK++; }
+        if (inK) { score += 3; hitsQK++; }
+        if (inA) score += 1;
+      });
+      if (norm(query).length > 6 && (q.indexOf(norm(query)) >= 0)) score += 6;
+      if (hitsQK > 0) res.push({ e: e, score: score, idx: i, cover: hitsQK / (tk.length * 2) });
+    });
+    res.sort(function (x, y) { return y.score - x.score; });
+    var top = res.length ? res[0].score : 0;
+    return res.filter(function (r) { return r.score >= Math.max(5, top * 0.45); }).slice(0, 5);
+  }
+  root.KB = KB; root.KBSearch = search;
+  if (typeof module !== 'undefined') module.exports = { KB: KB, search: search };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function el(t, x, c) { var e = document.createElement(t); if (x !== undefined) e.textContent = x; if (c) e.className = c; return e; }
+  function salin(teks, b) {
+    var ta = document.createElement('textarea'); ta.value = teks; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); b.textContent = 'Tersalin'; } catch (x) { b.textContent = 'Gagal'; }
+    document.body.removeChild(ta); setTimeout(function () { b.textContent = 'Salin'; }, 1200);
+  }
+  function kartu(e, utama) {
+    var d = el('div', undefined, 'box'); if (utama) d.style.borderLeftColor = '#4a7a4a';
+    d.appendChild(el('b', e.q));
+    d.appendChild(el('div', 'Topik: ' + e.t, 'muted'));
+    e.a.split('\n').forEach(function (p) { var q = el('p', p); q.style.margin = '6px 0'; d.appendChild(q); });
+    if (e.c) {
+      var fig = el('figure'), cap = el('figcaption'), b = el('button', 'Salin'); b.type = 'button';
+      cap.appendChild(el('span', 'contoh kode')); cap.appendChild(b);
+      var pre = el('pre'); pre.appendChild(el('code', e.c + '\n')); fig.appendChild(cap); fig.appendChild(pre); d.appendChild(fig);
+      b.addEventListener('click', function () { salin(e.c + '\n', b); });
+    }
+    return d;
+  }
+  function cari() {
+    var q = $('tQ').value, out = $('tOut'); out.innerHTML = '';
+    if (!q.trim()) { out.appendChild(el('div', 'Ketik pertanyaan terlebih dahulu.', 'box')); return; }
+    var r = window.KBSearch(q);
+    if (!r.length) {
+      var b = el('div', undefined, 'box'); b.style.borderLeftColor = '#a33';
+      b.appendChild(el('b', 'Tidak ditemukan di basis pengetahuan.'));
+      b.appendChild(el('p', 'Sistem tidak menebak. Coba kata kunci yang lebih pendek (misalnya nama istilahnya saja), jelajahi topik di bawah, atau cek dokumentasi resmi di laravel.com / getbootstrap.com.'));
+      out.appendChild(b); return;
+    }
+    out.appendChild(el('h3', 'Jawaban paling cocok'));
+    out.appendChild(kartu(r[0].e, true));
+    if (r.length > 1) { out.appendChild(el('h3', 'Topik terkait')); r.slice(1).forEach(function (x) { out.appendChild(kartu(x.e, false)); }); }
+  }
+  $('tCari').addEventListener('click', cari);
+  $('tQ').addEventListener('keydown', function (e) { if (e.key === 'Enter') cari(); });
+  $('tHapus').addEventListener('click', function () { $('tQ').value = ''; $('tOut').innerHTML = ''; });
+  var grup = {};
+  window.KB.forEach(function (e) { (grup[e.t] = grup[e.t] || []).push(e); });
+  var box = $('tTopik');
+  Object.keys(grup).forEach(function (t) {
+    var d = document.createElement('details'); d.style.margin = '6px 0';
+    var s = el('summary', t + ' (' + grup[t].length + ')'); s.style.cursor = 'pointer'; s.style.fontWeight = '600';
+    d.appendChild(s); grup[t].forEach(function (e) { d.appendChild(kartu(e, false)); }); box.appendChild(d);
   });
 })();
 
