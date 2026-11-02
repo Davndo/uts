@@ -276,13 +276,21 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <div id="gOut"></div>
 
 <h2 id="teori">C. Tanya jawab teori (offline)</h2>
-<div class="box"><b>Cara kerja dan batasannya, jujur:</b> bagian ini adalah <b>basis pengetahuan tetap</b> berisi sekitar 80 jawaban teori untuk materi ujian (Route, Controller, Blade, Layout, Bootstrap, Migration, Eloquent, Relasi, Seeder). Jawaban dicari dengan kata kunci, <b>tidak dikarang oleh sistem</b>. Jika pertanyaan tidak cocok dengan isi basis pengetahuan, sistem menjawab &ldquo;tidak ditemukan&rdquo; dan tidak menebak. Jawaban ditulis dari konsep standar Laravel dan Bootstrap, tetapi tidak bisa dibuktikan 100% benar untuk setiap versi tanpa membandingkan dengan dokumentasi resmi. Untuk hal yang Anda ragukan, cek di laravel.com atau getbootstrap.com (keduanya whitelist ujian).</div>
+<div class="box"><b>Cara kerja dan batasannya, jujur:</b> bagian ini adalah <b>basis pengetahuan tetap</b> berisi lebih dari 140 jawaban teori. Sebagian besar disusun dari <b>materi kuliah Web Programming (Sesi 1 sampai 7)</b> yang Anda berikan: Pengantar Laravel, Route dan View, Laravel UI dan Bootstrap, Blade, Controller, Migration dan Eloquent 1, serta Migration dan Eloquent 2. Setiap jawaban menyebut topik dan sumber sesinya. Jawaban dicari dengan kata kunci, <b>tidak dikarang oleh sistem</b>. Jika pertanyaan tidak cocok dengan isi basis pengetahuan, sistem menjawab &ldquo;tidak ditemukan&rdquo; dan tidak menebak. Jawaban ditulis dari konsep standar Laravel dan Bootstrap, tetapi tidak bisa dibuktikan 100% benar untuk setiap versi tanpa membandingkan dengan dokumentasi resmi. Untuk hal yang Anda ragukan, cek di laravel.com atau getbootstrap.com (keduanya whitelist ujian).</div>
 <div class="fm">
 <label for="tQ">Ketik pertanyaan teori</label>
 <input type="text" id="tQ" placeholder="Contoh: perbedaan @yield dan @section / apa itu migration / jelaskan relasi one to many">
 <p style="margin:8px 0"><button type="button" id="tCari" class="big">Cari jawaban</button> <button type="button" id="tHapus">Bersihkan</button></p>
 </div>
 <div id="tOut"></div>
+<h3>Jawab banyak pertanyaan sekaligus</h3>
+<div class="fm">
+<p class="hint">Tempel daftar pertanyaan teori (misalnya soal nomor 1, 2, 3 ...) atau pilih file soal (PDF, Word .docx, atau .txt). Setiap pertanyaan dicarikan jawabannya satu per satu, tanpa internet.</p>
+<textarea id="tBanyak" rows="5" placeholder="1. Jelaskan apa itu migration...&#10;2. Sebutkan perbedaan @include dan @extends..."></textarea>
+<p style="margin:8px 0"><input type="file" id="tFile" accept=".pdf,.docx,.txt,.md"> <button type="button" id="tJawab" class="big">Jawab semua</button></p>
+<p id="tStatus" class="hint"></p>
+</div>
+<div id="tBanyakOut"></div>
 <h3>Jelajahi semua topik</h3>
 <div id="tTopik"></div>
 
@@ -2741,6 +2749,105 @@ $category->foods()->count();
     c: "@extends('layouts.app')\n@include('partials.navbar')\n@include('partials.card', ['food' => $food])" },
   { t: 'Layout', q: 'Apa fungsi @stack dan @push?', k: 'stack push script css tambahan',
     a: '@stack menyediakan tempat di layout untuk menampung potongan konten (misalnya script atau CSS tambahan), sedangkan @push di halaman anak menambahkan potongan ke stack dengan nama yang sama.',
+    c: "{{-- layout --}}\n@stack('scripts')\n\n{{-- halaman --}}\n@push('scripts')\n    <script>
+/* Basis pengetahuan teori (tetap, offline). Tidak ada tebakan: yang tidak ada di sini dijawab "tidak ditemukan". */
+(function (root) {
+  var KB = [
+  /* ===== UMUM ===== */
+  { t: 'Umum', q: 'Apa itu Laravel?', k: 'laravel framework php pengertian definisi',
+    a: 'Laravel adalah framework PHP open source yang menerapkan pola arsitektur MVC (Model, View, Controller). Laravel menyediakan fitur siap pakai seperti routing, templating (Blade), ORM (Eloquent), migration, dan Artisan sehingga pengembangan aplikasi web menjadi lebih terstruktur dan cepat.' },
+  { t: 'Umum', q: 'Apa itu MVC dan apa fungsi masing-masing bagiannya?', k: 'mvc model view controller arsitektur pola',
+    a: 'MVC adalah pola arsitektur yang memisahkan aplikasi menjadi tiga bagian.\nModel: mewakili data dan berinteraksi dengan database (di Laravel berupa class Eloquent).\nView: bagian tampilan yang dilihat pengguna (di Laravel berupa file Blade).\nController: perantara yang menerima request, memanggil model bila perlu, lalu memilih view atau response yang dikembalikan.' },
+  { t: 'Umum', q: 'Bagaimana alur sebuah request diproses di Laravel?', k: 'alur request lifecycle proses response',
+    a: 'Browser mengirim request ke public/index.php. Laravel mencocokkan URL dengan route di routes/web.php. Request melewati middleware yang terpasang, lalu diteruskan ke controller (atau closure). Controller mengambil data lewat model jika perlu, kemudian mengembalikan view atau response. Hasilnya dikirim kembali ke browser.' },
+  { t: 'Umum', q: 'Apa itu Artisan?', k: 'artisan cli command line perintah php artisan',
+    a: 'Artisan adalah antarmuka command line bawaan Laravel. Dijalankan dengan perintah php artisan, dipakai untuk membuat file (make:model, make:controller, make:migration), menjalankan migration, menjalankan seeder, menjalankan server pengembangan, dan tugas lainnya. Daftar perintah dapat dilihat dengan php artisan list.' },
+  { t: 'Umum', q: 'Apa fungsi file .env?', k: 'env environment konfigurasi database app_key',
+    a: 'File .env menyimpan konfigurasi yang bergantung pada lingkungan, seperti koneksi database (DB_DATABASE, DB_USERNAME, DB_PASSWORD), APP_KEY, dan APP_DEBUG. Nilainya dibaca oleh file konfigurasi di folder config. File ini biasanya tidak dimasukkan ke repository karena berisi data sensitif.' },
+  { t: 'Umum', q: 'Apa saja folder penting pada project Laravel?', k: 'struktur folder direktori app routes resources database public config',
+    a: 'app: kode aplikasi (app/Models dan app/Http/Controllers).\nroutes: definisi route (web.php).\nresources/views: file tampilan Blade.\ndatabase: migrations, seeders, dan factories.\npublic: file yang diakses publik (index.php, aset).\nconfig: file konfigurasi.\nstorage: file log, cache, dan upload.' },
+  { t: 'Umum', q: 'Apa fungsi php artisan serve dan npm run dev?', k: 'serve npm run dev vite server lokal 8000',
+    a: 'php artisan serve menjalankan server pengembangan PHP lokal, secara bawaan di alamat http://127.0.0.1:8000. npm run dev menjalankan Vite untuk memproses aset front-end (CSS dan JavaScript) dengan pembaruan otomatis saat file berubah. Pada soal ujian ini, npm run dev dijalankan lebih dulu sebelum php artisan serve.' },
+  { t: 'Umum', q: 'Apa perbedaan metode GET dan POST?', k: 'get post http method perbedaan form',
+    a: 'GET dipakai untuk mengambil/menampilkan data; parameternya tampak di URL dan tidak mengubah data di server. POST dipakai untuk mengirim data yang akan diproses atau disimpan; data dikirim di body request, tidak tampak di URL. Pada Laravel, form POST wajib menyertakan token CSRF lewat @csrf.' },
+  { t: 'Umum', q: 'Apa itu CSRF dan mengapa form Laravel butuh @csrf?', k: 'csrf token 419 page expired keamanan',
+    a: 'CSRF (Cross-Site Request Forgery) adalah serangan yang membuat pengguna tanpa sadar mengirim request ke aplikasi tempat ia sedang login. Laravel melindunginya dengan token. Direktif @csrf menambahkan input tersembunyi berisi token di dalam form. Jika token tidak ada atau tidak cocok, Laravel menolak request dengan error 419 Page Expired.' },
+
+  /* ===== ROUTE ===== */
+  { t: 'Route', q: 'Apa itu Route di Laravel?', k: 'route routing web.php url pengertian',
+    a: 'Route adalah aturan yang menghubungkan sebuah URL (dan metode HTTP) dengan kode yang akan menanganinya, yaitu closure atau method controller. Route aplikasi web didefinisikan di file routes/web.php.',
+    c: "Route::get('/about', function () {\n    return view('about');\n});\n\nRoute::get('/food', [FoodController::class, 'index']);" },
+  { t: 'Route', q: 'Apa saja metode HTTP yang tersedia pada Route?', k: 'route method get post put patch delete any match',
+    a: 'Laravel menyediakan Route::get, Route::post, Route::put, Route::patch, Route::delete, dan Route::options. Selain itu ada Route::match untuk beberapa metode tertentu dan Route::any untuk semua metode.',
+    c: "Route::post('/food', [FoodController::class, 'store']);\nRoute::match(['get', 'post'], '/cari', fn () => 'ok');\nRoute::any('/semua', fn () => 'ok');" },
+  { t: 'Route', q: 'Bagaimana membuat route dengan parameter?', k: 'route parameter id wajib opsional constraint where',
+    a: 'Parameter ditulis di dalam kurung kurawal pada URL dan diterima sebagai argumen di closure atau method controller. Parameter opsional diberi tanda tanya dan harus punya nilai bawaan. Format parameter dapat dibatasi dengan where atau whereNumber.',
+    c: "Route::get('/food/{id}', [FoodController::class, 'show']);\nRoute::get('/user/{name?}', function ($name = 'tamu') {\n    return $name;\n});\nRoute::get('/food/{id}', [FoodController::class, 'show'])->whereNumber('id');" },
+  { t: 'Route', q: 'Apa itu named route dan apa manfaatnya?', k: 'named route nama route name helper route()',
+    a: 'Named route adalah route yang diberi nama lewat method name(). Nama itu dipakai untuk membuat URL dengan helper route(). Manfaatnya: jika URL berubah, cukup diubah di file route dan semua link yang memakai nama tetap benar.',
+    c: "Route::get('/about', fn () => view('about'))->name('about');\n\n<a href=\"{{ route('about') }}\">About</a>\nredirect()->route('about');" },
+  { t: 'Route', q: 'Apa itu route group?', k: 'route group prefix middleware name controller',
+    a: 'Route group mengelompokkan beberapa route yang berbagi atribut yang sama, misalnya prefix URL, middleware, atau awalan nama, supaya tidak perlu ditulis berulang.',
+    c: "Route::prefix('admin')->name('admin.')->group(function () {\n    Route::get('/food', [FoodController::class, 'index'])->name('food.index');\n});\n// URL: /admin/food, nama: admin.food.index" },
+  { t: 'Route', q: 'Apa fungsi Route::view dan Route::redirect?', k: 'route view redirect halaman statis',
+    a: 'Route::view menampilkan sebuah view langsung tanpa controller, cocok untuk halaman statis. Route::redirect mengarahkan satu URL ke URL lain (kode status bawaan 302).',
+    c: "Route::view('/about', 'about');\nRoute::redirect('/lama', '/baru', 301);" },
+  { t: 'Route', q: 'Apa itu Route Model Binding?', k: 'route model binding implicit otomatis model parameter slug',
+    a: 'Route model binding adalah fitur yang otomatis mengambil data model dari database berdasarkan parameter route. Pada implicit binding, nama parameter route harus sama dengan nama variabel yang di-type-hint pada method. Jika data tidak ditemukan, Laravel mengembalikan 404. Secara bawaan pencarian memakai kolom id; kolom lain dapat ditentukan dengan {model:kolom}.',
+    c: "Route::get('/food/{food}', [FoodController::class, 'show']);\n\npublic function show(Food $food)\n{\n    return view('food.show', compact('food'));\n}\n\n// pakai kolom slug:\nRoute::get('/food/{food:slug}', [FoodController::class, 'show']);" },
+  { t: 'Route', q: 'Apa itu Route::resource dan route apa saja yang dibuatnya?', k: 'route resource resource controller crud 7 route restful',
+    a: 'Route::resource membuat tujuh route CRUD sekaligus yang mengarah ke method standar sebuah resource controller: index (GET daftar), create (GET form tambah), store (POST simpan), show (GET detail), edit (GET form ubah), update (PUT/PATCH perbarui), destroy (DELETE hapus). Dapat dibatasi dengan only() atau except(). Route::apiResource membuat versi tanpa create dan edit.',
+    c: "Route::resource('food', FoodController::class);\nRoute::resource('food', FoodController::class)->only(['index', 'show']);" },
+  { t: 'Route', q: 'Apa itu middleware?', k: 'middleware filter request auth',
+    a: 'Middleware adalah lapisan yang memeriksa atau memodifikasi request sebelum mencapai controller, misalnya memeriksa apakah pengguna sudah login (auth). Middleware dipasang pada route dengan method middleware().',
+    c: "Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');" },
+  { t: 'Route', q: 'Apa perbedaan routes/web.php dan routes/api.php?', k: 'web.php api.php perbedaan stateless session',
+    a: 'Route di web.php memakai grup middleware web (mendukung session, cookie, dan perlindungan CSRF) dan ditujukan untuk halaman web. Route di api.php bersifat stateless (tanpa session) dan secara bawaan diberi prefix /api. Pada Laravel 11 ke atas, file api.php tidak ada secara bawaan dan dibuat dengan php artisan install:api.' },
+  { t: 'Route', q: 'Bagaimana melihat daftar semua route?', k: 'route:list melihat daftar route artisan',
+    a: 'Jalankan perintah php artisan route:list di terminal. Perintah ini menampilkan metode HTTP, URI, nama route, dan action (controller) setiap route.' },
+
+  /* ===== CONTROLLER ===== */
+  { t: 'Controller', q: 'Apa itu Controller dan bagaimana membuatnya?', k: 'controller pengertian make:controller membuat',
+    a: 'Controller adalah class yang mengelompokkan logika penanganan request agar file route tetap ringkas. Controller disimpan di app/Http/Controllers dan dibuat dengan php artisan make:controller NamaController. Setiap method controller menangani satu aksi, misalnya menampilkan daftar atau menyimpan data.',
+    c: "php artisan make:controller FoodController\n\nclass FoodController extends Controller\n{\n    public function index()\n    {\n        $foods = Food::all();\n        return view('food.index', compact('foods'));\n    }\n}" },
+  { t: 'Controller', q: 'Apa itu resource controller dan method apa saja di dalamnya?', k: 'resource controller index create store show edit update destroy',
+    a: 'Resource controller dibuat dengan php artisan make:controller NamaController --resource. Isinya tujuh method standar CRUD: index (menampilkan daftar), create (menampilkan form tambah), store (menyimpan data baru), show (menampilkan satu data), edit (menampilkan form ubah), update (menyimpan perubahan), dan destroy (menghapus data).' },
+  { t: 'Controller', q: 'Apa itu invokable controller?', k: 'invokable controller __invoke single action',
+    a: 'Invokable controller adalah controller yang hanya punya satu aksi, ditulis sebagai method __invoke. Dibuat dengan php artisan make:controller NamaController --invokable dan dipasang di route cukup dengan nama class-nya.',
+    c: "Route::get('/about', AboutController::class);" },
+  { t: 'Controller', q: 'Bagaimana mengirim data dari controller ke view?', k: 'kirim data view compact with array',
+    a: 'Ada tiga cara umum: memberikan array sebagai argumen kedua view(), memakai compact() dengan nama variabel, atau memakai method with().',
+    c: "return view('food.index', ['foods' => $foods]);\nreturn view('food.index', compact('foods'));\nreturn view('food.index')->with('foods', $foods);" },
+  { t: 'Controller', q: 'Bagaimana cara mengambil input dari form (Request)?', k: 'request input form $request all only',
+    a: 'Tambahkan type-hint Illuminate\\Http\\Request pada method controller. Nilai input diambil dengan $request->input(\'nama\'), $request->nama, $request->all(), atau $request->only([...]). File upload diambil dengan $request->file(\'nama\').',
+    c: "public function store(Request $request)\n{\n    $nama = $request->input('name');\n    $semua = $request->all();\n}" },
+  { t: 'Controller', q: 'Bagaimana melakukan validasi input di Laravel?', k: 'validasi validate rules required error errors old',
+    a: 'Gunakan $request->validate([...]) dengan aturan per field (misalnya required, string, max:255, numeric, exists:tabel,kolom, image). Jika gagal, Laravel otomatis mengembalikan pengguna ke halaman sebelumnya beserta pesan error dan input lama. Di Blade, pesan ditampilkan dengan $errors atau @error, dan input lama dengan old().',
+    c: "$data = $request->validate([\n    'name'   => 'required|string|max:255',\n    'rating' => 'required|numeric|min:0|max:5',\n]);\n\n@error('name') <div class=\"text-danger\">{{ $message }}</div> @enderror\n<input name=\"name\" value=\"{{ old('name') }}\">" },
+  { t: 'Controller', q: 'Bagaimana redirect dan menampilkan pesan sukses?', k: 'redirect with flash session success pesan',
+    a: 'Gunakan redirect()->route(\'nama\') dan tambahkan pesan flash dengan with(). Pesan flash tersimpan di session hanya untuk request berikutnya, lalu dibaca di view dengan session(\'success\').',
+    c: "return redirect()->route('food.index')->with('success', 'Data berhasil disimpan.');\n\n@if (session('success'))\n    <div class=\"alert alert-success\">{{ session('success') }}</div>\n@endif" },
+  { t: 'Controller', q: 'Apa perbedaan return view dan redirect?', k: 'view redirect perbedaan response',
+    a: 'return view() langsung merender halaman Blade pada request yang sama dan URL tidak berubah. redirect() menyuruh browser membuat request baru ke URL lain (biasanya dipakai setelah menyimpan data agar form tidak terkirim ulang saat halaman di-refresh).' },
+
+  /* ===== BLADE & LAYOUT ===== */
+  { t: 'Blade', q: 'Apa itu Blade?', k: 'blade template engine pengertian blade.php',
+    a: 'Blade adalah template engine bawaan Laravel. File Blade berekstensi .blade.php dan disimpan di resources/views. Blade memungkinkan penulisan HTML yang dicampur sintaks seperti {{ }}, @if, dan @foreach. File Blade dikompilasi menjadi kode PHP biasa dan di-cache, sehingga tidak memperlambat aplikasi.' },
+  { t: 'Blade', q: 'Apa perbedaan {{ }} dan {!! !!} pada Blade?', k: 'escape xss htmlspecialchars kurung kurawal unescaped',
+    a: '{{ $var }} menampilkan nilai dengan escape HTML (htmlspecialchars), sehingga aman dari serangan XSS. {!! $var !!} menampilkan nilai apa adanya tanpa escape, sehingga hanya boleh dipakai untuk data yang tepercaya.' },
+  { t: 'Blade', q: 'Apa saja direktif Blade untuk kondisi dan perulangan?', k: 'direktif if foreach forelse for while unless isset empty loop',
+    a: 'Kondisi: @if, @elseif, @else, @endif; @unless; @isset; @empty. Perulangan: @foreach, @forelse (dengan @empty bila data kosong), @for, @while. Di dalam perulangan tersedia variabel $loop, misalnya $loop->index (mulai 0), $loop->iteration (mulai 1), $loop->first, $loop->last, dan $loop->count.',
+    c: "@forelse ($foods as $food)\n    <li>{{ $loop->iteration }}. {{ $food->name }}</li>\n@empty\n    <li>Belum ada data.</li>\n@endforelse" },
+  { t: 'Layout', q: 'Bagaimana membuat layout dengan @extends, @section, dan @yield?', k: 'layout extends section yield template inheritance master',
+    a: 'Buat file layout (misalnya resources/views/layouts/app.blade.php) yang berisi kerangka halaman dan menaruh @yield(\'nama\') di tempat konten yang berubah-ubah. Setiap halaman memakai @extends(\'layouts.app\') lalu mengisi bagian itu dengan @section(\'nama\') ... @endsection. Cara ini disebut template inheritance.',
+    c: "{{-- layouts/app.blade.php --}}\n<title>@yield('title')</title>\n<body>\n    @yield('content')\n</body>\n\n{{-- about.blade.php --}}\n@extends('layouts.app')\n@section('title', 'About')\n@section('content')\n    <h1>About</h1>\n@endsection" },
+  { t: 'Layout', q: 'Apa perbedaan @yield dan @section?', k: 'yield section perbedaan',
+    a: '@yield dipakai di file layout untuk menandai tempat yang akan diisi konten dari halaman anak (dapat diberi nilai bawaan sebagai argumen kedua). @section dipakai di halaman anak untuk mendefinisikan konten yang akan ditampilkan pada @yield dengan nama yang sama.' },
+  { t: 'Layout', q: 'Apa perbedaan @extends dan @include?', k: 'extends include perbedaan partial',
+    a: '@extends membuat halaman mewarisi sebuah layout, sehingga halaman itu menjadi bagian yang mengisi layout. @include menyisipkan potongan view (partial) ke tempat tertentu, misalnya navbar atau kartu, dan dapat menerima data tambahan sebagai array.',
+    c: "@extends('layouts.app')\n@include('partials.navbar')\n@include('partials.card', ['food' => $food])" },
+  { t: 'Layout', q: 'Apa fungsi @stack dan @push?', k: 'stack push script css tambahan',
+    a: '@stack menyediakan tempat di layout untuk menampung potongan konten (misalnya script atau CSS tambahan), sedangkan @push di halaman anak menambahkan potongan ke stack dengan nama yang sama.',
     c: "{{-- layout --}}\n@stack('scripts')\n\n{{-- halaman --}}\n@push('scripts')\n    <script>console.log('halo');<\/script>\n@endpush" },
   { t: 'Blade', q: 'Apa itu Blade component?', k: 'component x-alert komponen blade make:component',
     a: 'Blade component adalah potongan tampilan yang dapat dipakai ulang dengan sintaks tag HTML seperti <x-alert />. Dapat dibuat dengan php artisan make:component NamaKomponen; view-nya berada di resources/views/components.' },
@@ -2887,6 +2994,8 @@ $category->foods()->count();
         if (inA) score += 1;
       });
       if (norm(query).length > 6 && (q.indexOf(norm(query)) >= 0)) score += 6;
+      var both = q + ' ' + k;
+      for (var b = 0; b + 1 < tk.length; b++) { if (both.indexOf(tk[b] + ' ' + tk[b + 1]) >= 0) { score += 5; hitsQK++; } }
       if (hitsQK > 0) res.push({ e: e, score: score, idx: i, cover: hitsQK / (tk.length * 2) });
     });
     res.sort(function (x, y) { return y.score - x.score; });
@@ -2895,6 +3004,214 @@ $category->foods()->count();
   }
   root.KB = KB; root.KBSearch = search;
   if (typeof module !== 'undefined') module.exports = { KB: KB, search: search };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* Tambahan basis pengetahuan: disusun dari materi kuliah COMP6821001 Web Programming (Sesi 1-7). */
+(function (root) {
+  var S1 = 'Materi Kuliah Sesi 1 (Introduction to Laravel)', S2 = 'Materi Kuliah Sesi 2 (Route & View)', S3 = 'Materi Kuliah Sesi 3 (Laravel UI & Bootstrap)',
+      S4 = 'Materi Kuliah Sesi 4 (Blade Template Engine)', S5 = 'Materi Kuliah Sesi 5 (Controller)', S6 = 'Materi Kuliah Sesi 6 (Migration & Eloquent ORM 1)', S7 = 'Materi Kuliah Sesi 7 (Migration & Eloquent ORM 2)';
+  var E = [
+  /* ===== SESI 1 ===== */
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Apa itu framework (pengertian framework)?', k: 'framework pengertian definisi kumpulan kode siap pakai aturan penulisan',
+    a: 'Framework adalah kumpulan kode program siap pakai dengan aturan penulisan tertentu yang bertujuan mempermudah dan mempercepat pembuatan aplikasi. Framework PHP adalah framework yang dibuat dengan bahasa pemrograman PHP.\nTujuan utamanya mempercepat pembuatan aplikasi karena fitur-fitur sudah tersedia, sehingga pengguna tidak perlu membuat semuanya dari nol. Aturan penulisan di dalam framework juga memaksa pengguna memakai cara penulisan yang baik (mengikuti standar best practice).' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Sebutkan contoh framework (CSS dan PHP).', k: 'contoh framework css php bootstrap materialize foundation bulma semantic codeigniter symfony yii zend laravel',
+    a: 'Framework CSS: Bootstrap, Materialize, Zurb Foundation, Bulma, dan Semantic UI.\nFramework PHP: CodeIgniter, Symfony, Yii, Zend, dan tentu saja Laravel.' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Mengapa memilih Laravel? (Why Laravel)', k: 'why laravel mengapa populer framework php terpopuler google trends codeigniter',
+    a: 'Menurut materi, Laravel adalah framework PHP paling populer saat ini. Berdasarkan Google Trends, Laravel mendominasi dibandingkan CodeIgniter, Symfony, Zend, dan Yii. Di Indonesia, Laravel dan CodeIgniter sama-sama populer; walaupun di luar negeri Laravel sangat dominan, CodeIgniter masih menjadi salah satu pilihan framework PHP di Indonesia.' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Apa alasan memakai framework dan alasan tidak memakai framework (framework vs PHP native)?', k: 'framework vs php native alasan memakai tidak memakai kelebihan kekurangan',
+    a: 'Alasan lebih baik memakai framework: (1) tersedia fitur siap pakai, (2) mengikuti best practice, (3) mudah untuk kolaborasi, (4) kode program mudah dibaca, (5) keamanan aplikasi.\nAlasan tidak memakai framework: (1) aplikasi yang dibuat cukup sederhana, (2) belum memiliki dasar pemrograman web yang cukup, (3) ingin mengejar performa.\nMenggunakan framework mempersingkat waktu pengembangan, tetapi tidak semua project cocok memakai framework. PHP Native berarti memakai kode "PHP saja".' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Jelaskan arsitektur MVC (Model View Controller).', k: 'mvc architecture arsitektur model view controller tiga komponen',
+    a: 'MVC adalah arsitektur desain kode program yang bertujuan memecah kode program utama menjadi 3 komponen terpisah dengan tugas tertentu:\n- Model: mengakses database.\n- View: tampilan desain (user interface).\n- Controller: alur logika program.\nSingkatan MVC berasal dari Model-View-Controller.' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Apa itu Laravel menurut materi kuliah?', k: 'laravel pengertian open source robust mvc codeigniter yii ruby on rails fitur',
+    a: 'Laravel adalah framework PHP open source yang kuat (robust) dan mudah dipahami. Laravel mengikuti pola desain model-view-controller. Laravel memakai ulang komponen-komponen dari framework lain sehingga membantu pembuatan aplikasi web, dan aplikasi web yang dihasilkan lebih terstruktur dan pragmatis. Laravel menawarkan fitur-fitur kaya yang mencakup fitur dasar framework PHP seperti CodeIgniter dan Yii, serta bahasa pemrograman lain seperti Ruby on Rails, sehingga mempercepat pengembangan web.' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Bagaimana cara menginstal Laravel (Composer create-project)?', k: 'install instal laravel composer create-project prefer-dist coba1 xampp htdocs',
+    a: 'Langkah 1: instal Composer. Unduh installer dari getcomposer.org (Composer-Setup.exe untuk Windows), jalankan, pastikan lokasi php.exe benar (misalnya C:\\xampp\\php\\php.exe), lalu uji dengan mengetik composer di cmd.\nLangkah 2: instal Laravel dengan Composer create-project. Buka cmd, pindah ke folder htdocs XAMPP (cd C:\\xampp\\htdocs), lalu jalankan perintah di bawah.\nBagian perintah: composer (menjalankan composer), create-project (membuat project), --prefer-dist laravel/laravel (memilih versi stabil terbaru framework Laravel), coba1 (nama folder tempat semua file disimpan).\nJika muncul tulisan "Application key set successfully" dan kursor kembali ke C:\\xampp\\htdocs, instalasi selesai.',
+    c: 'cd C:\\xampp\\htdocs\ncomposer create-project --prefer-dist laravel/laravel coba1' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Bagaimana menginstal Laravel dengan versi tertentu?', k: 'install laravel versi tertentu 8.0 composer create-project',
+    a: 'Tambahkan nomor versi pada nama paket. Angka 8.0 pada contoh menunjukkan versi Laravel yang ingin diinstal dan dapat disesuaikan.',
+    c: 'composer create-project --prefer-dist laravel/laravel="^8.0" coba3' },
+  { t: 'Sesi 1: Pengantar Laravel', s: S1, q: 'Bagaimana cara menjalankan (mengakses) Laravel?', k: 'menjalankan mengakses laravel php artisan serve 127.0.0.1 8000 server',
+    a: 'Buka cmd lalu pindah ke folder instalasi Laravel (misalnya cd C:\\xampp\\htdocs\\laravel01). Setelah berada di dalam folder Laravel, jalankan web server dengan php artisan serve lalu tekan Enter. Jika server aktif, Laravel dapat diakses dari http://127.0.0.1:8000 pada web browser.',
+    c: 'cd C:\\xampp\\htdocs\\laravel01\nphp artisan serve' },
+
+  /* ===== SESI 2 ===== */
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Apa itu Routing (definisi routing)?', k: 'routing definisi pengertian penghubung pengguna framework web address',
+    a: 'Routing berperan sebagai penghubung antara pengguna (user) dan seluruh framework. Di Laravel, setiap alamat web yang diketik di browser akan melewati route terlebih dahulu. Route-lah yang menentukan ke mana proses akan dibawa, apakah ke Controller atau ke View.' },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Apa route bawaan (default route) Laravel dan di mana letaknya?', k: 'default route bawaan welcome routes web.php view welcome',
+    a: 'Laravel sudah menyertakan 1 route bawaan. Ketika alamat http://localhost:8000 dibuka, kode route akan dipanggil untuk memproses alamat itu. Kode ini berada di file routes/web.php. Baris return view(\'welcome\'); menjalankan View bernama welcome, yang pada dasarnya adalah file PHP. Baris use Illuminate\\Support\\Facades\\Route; (di bagian atas) mengimpor facade Route; facade adalah istilah Laravel untuk class pembantu.',
+    c: "Route::get('/', function () {\n    return view('welcome');\n});" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana cara membuat route baru?', k: 'membuat route baru hello world get closure fungsi anonim',
+    a: 'Cukup menulis pemanggilan method static Route baru di file routes/web.php. Isi fungsi anonim dapat berupa return atau kode PHP biasa seperti echo.',
+    c: "Route::get('/hello', function () {\n    return 'Hello World';\n});\n\nRoute::get('/belajar', function () {\n    echo '<h1>Hello World</h1>';\n    echo '<p>Sedang belajar Laravel</p>';\n});" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Apa itu Route Parameter dan bagaimana contohnya?', k: 'route parameter nilai url query string nama mahasiswa',
+    a: 'Route parameter dipakai untuk mengambil nilai yang ada pada alamat URL. Dengan PHP dasar hal ini dilakukan dengan query string (misalnya mahasiswa.php?nama=Rani dan nilainya diambil dari $_GET). Di Laravel parameter ditulis dalam kurung kurawal pada URL dan diterima sebagai argumen fungsi.',
+    c: "Route::get('/mahasiswa/{nama}', function ($nama) {\n    return \"Tampilkan data mahasiswa bernama $nama\";\n});" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana membuat Route Redirect?', k: 'route redirect pengalihan hubungi kami contact us',
+    a: 'Laravel menyediakan fitur redirect antar route dengan method Route::redirect. Pada contoh, ketika alamat localhost:8000/contact-us diakses, halaman langsung dialihkan ke localhost:8000/hubungi-kami.',
+    c: "Route::get('/hubungi-kami', function () {\n    return '<h1>Hubungi Kami</h1>';\n});\n\nRoute::redirect('/contact-us', '/hubungi-kami');" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Apa itu Route Group dan Route::prefix()?', k: 'route group prefix admin mahasiswa dosen karyawan kelompok',
+    a: 'Jika ada beberapa route yang ingin diproses sebagai satu kelompok, gunakan route group. Dengan Route::prefix() sebuah awalan (prefix) ditambahkan ke setiap anggota route di dalam grup. Manfaatnya, jika awalan seperti \'/admin\' ingin diganti, cukup diubah di grup saja, tidak perlu mengubah route satu per satu. Route group juga nantinya dapat menjalankan middleware tertentu, memakai namespace tertentu, atau mengakses subdomain tertentu.',
+    c: "Route::prefix('/admin')->group(function () {\n    Route::get('/mahasiswa', function () {\n        echo \"<h1>Daftar Mahasiswa</h1>\";\n    });\n    Route::get('/dosen', function () {\n        echo \"<h1>Daftar Dosen</h1>\";\n    });\n});" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana melihat daftar route (route:list)?', k: 'melihat daftar route list artisan php artisan route:list cmd',
+    a: 'Ketika project besar, file routes/web.php berisi banyak route. Laravel menyediakan perintah php artisan untuk melihat semua route yang tersedia. Buka cmd baru (cmd yang menjalankan php artisan serve dibiarkan), masuk ke folder project, lalu ketik php artisan route:list. Artisan sendiri adalah perintah cmd bawaan Laravel yang bisa dipakai untuk banyak hal.',
+    c: 'php artisan route:list' },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Apa itu View?', k: 'view pengertian tampilan html css javascript mvc',
+    a: 'View adalah komponen MVC yang menangani tampilan. Di dalam view terdapat kode HTML, CSS, dan JavaScript. View sebenarnya diakses dari controller, tetapi Laravel mengizinkan view diakses langsung dari route. Jalur Route -> View biasa dipakai untuk menampilkan halaman statis yang tidak butuh pemrosesan rumit.' },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Di mana view disimpan dan bagaimana aturan nama file view?', k: 'view disimpan resources views welcome.blade.php nama file blade.php',
+    a: 'Laravel menyimpan view di folder resources\\views. Contohnya file welcome.blade.php adalah view \'welcome\'. Setiap view harus ditulis dengan nama file <nama_file>.blade.php. Nama view mewakili nama file.' },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana langkah membuat sebuah View?', k: 'membuat view langkah route return view mahasiswa.blade.php',
+    a: 'Ada dua langkah: (1) buat route yang mengembalikan view, yaitu menulis return view(\'nama_view\') di dalam fungsi anonim route; (2) buat file view di folder resources\\views dengan format <nama_file>.blade.php.',
+    c: "// routes/web.php\nRoute::get('/mahasiswa', function () {\n    return view('mahasiswa');\n});\n\n{{-- resources/views/mahasiswa.blade.php --}}\n<p>Ini dari View!</p>" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana membuat struktur folder view (titik pada view())?', k: 'struktur folder view subfolder titik universitas.mahasiswa',
+    a: 'View dapat dipindahkan ke subfolder, misalnya resources\\views\\universitas\\mahasiswa.blade.php. Pada route, nama view ditulis \'universitas.mahasiswa\'. Tanda titik pada view() dipakai untuk menandai nama folder.',
+    c: "Route::get('/mahasiswa', function () {\n    return view('universitas.mahasiswa');\n});" },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana menulis kode PHP di dalam View?', k: 'kode php di dalam view date copyright echo native',
+    a: 'File view pada dasarnya adalah file PHP biasa. Walaupun mayoritas berisi kode front-end seperti HTML dan CSS, perintah PHP native boleh ditulis di dalam view, contohnya fungsi date() bawaan PHP.',
+    c: '<div>\n  Copyright c <?php echo date("Y"); ?> Laravel.com\n</div>' },
+  { t: 'Sesi 2: Route & View', s: S2, q: 'Bagaimana mengirim data ke View?', k: 'mengirim data ke view argumen array mahasiswa01 echo',
+    a: 'Data dikirim sebagai argumen kedua fungsi view() berupa array asosiatif. View menangkap data dengan menampilkan variabel yang sesuai nama kuncinya.',
+    c: "Route::get('/mahasiswa', function () {\n    return view('universitas.mahasiswa', [\"mahasiswa01\" => \"Risa Lestari\"]);\n});\n\n<li><?php echo $mahasiswa01; ?></li>" },
+
+  /* ===== SESI 3 ===== */
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Apa itu Laravel UI?', k: 'laravel ui pengertian komponen frontend bootstrap vue react preset scaffolding',
+    a: 'Laravel UI adalah komponen khusus yang dipakai untuk menginstal framework frontend seperti Bootstrap, Vue, atau React ke dalam Laravel. Komponen ini sepenuhnya opsional karena framework tetap dapat diinstal secara manual. Pada halaman dokumentasi, Laravel UI juga dikenal sebagai JavaScript & CSS Scaffolding. Laravel UI mendukung 3 jenis framework frontend (disebut preset): Bootstrap, Vue, dan React.' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Bagaimana cara instalasi Laravel UI?', k: 'instalasi install laravel ui composer require laravel/ui php artisan ui bootstrap',
+    a: 'Lewat CMD: (1) instal dengan composer memakai perintah composer require laravel/ui:^3.0 --dev; (2) instal bootstrap (jika memilih Bootstrap) dengan php artisan ui bootstrap; (3) setelah selesai, Laravel UI dapat dipakai dengan menambahkan link di header dan memakainya seperti biasa.',
+    c: 'composer require laravel/ui:^3.0 --dev\nphp artisan ui bootstrap' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Apa itu Bootstrap 5 menurut materi kuliah?', k: 'bootstrap 5 pengertian twitter bootstrap mobile-first sass npm getbootstrap.com',
+    a: 'Bootstrap 5 adalah versi terbaru framework Bootstrap, yang dahulu dikenal sebagai Twitter Bootstrap. Dibuat oleh Twitter untuk aplikasi mobile-first. Bootstrap adalah sistem gaya yang lengkap dan mudah dipakai untuk membantu tugas harian web developer. Keunggulan terbesarnya dibanding framework CSS lain adalah pilihan template, tema, dan boilerplate code tambahan yang sangat banyak.\nBootstrap 5 umumnya didistribusikan lewat situs resmi getbootstrap.com dan npm (node package manager); distribusi sendiri juga dapat dibuat dari source code. Bootstrap memakai file mentah bahasa Sass, yaitu pre-compiler yang diterjemahkan menjadi CSS (berbeda dari Bootstrap 3 yang memakai LESS).' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Jelaskan Bootstrap Grid System dan enam breakpoint-nya.', k: 'bootstrap grid system 12 kolom breakpoint xs sm md lg xl xxl tier',
+    a: 'Bootstrap memungkinkan lebar layer dibagi menjadi 12 kolom, dan kolom-kolom ini dapat dikelompokkan. Grid system Bootstrap beradaptasi pada keenam breakpoint bawaan (dan breakpoint yang disesuaikan). Enam tier grid bawaan: Extra small (xs), Small (sm), Medium (md), Large (lg), Extra large (xl), dan Extra extra large (xxl).' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Jelaskan Typography pada Bootstrap (heading dan display heading).', k: 'typography bootstrap heading h1 h6 display heading tipografi',
+    a: 'Bootstrap mendefinisikan gaya untuk beberapa elemen HTML secara langsung, seperti tampilan dasar, tipografi, dan warna. Semua heading HTML <h1> sampai <h6> tersedia. Elemen heading tradisional dirancang bekerja paling baik pada isi halaman; bila butuh heading yang menonjol, gunakan display heading, yaitu gaya heading yang lebih besar dan lebih khas.' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Apa saja kelas perataan teks (alignment) pada Bootstrap?', k: 'alignment text-left text-center text-right text-justify text-nowrap perataan teks',
+    a: 'Menurut materi: text-left (rata kiri), text-center (teks di tengah), text-right (rata kanan), text-justify (rata kiri-kanan), dan text-nowrap (mencegah teks turun baris). Ada juga varian untuk viewport tertentu, misalnya text-xs-left, text-xs-center, text-xs-right untuk viewport "xs".\nCatatan versi: pada Bootstrap 5 nama kelas arah memakai start/end (text-start, text-end) dan varian responsif memakai infix breakpoint (misalnya text-md-center); varian text-xs-* adalah penulisan versi lama.' },
+  { t: 'Sesi 3: Laravel UI & Bootstrap', s: S3, q: 'Bagaimana membuat Navbar pada Bootstrap (navbar-expand)?', k: 'navbar bootstrap navigasi header navbar-expand sm md lg xl xxl responsive collapsing',
+    a: 'Navbar dipakai untuk membuat header navigasi. Navbar membutuhkan pembungkus .navbar dengan .navbar-expand{-sm|-md|-lg|-xl|-xxl} agar dapat menciut secara responsif (responsive collapsing), serta kelas skema warna.' },
+
+  /* ===== SESI 4 ===== */
+  { t: 'Sesi 4: Blade', s: S4, q: 'Apa itu Blade dan apa dua fungsi utamanya?', k: 'blade template engine pengertian fungsi utama menyingkat php layout',
+    a: 'Blade adalah template engine bawaan Laravel: berisi perintah tambahan untuk mempermudah pembuatan template. Template sendiri dapat disebut kerangka dasar dari view. Secara garis besar ada 2 fungsi utama Blade di Laravel: (1) menyingkat penulisan perintah PHP, dan (2) memecah file template (proses pembuatan layout).' },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Bagaimana menampilkan data di Blade dibandingkan PHP biasa?', k: 'menampilkan data blade echo kurung kurawal nama variabel compact',
+    a: 'Penggunaan paling dasar Blade adalah menyederhanakan proses menampilkan data di view. Dengan PHP biasa: <?php echo $nama; ?>. Dengan Blade cukup ditulis {{ $nama }}. Data dikirim dari route/controller, misalnya memakai compact(\'nama\',\'nilai\').',
+    c: "Route::get('/mahasiswa', function () {\n    $nama = 'Tya Kirana Putri';\n    $nilai = 75;\n    return view('mahasiswa', compact('nama', 'nilai'));\n});\n\n{{ $nama }}\n{{ $nilai }}" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Bagaimana kondisi If-Else di Blade?', k: 'if else elseif endif kondisi blade nilai lulus',
+    a: 'Blade menyediakan penulisan singkat untuk struktur kondisi PHP seperti if-else. Contoh seleksi if memakai @if, @elseif, dan diakhiri @endif.',
+    c: "@if (($nilai >= 0) and ($nilai < 50))\n    <div class=\"alert alert-danger d-inline-block\">Sorry, you didn't pass</div>\n@elseif (($nilai >= 50) and ($nilai <= 100))\n    <div class=\"alert alert-success d-inline-block\">Congrats, you pass</div>\n@endif" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Bagaimana kondisi Switch Case di Blade?', k: 'switch case blade @switch @case @break @default @endswitch',
+    a: 'Switch Case memakai @switch(variabel), setiap pilihan memakai @case(nilai) dan diakhiri @break, ada @default untuk nilai lainnya, dan ditutup @endswitch.',
+    c: "@switch($nilai)\n    @case(0)\n        <div class=\"alert alert-danger d-inline-block\">Tidak ikut ujian</div>\n    @break\n    @case(75)\n        <div class=\"alert alert-success d-inline-block\">Lumayan</div>\n    @break\n    @case(100)\n        <div class=\"alert alert-success d-inline-block\">Sempurna</div>\n    @break\n    @default\n        <div class=\"alert alert-dark d-inline-block\">Nilai tidak valid</div>\n@endswitch" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Bagaimana perulangan For dan While di Blade?', k: 'perulangan for while blade @for @endfor @while @endwhile loop',
+    a: 'Blade menyediakan cara singkat untuk menyusun perulangan for dengan @for ... @endfor dan perulangan while dengan @while ... @endwhile.',
+    c: "@for ($i = 0; $i < 5; $i++)\n    <div class=\"alert alert-info d-inline-block\">Laravel</div>\n@endfor\n\n<?php $i = 0; ?>\n@while($i < 5)\n    <div class=\"alert alert-info d-inline-block\">{{ $i }}</div>\n    <?php $i++ ?>\n@endwhile" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Bagaimana perulangan Foreach di Blade?', k: 'foreach blade @foreach @endforeach array nilai perulangan',
+    a: '@foreach dipakai untuk menampilkan isi array. Variabel yang dikirim berisi array (misalnya 5 elemen), lalu setiap elemen ditampilkan lewat @foreach ... @endforeach.',
+    c: "@foreach ($nilai as $val)\n    <div class=\"alert alert-info d-inline-block\">{{ $val }}</div>\n@endforeach" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Apa itu @forelse dan bagaimana formatnya?', k: 'forelse empty endforelse blade perulangan kosong array',
+    a: 'Forelse adalah perulangan khusus dari Blade dengan struktur @forelse, @empty, dan @endforelse. Pada dasarnya ini gabungan dari pengecekan apakah array berisi nilai atau tidak. Bagian setelah @forelse dijalankan jika variabel berisi sesuatu, dan bagian @empty dijalankan jika variabel berupa array kosong. Isi variabel harus berupa array atau collection; jika berupa tipe data lain, @forelse akan menghasilkan error.',
+    c: "@forelse ($value as $val)\n    // dijalankan jika $value berisi sesuatu\n@empty\n    // dijalankan jika $value array kosong\n@endforelse" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Apa itu @include pada Blade?', k: 'include blade layout header footer pecah file view terpisah',
+    a: 'Cara pertama menyederhanakan pembuatan layout atau template adalah memecah bagian yang berulang menjadi file terpisah, lalu menyatukannya kembali di view yang membutuhkan. Blade menyediakan perintah @include untuk itu, mirip fungsi include() bawaan PHP. Contoh: @include(\'layout.header\') mewakili file header.blade.php di folder layout, dan @include(\'layout.footer\') mewakili footer.blade.php.',
+    c: "@include('layout.header')\n<div class=\"container text-center\">\n    <h1>{{ $nama }}</h1>\n</div>\n@include('layout.footer')" },
+  { t: 'Sesi 4: Blade', s: S4, q: 'Jelaskan Layout dan Section Extends (@extends, @section, @yield).', k: 'layout section extends yield master.blade.php inherit mewarisi view title content',
+    a: 'Selain @include, Blade menyediakan teknik alternatif yang di banyak situasi lebih praktis, yaitu "mewariskan" (extends) sebuah file view ke view lain.\nFungsi extends(\'layout.master\') adalah tanda bahwa master.blade.php di folder layout dipakai sebagai layout website.\nFungsi @yield(\'content\') adalah menampilkan tag HTML di dalam @section(\'content\'); jadi di file master cukup membuat @yield(\'content\') atau @yield(\'title\'), lalu isinya dibuat di @section(\'title\') atau @section(\'content\').\n@section(\'title\',\'Data Mahasiswa\') berarti nilai string "Data Mahasiswa" akan ditampilkan di @yield(\'title\').',
+    c: "{{-- resources/views/layout/master.blade.php --}}\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <title>@yield('title')</title>\n</head>\n<body>\n    @yield('content')\n</body>\n</html>\n\n{{-- resources/views/mahasiswa.blade.php --}}\n@extends('layout.master')\n@section('title', 'Data Mahasiswa')\n@section('content')\n    <div class=\"container text-center mt-3 p-4 bg-white\">\n        <h1>Data Mahasiswa</h1>\n    </div>\n@endsection" },
+
+  /* ===== SESI 5 ===== */
+  { t: 'Sesi 5: Controller', s: S5, q: 'Apa itu Controller (pengertian controller)?', k: 'controller pengertian logika lalu lintas data mvc tengah',
+    a: 'Secara sederhana, controller adalah potongan kode program yang mengatur logika dan lalu lintas data. Controller berada di pusat MVC. Ketika pengguna mengetik alamat di web browser, route membaca alamat tersebut dan (idealnya) memanggil controller yang sesuai. Di dalam controller ditulis logika program. Jika perlu mengambil data dari database, controller mengakses model. Hasil dari model dikembalikan ke controller, dapat diproses lebih lanjut, lalu dikirim ke view. Setelah sampai di view, data hidup ditampilkan ke web browser.' },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana cara mengakses (memanggil) Controller dari Route?', k: 'mengakses controller route get class method pagecontroller index show format penulisan',
+    a: 'Pada Laravel baru, pemanggilan controller ditulis dengan format Route::get(\'<url>\', [App\\Http\\Controllers\\NamaController::class, \'nama_method\']). Contoh: memanggil method index() pada PageController, dan alamat /mahasiswa menjalankan method show() milik PageController. Di Laravel, controller berbentuk file yang berisi 1 object dengan berbagai method, dan secara default semua file controller berada di folder app\\Http\\Controllers.',
+    c: "Route::get('/', [App\\Http\\Controllers\\PageController::class, 'index']);\n\nRoute::get('/mahasiswa', [App\\Http\\Controllers\\PageController::class, 'show']);" },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana membuat Controller secara manual?', k: 'membuat controller manual PageController.php namespace extends Controller app http controllers',
+    a: 'Buat file baru bernama PageController.php lalu simpan di folder app\\Http\\Controllers, kemudian isi dengan kode class yang meng-extends Controller. Selanjutnya tambahkan route yang mengarah ke method-nya di routes/web.php. Route pertama berarti: jika http://localhost:8000 diakses, jalankan method index() di PageController; route kedua untuk alamat /mahasiswa menjalankan method yang sesuai.',
+    c: "<?php\nnamespace App\\Http\\Controllers;\n\nclass PageController extends Controller\n{\n    public function index(){\n        return \"Halaman Home\";\n    }\n    public function tampil(){\n        return \"Data Mahasiswa\";\n    }\n}" },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana cara menulis route untuk controller (namespace di atas file)?', k: 'menulis route controller namespace use di atas routes web.php lengkap tipe 1 tipe 2',
+    a: 'Pada Laravel versi terbaru, penulisan route harus memakai namespace lengkap App\\Http\\Controllers\\ lalu nama class controller dan nama method. Cara lain: namespace App\\Http\\Controllers\\PageController dapat dipindahkan ke bagian atas file routes/web.php dengan perintah use, sehingga di route cukup menulis PageController::class.' },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana mengakses View dari Controller?', k: 'mengakses view dari controller with return view mahasiswa array',
+    a: 'Cara mengakses view hampir sama dengan lewat Route. Di method controller, kirim data ke view dengan return view(\'nama_view\')->with(\'nama\', $data). Pada view, data yang dikirim ditangkap dan ditampilkan, misalnya dengan @forelse.',
+    c: "public function tampil(){\n    $arrMahasiswa = [\"Risa Lestari\", \"Rudi Hermawan\", \"Bambang Kusumo\", \"Lisa Permata\"];\n    return view('mahasiswa')->with('mahasiswa', $arrMahasiswa);\n}\n\n<ol class=\"list-group\">\n@forelse ($mahasiswa as $val)\n    <li class=\"list-group-item\">{{$val}}</li>\n@empty\n    <div class=\"alert alert-dark d-inline-block\">No data...</div>\n@endforelse\n</ol>" },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana memindahkan file Controller ke subfolder (misalnya Admin)?', k: 'memindahkan file controller subfolder admin namespace use App Http Controllers Controller',
+    a: 'Secara default semua file controller ada di app\\Http\\Controllers. Untuk aplikasi besar, file dapat dikelompokkan ke subfolder (misalnya Admin) supaya lebih rapi, tetapi file tidak bisa langsung dipindah begitu saja. Yang harus diubah: (1) namespace di baris atas disesuaikan dengan path baru: namespace App\\Http\\Controllers\\Admin; (ada tambahan Admin sesuai nama folder); (2) tambahkan use App\\Http\\Controllers\\Controller; (3) pada Route, pemanggilan controller memakai namespace baru.',
+    c: "namespace App\\Http\\Controllers\\Admin;\nuse App\\Http\\Controllers\\Controller;\n\nRoute::get('/mahasiswa', [App\\Http\\Controllers\\Admin\\PageController::class, 'tampil']);" },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Apa itu Facade di Laravel dan bagaimana dua cara mengaksesnya?', k: 'facade laravel kelas method static helper str use namespace langsung',
+    a: 'Facade adalah istilah Laravel untuk class yang berisi berbagai method static. Facade dapat dipahami sebagai kumpulan fungsi bantu yang "dibungkus" dalam bentuk class. Seperti fungsi biasa di PHP, facade dipakai untuk mempermudah pembuatan kode program dan sangat membantu proses pengolahan data di controller.\nFacade diakses menggunakan namespace, jadi ada 2 cara pemanggilan: (1) akses langsung, yaitu menulis alamat namespace lengkap beserta class saat dipakai, misalnya \\Illuminate\\Support\\Str::<nama_method>; (2) dideklarasikan secara global memakai perintah use di bagian awal program, lalu dipanggil dengan nama class-nya.',
+    c: "// akses langsung\n\\Illuminate\\Support\\Str::upper('halo');\n\n// dengan use\nuse Illuminate\\Support\\Str;\nStr::upper('halo');" },
+  { t: 'Sesi 5: Controller', s: S5, q: 'Bagaimana membuat Controller lewat artisan (make:controller)?', k: 'membuat controller artisan php artisan make:controller MahasiswaController cmd',
+    a: 'Lewat jendela CMD, perintah membuat controller adalah php artisan make:controller <NamaController>. Contoh untuk membuat MahasiswaController. Teks "Controller created successfully" muncul jika berhasil, dan file baru MahasiswaController.php muncul di folder app\\Http\\Controllers.',
+    c: 'php artisan make:controller MahasiswaController' },
+
+  /* ===== SESI 6 ===== */
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Database apa saja yang didukung Laravel dan bagaimana pengaturan database di Laravel?', k: 'pengaturan database laravel mysql mariadb sqlite postgresql sql server didukung xampp',
+    a: 'Database adalah aplikasi terpisah dari PHP. Untuk aplikasi web berbasis PHP, yang paling sering dipakai adalah MySQL/MariaDB, SQLite, PostgreSQL, dan SQL Server. Keempat jenis database ini didukung Laravel secara default. Pada materi dipakai database MySQL (tepatnya MariaDB) bawaan XAMPP. Agar bisa berkomunikasi dengan MySQL, perlu mengatur konfigurasi Laravel (di file .env).' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Jelaskan 6 pengaturan database di file .env (DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD).', k: 'env db_connection db_host db_port db_database db_username db_password pengaturan database',
+    a: 'Konfigurasi lokal Laravel ada di file .env. Ada 6 baris pengaturan database:\n- DB_CONNECTION: walaupun bawaannya berisi \'mysql\', ini bukan pengaturan jenis database melainkan profil yang berisi konfigurasi di file config/database.php. Secara default profil \'mysql\' berisi konfigurasi ke database MySQL.\n- DB_HOST: alamat server database. Bawaannya 127.0.0.1 (alamat localhost).\n- DB_PORT: port aplikasi server database. Bawaannya 3306 (port default MySQL).\n- DB_DATABASE: nama database yang dipakai. Bawaannya \'laravel\', artinya Laravel langsung mencari database bernama \'laravel\'.\n- DB_USERNAME dan DB_PASSWORD: user name dan password untuk login ke server database. Bawaannya user root dan password tidak diisi.',
+    c: 'DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=laravel\nDB_USERNAME=root\nDB_PASSWORD=' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Apa itu Migration (definisi migration menurut materi)?', k: 'definition migration definisi pengertian fitur laravel membuat tabel cepat version control database tim',
+    a: 'Migration adalah fitur Laravel untuk membuat tabel dengan cepat. Hanya dengan 1 perintah php artisan, satu hingga puluhan tabel bisa langsung tersedia. Migration sangat berguna untuk project yang dibuat bersama tim: jika anggota tim ingin mencoba aplikasi, tidak perlu membuat tabel manual dari phpMyAdmin, cukup menjalankan file migration. Secara lebih teknis, migration disebut version control untuk database. Selain membuat tabel, migration juga dapat dipakai untuk melakukan perubahan struktur tabel secara bertahap.' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Apa saja file migration bawaan Laravel dan bagaimana format nama file migration?', k: 'file migration bawaan default users password_resets failed_jobs timestamp format nama folder database migrations',
+    a: 'Laravel sudah memiliki beberapa file migration bawaan di folder database\\migrations. Pada materi (Laravel versi yang dipakai di kuliah) ada 3 file: 2014_10_12_000000_create_users_table.php, 2014_10_12_100000_create_password_resets_table.php, dan 2019_08_19_000000_create_failed_jobs_table.php. Setiap file migration dipakai untuk membuat 1 tabel.\nNama file migration diawali timestamp (waktu file dibuat), diikuti nama migration. Format penulisan yang disarankan: <timestamp>_<proses>_<nama_tabel(s)>_table.php. Nama tabel disarankan bentuk jamak (plural) dengan menambahkan huruf s di akhir kata, seperti students, lecturers, things.\nCatatan versi: daftar file bawaan berbeda pada Laravel 11/12.' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana menjalankan migration (php artisan migrate)?', k: 'menjalankan migration php artisan migrate running migration urutan timestamp phpmyadmin',
+    a: 'Untuk menjalankan migration, buka cmd, masuk ke folder laravel, lalu jalankan php artisan migrate. Jika hasilnya muncul seperti pada contoh, proses migration berhasil; hasilnya dapat dicek di phpMyAdmin pada database laravel. File migration dijalankan berurutan sesuai tanggal timestamp; file dengan timestamp paling baru dijalankan paling akhir.',
+    c: 'php artisan migrate' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana melakukan Rollback Migration (migrate:rollback --step)?', k: 'rollback migration migrate:rollback step kembali mundur struktur database',
+    a: 'Jika tiba-tiba terjadi masalah akibat penambahan tabel, kita dapat melakukan rollback sebagian pada file migration, seolah mengembalikan struktur database ke hari sebelumnya. Untuk mengembalikan posisi sebelum file migration terakhir dipakai php artisan migrate:rollback --step=1. Pada project besar bisa mundur 6 atau 10 langkah dengan mengatur nilai --step; misalnya mundur 7 file migration memakai php artisan migrate:rollback --step=7.',
+    c: 'php artisan migrate:rollback --step=1\nphp artisan migrate:rollback --step=7' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana membuat file Migration baru (make:migration --create)?', k: 'membuat migration make:migration create_mahasiswas_table --create up() $table->id() tipe kolom',
+    a: 'Cara praktis membuat migration adalah dengan perintah php artisan make:migration <nama_migration> --create=<nama_tabel>. Contoh membuat file migration tabel mahasiswas. Hasilnya di folder database\\migrations muncul file seperti 2020_03_04_151623_create_mahasiswas_table.php; nama berbeda karena timestamp dibuat otomatis dari sistem komputer.\nStruktur tabel ditulis pada method up(). Format penulisan kolom: $table->tipe_data_kolom(\'nama_kolom\'). Misalnya $table->id() membuat kolom bertipe big integer yang langsung diatur auto increment. Daftar tipe kolom lengkap ada di dokumentasi laravel.com (Migrations, Available Column Types). Setelah itu jalankan php artisan migrate.',
+    c: 'php artisan make:migration create_mahasiswas_table --create=mahasiswas\nphp artisan migrate' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana mengubah struktur tabel dengan migration (Alter Table, doctrine/dbal)?', k: 'alter table migration ubah struktur tabel doctrine dbal composer alter_mahasiswas_table --table',
+    a: 'Migration tidak hanya untuk membuat dan menghapus tabel, tetapi juga mengubah struktur tabel (menjalankan query ALTER). Menurut materi, untuk mengubah tabel di migration, Laravel membutuhkan library tambahan Doctrine DBAL yang diinstal dengan composer require doctrine/dbal di folder laravel. Lalu buat file migration baru dengan perintah make:migration ... --table=<nama_tabel> (contoh nama alter_mahasiswas_table).\nCatatan versi: pada Laravel versi baru (11/12), paket doctrine/dbal tidak lagi dibutuhkan untuk mengubah kolom.',
+    c: 'composer require doctrine/dbal\nphp artisan make:migration alter_mahasiswas_table --table=mahasiswas' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Apa itu Eloquent ORM (arti ORM) menurut materi?', k: 'eloquent orm object relational mapping pengertian tabel baris objek',
+    a: 'Eloquent ORM adalah metode akses database di mana setiap baris tabel dianggap sebagai sebuah object. ORM sendiri singkatan dari Object-relational mapping, yaitu teknik pemrograman untuk mengubah data menjadi bentuk object. Cara kerjanya mengubah baris tabel menjadi sebuah object. Teknik penulisan seperti ini sangat cocok dipakai pada framework seperti Laravel yang semuanya sudah menerapkan konsep pemrograman berbasis object.' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana membuat Model (aturan nama model dan tabel)?', k: 'membuat model make:model aturan nama model tabel tunggal jamak mahasiswa app models',
+    a: 'Eloquent ORM membutuhkan Model untuk proses mengubah data tabel menjadi object; object inilah yang diakses dari dalam controller. Perintahnya: php artisan make:model <NamaModel>. Nama model harus dipasangkan dengan nama tabel tetapi dalam bentuk tunggal (singular): jika tabelnya mahasiswas maka modelnya Mahasiswa; jika tabelnya matakuliahs maka modelnya Matakuliah. Setelah perintah dijalankan, file baru Mahasiswa.php muncul di folder app\\Models.',
+    c: 'php artisan make:model Mahasiswa' },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana mengakses Model dari Controller (Model Access)?', k: 'model access mengakses model controller use App Models Mahasiswa dump instansiasi',
+    a: 'Pembuatan kode dengan Eloquent ORM tetap dilakukan dari controller; yang diakses sekarang adalah class Model. Class Mahasiswa harus diimpor lebih dulu ke controller dengan menulis use App\\Models\\Mahasiswa; di bagian atas file controller. Setelah itu model dapat diakses di seluruh controller, misalnya dengan membuat instance class lalu menampilkan isinya dengan dump().',
+    c: "use App\\Models\\Mahasiswa;\n\npublic function checkObject(){\n    $mahasiswa = new Mahasiswa;\n    dump($mahasiswa);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana menginput data dengan Eloquent (save)?', k: 'input data insert eloquent new model save attribut mahasiswa nim nama',
+    a: 'Proses input data dengan Eloquent cukup sederhana: buat object dari model Mahasiswa, isikan data ke atribut yang sesuai dengan nama kolom tabel, lalu jalankan method save(). Tidak semua field harus diisi, tergantung kebutuhan dan selama sesuai dengan kondisi di tabel. Method dijalankan dengan membuka alamat route-nya (misalnya localhost:8000/insert), dan hasil dump() dapat dilihat pada #attributes.',
+    c: "public function insert(){\n    $mahasiswa = new Mahasiswa;\n    $mahasiswa->nim = '19003036';\n    $mahasiswa->nama = 'Sari Citra Lestari';\n    $mahasiswa->tanggal_lahir = '2001-12-31';\n    $mahasiswa->ipk = 3.5;\n    $mahasiswa->save();\n\n    dump($mahasiswa);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana mengubah (update) data dengan Eloquent (find lalu save)?', k: 'update data eloquent find save updated_at mengubah data model objek',
+    a: 'Eloquent memproses data tabel memakai object. Untuk proses update, kita harus mencari object Model dari tabel, mengubah beberapa propertinya, lalu menyimpannya lagi. Method find() dipakai mencari data tabel berdasarkan kolom id; Mahasiswa::find(1) mengambil data dengan id = 1 lalu membuat object-nya. Nilai baru menimpa data yang ada, dan perubahan disimpan ke database dengan save(). Pada hasil dump() tab #changes berisi data yang berubah; Eloquent otomatis memperbarui kolom updated_at saat update terjadi sehingga tidak perlu dilakukan manual.',
+    c: "public function update(){\n    $mahasiswa = Mahasiswa::find(1);\n    $mahasiswa->tanggal_lahir = '2001-12-31';\n    $mahasiswa->ipk = 2.9;\n    $mahasiswa->save();\n\n    dump($mahasiswa);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana menghapus (delete) data dengan Eloquent?', k: 'delete hapus data eloquent find delete method model objek',
+    a: 'Proses menghapus data dengan Eloquent sangat sederhana, yaitu dengan mengakses method delete() dari object Model. Sebelumnya object yang ingin dihapus harus dicari terlebih dahulu (misalnya dengan find(1)). Setelah object didapat, jalankan method delete().',
+    c: "public function delete(){\n    $mahasiswa = Mahasiswa::find(1);\n    $mahasiswa->delete();\n\n    dump($mahasiswa);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana menampilkan data dengan Eloquent (method all())?', k: 'menampilkan data eloquent all collection view tampil-mahasiswa forelse displaying',
+    a: 'Menampilkan data dengan Eloquent berarti banyak berurusan dengan object dan collection. Beberapa method hanya mengembalikan satu object Model, sebagian lain mengembalikan collection berisi banyak object Model. Method all() berfungsi mengambil semua data dari tabel. Karena menampilkan data langsung di controller dirasa kurang tepat, data sebaiknya dikirim ke view terlebih dahulu. Hasil Mahasiswa::all() sudah berbentuk collection sehingga bisa langsung diteruskan ke view lewat [\'mahasiswas\' => $mahasiswas]. Di view, isi variabel ditampilkan dengan perulangan @forelse; isinya harus berupa array atau collection, jika tipe lain @forelse akan error.',
+    c: "public function allView(){\n    $mahasiswas = Mahasiswa::all();\n    return view('tampil-mahasiswa', ['mahasiswas' => $mahasiswas]);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Bagaimana menampilkan data dengan kondisi (method where dan orderBy)?', k: 'method where eloquent orderby get kondisi ipk urut nama descending',
+    a: 'Untuk mengambil sebagian data dari tabel dipakai method where(), dengan cara pemakaian yang sama seperti method where() pada Collection dan Query Builder. Contoh pada materi: menampilkan semua mahasiswa dengan IPK di bawah 3 dan diurutkan berdasarkan nama secara menurun (descending), memakai where(), orderBy(), dan diakhiri get().',
+    c: "public function getWhere(){\n    $mahasiswas = Mahasiswa::where('ipk', '<', '3')\n        ->orderBy('nama', 'desc')\n        ->get();\n    return view('tampil-mahasiswa', ['mahasiswas' => $mahasiswas]);\n}" },
+  { t: 'Sesi 6: Migration & Eloquent 1', s: S6, q: 'Apa itu Soft Delete dan bagaimana cara mengaktifkannya?', k: 'soft delete softdeletes trait deleted_at kolom schema softDeletes dropSoftDeletes model flight',
+    a: 'Selain benar-benar menghapus data dari database, Eloquent juga dapat melakukan "soft delete" pada model. Pada soft delete, data sebenarnya tidak dihapus dari database; yang terjadi adalah atribut deleted_at diisi pada model untuk menandai tanggal dan waktu model "dihapus". Untuk mengaktifkannya, tambahkan trait Illuminate\\Database\\Eloquent\\SoftDeletes pada model. Kolom deleted_at juga harus ditambahkan ke tabel; schema builder Laravel punya method pembantu softDeletes() untuk membuatnya (dan dropSoftDeletes() untuk menghapusnya).',
+    c: "use Illuminate\\Database\\Eloquent\\Model;\nuse Illuminate\\Database\\Eloquent\\SoftDeletes;\n\nclass Flight extends Model\n{\n    use SoftDeletes;\n}\n\nSchema::table('flights', function (Blueprint $table) {\n    $table->softDeletes();\n});\nSchema::table('flights', function (Blueprint $table) {\n    $table->dropSoftDeletes();\n});" },
+
+  /* ===== SESI 7 ===== */
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Apa itu Seeding (Seeder) dan Faker menurut materi?', k: 'seeding seeder faker pengertian data uji coba library data palsu ratusan ribuan acak',
+    a: 'Seeding atau Seeder adalah fitur yang dapat dipakai untuk memasukkan data sembarang atau data pengujian (testing). Sedangkan Faker adalah library yang dipakai untuk membuat data palsu; library Faker mampu membuat ratusan bahkan ribuan data secara acak.' },
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Di mana file Seeder berada dan apa itu DatabaseSeeder?', k: 'file seeder letak folder database seeds factories databaseseeder file dasar',
+    a: 'File seeder berada di direktori Database, tempat juga terdapat migrations, seeds, dan factories. Pada instalasi baru aplikasi Laravel hanya ada satu file di folder seeds, yaitu DatabaseSeeder, yang merupakan file dasar untuk menjalankan seeder dan factory lainnya.' },
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Bagaimana membuat dan menjalankan Seeder (make:seeder, db:seed --class)?', k: 'membuat seeder make:seeder SiswaSeeder db:seed --class menjalankan method run faker 50 data',
+    a: 'Untuk membuat seeding, buat dulu class seeder dengan perintah php artisan make:seeder SiswaSeeder. Cara menjalankan method run() adalah php artisan db:seed --class=SiswaSeeder. Contoh pada materi: butuh 50 data siswa sebagai data testing, maka data palsu (Faker) ditulis di file SiswaSeeder.php yang dibuat tadi, lalu file dijalankan dengan perintah db:seed --class=SiswaSeeder.',
+    c: 'php artisan make:seeder SiswaSeeder\nphp artisan db:seed --class=SiswaSeeder' },
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Apa itu relasi One To One dan bagaimana cara membuatnya (hasOne dan belongsTo)?', k: 'one to one relations satu ke satu hasone belongsto user phone inverse relasi',
+    a: 'Relasi one-to-one adalah relasi yang sangat dasar. Contoh: model User dapat dikaitkan dengan satu Phone. Untuk mendefinisikannya, letakkan method phone pada model User yang memanggil method hasOne dan mengembalikan hasilnya.\nDefining the inverse of the relationship (kebalikannya): agar dapat mengakses model User yang memiliki telepon dari model Phone, definisikan relasi pada model Phone memakai method belongsTo.',
+    c: "// User.php\npublic function phone()\n{\n    return $this->hasOne(Phone::class);\n}\n\n// Phone.php\npublic function user()\n{\n    return $this->belongsTo(User::class);\n}" },
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Apa itu relasi One To Many dan bagaimana cara membuatnya (hasMany dan belongsTo)?', k: 'one to many relations satu ke banyak hasmany belongsto post comments inverse relasi',
+    a: 'Relasi one-to-many dipakai untuk mendefinisikan relasi di mana satu model memiliki sejumlah model lain. Contoh: sebuah blog post dapat memiliki jumlah comments yang tidak terbatas. Seperti relasi Eloquent lainnya, relasi ini didefinisikan dengan menaruh sebuah fungsi pada model Eloquent (pada model Post memakai hasMany).\nOne To Many (Inverse): agar sebuah comment dapat mengakses post induknya, definisikan fungsi relasi pada model anak (child) yang memanggil method belongsTo.',
+    c: "// Post.php\npublic function comments()\n{\n    return $this->hasMany(Comment::class);\n}\n\n// Comment.php\npublic function post()\n{\n    return $this->belongsTo(Post::class);\n}" },
+  { t: 'Sesi 7: Migration & Eloquent 2', s: S7, q: 'Apa itu relasi Many To Many dan bagaimana cara membuatnya (belongsToMany)?', k: 'many to many relations banyak ke banyak belongstomany user roles role inverse tabel pivot',
+    a: 'Relasi many-to-many sedikit lebih rumit dibanding hasOne dan hasMany. Contoh: seorang user memiliki banyak role dan role itu juga dipakai bersama oleh user lain. Misalnya user diberi role "Author" dan "Editor", tetapi role itu juga dapat diberikan ke user lain; jadi user punya banyak role dan role punya banyak user.\nRelasi many-to-many didefinisikan dengan menulis method yang mengembalikan hasil method belongsToMany. Method belongsToMany disediakan oleh base class Illuminate\\Database\\Eloquent\\Model yang dipakai semua model Eloquent. Untuk kebalikannya ("inverse"), definisikan method pada model terkait yang juga mengembalikan hasil belongsToMany (method users pada model Role).',
+    c: "// User.php\npublic function roles()\n{\n    return $this->belongsToMany(Role::class);\n}\n\n// Role.php\npublic function users()\n{\n    return $this->belongsToMany(User::class);\n}" }
+  ];
+  root.KB.push.apply(root.KB, E);
+  if (typeof module !== 'undefined') module.exports = E;
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -2911,7 +3228,7 @@ $category->foods()->count();
   function kartu(e, utama) {
     var d = el('div', undefined, 'box'); if (utama) d.style.borderLeftColor = '#4a7a4a';
     d.appendChild(el('b', e.q));
-    d.appendChild(el('div', 'Topik: ' + e.t, 'muted'));
+    d.appendChild(el('div', 'Topik: ' + e.t + (e.s ? '  |  Sumber: ' + e.s : ''), 'muted'));
     e.a.split('\n').forEach(function (p) { var q = el('p', p); q.style.margin = '6px 0'; d.appendChild(q); });
     if (e.c) {
       var fig = el('figure'), cap = el('figcaption'), b = el('button', 'Salin'); b.type = 'button';
@@ -2938,6 +3255,47 @@ $category->foods()->count();
   $('tCari').addEventListener('click', cari);
   $('tQ').addEventListener('keydown', function (e) { if (e.key === 'Enter') cari(); });
   $('tHapus').addEventListener('click', function () { $('tQ').value = ''; $('tOut').innerHTML = ''; });
+
+  function pecah(teks) {
+    var t = teks.replace(/\r/g, '').trim();
+    var parts = t.split(/\n(?=\s*(?:\d{1,3}[.)]\s|[a-zA-Z][.)]\s|[-•\uF0B7]\s))/);
+    if (parts.length < 2) {
+      parts = [];
+      t.split(/\n+/).forEach(function (ln) { ln.split(/(?<=\?)\s+/).forEach(function (x) { if (x.trim()) parts.push(x); }); });
+    }
+    return parts.map(function (p) { return p.replace(/^\s*(?:\d{1,3}[.)]|[a-zA-Z][.)]|[-•\uF0B7])\s*/, '').replace(/\s*\n\s*/g, ' ').trim(); }).filter(function (p) { return p.length > 3; });
+  }
+  function jawabBanyak() {
+    var out = $('tBanyakOut'); out.innerHTML = '';
+    var qs = pecah($('tBanyak').value);
+    if (!qs.length) { out.appendChild(el('div', 'Tempel daftar pertanyaan atau pilih file terlebih dahulu.', 'box')); return; }
+    out.appendChild(el('p', qs.length + ' pertanyaan terdeteksi. Periksa setiap jawaban; jika "tidak ditemukan", sistem tidak menebak.', 'muted'));
+    qs.forEach(function (q, i) {
+      var r = window.KBSearch(q);
+      var h = el('h3', 'Pertanyaan ' + (i + 1) + ': ' + q); out.appendChild(h);
+      if (!r.length) {
+        var b = el('div', undefined, 'box'); b.style.borderLeftColor = '#a33';
+        b.appendChild(el('b', 'Tidak ditemukan di basis pengetahuan.')); out.appendChild(b);
+      } else {
+        out.appendChild(kartu(r[0].e, true));
+        if (r.length > 1) { var d = document.createElement('details'); d.appendChild(el('summary', 'Topik terkait (' + (r.length - 1) + ')')); r.slice(1).forEach(function (x) { d.appendChild(kartu(x.e, false)); }); out.appendChild(d); }
+      }
+    });
+  }
+  function status(m, ok) { var s = $('tStatus'); s.textContent = m; s.style.color = ok === false ? '#a33' : (ok ? '#2f6f2f' : '#555'); }
+  $('tJawab').addEventListener('click', jawabBanyak);
+  $('tFile').addEventListener('change', function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    status('Membaca "' + f.name + '" ...');
+    f.arrayBuffer().then(function (buf) {
+      try {
+        var r = window.SoalReader.extract(new Uint8Array(buf), f.name);
+        if (!r.text.trim()) { status('Tidak ada teks yang bisa dibaca (kemungkinan PDF hasil scan). Ketik atau salin teksnya.', false); return; }
+        $('tBanyak').value = r.text; status('Berhasil. ' + r.info, true); jawabBanyak();
+      } catch (err) { status('Gagal membaca file: ' + err.message, false); }
+    }, function () { status('File tidak dapat dibaca.', false); });
+    e.target.value = '';
+  });
   var grup = {};
   window.KB.forEach(function (e) { (grup[e.t] = grup[e.t] || []).push(e); });
   var box = $('tTopik');
