@@ -32,6 +32,16 @@ figcaption{display:flex;justify-content:space-between;align-items:center;gap:8px
 button{font:12px system-ui,sans-serif;border:1px solid #bbb;background:#f8f8f6;color:#333;border-radius:3px;padding:2px 9px;cursor:pointer}
 button:hover{background:#fff}
 pre{margin:0;padding:10px 12px;overflow:auto;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#222;tab-size:4}
+.fm label{display:block;font-weight:600;font-size:13px;margin:12px 0 3px}
+.fm input[type=text],.fm input[type=number],.fm textarea,.fm select{width:100%;padding:6px 8px;border:1px solid #bbb;border-radius:3px;font:13.5px system-ui,sans-serif;background:#fff;color:#222}
+.fm textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+.fm input[type=checkbox]{margin-right:6px}
+.fm .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fm fieldset{border:1px solid #d6d6d2;border-radius:4px;margin:14px 0;padding:6px 14px 14px;background:#fafaf8}
+.fm legend{font-weight:600;padding:0 6px;font-size:14px}
+.hint{font-size:12.5px;color:#777;margin:2px 0 0}
+.big{font-size:14px;padding:8px 18px}
+@media(max-width:760px){.fm .row2{grid-template-columns:1fr}}
 mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 @media(max-width:760px){.wrap{display:block}nav{position:static;height:auto;width:auto;border-right:0;border-bottom:1px solid #ddd}nav a{display:inline-block;margin-right:10px}main{padding:16px}}
 @media print{nav,button{display:none}}
@@ -41,10 +51,13 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <div class="wrap">
 <nav>
 <b>Daftar isi</b>
+<a href="#mulai"><b>A. Panduan dari nol</b></a>
+<a href="#pembuat"><b>B. Pembuat Kode</b></a>
+<span style="display:block;margin:10px 0 4px;color:#777">C. Referensi manual</span>
 <a href="#petunjuk">0. Cara pakai</a>
 <a href="#info">1. Info ujian</a>
 <a href="#alur">2. Alur kerja</a>
-<a href="#adaptasi">3. Ganti nama (soal lain)</a>
+<a href="#adaptasi">3. Ganti nama</a>
 <a href="#perintah">4. Perintah artisan</a>
 <a href="#migration">5. Migration</a>
 <a href="#model">6. Model</a>
@@ -53,7 +66,7 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <a href="#controller">9. Controller</a>
 <a href="#layout">10. Layout Blade</a>
 <a href="#view">11. View halaman user</a>
-<a href="#crud">12. CRUD (tambah/ubah/hapus)</a>
+<a href="#crud">12. CRUD</a>
 <a href="#fitur">13. Fitur tambahan</a>
 <a href="#eloquent">14. Eloquent dan Blade</a>
 <a href="#dokumentasi">15. Dokumentasi</a>
@@ -63,6 +76,205 @@ mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
 <main>
 <h1>Catatan Pemrograman Web</h1>
 <p class="muted">Laravel 11/12 &middot; Blade &middot; Bootstrap &middot; Migration &middot; Eloquent. Contoh kasus: review makanan (satu reviewer punya banyak makanan; makanan dan kategori banyak-ke-banyak).</p>
+
+<h2 id="mulai">A. Mulai dari sini: panduan dari nol</h2>
+<p>Bagian ini ditulis untuk orang yang belum pernah memakai Laravel. Ikuti urutannya dari atas ke bawah, jangan melompat. Setiap langkah ada tulisan <b>Tanda berhasil</b> supaya Anda tahu langkah itu sudah benar sebelum lanjut.</p>
+
+<h3>Sebelum hari ujian (cukup sekali, butuh internet)</h3>
+<ol>
+<li>Buka halaman ini di browser (Chrome atau Edge) lewat alamat <code class="i">https://davndo.github.io/uts/</code>. Tunggu sampai halaman tampil penuh.</li>
+<li>Muat ulang halaman satu kali (tekan F5). Ini membuat browser menyimpan seluruh halaman untuk dipakai tanpa internet.</li>
+<li>Matikan internet (atau aktifkan mode pesawat), lalu muat ulang lagi. <b>Tanda berhasil:</b> halaman tetap tampil seperti biasa dan Pembuat Kode di bawah masih bisa dipakai.</li>
+<li>Coba sekali Pembuat Kode memakai soal contoh (bagian B) sampai Anda terbiasa. Di hari ujian, gunakan browser dan komputer yang sama jika memungkinkan. Jika komputer ujian berbeda, simpan halaman ini juga sebagai file (tekan Ctrl+S, simpan di flashdisk) lalu buka file tersebut.</li>
+</ol>
+
+<h3>Saat ujian: 10 langkah</h3>
+
+<h3>Langkah 1. Baca soal dan temukan tiga hal</h3>
+<p>Ambil kertas coretan. Tulis:</p>
+<ol>
+<li><b>Apa saja &ldquo;benda&rdquo; yang datanya disimpan?</b> Itu menjadi tabel. Pada soal KulineranYuk!: makanan (review makanan), food reviewer, kategori.</li>
+<li><b>Apa hubungan antar benda itu?</b> Cari kalimat berbentuk &ldquo;satu A dapat memiliki lebih dari satu B&rdquo;.
+  <ul>
+  <li>&ldquo;Satu reviewer menerbitkan banyak review, satu review hanya satu reviewer&rdquo; berarti <b>satu-ke-banyak</b>: reviewer adalah induk, makanan adalah item.</li>
+  <li>&ldquo;Satu kategori punya banyak makanan, satu makanan boleh masuk banyak kategori&rdquo; berarti <b>banyak-ke-banyak</b>: kategori adalah grup.</li>
+  </ul></li>
+<li><b>Halaman apa saja yang diminta?</b> Pada contoh: Home, Category (dropdown), Detail, Food Reviewer (dropdown), About Us. Catat juga fitur tambahan (misal Top Food of the Week, pencarian, tambah/ubah/hapus).</li>
+</ol>
+<p><b>Tanda berhasil:</b> di kertas ada daftar tabel, garis hubungan antartabel, dan daftar halaman.</p>
+
+<h3>Langkah 2. Isi Pembuat Kode (di bawah, bagian B)</h3>
+<p>Tempel teks soal (opsional) agar kalimat penting ditandai, lalu isi formulir sesuai kertas coretan Anda. Klik <b>Buat Kode</b>. Tunggu sampai muncul daftar file. Jangan ditutup, Anda akan menyalin dari sini terus.</p>
+<p><b>Tanda berhasil:</b> muncul tulisan hijau &ldquo;Kode berhasil dibuat&rdquo; dan daftar kotak kode bernomor.</p>
+
+<h3>Langkah 3. Buka project Laravel</h3>
+<ol>
+<li>Buka File Explorer, masuk ke <code class="i">E:\projects</code>, pilih project Laravel yang tersedia (Laravel 11 atau 12).</li>
+<li>Klik kotak alamat di bagian atas File Explorer (tempat tertulis lokasi folder), ketik <code class="i">cmd</code>, tekan Enter. Jendela hitam (terminal) terbuka <b>di folder project itu</b>. Inilah terminal 1.</li>
+<li>Buka juga folder project yang sama di editor kode (misalnya VS Code: klik kanan folder, pilih Open with Code; atau di terminal ketik <code class="i">code .</code> lalu Enter).</li>
+</ol>
+<p><b>Tanda berhasil:</b> di editor terlihat folder <code class="i">app</code>, <code class="i">routes</code>, <code class="i">resources</code>, <code class="i">database</code>, dan file <code class="i">artisan</code>.</p>
+
+<h3>Langkah 4. Nyalakan server tampilan dan server Laravel</h3>
+<ol>
+<li>Di terminal 1 ketik <code class="i">npm run dev</code>, Enter. Biarkan terbuka (jangan ditutup).</li>
+<li>Buka terminal baru di folder yang sama (ulangi cara pada langkah 3, ini terminal 2). Ketik <code class="i">php artisan serve</code>, Enter. Biarkan terbuka.</li>
+<li>Buka browser, ketik <code class="i">http://127.0.0.1:8000</code>. Terlihat halaman Laravel bawaan.</li>
+</ol>
+<p><b>Aturan penting dari dosen:</b> <code class="i">npm run dev</code> harus dijalankan <b>sebelum</b> <code class="i">php artisan serve</code>.</p>
+<p><b>Tanda berhasil:</b> halaman bawaan Laravel tampil di browser.</p>
+
+<h3>Langkah 5. Siapkan database</h3>
+<ol>
+<li>Cari file bernama <code class="i">.env</code> di editor (di folder paling luar project). Cari baris <code class="i">DB_CONNECTION</code>.</li>
+<li><b>Jika tertulis <code class="i">sqlite</code></b>: tidak perlu apa-apa, database dibuat otomatis. Lanjut ke langkah 6.</li>
+<li><b>Jika tertulis <code class="i">mysql</code></b>: buka phpMyAdmin (biasanya <code class="i">http://localhost/phpmyadmin</code>, nyalakan MySQL di XAMPP/Laragon dulu), buat database baru bernama bebas, misal <code class="i">uts_web</code>. Lalu di <code class="i">.env</code> isi <code class="i">DB_DATABASE=uts_web</code>, <code class="i">DB_USERNAME=root</code>, <code class="i">DB_PASSWORD=</code> (kosong).</li>
+<li>Simpan file (Ctrl+S).</li>
+</ol>
+<p><b>Tanda berhasil:</b> file .env tersimpan dan (jika mysql) database kosong sudah terlihat di phpMyAdmin.</p>
+
+<h3>Langkah 6. Jalankan perintah pembuat file</h3>
+<p>Di halaman ini, salin blok <b>&ldquo;Perintah terminal&rdquo;</b> dari hasil Pembuat Kode. Di <b>terminal 3</b> (buka lagi cara yang sama, atau pakai terminal editor), tempel lalu Enter. Jika hanya baris pertama yang jalan, tempel satu baris satu kali. Perintah ini membuat file-file <b>kosong</b> pada tempat yang benar.</p>
+<p><b>Tanda berhasil:</b> setiap baris menampilkan tulisan hijau/putih &ldquo;INFO ... created successfully&rdquo; dan tidak ada tulisan merah.</p>
+
+<h3>Langkah 7. Isi setiap file dengan kode hasil pembuat</h3>
+<ol>
+<li>Pada hasil Pembuat Kode, kotak <b>File 1</b> menunjukkan nama file di judulnya. Klik <b>Salin</b>.</li>
+<li>Di editor, tekan Ctrl+P, ketik nama file (misal <code class="i">Food.php</code>), Enter. File terbuka.</li>
+<li>Tekan Ctrl+A (pilih semua), lalu Ctrl+V (tempel), lalu Ctrl+S (simpan).</li>
+<li>Ulangi untuk File 2, 3, dan seterusnya sampai selesai. Untuk file migration, di Ctrl+P ketik bagian nama saja, contoh <code class="i">create_foods_table</code>.</li>
+<li>Kalau judul kotak menyebut <b>&ldquo;file sudah ada&rdquo;</b> (misal <code class="i">routes/web.php</code>), caranya sama: Ctrl+A lalu tempel.</li>
+</ol>
+<p><b>Tanda berhasil:</b> semua kotak sudah dipakai dan tidak ada file yang masih kosong.</p>
+
+<h3>Langkah 8. Buat tabel dan isi data contoh</h3>
+<p>Di terminal 3 ketik: <code class="i">php artisan migrate:fresh --seed</code> lalu Enter. Jika ditanya &ldquo;create the database?&rdquo; ketik <code class="i">yes</code>. Jika memakai upload gambar, jalankan juga: <code class="i">php artisan storage:link</code> (sekali saja).</p>
+<p><b>Tanda berhasil:</b> muncul daftar tabel dengan tulisan DONE di setiap baris, tanpa tulisan merah. Cek di phpMyAdmin: tabel berisi data.</p>
+<p><b>Jika merah:</b> baca bagian &ldquo;16. Jika error&rdquo; di bawah, atau salin pesan merahnya dan cocokkan dengan tabelnya.</p>
+
+<h3>Langkah 9. Cek semua halaman</h3>
+<p>Buka <code class="i">http://127.0.0.1:8000</code>. Klik setiap menu, setiap dropdown, dan setiap tombol &ldquo;Baca selengkapnya&rdquo;. Bandingkan dengan daftar halaman di kertas coretan. Jika tampilan tidak berstyle Bootstrap, lihat bagian &ldquo;Jika tampilan polos&rdquo; di bawah. Ambil <b>screenshot</b> setiap halaman (tombol Windows + Shift + S) dan pastikan alamat (URL) di browser ikut terlihat.</p>
+<p><b>Tanda berhasil:</b> semua halaman yang diminta soal tampil dan semua link bisa diklik.</p>
+
+<h3>Langkah 10. Dokumentasi dan pengumpulan</h3>
+<ol>
+<li>Salin &ldquo;Draf dokumentasi&rdquo; dari hasil Pembuat Kode ke Word. Sesuaikan jika ada yang berbeda dari yang Anda buat.</li>
+<li>Tempel screenshot di bagian yang sesuai.</li>
+<li>Simpan sebagai Word atau PDF sesuai permintaan soal.</li>
+<li>Kumpulkan: folder project lengkap + dokumen. Periksa dengan daftar di bagian &ldquo;17. Cek sebelum kumpul&rdquo;.</li>
+</ol>
+
+<h3>Jika tampilan polos (tidak ada gaya Bootstrap)</h3>
+<ul>
+<li>Pastikan <code class="i">npm run dev</code> masih berjalan di terminal 1 (tidak error dan tidak tertutup).</li>
+<li>Jika project belum memuat Bootstrap, buka file <code class="i">resources/js/app.js</code> dan tambahkan baris <code class="i">import 'bootstrap';</code> di paling atas. Buka <code class="i">resources/css/app.css</code> dan tambahkan <code class="i">@import 'bootstrap/dist/css/bootstrap.min.css';</code> di paling atas. Simpan, lalu muat ulang browser. Ini hanya bekerja jika folder <code class="i">node_modules/bootstrap</code> sudah ada di project (project lab di E:/projects seharusnya sudah ada).</li>
+<li>Jika tetap polos, di Pembuat Kode ganti pilihan Bootstrap menjadi &ldquo;CDN&rdquo; (butuh internet, hanya sebagai cadangan) lalu buat ulang file layout.</li>
+</ul>
+
+<h3>Kamus istilah (bahasa sehari-hari)</h3>
+<table>
+<tr><th>Istilah</th><th>Artinya</th></tr>
+<tr><td>Route</td><td>Daftar alamat web (misal /about) dan siapa yang melayani alamat itu.</td></tr>
+<tr><td>Controller</td><td>&ldquo;Petugas&rdquo; yang menerima permintaan, mengambil data, lalu menyerahkannya ke tampilan.</td></tr>
+<tr><td>Model</td><td>Wakil satu tabel database di dalam kode. Lewat model kita membaca/menyimpan data dan menyatakan relasi.</td></tr>
+<tr><td>Migration</td><td>Resep membuat tabel database (nama kolom dan tipenya).</td></tr>
+<tr><td>Seeder dan Factory</td><td>Pengisi data contoh otomatis (nama, teks, angka acak) memakai Faker.</td></tr>
+<tr><td>View / Blade</td><td>File tampilan (HTML) yang boleh diselipi kode Laravel seperti <code class="i">{{ $x }}</code>.</td></tr>
+<tr><td>Layout (extends, section, yield)</td><td>Kerangka halaman yang sama (menu, footer). <code class="i">@yield</code> adalah lubang yang diisi tiap halaman lewat <code class="i">@section</code>.</td></tr>
+<tr><td>Relasi satu-ke-banyak</td><td>Satu induk punya banyak anak (satu reviewer, banyak review). Anak menyimpan kolom <code class="i">reviewer_id</code>.</td></tr>
+<tr><td>Relasi banyak-ke-banyak</td><td>Dua sisi sama-sama banyak (makanan dan kategori). Butuh tabel perantara (pivot).</td></tr>
+<tr><td>Artisan</td><td>Perintah bantu Laravel di terminal (<code class="i">php artisan ...</code>).</td></tr>
+<tr><td>CRUD</td><td>Create (tambah), Read (lihat), Update (ubah), Delete (hapus).</td></tr>
+</table>
+
+<h2 id="pembuat">B. Pembuat Kode otomatis (tanpa internet)</h2>
+<div class="box"><b>Cara kerja, jujur:</b> alat ini tidak &ldquo;mengerti&rdquo; soal seperti manusia. Ia membantu menemukan kalimat penting pada soal, lalu menyusun <b>seluruh kode</b> (migration, model, seeder, route, controller, semua view) dari isian formulir Anda. Semua berjalan di browser ini, tanpa internet. Hasilnya selalu mengikuti pola yang sama, jadi cocok untuk soal sejenis KulineranYuk!.</div>
+
+<form class="fm" id="gForm" onsubmit="return false">
+<fieldset>
+<legend>Langkah 1. Tempel soal (opsional)</legend>
+<p class="hint">Tempel teks soal di bawah, atau pilih file teks (.txt). Untuk PDF/Word: buka dokumen, tekan Ctrl+A, Ctrl+C, lalu tempel di sini. Alat akan menandai kalimat relasi, daftar nilai, nama halaman, dan nama website.</p>
+<textarea id="gSoal" rows="6" placeholder="Tempel teks soal di sini..."></textarea>
+<div style="margin-top:6px"><input type="file" id="gFile" accept=".txt,.md,text/plain"> <button type="button" id="gAnalisis">Cari hal penting di soal</button> <button type="button" id="gContoh">Pakai soal contoh (KulineranYuk!)</button></div>
+<div id="gHasil" style="margin-top:8px"></div>
+</fieldset>
+
+<fieldset>
+<legend>Langkah 2. Umum</legend>
+<div class="row2">
+<div><label for="gSite">Nama website (judul di menu)</label><input type="text" id="gSite" data-save><p class="hint">Contoh: KulineranYuk!</p></div>
+<div><label for="gBtn">Tulisan tombol detail</label><input type="text" id="gBtn" data-save><p class="hint">Contoh: Baca selengkapnya</p></div>
+</div>
+<label for="gAbout">Isi halaman About Us</label>
+<textarea id="gAbout" rows="3" data-save></textarea>
+<p class="hint">Tulis 2 sampai 3 kalimat tentang website sesuai soal. Kosongkan jika ingin kalimat otomatis.</p>
+</fieldset>
+
+<fieldset>
+<legend>Langkah 3. Benda utama (item)</legend>
+<p class="hint">Item = benda yang datanya paling banyak dan punya halaman detail. Pada contoh: Makanan (food).</p>
+<div class="row2">
+<div><label for="iCls">Nama model (bahasa Inggris, tunggal, tanpa spasi)</label><input type="text" id="iCls" data-save><p class="hint">Contoh: Food, Book, Product</p></div>
+<div><label for="iLabel">Nama untuk ditampilkan</label><input type="text" id="iLabel" data-save><p class="hint">Contoh: Makanan</p></div>
+</div>
+<label for="iPl">Nama tabel (jamak, opsional)</label><input type="text" id="iPl" data-save placeholder="kosongkan agar otomatis (food menjadi foods)">
+<label for="iFields">Kolom item (satu baris satu kolom, format nama:tipe)</label>
+<textarea id="iFields" rows="7" data-save></textarea>
+<p class="hint">Tipe: <b>string</b> teks pendek, <b>text</b> teks panjang, <b>integer</b> bilangan bulat, <b>decimal</b> bilangan desimal, <b>date</b> tanggal, <b>boolean</b> ya/tidak, <b>image</b> gambar. Aturan otomatis: kolom string pertama = judul; image pertama = poster; text pertama = ringkasan; text kedua = isi lengkap; kolom bernama <b>rating</b> dipakai untuk fitur Top; boolean pertama dipakai untuk memilih item unggulan.</p>
+<label for="iSamples">Contoh judul item untuk data acak (satu per baris, opsional)</label>
+<textarea id="iSamples" rows="4" data-save></textarea>
+</fieldset>
+
+<fieldset>
+<legend>Langkah 4. Induk (pemilik item)</legend>
+<label><input type="checkbox" id="useParent" data-save> Ada induk (relasi satu-ke-banyak: satu induk punya banyak item)</label>
+<div id="boxParent">
+<div class="row2">
+<div><label for="pCls">Nama model induk</label><input type="text" id="pCls" data-save><p class="hint">Contoh: Reviewer, Author</p></div>
+<div><label for="pLabel">Nama untuk ditampilkan</label><input type="text" id="pLabel" data-save><p class="hint">Contoh: Food Reviewer</p></div>
+</div>
+<label for="pPl">Nama tabel (opsional)</label><input type="text" id="pPl" data-save>
+<label for="pFields">Kolom induk</label>
+<textarea id="pFields" rows="4" data-save></textarea>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Langkah 5. Grup (kategori)</legend>
+<label><input type="checkbox" id="useGroup" data-save> Ada grup (relasi banyak-ke-banyak: satu item boleh masuk banyak grup)</label>
+<div id="boxGroup">
+<div class="row2">
+<div><label for="cCls">Nama model grup</label><input type="text" id="cCls" data-save><p class="hint">Contoh: Category, Genre, Tag</p></div>
+<div><label for="cLabel">Nama untuk ditampilkan</label><input type="text" id="cLabel" data-save><p class="hint">Contoh: Category</p></div>
+</div>
+<label for="cPl">Nama tabel (opsional)</label><input type="text" id="cPl" data-save>
+<label for="cFields">Kolom grup</label>
+<textarea id="cFields" rows="2" data-save></textarea>
+<label for="cVals">Nama-nama grup (pisahkan dengan koma atau baris baru)</label>
+<textarea id="cVals" rows="2" data-save></textarea>
+<p class="hint">Contoh: Traditional Food, Modern Food, Healthy Food, Dessert. Jika soal minta pilih dua saja, tulis dua saja.</p>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Langkah 6. Fitur dan pengaturan</legend>
+<label><input type="checkbox" id="optCrud" data-save> Halaman Kelola: daftar, tambah, ubah, hapus, validasi, upload gambar</label>
+<label><input type="checkbox" id="optSearch" data-save> Kelola dilengkapi pencarian dan filter</label>
+<label><input type="checkbox" id="optTop" data-save> Fitur Top (item dengan rating tertinggi tampil di Home)</label>
+<div class="row2">
+<div><label for="nParent">Jumlah induk di data contoh</label><input type="number" id="nParent" min="1" data-save></div>
+<div><label for="nItem">Jumlah item (per induk bila ada induk)</label><input type="number" id="nItem" min="1" data-save></div>
+</div>
+<label for="gBoot">Cara memuat Bootstrap</label>
+<select id="gBoot" data-save><option value="vite">Dari project (@vite, jalankan npm run dev)</option><option value="cdn">CDN (butuh internet, cadangan)</option></select>
+</fieldset>
+
+<p><button type="button" id="gBuat" class="big">Buat Kode</button> <button type="button" id="gReset">Kembalikan ke isian contoh</button></p>
+</form>
+<div id="gOut"></div>
+
+<h2 id="referensi">C. Referensi manual</h2>
+<p>Bagian di bawah dipakai jika ingin menulis kode sendiri atau memahami hasil Pembuat Kode. Isinya sama dengan yang dibuat otomatis.</p>
 
 <h2 id="petunjuk">0. Cara pakai (baca dulu)</h2>
 <ol>
@@ -1278,6 +1490,751 @@ $category->foods()->count();
     });
   }
 })();
+</script>
+<script>
+/* Mesin pembuat kode Laravel (offline, tanpa library). */
+(function (root) {
+  var T = String.raw;
+  var TYPES = ['string', 'text', 'integer', 'decimal', 'date', 'boolean', 'image'];
+  var snake = function (s) { return String(s).trim().replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/[\s-]+/g, '_').toLowerCase(); };
+  var studly = function (s) { return String(s).trim().replace(/(^|[_\s-])([a-zA-Z0-9])/g, function (m, a, b) { return b.toUpperCase(); }); };
+  var camel = function (s) { var x = studly(s); return x.charAt(0).toLowerCase() + x.slice(1); };
+  var plural = function (w) {
+    if (/[^aeiou]y$/.test(w)) return w.slice(0, -1) + 'ies';
+    if (/(s|x|z|ch|sh)$/.test(w)) return w + 'es';
+    return w + 's';
+  };
+  var q = function (s) { return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'"; };
+  var human = function (n) { var t = n.replace(/_/g, ' '); return t.charAt(0).toUpperCase() + t.slice(1); };
+  var lines = function (a) { return a.filter(function (x) { return x !== null && x !== undefined && x !== false; }).join('\n'); };
+  var indent = function (s, n) { var p = new Array(n + 1).join(' '); return s.split('\n').map(function (l) { return l ? p + l : l; }).join('\n'); };
+
+  function parseFields(txt, errors, who) {
+    var out = [];
+    String(txt || '').split('\n').forEach(function (l) {
+      l = l.trim(); if (!l) return;
+      var p = l.split(':'); var n = snake(p[0] || ''); var t = (p[1] || 'string').trim().toLowerCase();
+      if (!/^[a-z][a-z0-9_]*$/.test(n)) { errors.push(who + ': nama kolom "' + l + '" tidak valid. Pakai huruf kecil/angka/garis bawah.'); return; }
+      if (TYPES.indexOf(t) < 0) { errors.push(who + ': tipe "' + t + '" tidak dikenal (pilihan: ' + TYPES.join(', ') + ').'); return; }
+      out.push({ n: n, t: t });
+    });
+    if (!out.length) errors.push(who + ': isi minimal satu kolom.');
+    return out;
+  }
+  function roles(f) {
+    var r = {};
+    var find = function (fn) { for (var i = 0; i < f.length; i++) if (fn(f[i])) return f[i].n; return null; };
+    r.title = find(function (x) { return x.t === 'string'; }) || (f[0] && f[0].n);
+    r.image = find(function (x) { return x.t === 'image'; });
+    var texts = f.filter(function (x) { return x.t === 'text'; });
+    r.summary = texts[0] ? texts[0].n : null;
+    r.body = texts[1] ? texts[1].n : (texts[0] ? texts[0].n : null);
+    r.rating = find(function (x) { return /^(rating|skor|nilai)$/.test(x.n) && (x.t === 'decimal' || x.t === 'integer'); });
+    r.flag = find(function (x) { return x.t === 'boolean'; });
+    var used = [r.title, r.image, r.summary, r.body, r.rating, r.flag].filter(Boolean);
+    r.others = f.filter(function (x) { return used.indexOf(x.n) < 0; });
+    return r;
+  }
+  function mkEnt(o, errors, who) {
+    o = o || {};
+    var cls = studly(o.cls || '');
+    if (!/^[A-Za-z][A-Za-z0-9]*$/.test(cls)) errors.push(who + ': nama model "' + (o.cls || '') + '" tidak valid (huruf/angka tanpa spasi, contoh: Reviewer).');
+    var sn = snake(cls);
+    var table = (o.pl || '').trim() ? snake(o.pl) : plural(sn);
+    var v = camel(sn), vs = camel(table); if (vs === v) vs = v + 'List';
+    var fields = parseFields(o.fields, errors, who);
+    return {
+      cls: cls, sn: sn, table: table, v: v, vs: vs, url: sn.replace(/_/g, '-'),
+      label: (o.label || '').trim() || cls, fields: fields, r: roles(fields),
+      samples: String(o.samples || '').split('\n').map(function (s) { return s.trim(); }).filter(Boolean)
+    };
+  }
+
+  /* ---------- potongan kode per kolom ---------- */
+  function migCol(f, E) {
+    var n = f.n;
+    switch (f.t) {
+      case 'string': return "$table->string('" + n + "');";
+      case 'text': return "$table->text('" + n + "');";
+      case 'integer': return "$table->integer('" + n + "')->default(0);";
+      case 'decimal': return E.r.rating === n ? "$table->decimal('" + n + "', 3, 1)->default(0);" : "$table->decimal('" + n + "', 10, 2)->default(0);";
+      case 'date': return "$table->date('" + n + "');";
+      case 'boolean': return "$table->boolean('" + n + "')->default(false);";
+      case 'image': return "$table->string('" + n + "')->nullable();";
+    }
+  }
+  function fakeExpr(f, E, kind) {
+    var n = f.n, r = E.r;
+    if (f.t === 'image') return "'https://picsum.photos/seed/' . fake()->unique()->numberBetween(1, 99999) . '/" + (kind === 'item' ? '800/450' : '300/300') + "'";
+    if (f.t === 'string') {
+      if (n === r.title && E.samples.length) return 'fake()->randomElement([' + E.samples.map(q).join(', ') + '])';
+      if (/email/.test(n)) return 'fake()->unique()->safeEmail()';
+      if (/(phone|telp|telepon|hp)/.test(n)) return 'fake()->phoneNumber()';
+      if (/(alamat|address)/.test(n)) return 'fake()->address()';
+      if (n === r.title && kind === 'parent') return 'fake()->name()';
+      if (n === r.title && kind === 'group') return 'fake()->word()';
+      if (n === r.title) return 'ucwords(fake()->words(3, true))';
+      return 'fake()->words(2, true)';
+    }
+    if (f.t === 'text') return n === r.summary ? 'fake()->sentence(12)' : (n === r.body ? 'fake()->paragraphs(4, true)' : 'fake()->paragraph()');
+    if (f.t === 'integer') return /(harga|price)/.test(n) ? 'fake()->numberBetween(10, 500) * 1000' : (/(stok|stock|jumlah)/.test(n) ? 'fake()->numberBetween(1, 100)' : 'fake()->numberBetween(1, 100)');
+    if (f.t === 'decimal') return r.rating === n ? 'fake()->randomFloat(1, 3, 5)' : (/(harga|price)/.test(n) ? 'fake()->randomFloat(2, 10000, 500000)' : 'fake()->randomFloat(2, 1, 100)');
+    if (f.t === 'date') return 'fake()->date()';
+    if (f.t === 'boolean') return 'fake()->boolean(40)';
+  }
+  function rule(f, E) {
+    switch (f.t) {
+      case 'string': return 'required|string|max:255';
+      case 'text': return 'required|string';
+      case 'integer': return 'required|integer|min:0';
+      case 'decimal': return E.r.rating === f.n ? 'required|numeric|min:0|max:5' : 'required|numeric|min:0';
+      case 'date': return 'required|date';
+      case 'image': return 'nullable|image|max:2048';
+    }
+  }
+  function imgAccessors(E) {
+    return E.fields.filter(function (f) { return f.t === 'image'; }).map(function (f) {
+      return lines([
+        '',
+        '    // dipakai di view: $' + E.v + '->' + f.n + '_url',
+        '    // (isi kolom bisa berupa URL dari seeder, path hasil upload, atau kosong)',
+        '    public function get' + studly(f.n) + 'UrlAttribute()',
+        '    {',
+        '        if (empty($this->' + f.n + ')) {',
+        "            return 'https://picsum.photos/seed/' . $this->id . '/800/450';",
+        '        }',
+        '',
+        "        return Str::startsWith($this->" + f.n + ", 'http')",
+        '            ? $this->' + f.n,
+        "            : asset('storage/' . $this->" + f.n + ');',
+        '    }'
+      ]);
+    }).join('\n');
+  }
+
+  /* ---------- generator utama ---------- */
+  function generate(cfg) {
+    var errors = [], warns = [], files = [];
+    var I = mkEnt(cfg.item, errors, 'Item utama');
+    var P = cfg.useParent ? mkEnt(cfg.parent, errors, 'Induk') : null;
+    var G = cfg.useGroup ? mkEnt(cfg.group, errors, 'Grup') : null;
+    var site = (cfg.site || '').trim() || 'Nama Website';
+    var btn = (cfg.btn || '').trim() || 'Baca selengkapnya';
+    var vals = G ? String(cfg.groupVals || '').split(/[\n,]/).map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    if (G && !vals.length) errors.push('Grup: isi minimal satu nama grup (contoh: Traditional Food, Modern Food).');
+    if (cfg.top && !I.r.rating) errors.push('Fitur "Top" butuh kolom rating di item (contoh baris: rating:decimal).');
+    var crud = !!cfg.crud, search = crud && !!cfg.search, top = !!cfg.top && !!I.r.rating;
+    var nP = Math.max(1, parseInt(cfg.nParent, 10) || 4), nI = Math.max(1, parseInt(cfg.nItem, 10) || 3);
+    if (errors.length) return { errors: errors };
+
+    var R = I.r, PR = P && P.r, GR = G && G.r;
+    var pivot = G ? [I.sn, G.sn].sort().join('_') : null;
+    var pRel = P ? P.v : null;            // nama relasi item -> induk
+    var gRel = G ? G.vs : null;           // nama relasi item -> grup
+    var pk = P ? P.sn + '_id' : null;
+    var NS = 'App\\Models\\';
+    var cmd = [];
+
+    /* ---- perintah ---- */
+    var order = [];
+    if (P) order.push(P); if (G) order.push(G); order.push(I);
+    order.forEach(function (E) { cmd.push('php artisan make:model ' + E.cls); });
+    order.forEach(function (E) { cmd.push('php artisan make:migration create_' + E.table + '_table'); });
+    if (G) cmd.push('php artisan make:migration create_' + pivot + '_table');
+    order.forEach(function (E) { cmd.push('php artisan make:factory ' + E.cls + 'Factory'); });
+    var ctr = ['Home', G && G.cls, P && P.cls, I.cls].filter(Boolean);
+    ctr.forEach(function (c) { cmd.push('php artisan make:controller ' + c + 'Controller' + (c === I.cls && crud ? ' --resource' : '')); });
+
+    /* ---- migrations ---- */
+    function migFile(path, table, body) {
+      files.push({ path: path, hint: 'Buat dengan perintah make:migration. Hapus seluruh isi file hasil perintah, lalu tempel kode ini.', code: lines([
+        '<?php', '', 'use Illuminate\\Database\\Migrations\\Migration;', 'use Illuminate\\Database\\Schema\\Blueprint;', 'use Illuminate\\Support\\Facades\\Schema;', '',
+        'return new class extends Migration', '{', '    public function up(): void', '    {',
+        "        Schema::create('" + table + "', function (Blueprint $table) {", indent(body, 12), '        });', '    }', '',
+        '    public function down(): void', '    {', "        Schema::dropIfExists('" + table + "');", '    }', '};'
+      ]) });
+    }
+    var m = function (E, extra) {
+      return lines(['$table->id();'].concat(extra || [], E.fields.map(function (f) { return migCol(f, E); }), ['$table->timestamps();']));
+    };
+    if (P) migFile('database/migrations/xxxx_create_' + P.table + '_table.php', P.table, m(P));
+    if (G) migFile('database/migrations/xxxx_create_' + G.table + '_table.php', G.table, m(G));
+    migFile('database/migrations/xxxx_create_' + I.table + '_table.php', I.table,
+      m(I, P ? ["$table->foreignId('" + pk + "')->constrained('" + P.table + "')->cascadeOnDelete();"] : []));
+    if (G) migFile('database/migrations/xxxx_create_' + pivot + '_table.php', pivot, lines([
+      '$table->id();',
+      "$table->foreignId('" + G.sn + "_id')->constrained('" + G.table + "')->cascadeOnDelete();",
+      "$table->foreignId('" + I.sn + "_id')->constrained('" + I.table + "')->cascadeOnDelete();",
+      '$table->timestamps();'
+    ]));
+
+    /* ---- models ---- */
+    function model(E, rels) {
+      var needStr = E.fields.some(function (f) { return f.t === 'image'; });
+      return lines([
+        '<?php', '', 'namespace App\\Models;', '',
+        'use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;', 'use Illuminate\\Database\\Eloquent\\Model;',
+        needStr ? 'use Illuminate\\Support\\Str;' : null, '',
+        'class ' + E.cls + ' extends Model', '{', '    use HasFactory;', '',
+        "    protected $table = '" + E.table + "';", '    protected $guarded = [];',
+        rels, imgAccessors(E), '}'
+      ]);
+    }
+    if (P) files.push({ path: 'app/Models/' + P.cls + '.php', code: model(P, lines([
+      '', '    // satu ' + P.label + ' punya banyak ' + I.label, '    public function ' + I.vs + '()', '    {',
+      '        return $this->hasMany(' + I.cls + "::class, '" + pk + "');", '    }'])) });
+    if (G) files.push({ path: 'app/Models/' + G.cls + '.php', code: model(G, lines([
+      '', '    // satu ' + G.label + ' punya banyak ' + I.label + ' (banyak-ke-banyak)', '    public function ' + I.vs + '()', '    {',
+      '        return $this->belongsToMany(' + I.cls + "::class, '" + pivot + "', '" + G.sn + "_id', '" + I.sn + "_id');", '    }'])) });
+    files.push({ path: 'app/Models/' + I.cls + '.php', code: model(I, lines([
+      P ? lines(['', '    // satu ' + I.label + ' dimiliki satu ' + P.label, '    public function ' + pRel + '()', '    {',
+        '        return $this->belongsTo(' + P.cls + "::class, '" + pk + "');", '    }']) : null,
+      G ? lines(['', '    // satu ' + I.label + ' boleh masuk banyak ' + G.label, '    public function ' + gRel + '()', '    {',
+        '        return $this->belongsToMany(' + G.cls + "::class, '" + pivot + "', '" + I.sn + "_id', '" + G.sn + "_id');", '    }']) : null])) });
+
+    /* ---- factories ---- */
+    function factory(E, kind) {
+      var rows = E.fields.map(function (f) { return '            ' + q(f.n) + ' => ' + fakeExpr(f, E, kind) + ','; });
+      return lines(['<?php', '', 'namespace Database\\Factories;', '', 'use Illuminate\\Database\\Eloquent\\Factories\\Factory;', '',
+        'class ' + E.cls + 'Factory extends Factory', '{', '    public function definition(): array', '    {', '        return [',
+        kind === 'item' && P ? '            // ' + pk + ' tidak ditulis di sini; diisi lewat ->for($' + P.v + ') di seeder' : null,
+        rows.join('\n'), '        ];', '    }', '}']);
+    }
+    if (P) files.push({ path: 'database/factories/' + P.cls + 'Factory.php', code: factory(P, 'parent') });
+    if (G) files.push({ path: 'database/factories/' + G.cls + 'Factory.php', code: factory(G, 'group') });
+    files.push({ path: 'database/factories/' + I.cls + 'Factory.php', code: factory(I, 'item') });
+
+    /* ---- seeder ---- */
+    var attach = G ? lines([
+      '// hubungkan ke ' + Math.min(2, vals.length) + ' ' + G.label + ' secara acak (isi tabel pivot)',
+      '$' + I.v + '->' + gRel + '()->attach($' + G.vs + '->random(rand(1, ' + Math.min(2, vals.length) + '))->pluck(\'id\'));'
+    ]) : null;
+    var useG = G ? ' use ($' + G.vs + ')' : '';
+    var seedBody;
+    if (P) {
+      seedBody = lines([
+        '$' + P.vs + ' = ' + P.cls + '::factory(' + nP + ')->create();', '',
+        '$' + P.vs + '->each(function ($' + P.v + ')' + useG + ' {',
+        '    ' + I.cls + '::factory(' + nI + ')->for($' + P.v + ')->create()' + (G ? '->each(function ($' + I.v + ') use ($' + G.vs + ') {' : ';'),
+        G ? indent(attach, 8) : null, G ? '    });' : null, '});'
+      ]);
+    } else {
+      seedBody = lines([I.cls + '::factory(' + nI + ')->create()' + (G ? '->each(function ($' + I.v + ') use ($' + G.vs + ') {' : ';'),
+        G ? indent(attach, 4) : null, G ? '});' : null]);
+    }
+    files.push({ path: 'database/seeders/DatabaseSeeder.php', code: lines([
+      '<?php', '', 'namespace Database\\Seeders;', '',
+      'use ' + NS + I.cls + ';', G ? 'use ' + NS + G.cls + ';' : null, P ? 'use ' + NS + P.cls + ';' : null, 'use Illuminate\\Database\\Seeder;', '',
+      'class DatabaseSeeder extends Seeder', '{', '    public function run(): void', '    {',
+      G ? indent(lines(['// 1) ' + G.label + ' (data tetap, bukan acak)',
+        '$' + G.vs + ' = collect([' + vals.map(q).join(', ') + '])',
+        '    ->map(fn ($nama) => ' + G.cls + '::factory()->create([' + q(GR.title) + ' => $nama]));', '']), 8) : null,
+      indent(seedBody, 8), '    }', '}']) });
+
+    /* ---- routes ---- */
+    var ctl = function (c) { return c + 'Controller'; };
+    var routeLines = [
+      '<?php', '',
+      'use App\\Http\\Controllers\\HomeController;',
+      G ? 'use App\\Http\\Controllers\\' + ctl(G.cls) + ';' : null,
+      P ? 'use App\\Http\\Controllers\\' + ctl(P.cls) + ';' : null,
+      'use App\\Http\\Controllers\\' + ctl(I.cls) + ';',
+      'use Illuminate\\Support\\Facades\\Route;', '',
+      '// Home', "Route::get('/', [HomeController::class, 'index'])->name('home');", '',
+      G ? lines(['// ' + G.label + ': daftar (dropdown) dan isi per ' + G.label,
+        "Route::get('/" + G.url + "', [" + ctl(G.cls) + "::class, 'index'])->name('" + G.sn + ".index');",
+        "Route::get('/" + G.url + '/{' + G.v + "}', [" + ctl(G.cls) + "::class, 'show'])->name('" + G.sn + ".show');", '']) : null,
+      P ? lines(['// ' + P.label + ': daftar (dropdown) dan ' + I.label + ' per ' + P.label,
+        "Route::get('/" + P.url + "', [" + ctl(P.cls) + "::class, 'index'])->name('" + P.sn + ".index');",
+        "Route::get('/" + P.url + '/{' + P.v + "}', [" + ctl(P.cls) + "::class, 'show'])->name('" + P.sn + ".show');", '']) : null,
+      crud ? lines(['// ' + I.label + ': 7 route sekaligus (index, create, store, show, edit, update, destroy)',
+        "Route::resource('" + I.url + "', " + ctl(I.cls) + '::class);'])
+        : lines(['// ' + I.label + ': halaman detail',
+          "Route::get('/" + I.url + '/{' + I.v + "}', [" + ctl(I.cls) + "::class, 'show'])->name('" + I.sn + ".show');"]),
+      '', '// About Us (halaman statis tanpa controller)', "Route::view('/about', 'about')->name('about');"
+    ];
+    files.push({ path: 'routes/web.php', code: lines(routeLines) });
+
+    /* ---- controllers ---- */
+    var withP = P ? "with('" + pRel + "')->" : '';
+    var head = function (ns) { return lines(['<?php', '', 'namespace App\\Http\\Controllers;', ''].concat(ns, [''])); };
+    files.push({ path: 'app/Http/Controllers/HomeController.php', code: lines([
+      head(['use ' + NS + I.cls + ';']), 'class HomeController extends Controller', '{', '    public function index()', '    {',
+      '        // 3 ' + I.label + ' untuk ditampilkan di Home',
+      '        $featured = ' + I.cls + '::' + withP + (R.flag ? "orderByDesc('" + R.flag + "')->" : '') + 'latest()->take(3)->get();',
+      top ? lines(['', '        // ' + I.label + ' dengan ' + R.rating + ' tertinggi (fitur Top)',
+        '        $top = ' + I.cls + '::' + withP + "orderByDesc('" + R.rating + "')->first();"]) : null,
+      '', "        return view('home', compact('featured'" + (top ? ", 'top'" : '') + '));', '    }', '}']) });
+    var itemRel = I.vs + '()->' + (P ? "with('" + pRel + "')->" : '') + 'get()';
+    if (G) files.push({ path: 'app/Http/Controllers/' + ctl(G.cls) + '.php', code: lines([
+      head(['use ' + NS + G.cls + ';']), 'class ' + ctl(G.cls) + ' extends Controller', '{',
+      '    // halaman daftar ' + G.label + ' (dropdown)', '    public function index()', '    {',
+      '        $' + G.vs + ' = ' + G.cls + '::all();', '', "        return view('" + G.sn + ".index', compact('" + G.vs + "'));", '    }', '',
+      '    // setelah klik satu ' + G.label + ': hanya ' + I.label + ' di dalamnya', '    public function show(' + G.cls + ' $' + G.v + ')', '    {',
+      '        $' + G.vs + ' = ' + G.cls + '::all();', '        $' + I.vs + ' = $' + G.v + '->' + itemRel + ';', '',
+      "        return view('" + G.sn + ".show', compact('" + G.vs + "', '" + G.v + "', '" + I.vs + "'));", '    }', '}']) });
+    if (P) files.push({ path: 'app/Http/Controllers/' + ctl(P.cls) + '.php', code: lines([
+      head(['use ' + NS + P.cls + ';']), 'class ' + ctl(P.cls) + ' extends Controller', '{',
+      '    public function index()', '    {', '        $' + P.vs + ' = ' + P.cls + '::all();', '',
+      "        return view('" + P.sn + ".index', compact('" + P.vs + "'));", '    }', '',
+      '    // ' + I.label + ' yang dimiliki ' + P.label + ' ini', '    public function show(' + P.cls + ' $' + P.v + ')', '    {',
+      '        $' + P.vs + ' = ' + P.cls + '::all();', '        $' + I.vs + ' = $' + P.v + '->' + itemRel + ';', '',
+      "        return view('" + P.sn + ".show', compact('" + P.vs + "', '" + P.v + "', '" + I.vs + "'));", '    }', '}']) });
+
+    /* controller item */
+    var loadShow = [P && "'" + pRel + "'", G && "'" + gRel + "'"].filter(Boolean).join(', ');
+    var showMethod = lines(['    // halaman detail', '    public function show(' + I.cls + ' $' + I.v + ')', '    {',
+      loadShow ? '        $' + I.v + '->load(' + loadShow + ');' : null, loadShow ? '' : null,
+      "        return view('" + I.sn + ".show', compact('" + I.v + "'));", '    }']);
+    if (!crud) {
+      files.push({ path: 'app/Http/Controllers/' + ctl(I.cls) + '.php', code: lines([head(['use ' + NS + I.cls + ';']),
+        'class ' + ctl(I.cls) + ' extends Controller', '{', showMethod, '}']) });
+    } else {
+      var bools = I.fields.filter(function (f) { return f.t === 'boolean'; });
+      var imgs = I.fields.filter(function (f) { return f.t === 'image'; });
+      var uses = ['use ' + NS + I.cls + ';', G && 'use ' + NS + G.cls + ';', P && 'use ' + NS + P.cls + ';', 'use Illuminate\\Http\\Request;',
+        (G || true) && 'use Illuminate\\Support\\Arr;', imgs.length && 'use Illuminate\\Support\\Facades\\Storage;', imgs.length && 'use Illuminate\\Support\\Str;'].filter(Boolean);
+      var eager = [P && "'" + pRel + "'", G && "'" + gRel + "'"].filter(Boolean).join(', ');
+      var passList = (G ? "'" + G.vs + "' => " + G.cls + '::all(), ' : '') + (P ? "'" + P.vs + "' => " + P.cls + '::all(), ' : '');
+      var formData = function (extra) {
+        return lines(['        return view(\'' + I.sn + '.' + extra.view + "', [", extra.model ? "            '" + I.v + "' => $" + I.v + (G ? '->load(\'' + gRel + '\')' : '') + ',' : null,
+          G ? "            '" + G.vs + "' => " + G.cls + '::all(),' : null, P ? "            '" + P.vs + "' => " + P.cls + '::all(),' : null, '        ]);']);
+      };
+      var saveImgs = function (isUpdate) {
+        return imgs.map(function (f) {
+          return isUpdate ? lines([
+            "if ($request->hasFile('" + f.n + "')) {",
+            '    // hapus file lama jika berupa file upload (bukan URL)',
+            "    if ($" + I.v + '->' + f.n + " && ! Str::startsWith($" + I.v + '->' + f.n + ", 'http')) {",
+            "        Storage::disk('public')->delete($" + I.v + '->' + f.n + ');', '    }',
+            "    $data['" + f.n + "'] = $request->file('" + f.n + "')->store('" + I.table + "', 'public');",
+            '} else {', "    unset($data['" + f.n + "']); // pakai gambar lama", '}'
+          ]) : lines([
+            "$data['" + f.n + "'] = $request->hasFile('" + f.n + "')",
+            "    ? $request->file('" + f.n + "')->store('" + I.table + "', 'public')",
+            "    : 'https://picsum.photos/seed/' . Str::random(6) . '/800/450';"]);
+        }).join('\n');
+      };
+      var boolSet = bools.map(function (f) { return "$data['" + f.n + "'] = $request->boolean('" + f.n + "');"; }).join('\n');
+      var sync = G ? '$' + I.v + '->' + gRel + "()->sync($data['" + G.vs + "']);" : null;
+      var arrExcept = G ? "Arr::except($data, ['" + G.vs + "'])" : '$data';
+      var rulesArr = [];
+      if (P) rulesArr.push("            '" + pk + "' => 'required|exists:" + P.table + ",id',");
+      I.fields.forEach(function (f) { if (f.t !== 'boolean') rulesArr.push('            ' + q(f.n) + ' => ' + q(rule(f, I)) + ','); });
+      if (G) { rulesArr.push("            '" + G.vs + "' => 'required|array|min:1',"); rulesArr.push("            '" + G.vs + ".*' => 'exists:" + G.table + ",id',"); }
+      var idx;
+      if (search) {
+        idx = lines([
+          '        $' + I.vs + ' = ' + I.cls + '::with(' + (eager || '') + ')',
+          "            ->when($request->q, fn ($query, $v) => $query->where('" + R.title + "', 'like', \"%$v%\"))",
+          G ? "            ->when($request->" + G.v + ", fn ($query, $v) => $query->whereHas('" + gRel + "', fn ($c) => $c->where('" + G.table + ".id', $v)))" : null,
+          P ? "            ->when($request->" + P.v + ", fn ($query, $v) => $query->where('" + pk + "', $v))" : null,
+          '            ->latest()', '            ->paginate(6)', '            ->withQueryString();', '',
+          "        return view('" + I.sn + ".index', [", "            '" + I.vs + "' => $" + I.vs + ',',
+          G ? "            '" + G.vs + "' => " + G.cls + '::all(),' : null, P ? "            '" + P.vs + "' => " + P.cls + '::all(),' : null, '        ]);']);
+      } else {
+        idx = lines(['        $' + I.vs + ' = ' + I.cls + '::with(' + (eager || '') + ')->latest()->paginate(6);', '',
+          "        return view('" + I.sn + ".index', compact('" + I.vs + "'));"]);
+      }
+      var destroyImgs = imgs.map(function (f) {
+        return lines(["if ($" + I.v + '->' + f.n + " && ! Str::startsWith($" + I.v + '->' + f.n + ", 'http')) {",
+          "    Storage::disk('public')->delete($" + I.v + '->' + f.n + ');', '}']);
+      }).join('\n');
+      files.push({ path: 'app/Http/Controllers/' + ctl(I.cls) + '.php', code: lines([
+        head(uses), 'class ' + ctl(I.cls) + ' extends Controller', '{',
+        '    // daftar' + (search ? ' + cari + filter' : '') + ' + paginasi', '    public function index(Request $request)', '    {', idx, '    }', '',
+        '    // form tambah', '    public function create()', '    {', formData({ view: 'create' }), '    }', '',
+        '    // simpan data baru', '    public function store(Request $request)', '    {',
+        '        $data = $request->validate($this->rules());', '',
+        boolSet ? indent(boolSet, 8) : null, imgs.length ? indent(saveImgs(false), 8) : null, '',
+        '        $' + I.v + ' = ' + I.cls + '::create(' + arrExcept + ');', sync ? '        ' + sync : null, '',
+        "        return redirect()->route('" + I.sn + ".index')->with('success', 'Data berhasil ditambahkan.');", '    }', '',
+        showMethod, '',
+        '    // form ubah', '    public function edit(' + I.cls + ' $' + I.v + ')', '    {', formData({ view: 'edit', model: true }), '    }', '',
+        '    // simpan perubahan', '    public function update(Request $request, ' + I.cls + ' $' + I.v + ')', '    {',
+        '        $data = $request->validate($this->rules());', '',
+        boolSet ? indent(boolSet, 8) : null, imgs.length ? indent(saveImgs(true), 8) : null, '',
+        '        $' + I.v + '->update(' + arrExcept + ');', sync ? '        ' + sync : null, '',
+        "        return redirect()->route('" + I.sn + ".index')->with('success', 'Data berhasil diubah.');", '    }', '',
+        '    // hapus', '    public function destroy(' + I.cls + ' $' + I.v + ')', '    {',
+        destroyImgs ? indent(destroyImgs, 8) : null, G ? '        $' + I.v + '->' + gRel + '()->detach();' : null,
+        '        $' + I.v + '->delete();', '',
+        "        return redirect()->route('" + I.sn + ".index')->with('success', 'Data berhasil dihapus.');", '    }', '',
+        '    // aturan validasi dipakai store dan update', '    private function rules(): array', '    {', '        return [', rulesArr.join('\n'), '        ];', '    }', '}']) });
+      files.push({ path: 'app/Providers/AppServiceProvider.php', hint: 'File sudah ada. Ganti seluruh isinya (agar paginasi tampil dengan gaya Bootstrap).', code: lines([
+        '<?php', '', 'namespace App\\Providers;', '', 'use Illuminate\\Pagination\\Paginator;', 'use Illuminate\\Support\\ServiceProvider;', '',
+        'class AppServiceProvider extends ServiceProvider', '{', '    public function register(): void', '    {', '        //', '    }', '',
+        '    public function boot(): void', '    {', '        Paginator::useBootstrapFive();', '    }', '}']) });
+    }
+
+    /* ---- views ---- */
+    var navItems = [
+      "<li class=\"nav-item\"><a class=\"nav-link {{ request()->routeIs('home') ? 'active' : '' }}\" href=\"{{ route('home') }}\">Home</a></li>",
+      G && "<li class=\"nav-item\"><a class=\"nav-link {{ request()->routeIs('" + G.sn + ".*') ? 'active' : '' }}\" href=\"{{ route('" + G.sn + ".index') }}\">" + G.label + '</a></li>',
+      P && "<li class=\"nav-item\"><a class=\"nav-link {{ request()->routeIs('" + P.sn + ".*') ? 'active' : '' }}\" href=\"{{ route('" + P.sn + ".index') }}\">" + P.label + '</a></li>',
+      "<li class=\"nav-item\"><a class=\"nav-link {{ request()->routeIs('about') ? 'active' : '' }}\" href=\"{{ route('about') }}\">About Us</a></li>",
+      crud && "<li class=\"nav-item\"><a class=\"nav-link {{ request()->routeIs('" + I.sn + ".index', '" + I.sn + ".create', '" + I.sn + ".edit') ? 'active' : '' }}\" href=\"{{ route('" + I.sn + ".index') }}\">Kelola " + I.label + '</a></li>'
+    ].filter(Boolean);
+    var SC = '</scr' + 'ipt>';
+    var boot = cfg.boot === 'cdn';
+    files.push({ path: 'resources/views/layouts/app.blade.php', code: lines([
+      '<!DOCTYPE html>', '<html lang="id">', '<head>', '    <meta charset="UTF-8">', '    <meta name="viewport" content="width=device-width, initial-scale=1">',
+      "    <title>@yield('title', " + q(site) + ')</title>',
+      boot ? '    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">'
+        : "    @vite(['resources/css/app.css', 'resources/js/app.js'])",
+      '</head>', '<body>', "    @include('partials.navbar')", '', '    <main class="container py-4">',
+      '        {{-- pesan sukses setelah tambah/ubah/hapus --}}', "        @if (session('success'))", "            <div class=\"alert alert-success\">{{ session('success') }}</div>", '        @endif', '',
+      "        @yield('content')", '    </main>', '',
+      '    <footer class="container py-3 text-center text-muted border-top">', "        &copy; {{ date('Y') }} " + site, '    </footer>',
+      boot ? '\n    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">' + SC : null,
+      '</body>', '</html>']) });
+    files.push({ path: 'resources/views/partials/navbar.blade.php', code: lines([
+      '<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">', '    <div class="container">',
+      "        <a class=\"navbar-brand fw-bold\" href=\"{{ route('home') }}\">" + site + '</a>',
+      '        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">', '            <span class="navbar-toggler-icon"></span>', '        </button>',
+      '        <div class="collapse navbar-collapse" id="menu">', '            <ul class="navbar-nav ms-auto">', indent(navItems.join('\n'), 16), '            </ul>', '        </div>', '    </div>', '</nav>']) });
+
+    var iv = '$' + I.v;
+    var card = I.sn + '-card';
+    files.push({ path: 'resources/views/partials/' + card + '.blade.php', code: lines([
+      "{{-- dipanggil: @include('partials." + card + "', ['" + I.v + "' => " + iv + ']) --}}', '<div class="col-md-4">', '    <div class="card h-100 shadow-sm">',
+      R.image ? '        <img src="{{ ' + iv + '->' + R.image + '_url }}" class="card-img-top" alt="{{ ' + iv + '->' + R.title + ' }}">' : null,
+      '        <div class="card-body d-flex flex-column">', '            <h5 class="card-title">{{ ' + iv + '->' + R.title + ' }}</h5>',
+      P ? '            <h6 class="card-subtitle mb-2 text-muted">oleh {{ ' + iv + '->' + pRel + '->' + PR.title + ' }}</h6>' : null,
+      R.summary ? '            <p class="card-text">{{ \\Illuminate\\Support\\Str::limit(' + iv + '->' + R.summary + ', 100) }}</p>' : null,
+      "            <a href=\"{{ route('" + I.sn + ".show', " + iv + ') }}" class="btn btn-primary mt-auto">' + btn + '</a>', '        </div>', '    </div>', '</div>']) });
+    var cardInc = function (v) { return "@include('partials." + card + "', ['" + I.v + "' => $" + v + '])'; };
+
+    files.push({ path: 'resources/views/home.blade.php', code: lines([
+      "@extends('layouts.app')", '', "@section('title', 'Home')", '', "@section('content')",
+      '    {{-- poster landscape (gambar acak dari picsum.photos) --}}', '    <img src="https://picsum.photos/seed/poster/1200/400" class="img-fluid rounded w-100 mb-4" alt="Poster">', '',
+      top ? lines(['    {{-- Top (fitur tantangan; hapus blok ini jika tidak diminta) --}}', '    @if ($top)', '        <div class="card mb-4">', '            <div class="row g-0">',
+        R.image ? lines(['                <div class="col-md-4">', '                    <img src="{{ $top->' + R.image + '_url }}" class="img-fluid rounded-start h-100 object-fit-cover" alt="">', '                </div>']) : null,
+        '                <div class="' + (R.image ? 'col-md-8' : 'col-12') + '">', '                    <div class="card-body">', '                        <span class="badge text-bg-warning mb-2">Top ' + I.label + '</span>',
+        '                        <h4 class="card-title">{{ $top->' + R.title + ' }}</h4>',
+        '                        <p class="text-muted mb-1">' + (P ? 'oleh {{ $top->' + pRel + '->' + PR.title + ' }} &middot; ' : '') + R.rating + ' {{ $top->' + R.rating + ' }}</p>',
+        R.summary ? '                        <p class="card-text">{{ $top->' + R.summary + ' }}</p>' : null,
+        "                        <a href=\"{{ route('" + I.sn + ".show', $top) }}\" class=\"btn btn-primary\">" + btn + '</a>',
+        '                    </div>', '                </div>', '            </div>', '        </div>', '    @endif', '']) : null,
+      '    <h2 class="mb-3">' + I.label + ' Pilihan</h2>', '    <div class="row g-3">', '        @foreach ($featured as $' + I.v + ')', '            ' + cardInc(I.v), '        @endforeach', '    </div>', '@endsection']) });
+
+    function dropdown(E, listVar, routeName, current, label, end) {
+      return lines(['<div class="dropdown">', '    <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">' + label + '</button>',
+        '    <ul class="dropdown-menu' + (end ? ' dropdown-menu-end' : '') + '">', '        @foreach ($' + listVar + ' as $row)',
+        "            <li><a class=\"dropdown-item" + (current ? " {{ $row->id === $" + current + '->id ? \'active\' : \'\' }}' : '') + "\" href=\"{{ route('" + routeName + ".show', $row) }}\">{{ $row->" + E.r.title + ' }}</a></li>',
+        '        @endforeach', '    </ul>', '</div>']);
+    }
+    function listPages(E) {
+      var isG = E === G;
+      files.push({ path: 'resources/views/' + E.sn + '/index.blade.php', code: lines([
+        "@extends('layouts.app')", '', "@section('title', '" + E.label + "')", '', "@section('content')", '    <h2 class="mb-3">' + E.label + '</h2>', '',
+        indent(dropdown(E, E.vs, E.sn, null, 'Pilih ' + E.label, false), 4),
+        isG ? null : lines(['', '    <div class="row g-3 mt-2">', '        @foreach ($' + E.vs + ' as $row)', '            <div class="col-6 col-md-3 text-center">',
+          E.r.image ? '                <img src="{{ $row->' + E.r.image + '_url }}" class="rounded-circle mb-2" width="120" height="120" alt="">' : null,
+          "                <div><a href=\"{{ route('" + E.sn + ".show', $row) }}\">{{ $row->" + E.r.title + ' }}</a></div>', '            </div>', '        @endforeach', '    </div>']),
+        '@endsection']) });
+      files.push({ path: 'resources/views/' + E.sn + '/show.blade.php', code: lines([
+        "@extends('layouts.app')", '', "@section('title', $" + E.v + '->' + E.r.title + ')', '', "@section('content')",
+        '    <div class="d-flex justify-content-between align-items-center mb-3">', '        <h2 class="mb-0">' + (isG ? '' : I.label + ' oleh ') + '{{ $' + E.v + '->' + E.r.title + ' }}</h2>',
+        indent(dropdown(E, E.vs, E.sn, E.v, 'Ganti ' + E.label, true), 8), '    </div>', '',
+        '    <div class="row g-3">', '        @forelse ($' + I.vs + ' as $' + I.v + ')', '            ' + cardInc(I.v), '        @empty',
+        '            <p class="text-muted">Belum ada data.</p>', '        @endforelse', '    </div>', '@endsection']) });
+    }
+    if (G) listPages(G);
+    if (P) listPages(P);
+
+    var dl = R.others.map(function (f) { return '            <dt class="col-sm-3">' + human(f.n) + '</dt><dd class="col-sm-9">{{ ' + iv + '->' + f.n + (f.t === 'boolean' ? " ? 'Ya' : 'Tidak'" : '') + ' }}</dd>'; });
+    files.push({ path: 'resources/views/' + I.sn + '/show.blade.php', code: lines([
+      "@extends('layouts.app')", '', "@section('title', " + iv + '->' + R.title + ')', '', "@section('content')",
+      '    <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary mb-3">&larr; Kembali</a>', '',
+      R.image ? '    <img src="{{ ' + iv + '->' + R.image + '_url }}" class="img-fluid rounded w-100 mb-3" alt="{{ ' + iv + '->' + R.title + ' }}">' : null,
+      '    <h2>{{ ' + iv + '->' + R.title + ' }}</h2>', '    <p class="text-muted">',
+      P ? "        " + P.label + ": <a href=\"{{ route('" + P.sn + ".show', " + iv + '->' + pRel + ') }}">{{ ' + iv + '->' + pRel + '->' + PR.title + ' }}</a> &middot;' : null,
+      R.rating ? '        ' + R.rating + ' {{ ' + iv + '->' + R.rating + ' }} &middot;' : null,
+      G ? lines(['        @foreach (' + iv + '->' + gRel + ' as $g)', '            <span class="badge text-bg-secondary">{{ $g->' + GR.title + ' }}</span>', '        @endforeach']) : null,
+      '    </p>', dl.length ? lines(['', '    <dl class="row">', dl.join('\n'), '    </dl>']) : null,
+      R.body ? '' : null, R.body ? '    <div>{!! nl2br(e(' + iv + '->' + R.body + ')) !!}</div>' : null, '@endsection']) });
+
+    if (crud) {
+      var cols = ['<th>#</th>', R.image && '<th>Gambar</th>', '<th>' + human(R.title) + '</th>', P && '<th>' + P.label + '</th>', G && '<th>' + G.label + '</th>', R.rating && '<th>' + human(R.rating) + '</th>', '<th style="width:190px">Aksi</th>'].filter(Boolean);
+      var tds = ['<td>{{ $' + I.vs + '->firstItem() + $loop->index }}</td>', R.image && '<td><img src="{{ ' + iv + '->' + R.image + '_url }}" width="80" alt=""></td>',
+        '<td>{{ ' + iv + '->' + R.title + ' }}</td>', P && '<td>{{ ' + iv + '->' + pRel + '->' + PR.title + ' }}</td>',
+        G && '<td>{{ ' + iv + '->' + gRel + "->pluck('" + GR.title + "')->join(', ') }}</td>", R.rating && '<td>{{ ' + iv + '->' + R.rating + ' }}</td>'].filter(Boolean);
+      var filt = [];
+      if (search) {
+        filt.push(lines(['    {{-- form cari dan filter (method GET) --}}', "    <form method=\"GET\" action=\"{{ route('" + I.sn + ".index') }}\" class=\"row g-2 mb-3\">",
+          '        <div class="col-md-4"><input type="text" name="q" value="{{ request(\'q\') }}" class="form-control" placeholder="Cari ' + human(R.title).toLowerCase() + '..."></div>',
+          G ? lines(['        <div class="col-md-3">', '            <select name="' + G.v + '" class="form-select">', '                <option value="">Semua ' + G.label + '</option>',
+            '                @foreach ($' + G.vs + ' as $row)', "                    <option value=\"{{ $row->id }}\" {{ request('" + G.v + "') == $row->id ? 'selected' : '' }}>{{ $row->" + GR.title + ' }}</option>',
+            '                @endforeach', '            </select>', '        </div>']) : null,
+          P ? lines(['        <div class="col-md-3">', '            <select name="' + P.v + '" class="form-select">', '                <option value="">Semua ' + P.label + '</option>',
+            '                @foreach ($' + P.vs + ' as $row)', "                    <option value=\"{{ $row->id }}\" {{ request('" + P.v + "') == $row->id ? 'selected' : '' }}>{{ $row->" + PR.title + ' }}</option>',
+            '                @endforeach', '            </select>', '        </div>']) : null,
+          '        <div class="col-md-2 d-grid"><button class="btn btn-outline-secondary">Terapkan</button></div>', '    </form>', '']));
+      }
+      files.push({ path: 'resources/views/' + I.sn + '/index.blade.php', code: lines([
+        "@extends('layouts.app')", '', "@section('title', 'Kelola " + I.label + "')", '', "@section('content')",
+        '    <div class="d-flex justify-content-between align-items-center mb-3">', '        <h2 class="mb-0">Kelola ' + I.label + '</h2>',
+        "        <a href=\"{{ route('" + I.sn + ".create') }}\" class=\"btn btn-primary\">Tambah</a>", '    </div>', '', filt.join('\n'),
+        '    <div class="table-responsive">', '        <table class="table table-bordered align-middle">', '            <thead class="table-light">', '                <tr>', indent(cols.join('\n'), 20), '                </tr>', '            </thead>', '            <tbody>',
+        '                @forelse ($' + I.vs + ' as $' + I.v + ')', '                    <tr>', indent(tds.join('\n'), 24), '                        <td>',
+        "                            <a href=\"{{ route('" + I.sn + ".show', " + iv + ') }}" class="btn btn-sm btn-outline-secondary">Lihat</a>',
+        "                            <a href=\"{{ route('" + I.sn + ".edit', " + iv + ') }}" class="btn btn-sm btn-warning">Ubah</a>',
+        "                            <form action=\"{{ route('" + I.sn + ".destroy', " + iv + ') }}" method="POST" class="d-inline" onsubmit="return confirm(\'Yakin hapus data ini?\')">',
+        '                                @csrf', "                                @method('DELETE')", '                                <button class="btn btn-sm btn-danger">Hapus</button>', '                            </form>', '                        </td>', '                    </tr>',
+        '                @empty', '                    <tr><td colspan="' + cols.length + '" class="text-center text-muted">Data tidak ditemukan.</td></tr>', '                @endforelse', '            </tbody>', '        </table>', '    </div>', '',
+        '    {{ $' + I.vs + '->links() }}', '@endsection']) });
+
+      var inp = I.fields.map(function (f) {
+        var n = f.n, lab = human(n), val = "old('" + n + "', " + iv + '->' + n + ')';
+        var err = '        @error(\'' + n + '\') <div class="invalid-feedback">{{ $message }}</div> @enderror';
+        var cls = ' @error(\'' + n + '\') is-invalid @enderror';
+        if (f.t === 'boolean') return lines(['    <div class="form-check mb-3">', '        <input class="form-check-input" type="checkbox" name="' + n + '" id="' + n + '" value="1" {{ ' + val + " ? 'checked' : '' }}>", '        <label class="form-check-label" for="' + n + '">' + lab + '</label>', '    </div>']);
+        var control;
+        if (f.t === 'text') control = '        <textarea name="' + n + '" rows="5" class="form-control' + cls + '">{{ ' + val + ' }}</textarea>';
+        else if (f.t === 'image') control = lines(['        <input type="file" name="' + n + '" class="form-control' + cls + '">', '        @if (' + iv + '->exists)', '            <img src="{{ ' + iv + '->' + n + '_url }}" width="140" class="mt-2 rounded" alt="">', '        @endif']);
+        else {
+          var type = f.t === 'integer' ? 'number' : (f.t === 'decimal' ? 'number" step="any' : (f.t === 'date' ? 'date' : 'text'));
+          control = '        <input type="' + type + '" name="' + n + '" value="{{ ' + val + ' }}" class="form-control' + cls + '">';
+        }
+        return lines(['    <div class="mb-3">', '        <label class="form-label">' + lab + (f.t === 'image' ? ' (opsional)' : '') + '</label>', control, err, '    </div>']);
+      });
+      var formParts = [];
+      if (P) formParts.push(lines(['    <div class="mb-3">', '        <label class="form-label">' + P.label + '</label>', '        <select name="' + pk + '" class="form-select @error(\'' + pk + '\') is-invalid @enderror">', '            <option value="">-- pilih --</option>',
+        '            @foreach ($' + P.vs + ' as $row)', "                <option value=\"{{ $row->id }}\" {{ old('" + pk + "', " + iv + '->' + pk + ") == $row->id ? 'selected' : '' }}>{{ $row->" + PR.title + ' }}</option>',
+        '            @endforeach', '        </select>', '        @error(\'' + pk + '\') <div class="invalid-feedback">{{ $message }}</div> @enderror', '    </div>']));
+      formParts = formParts.concat(inp);
+      if (G) formParts.push(lines(['    <div class="mb-3">', '        <label class="form-label d-block">' + G.label + ' (boleh lebih dari satu)</label>', '        @foreach ($' + G.vs + ' as $row)',
+        '            <div class="form-check form-check-inline">', '                <input class="form-check-input" type="checkbox" name="' + G.vs + '[]" id="g{{ $row->id }}" value="{{ $row->id }}" {{ in_array($row->id, $dipilih) ? \'checked\' : \'\' }}>',
+        '                <label class="form-check-label" for="g{{ $row->id }}">{{ $row->' + GR.title + ' }}</label>', '            </div>', '        @endforeach',
+        '        @error(\'' + G.vs + '\') <div class="text-danger small">{{ $message }}</div> @enderror', '    </div>']));
+      files.push({ path: 'resources/views/' + I.sn + '/_form.blade.php', code: lines([
+        '{{--', '  Form dipakai untuk tambah dan ubah.', '  Variabel: $action (URL tujuan), ' + iv + ' (new ' + I.cls + ' untuk tambah), ' + (G ? '$' + G.vs + ', ' : '') + (P ? '$' + P.vs + ', ' : '') + '$method (hanya untuk ubah)', '--}}',
+        G ? lines(['@php', '    $dipilih = old(\'' + G.vs + "', " + iv + '->exists ? ' + iv + '->' + gRel + "->pluck('id')->all() : []);", '@endphp', '']) : null,
+        '@if ($errors->any())', '    <div class="alert alert-danger">', '        <ul class="mb-0">', '            @foreach ($errors->all() as $error)', '                <li>{{ $error }}</li>', '            @endforeach', '        </ul>', '    </div>', '@endif', '',
+        '<form action="{{ $action }}" method="POST" enctype="multipart/form-data">', '    @csrf', '    @isset($method)', '        @method($method)', '    @endisset', '', formParts.join('\n\n'), '',
+        '    <button class="btn btn-primary">Simpan</button>', "    <a href=\"{{ route('" + I.sn + ".index') }}\" class=\"btn btn-outline-secondary\">Batal</a>", '</form>']) });
+      files.push({ path: 'resources/views/' + I.sn + '/create.blade.php', code: lines([
+        "@extends('layouts.app')", '', "@section('title', 'Tambah " + I.label + "')", '', "@section('content')", '    <h2 class="mb-3">Tambah ' + I.label + '</h2>',
+        "    @include('" + I.sn + "._form', [", "        'action' => route('" + I.sn + ".store'),", "        '" + I.v + "' => new \\App\\Models\\" + I.cls + ',', '    ])', '@endsection']) });
+      files.push({ path: 'resources/views/' + I.sn + '/edit.blade.php', code: lines([
+        "@extends('layouts.app')", '', "@section('title', 'Ubah " + I.label + "')", '', "@section('content')", '    <h2 class="mb-3">Ubah ' + I.label + '</h2>',
+        "    @include('" + I.sn + "._form', [", "        'action' => route('" + I.sn + ".update', " + iv + '),', "        'method' => 'PUT',", '    ])', '@endsection']) });
+    }
+    files.push({ path: 'resources/views/about.blade.php', code: lines([
+      "@extends('layouts.app')", '', "@section('title', 'About Us')", '', "@section('content')", '    <h2>About Us</h2>',
+      '    <p>' + ((cfg.about || '').trim() || (site + ' adalah website yang menyajikan informasi ' + I.label.toLowerCase() + '.')) + '</p>', '@endsection']) });
+
+    /* ---- draf dokumentasi ---- */
+    var doc = [];
+    doc.push('DOKUMENTASI PROJECT ' + site.toUpperCase(), '');
+    doc.push('1. Struktur Database');
+    if (P) doc.push('- Tabel ' + P.table + ': ' + P.fields.map(function (f) { return f.n; }).join(', ') + '.');
+    if (G) doc.push('- Tabel ' + G.table + ': ' + G.fields.map(function (f) { return f.n; }).join(', ') + '.');
+    doc.push('- Tabel ' + I.table + ': ' + (P ? pk + ', ' : '') + I.fields.map(function (f) { return f.n; }).join(', ') + '.');
+    if (G) doc.push('- Tabel pivot ' + pivot + ': ' + G.sn + '_id dan ' + I.sn + '_id (penghubung banyak-ke-banyak).');
+    if (P) doc.push('- Relasi: satu ' + P.label + ' memiliki banyak ' + I.label + '; satu ' + I.label + ' dimiliki satu ' + P.label + ' (one to many).');
+    if (G) doc.push('- Relasi: satu ' + G.label + ' memiliki banyak ' + I.label + ' dan satu ' + I.label + ' dapat masuk ke banyak ' + G.label + ' (many to many lewat tabel pivot).');
+    doc.push('', '2. Routing (routes/web.php)', '- / menuju HomeController@index (halaman Home).');
+    if (G) doc.push('- /' + G.url + ' dan /' + G.url + '/{' + G.v + '} menuju ' + ctl(G.cls) + ' (daftar dan isi per ' + G.label + ').');
+    if (P) doc.push('- /' + P.url + ' dan /' + P.url + '/{' + P.v + '} menuju ' + ctl(P.cls) + ' (daftar dan ' + I.label + ' per ' + P.label + ').');
+    doc.push(crud ? '- /' + I.url + ' memakai Route::resource menuju ' + ctl(I.cls) + ' (lihat, tambah, ubah, hapus).' : '- /' + I.url + '/{' + I.v + '} menuju ' + ctl(I.cls) + '@show (halaman detail).');
+    doc.push('- /about memakai Route::view untuk halaman About Us.');
+    doc.push('', '3. Controller', '- HomeController: mengambil ' + I.label + ' pilihan' + (top ? ' dan ' + I.label + ' ' + R.rating + ' tertinggi' : '') + ', lalu mengirim ke view home.');
+    if (G) doc.push('- ' + ctl(G.cls) + ': menampilkan daftar ' + G.label + ' dan ' + I.label + ' pada ' + G.label + ' yang dipilih.');
+    if (P) doc.push('- ' + ctl(P.cls) + ': menampilkan daftar ' + P.label + ' dan ' + I.label + ' milik ' + P.label + ' yang dipilih.');
+    doc.push('- ' + ctl(I.cls) + ': ' + (crud ? 'menangani daftar, tambah, simpan, detail, ubah, perbarui, dan hapus dengan validasi.' : 'menampilkan halaman detail.'));
+    doc.push('', '4. Model', '- ' + I.cls + (P ? ': belongsTo ' + P.cls : '') + (G ? (P ? ', ' : ': ') + 'belongsToMany ' + G.cls : '') + '.');
+    if (P) doc.push('- ' + P.cls + ': hasMany ' + I.cls + '.');
+    if (G) doc.push('- ' + G.cls + ': belongsToMany ' + I.cls + '.');
+    doc.push('', '5. View dan Blade', '- layouts/app.blade.php: layout utama (@yield title dan content, @include navbar).', '- partials/navbar dan partials/' + card + ': bagian yang dipakai ulang.', '- Halaman: home, ' + [G && G.sn, P && P.sn, I.sn].filter(Boolean).join(', ') + ', about.');
+    doc.push('', '6. Migration dan Seeder', '- Migration membuat tabel dan foreign key. Seeder memakai Factory (Faker) untuk mengisi data contoh' + (G ? ' dan ' + G.label + ': ' + vals.join(', ') : '') + '.');
+    doc.push('', '7. Screenshot Output', '- (tempel screenshot tiap halaman beserta alamat URL di browser)');
+
+    return { errors: [], warns: warns, commands: cmd.join('\n'), files: files, doc: doc.join('\n'), info: { I: I, P: P, G: G, crud: crud, top: top } };
+  }
+  root.KodeGen = { generate: generate };
+  if (typeof module !== 'undefined') module.exports = root.KodeGen;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var D = {
+    gSite: 'KulineranYuk!', gBtn: 'Baca selengkapnya',
+    gAbout: 'KulineranYuk! adalah website review makanan dari food reviewer terpercaya. Tujuannya menjadi media informasi dan inspirasi bagi pecinta kuliner untuk menemukan makanan khas Indonesia, baik tradisional maupun modern.',
+    iCls: 'Food', iLabel: 'Makanan', iPl: '',
+    iFields: 'name:string\nimage:image\nsummary:text\nreview:text\nrating:decimal\nis_viral:boolean',
+    iSamples: 'Nasi Goreng Kampung\nSoto Ayam\nRendang\nGado-gado\nSate Ayam\nBurger Keju\nPizza Pedas\nSalad Buah\nEs Krim Cokelat',
+    useParent: true, pCls: 'Reviewer', pLabel: 'Food Reviewer', pPl: '', pFields: 'name:string\nphoto:image\nbio:text',
+    useGroup: true, cCls: 'Category', cLabel: 'Category', cPl: '', cFields: 'name:string',
+    cVals: 'Traditional Food, Modern Food, Healthy Food, Dessert',
+    optCrud: false, optSearch: false, optTop: true, nParent: 4, nItem: 3, gBoot: 'vite'
+  };
+  var SOAL = 'KulineranYuk! merupakan sebuah website yang memungkinkan user untuk dapat melihat review sebuah makanan dari food reviewer yang terpercaya.\n' +
+    'Website KulineranYuk! ini memiliki 4 Kategori yaitu: Traditional Food, Modern Food, Healthy Food, dan Dessert. Akan ada beberapa fitur dalam KulineranYuk!, diantaranya adalah review per kategori, list food reviewer, dan lainnya.\n' +
+    'Pada Home Page terdapat beberapa fitur Utama, yaitu: Home, Category, Food Reviewer, dan About us. Kemudian, terdapat gambar poster makanan berbentuk landscape, dan tiga pilihan makanan terviral dengan review.\n' +
+    'Category Page: user dapat melihat dropdown kategori. Detail Page: poster, nama makanan, food reviewer, dan review lengkapnya. Food Reviewer Page: dropdown food reviewer, lalu makanan yang pernah direview oleh food reviewer tersebut. About Us berisi informasi dasar website.\n' +
+    'Satu food reviewer dapat menerbitkan lebih dari satu review makanan, dan satu review makanan hanya merujuk ke satu food reviewer.\n' +
+    'Satu kategori dapat memiliki lebih dari satu makanan, dan satu makanan dapat termasuk ke dalam lebih dari satu kategori.\n' +
+    'Top Food of the Week merupakan fitur tambahan sebagai challenge.';
+  var TXT = ['gSite', 'gBtn', 'gAbout', 'iCls', 'iLabel', 'iPl', 'iFields', 'iSamples', 'pCls', 'pLabel', 'pPl', 'pFields', 'cCls', 'cLabel', 'cPl', 'cFields', 'cVals', 'nParent', 'nItem', 'gBoot'];
+  var CHK = ['useParent', 'useGroup', 'optCrud', 'optSearch', 'optTop'];
+  var KEY = 'catatan-pembuat-kode-v1';
+
+  function setAll(o) { TXT.forEach(function (k) { $(k).value = o[k]; }); CHK.forEach(function (k) { $(k).checked = !!o[k]; }); toggle(); }
+  function getAll() { var o = {}; TXT.forEach(function (k) { o[k] = $(k).value; }); CHK.forEach(function (k) { o[k] = $(k).checked; }); return o; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(getAll())); } catch (e) {} }
+  function toggle() {
+    $('boxParent').style.display = $('useParent').checked ? '' : 'none';
+    $('boxGroup').style.display = $('useGroup').checked ? '' : 'none';
+    $('optSearch').disabled = !$('optCrud').checked;
+    if (!$('optCrud').checked) $('optSearch').checked = false;
+  }
+  function config() {
+    var o = getAll();
+    return {
+      site: o.gSite, btn: o.gBtn, about: o.gAbout, boot: o.gBoot,
+      item: { cls: o.iCls, pl: o.iPl, label: o.iLabel, fields: o.iFields, samples: o.iSamples },
+      useParent: o.useParent, parent: { cls: o.pCls, pl: o.pPl, label: o.pLabel, fields: o.pFields },
+      useGroup: o.useGroup, group: { cls: o.cCls, pl: o.cPl, label: o.cLabel, fields: o.cFields }, groupVals: o.cVals,
+      crud: o.optCrud, search: o.optSearch, top: o.optTop, nParent: o.nParent, nItem: o.nItem
+    };
+  }
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+
+  function salin(teks, tombol) {
+    var ok = function () { var t = tombol.textContent; tombol.textContent = 'Tersalin'; setTimeout(function () { tombol.textContent = t; }, 1200); };
+    var cad = function () {
+      var ta = document.createElement('textarea'); ta.value = teks; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { tombol.textContent = 'Gagal'; }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(teks).then(ok, cad); else cad();
+  }
+  function blok(title, text, hint) {
+    var w = el('div');
+    if (hint) w.appendChild(el('p', hint, 'muted'));
+    var fig = el('figure'), cap = el('figcaption'), b = el('button', 'Salin'); b.type = 'button';
+    cap.appendChild(el('span', title)); cap.appendChild(b);
+    var pre = el('pre'), code = el('code', text + '\n'); pre.appendChild(code);
+    fig.appendChild(cap); fig.appendChild(pre); w.appendChild(fig);
+    b.addEventListener('click', function () { salin(text + '\n', b); });
+    return w;
+  }
+
+  function render(r) {
+    var out = $('gOut'); out.innerHTML = '';
+    if (r.errors.length) {
+      var bx = el('div', undefined, 'box'); bx.style.borderLeftColor = '#a33';
+      bx.appendChild(el('b', 'Belum bisa dibuat. Perbaiki isian berikut:'));
+      var ul = el('ul'); r.errors.forEach(function (m) { ul.appendChild(el('li', m)); }); bx.appendChild(ul); out.appendChild(bx);
+      out.scrollIntoView(); return;
+    }
+    var ok = el('div', undefined, 'box'); ok.style.borderLeftColor = '#4a7a4a';
+    ok.appendChild(el('b', 'Kode berhasil dibuat: ' + r.files.length + ' file.'));
+    ok.appendChild(el('div', 'Ikuti urutan: (1) salin Perintah terminal dan jalankan, (2) isi File 1 sampai File ' + r.files.length + ' satu per satu, (3) jalankan Perintah akhir. Detail ada di Langkah 6 sampai 8 pada panduan di atas.'));
+    out.appendChild(ok);
+    var tools = el('p');
+    var bd = el('button', 'Unduh semua sebagai file teks (.txt)'); bd.type = 'button';
+    bd.addEventListener('click', function () {
+      var t = '===== PERINTAH TERMINAL =====\n' + r.commands + '\n\n';
+      r.files.forEach(function (f) { t += '===== ' + f.path + ' =====\n' + f.code + '\n\n'; });
+      t += '===== DRAF DOKUMENTASI =====\n' + r.doc + '\n';
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([t], { type: 'text/plain' })); a.download = 'kode-uts.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
+    tools.appendChild(bd); out.appendChild(tools);
+
+    out.appendChild(el('h3', 'Langkah 6. Perintah terminal'));
+    out.appendChild(blok('terminal (di folder project)', r.commands, 'Tempel di terminal lalu Enter. Jika hanya baris pertama yang jalan, tempel satu baris satu kali.'));
+    out.appendChild(el('h3', 'Langkah 7. Isi file satu per satu'));
+    r.files.forEach(function (f, i) {
+      out.appendChild(blok('File ' + (i + 1) + ' dari ' + r.files.length + ': ' + f.path, f.code, f.hint || 'Buka file ini di editor (Ctrl+P), Ctrl+A, tempel, Ctrl+S.'));
+    });
+    out.appendChild(el('h3', 'Langkah 8. Perintah akhir'));
+    out.appendChild(blok('terminal', 'php artisan migrate:fresh --seed' + (r.info.crud ? '\nphp artisan storage:link' : '') + '\nphp artisan optimize:clear', 'Jalankan setelah semua file terisi. Lalu buka http://127.0.0.1:8000'));
+    out.appendChild(el('h3', 'Langkah 10. Draf dokumentasi (tempel ke Word)'));
+    out.appendChild(blok('dokumentasi.txt', r.doc, 'Sesuaikan jika perlu, lalu tambahkan screenshot.'));
+    out.scrollIntoView();
+  }
+
+  /* ---------- analisis soal ---------- */
+  function analisis(teks) {
+    var h = { site: null, daftar: [], relasi: [], halaman: [], fitur: [], saran: [] };
+    var m = teks.match(/\b([A-Z][A-Za-z]{2,}(?:[A-Z][A-Za-z]+)*!)/); if (m) h.site = m[1];
+    var re = /(?:yaitu|diantaranya|antara lain)\s*:?\s*([^\n.]{6,240})/gi, x;
+    while ((x = re.exec(teks))) {
+      var items = x[1].split(/,|\sdan\s|\sserta\s/).map(function (s) { return s.replace(/^[\s:]+|[\s.]+$/g, ''); }).filter(function (s) { return s && s.length < 40; });
+      if (items.length >= 2 && /^[A-Z0-9]/.test(items[0])) h.daftar.push(items);
+    }
+    var kal = [];
+    teks.split(/\n+/).forEach(function (b) { b.split(/\.\s+/).forEach(function (k) { k = k.trim(); if (k) kal.push(k); }); });
+    kal.forEach(function (k) {
+      if (/\b(satu|setiap|tiap)\b[^.]{0,90}\b(lebih dari satu|banyak|beberapa)\b/i.test(k) || /one to|many to|relasi|relationship/i.test(k)) h.relasi.push(k);
+      if (/\b(fitur|requirement|tantangan|challenge|wajib)\b/i.test(k) && k.length < 220 && h.fitur.length < 8) h.fitur.push(k);
+    });
+    var pg = /\b([A-Z][A-Za-z]+(?: [A-Z][A-Za-z]+)?) Page\b/g, mm;
+    while ((mm = pg.exec(teks))) { if (h.halaman.indexOf(mm[1] + ' Page') < 0) h.halaman.push(mm[1] + ' Page'); }
+    var md = /Modul\s+([A-Z][A-Za-z ]{2,25})/g;
+    while ((mm = md.exec(teks))) { var t = 'Modul ' + mm[1].trim(); if (h.halaman.indexOf(t) < 0) h.halaman.push(t); }
+    if (/\b(cari|pencarian|search|filter)\b/i.test(teks)) h.saran.push('Ada kata cari/filter: centang Halaman Kelola dan pencarian/filter.');
+    if (/\b(tambah|ubah|edit|hapus|delete|crud)\b/i.test(teks)) h.saran.push('Ada kata tambah/ubah/hapus: centang Halaman Kelola.');
+    if (/(upload|unggah)/i.test(teks)) h.saran.push('Ada upload: centang Halaman Kelola (sudah mendukung upload gambar).');
+    if (/(tantangan|challenge|\btop\b|terbaik|terpopuler|teratas)/i.test(teks)) h.saran.push('Ada fitur tantangan/top: centang Fitur Top dan pastikan item punya kolom rating.');
+    if (/dropdown/i.test(teks)) h.saran.push('Ada dropdown: sudah dibuat otomatis di halaman grup dan induk.');
+    if (/(login|register|registrasi|autentikasi|auth)/i.test(teks)) h.saran.push('Ada login/registrasi: alat ini tidak membuatnya. Lihat dokumentasi di laravel.com (Starter Kits).');
+    return h;
+  }
+  function tampilAnalisis(h) {
+    var box = $('gHasil'); box.innerHTML = '';
+    var w = el('div', undefined, 'box');
+    w.appendChild(el('b', 'Temuan dari soal (periksa sendiri, ini hanya bantuan):'));
+    function sec(judul, arr) {
+      if (!arr.length) return;
+      w.appendChild(el('div', judul, 'muted'));
+      var ul = el('ul'); arr.forEach(function (a) { ul.appendChild(el('li', a)); }); w.appendChild(ul);
+    }
+    if (h.site) w.appendChild(el('div', 'Nama website terdeteksi: ' + h.site + ' (sudah diisi di Langkah 2).'));
+    sec('Kalimat tentang hubungan antar tabel (cari pola "satu A punya banyak B"):', h.relasi);
+    if (h.daftar.length) {
+      w.appendChild(el('div', 'Daftar yang ditemukan (jika salah satunya adalah daftar kategori, klik tombolnya):', 'muted'));
+      var ul2 = el('ul');
+      h.daftar.forEach(function (it) {
+        var li = el('li', it.join(', ') + ' '), b = el('button', 'Pakai sebagai nama grup'); b.type = 'button';
+        b.addEventListener('click', function () { $('cVals').value = it.join(', '); $('useGroup').checked = true; toggle(); save(); b.textContent = 'Terpakai'; });
+        li.appendChild(b); ul2.appendChild(li);
+      });
+      w.appendChild(ul2);
+    }
+    sec('Halaman/modul yang disebut:', h.halaman);
+    sec('Kalimat fitur/requirement:', h.fitur);
+    sec('Saran pengaturan:', h.saran);
+    if (!h.relasi.length && !h.daftar.length && !h.halaman.length && !h.fitur.length) w.appendChild(el('div', 'Tidak ada pola yang dikenali. Isi formulir secara manual berdasarkan kertas coretan Anda.'));
+    box.appendChild(w);
+  }
+
+  /* ---------- pasang ---------- */
+  var saved = null; try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  setAll(saved ? Object.assign({}, D, saved) : D);
+  $('gForm').addEventListener('input', function () { toggle(); save(); });
+  $('gForm').addEventListener('change', function () { toggle(); save(); });
+  $('gBuat').addEventListener('click', function () { save(); render(window.KodeGen.generate(config())); });
+  $('gReset').addEventListener('click', function () { setAll(D); save(); $('gOut').innerHTML = ''; });
+  $('gAnalisis').addEventListener('click', function () {
+    var t = $('gSoal').value;
+    if (!t.trim()) { $('gHasil').innerHTML = ''; $('gHasil').appendChild(el('div', 'Isi dulu teks soal di kotak di atas.', 'box')); return; }
+    var h = analisis(t); if (h.site) { $('gSite').value = h.site; save(); } tampilAnalisis(h);
+  });
+  $('gContoh').addEventListener('click', function () { $('gSoal').value = SOAL; $('gAnalisis').click(); });
+  $('gFile').addEventListener('change', function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader(); rd.onload = function () { $('gSoal').value = String(rd.result); $('gAnalisis').click(); }; rd.readAsText(f);
+  });
+})();
+
 </script>
 </body>
 </html>
