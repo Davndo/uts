@@ -1,1498 +1,1280 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UTS Deep Learning</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffffff">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#f5f5f3" />
+<title>Catatan Pemrograman Web</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
 <style>
-:root{
-  --bg:#ffffff;
-  --panel:#f2f2f2;
-  --ink:#4a4a4a;
-  --ink-dim:#6b6b6b;
-  --line:#b5b5b5;
-  --table-head:#e2e2e2;
-  --table-alt:#f6f6f6;
-  --code-bg:#ececec;
-  --link:#3a3a3a;
-}
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:"Times New Roman",Times,serif;
-  font-size:15px;
-  line-height:1.3;
-}
-.wrap{max-width:760px;margin:0 auto;padding:14px 12px 60px;}
-h1{font-size:1.35rem;font-weight:bold;margin:6px 0 2px;color:var(--ink);}
-h2{font-size:1.1rem;font-weight:bold;margin:20px 0 4px;padding-top:8px;border-top:1px solid var(--line);color:var(--ink);}
-h3{font-size:1rem;font-weight:bold;margin:12px 0 3px;color:var(--ink);}
-h4{font-size:0.95rem;font-weight:bold;margin:10px 0 3px;color:var(--ink-dim);}
-p{margin:4px 0;}
-ul,ol{margin:4px 0;padding-left:22px;}
-li{margin:2px 0;}
-a{color:var(--link);}
-hr{border:none;border-top:1px solid var(--line);margin:14px 0;}
-.subtitle{color:var(--ink-dim);font-size:0.85rem;margin:0 0 10px;}
-
-table{border-collapse:collapse;width:100%;margin:6px 0 10px;font-size:0.82rem;}
-th,td{border:1px solid var(--line);padding:3px 5px;text-align:left;vertical-align:top;}
-th{background:var(--table-head);font-weight:bold;}
-tr:nth-child(even) td{background:var(--table-alt);}
-
-figure{margin:8px 0;}
-figure img{display:block;max-width:100%;height:auto;border:1px solid var(--line);background:#fff;}
-figcaption{font-size:0.76rem;color:var(--ink-dim);margin-top:2px;}
-
-pre{
-  background:var(--code-bg);
-  border:1px solid var(--line);
-  padding:6px 8px;
-  overflow-x:auto;
-  font-family:"Courier New",monospace;
-  font-size:0.78rem;
-  line-height:1.25;
-  margin:6px 0;
-}
-code{font-family:"Courier New",monospace;}
-
-.answer-block{margin:4px 0 4px 14px;padding-left:8px;border-left:2px solid var(--line);}
-.kisi-box{background:var(--panel);border:1px solid var(--line);padding:8px 10px;margin:8px 0 14px;}
-
-.qa-box{background:var(--panel);border:1px solid var(--line);padding:10px;margin:16px 0;}
-.qa-box h2{margin-top:0;padding-top:0;border-top:none;}
-.qa-row{display:flex;gap:6px;margin:6px 0;}
-#qaInput{flex:1;font-family:inherit;font-size:0.9rem;padding:4px 6px;background:#ffffff;border:1px solid var(--line);color:var(--ink);}
-#qaBtn{font-family:inherit;font-size:0.9rem;padding:4px 10px;background:#e2e2e2;border:1px solid var(--line);color:var(--ink);cursor:pointer;}
-.qa-examples{font-size:0.78rem;color:var(--ink-dim);}
-.qa-examples span{text-decoration:underline;cursor:pointer;margin-right:10px;}
-#qaAnswer{margin-top:10px;font-size:0.88rem;}
-#qaAnswer .qa-heading{font-weight:bold;margin-bottom:4px;}
-.qa-empty{font-style:italic;color:var(--ink-dim);}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:12px}
+body{margin:0;background:#f5f5f3;color:#2b2e31;font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{display:flex;max-width:1100px;margin:0 auto}
+nav{position:sticky;top:0;align-self:flex-start;height:100vh;overflow:auto;width:220px;flex:none;padding:20px 14px;border-right:1px solid #ddd;font-size:13px}
+nav b{display:block;margin-bottom:10px;font-size:14px}
+nav a{display:block;padding:3px 0;color:#555;text-decoration:none}
+nav a:hover{color:#000}
+main{flex:1;min-width:0;padding:20px 24px 80px}
+h1{font-size:20px;margin:0 0 4px}
+h2{font-size:17px;margin:34px 0 8px;padding-top:10px;border-top:1px solid #ddd}
+h3{font-size:14px;margin:18px 0 6px;color:#444}
+p,li{color:#3a3d40}
+.muted{color:#777;font-size:13px}
+code.i{background:#e9e9e6;padding:1px 5px;border-radius:3px;font:12.5px ui-monospace,Menlo,Consolas,monospace}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
+th,td{border:1px solid #d6d6d2;padding:5px 8px;text-align:left;vertical-align:top}
+th{background:#ebebe8}
+.box{background:#ecece9;border-left:3px solid #9aa0a4;padding:8px 12px;margin:10px 0;font-size:13.5px}
+figure{margin:8px 0 14px;border:1px solid #d6d6d2;border-radius:4px;background:#fff;overflow:hidden}
+figcaption{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#ebebe8;padding:4px 10px;font:12px ui-monospace,Menlo,Consolas,monospace;color:#555}
+button{font:12px system-ui,sans-serif;border:1px solid #bbb;background:#f8f8f6;color:#333;border-radius:3px;padding:2px 9px;cursor:pointer}
+button:hover{background:#fff}
+pre{margin:0;padding:10px 12px;overflow:auto;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#222;tab-size:4}
+mark{background:#f1e2a0;color:#222;padding:0 2px;border-radius:2px}
+@media(max-width:760px){.wrap{display:block}nav{position:static;height:auto;width:auto;border-right:0;border-bottom:1px solid #ddd}nav a{display:inline-block;margin-right:10px}main{padding:16px}}
+@media print{nav,button{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
+<nav>
+<b>Daftar isi</b>
+<a href="#petunjuk">0. Cara pakai</a>
+<a href="#info">1. Info ujian</a>
+<a href="#alur">2. Alur kerja</a>
+<a href="#adaptasi">3. Ganti nama (soal lain)</a>
+<a href="#perintah">4. Perintah artisan</a>
+<a href="#migration">5. Migration</a>
+<a href="#model">6. Model</a>
+<a href="#seeder">7. Factory dan Seeder</a>
+<a href="#route">8. Route</a>
+<a href="#controller">9. Controller</a>
+<a href="#layout">10. Layout Blade</a>
+<a href="#view">11. View halaman user</a>
+<a href="#crud">12. CRUD (tambah/ubah/hapus)</a>
+<a href="#fitur">13. Fitur tambahan</a>
+<a href="#eloquent">14. Eloquent dan Blade</a>
+<a href="#dokumentasi">15. Dokumentasi</a>
+<a href="#masalah">16. Jika error</a>
+<a href="#cek">17. Cek sebelum kumpul</a>
+</nav>
+<main>
+<h1>Catatan Pemrograman Web</h1>
+<p class="muted">Laravel 11/12 &middot; Blade &middot; Bootstrap &middot; Migration &middot; Eloquent. Contoh kasus: review makanan (satu reviewer punya banyak makanan; makanan dan kategori banyak-ke-banyak).</p>
 
-<h1>UTS — Deep Learning</h1>
-<p class="subtitle">Rangkuman belajar, disalin apa adanya dari catatan Notion.</p>
-
-<section id="sec-root">
-
-<div class="kisi-box" data-heading="Kisi-kisi" data-level="2">
-<h2 style="border-top:none;margin-top:0;">Kisi-kisi</h2>
-<p>100 menit, boleh kalkulator, dikerjakan di kertas, dan ada soal yang bercabang.</p>
-<p><strong>Essay</strong></p>
-<ul>
-<li><strong>Linear model (bonus, 5%)</strong>: keterbatasan linear model dan alasan deep learning bisa mengatasinya.</li>
-<li><strong>Model training dan evaluation (15%)</strong>: materi sesi 2, soal bisa bercabang.</li>
-<li><strong>CNN (15%)</strong>: komponen, fungsi tiap layer, dan hitungan arsitektur, bukan hitungan kernel.</li>
-<li><strong>GAN (15%)</strong>: prinsip generative model dan training yang paling optimal.</li>
-</ul>
-<p><strong>Study case</strong></p>
-<ul>
-<li><strong>MLP (25%)</strong>: klasifikasi dan regresi, limitasi, dan solusinya, soal bercabang.</li>
-<li><strong>Autoencoder (25%)</strong>: bentuk arsitektur dan tipe yang paling cocok per kasus, beserta justifikasinya.</li>
-</ul>
-</div>
-
-</section>
-
-<div class="qa-box" id="qaBox">
-<h2 style="border-top:none;margin-top:0;">Tanya tentang materi ini</h2>
-<p>Ketik pertanyaan, jawabannya diambil langsung dari isi halaman ini. Tidak ada koneksi internet yang dipakai.</p>
-<div class="qa-row">
-<input type="text" id="qaInput" placeholder="misalnya: apa itu dying ReLU?">
-<button id="qaBtn" type="button">Tanya</button>
-</div>
-<p class="qa-examples">
-Contoh:
-<span class="qa-ex">Bagaimana cara menghitung ukuran output convolution?</span>
-<span class="qa-ex">Kapan pakai autoencoder denoising?</span>
-<span class="qa-ex">Apa itu dying ReLU?</span>
-</p>
-<div id="qaAnswer"></div>
-</div>
-
-<section id="sec-1">
-<h2>1. Linear Model</h2>
-<p>Linear model adalah model machine learning yang menebak jawaban dengan satu rumus: setiap fitur dikali weight, lalu semuanya dijumlahkan.</p>
-<p>Tanpa feature engineering yang tepat (pake fitur mentah langsung), batas antar kelasnya hanya bisa berupa garis lurus, sehingga model gagal pada data dengan pola non-linear seperti XOR.</p>
-
-<h3>Pola non-linear</h3>
-<p>Pola non-linear adalah hubungan input dan output yang pengaruh inputnya tidak selalu sama, bisa berubah tergantung nilainya atau tergantung input lain, sehingga tidak bisa digambarkan dengan satu garis lurus.</p>
-<p>Kelemahan utama linear model adalah ketergantungannya pada feature engineering. Agar bisa menangani pola non-linear, manusia harus menebak dan menambahkan fitur yang tepat sendiri, misalnya x² atau log(x). Kalau fiturnya tidak tepat, model tetap gagal.</p>
-
-<figure>
-<img src="images/xor_three_lines.png" alt="Tiga scatter plot menunjukkan percobaan 3 garis linear berbeda (garis tegak, garis miring turun, garis miring naik) mencoba memisahkan data berpola non-linear/XOR, masing-masing gagal dengan 59, 30, dan 59 kesalahan dari 120 data. Teks: Garis tegak 59 dari 120 salah, Garis miring turun 30 dari 120 salah, Garis miring naik 59 dari 120 salah.">
-<figcaption>Tiga garis linear berbeda mencoba memisahkan data XOR, semuanya gagal (59, 30, dan 59 kesalahan dari 120 data).</figcaption>
-</figure>
-
-<p>Untuk mengatasi masalah tersebut, Deep Learning bisa menjadi solusinya.</p>
-<p>Deep learning adalah bagian dari machine learning yang memakai neural network dengan banyak layer untuk mempelajari fitur langsung dari data mentah.</p>
-<p>Deep learning mengatasi ketergantungan pada feature engineering karena fiturnya dipelajari sendiri, bukan dibuat manusia.</p>
-<p>Ada dua komponen yang memungkinkan hal ini:</p>
-<ul>
-<li><strong>Hidden layer</strong>: setiap layer mengubah data menjadi fitur baru, dari fitur sederhana di layer awal sampai fitur kompleks di layer akhir. Pada foto, layer awal mengenali tepi, lalu layer berikutnya mengenali bentuk.</li>
-<li><strong>Activation function</strong>: tanpa ini, tumpukan layer tetap setara dengan satu linear model. Dengan activation function, model bisa mempelajari pola non-linear.</li>
-</ul>
-<p>Weight di setiap layer diatur otomatis saat training, jadi fitur yang terbentuk adalah fitur yang paling membantu mengurangi kesalahan.</p>
-<p>Contohnya XOR: linear model butuh manusia menambahkan fitur x₁·x₂, sedangkan MLP menemukan sendiri dua garis pemisah di hidden layer-nya.</p>
-
-<figure>
-<img src="images/lin1_xor.svg" alt="Dua diagram scatter plot berdampingan. Kiri: Satu garis lurus, selalu ada yang salah, satu garis diagonal mencoba memisahkan Kelas A dan Kelas B, dengan catatan Titik A kanan atas berada di sisi kelas B jadi salah. Kanan: Dua garis dari hidden layer, terpisah, dua garis diagonal berhasil memisahkan kedua kelas, dengan catatan Kelas B berada di antara dua garis.">
-<figcaption>Satu garis lurus selalu ada yang salah, dua garis dari hidden layer berhasil memisahkan kelas A dan B.</figcaption>
-</figure>
-
-<h3>Tabel Ringkasan Perbandingan Linear Model vs Deep Learning</h3>
-<table>
-<thead><tr><th>Aspek</th><th>Linear model</th><th>Deep learning</th></tr></thead>
-<tbody>
-<tr><td>Cara kerja</td><td>Satu rumus: fitur dikali weight, lalu dijumlahkan</td><td>Banyak layer yang mengolah data menjadi fitur baru</td></tr>
-<tr><td>Fitur</td><td>Dibuat manusia (feature engineering)</td><td>Dipelajari sendiri dari data</td></tr>
-<tr><td>Kelebihan</td><td>Sederhana, cepat dilatih, cukup dengan data sedikit, mudah dijelaskan</td><td>Bisa mempelajari pola non-linear yang rumit, dan bekerja langsung pada data mentah</td></tr>
-<tr><td>Kekurangan</td><td>Dengan fitur mentah gagal pada pola non-linear, dan bergantung pada feature engineering</td><td>Butuh data banyak dan komputasi besar (GPU), sulit dijelaskan, dan mudah overfit kalau datanya sedikit</td></tr>
-<tr><td>Cocok untuk data</td><td>Data tabel yang polanya sederhana</td><td>Data mentah: gambar, suara, teks</td></tr>
-<tr><td>Contoh penggunaan</td><td>Prediksi harga rumah, prediksi nilai dari jam belajar, skor risiko kredit yang harus bisa dijelaskan</td><td>Pengenalan wajah, speech recognition, penerjemahan, chatbot, pembuatan gambar</td></tr>
-<tr><td>Contoh model</td><td>Linear regression, logistic regression, perceptron</td><td>MLP, CNN, GAN, autoencoder</td></tr>
-</tbody>
-</table>
-</section>
-
-<section id="sec-2">
-<h2>2. Model Training &amp; Evaluation</h2>
-
-<h3>Training</h3>
-<p>Training adalah proses mengubah weight sedikit demi sedikit supaya kesalahan model makin kecil.</p>
-
-<figure>
-<img src="images/training_flowchart.png" alt="Flowchart tahap training, dua kolom Tahap dan Komponen di tahap ini. Urutan: Sebelum mulai weight awal (Initialization) lalu 1. Ambil satu batch data (Ukuran batch, Regularization augmentation) lalu 2. Forward model menebak (Activation function, Regularization dropout) lalu 3. Loss ukur kesalahan (Loss function, Regularization L2) lalu 4. Backward hitung gradient (Chain rule, Vanishing/exploding/dying ReLU) lalu 5. Update geser weight (Optimizer, learning rate, Learning rate terlalu besar/kecil) lalu Akhir epoch cek validation (Regularization early stopping, Underfitting/overfitting). Panah melingkar menandakan ulangi per batch (tahap 1-5) dan ulangi per epoch.">
-<figcaption>Kiri: tahap training secara berurutan. Kanan: komponen yang bekerja di tahap itu. Teks merah pada aslinya menandai masalah yang bisa muncul di tahap itu.</figcaption>
-</figure>
-
-<h4>0. Initialization</h4>
-<p>Sebelum training dimulai, semua weight harus punya nilai awal. Initialization adalah cara untuk memilih nilai tersebut.</p>
-<p>Kalau nilainya buruk, sinyal bisa mengecil atau membesar sejak awal, jadi training lambat atau gagal.</p>
-<p>Aturan utama: initialization mana? Lihat Activation di Hidden Layernya.</p>
-<table>
-<thead><tr><th>Pilih</th><th>kalau Activation Hidden Layernya &hellip;</th><th>Penjelasan</th></tr></thead>
-<tbody>
-<tr><td>He</td><td>ReLU</td><td>Rentang angkanya dibuat lebih lebar, karena ReLU membuang sekitar separuh sinyal.</td></tr>
-<tr><td>Xavier</td><td>sigmoid atau tanh</td><td>Rentang angkanya disesuaikan supaya sinyal tetap stabil antar layer.</td></tr>
-<tr><td>Uniform</td><td>Pilihan bawaan</td><td>Mudah dipakai, tapi kadang tidak stabil.</td></tr>
-</tbody>
-</table>
-<p>Xavier dan He sama-sama mengisi weight dengan angka acak yang rentangnya disesuaikan dengan ukuran layer.</p>
-
-<h4>1. Ambil Batch Data</h4>
-<p>Sebenarnya model bisa update weight untuk setiap baris data (Stochastic Gradient Descent), namun hasilnya tidak stabil.</p>
-<p>Karena itu, cara yang lebih umum adalah mini-batch atau batch gradient descent.</p>
-<table>
-<thead><tr><th>Pilih</th><th>Artinya</th><th>Pakai kalau</th><th>Alasan</th></tr></thead>
-<tbody>
-<tr><td>Mini-batch</td><td>Weight diubah setelah melihat sebagian kecil data, misalnya 32 data</td><td>Hampir selalu</td><td>Kompromi antara stabil dan cepat</td></tr>
-<tr><td>Batch gradient descent</td><td>Weight diubah setelah melihat semua data</td><td>Datanya kecil</td><td>Stabil, tapi lambat mencapai konvergen karena satu update harus menghitung semua data, sehingga perkalian matriksnya (MatMul) besar</td></tr>
-<tr><td>Stochastic gradient descent (SGD)</td><td>Weight diubah setelah melihat 1 data</td><td>Jarang dipakai murni</td><td>Cepat, tapi arahnya noisy karena satu update hanya memakai 1 data</td></tr>
-</tbody>
-</table>
-
-<h4>2. Forward Propagation</h4>
-<p>Data mengalir dari layer pertama ke layer terakhir, lalu keluar sebagai tebakan.</p>
-<p>Di setiap neuron, Activation Function mengolah hasil hitungan sebelum diteruskan ke layer berikutnya. Inilah yang membuat model bisa mempelajari pola non-linear.</p>
-
-<p><strong>Activation di hidden layer</strong></p>
-<table>
-<thead><tr><th>Activation Func.</th><th>Pakai kalau</th><th>Alasan</th></tr></thead>
-<tbody>
-<tr><td>ReLU</td><td>Hidden layer, hampir selalu (default)</td><td>Sederhana, dan gradient-nya tidak menyusut untuk input positif</td></tr>
-<tr><td>LeakyReLU</td><td>Banyak neuron ReLU mati</td><td>Input negatif tetap punya gradient kecil</td></tr>
-<tr><td>Sigmoid atau tanh</td><td>Jaringan dangkal</td><td>Di jaringan dalam, gradient-nya cepat mengecil (Vanishing Gradient)</td></tr>
-</tbody>
-</table>
-
-<p><strong>Activation di output layer</strong></p>
-<p>Hidden layer memakai activation supaya model bisa mempelajari pola non-linear, sedangkan output layer memakai activation supaya bentuk tebakannya sesuai tugas.</p>
-<table>
-<thead><tr><th>Tugas</th><th>Neuron output</th><th>Activation</th><th>Bentuk tebakan</th></tr></thead>
-<tbody>
-<tr><td>Regresi</td><td>1</td><td>Tidak ada (atau ReLU kalau target tidak mungkin negatif)</td><td>Satu angka</td></tr>
-<tr><td>Klasifikasi 2 kelas</td><td>1</td><td>Sigmoid</td><td>Satu peluang, 0 sampai 1</td></tr>
-<tr><td>Klasifikasi lebih dari 2 kelas</td><td>Sebanyak kelas</td><td>Softmax</td><td>Peluang tiap kelas, jumlahnya 1</td></tr>
-</tbody>
-</table>
-
-<p><strong>Masalah di tahap ini: Dying ReLU</strong></p>
-<p>Dying ReLU adalah kondisi saat neuron ReLU selalu mengeluarkan 0, sehingga neuron itu berhenti belajar selamanya.</p>
-<ul>
-<li>Tanda: banyak neuron selalu bernilai 0, dan loss macet.</li>
-<li>Penyebab: ReLU mengeluarkan 0 untuk input negatif, dan gradient-nya juga 0, jadi weight neuron itu tidak pernah berubah lagi. Learning rate yang terlalu besar sering memicunya.</li>
-<li>Solusi: pakai LeakyReLU atau parametric ReLU, atau kecilkan learning rate.</li>
-</ul>
-
-<h4>3. Hitung Loss</h4>
-<p>Loss adalah angka yang mengukur seberapa salah tebakan model. Training bertujuan untuk mengecilkan nilai ini.</p>
-<p>Cara perhitungan loss berbeda-beda tergantung tugas modelnya:</p>
-<table>
-<thead><tr><th>Pilih</th><th>Pakai kalau</th><th>Sifat</th><th>Cara menghitung</th></tr></thead>
-<tbody>
-<tr><td>MSE (Mean Squared Error)</td><td>Regresi</td><td>Error besar dihukum jauh lebih berat</td><td>Rata-rata dari selisih yang dikuadratkan</td></tr>
-<tr><td>MAE (Mean Absolute Error)</td><td>Regresi yang data train punya nilai ekstrem (outlier)</td><td>Lebih tahan terhadap outlier</td><td>Rata-rata dari selisih tanpa tanda minus</td></tr>
-<tr><td>Binary cross entropy</td><td>Klasifikasi 2 kelas</td><td>Tebakan yang yakin tapi salah dihukum sangat berat</td><td>Label 1: &minus;ln(peluang). Label 0: &minus;ln(1 &minus; peluang)</td></tr>
-<tr><td>Cross entropy</td><td>Klasifikasi lebih dari 2 kelas</td><td>Sama seperti binary cross entropy</td><td>&minus;ln(peluang kelas yang benar)</td></tr>
-</tbody>
-</table>
-
-<h4>4. Backward Propagation</h4>
-<p>Dari tahap loss, model sudah tahu seberapa salah tebakannya. Tapi model belum tahu weight mana yang harus diubah, dan ke arah mana.</p>
-<p>Backpropagation adalah cara menghitung seberapa besar setiap weight ikut menyebabkan kesalahan, dengan memakai chain rule dari layer terakhir ke layer pertama.</p>
-<p>Hasilnya disebut gradient, yaitu nilai untuk setiap weight yang menunjukkan dua hal:</p>
-<ul>
-<li><strong>Tanda (+/&minus;)</strong>: Gradient positif berarti loss naik kalau weight dibesarkan, jadi weight perlu dikecilkan. Gradient negatif berarti loss naik kalau weight dikecilkan, jadi weight perlu dibesarkan.</li>
-<li><strong>Besar nilainya</strong>: makin besar nilainya, makin besar pengaruh weight itu terhadap loss saat ini, jadi makin besar gradient-nya, makin besar perubahan weight-nya.</li>
-</ul>
-
-<p><strong>Masalah di tahap ini: Vanishing dan Exploding Gradient</strong></p>
-<p>Karena chain rule mengalikan turunan di setiap layer, layer awal punya rantai perkalian paling panjang. Akibatnya, gradient di layer awal sangat bergantung pada angka-angka yang dikalikan.</p>
-<p>Vanishing gradient adalah kondisi saat gradient makin kecil sampai hampir nol, sehingga layer awal hampir tidak belajar.</p>
-<ul>
-<li>Tanda: loss turun sangat lambat &amp; layer awal tidak berubah</li>
-<li>Penyebab: Turunan kecil (sigmoid maks 0,25) dikalikan berulang di banyak layer</li>
-<li>Solusi: pakai ReLU dengan He initialization, karena turunan ReLU bernilai 1 untuk input positif. Bisa juga memakai BatchNorm atau residual connection.</li>
-</ul>
-<p>Exploding gradient adalah kondisi saat gradient makin besar sampai tidak terkendali, sehingga update weight terlalu jauh.</p>
-<ul>
-<li>Tanda: loss melompat-lompat atau menjadi NaN.</li>
-<li>Penyebab: Weight atau gradient yang besar dikalikan berulang.</li>
-<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau BatchNorm.</li>
-</ul>
-<p>BatchNorm adalah layer yang menormalkan output dari layer sebelumnya.<br>Residual connection adalah jalan pintas yang menambahkan input layer ke output-nya, supaya gradient bisa mengalir langsung ke layer awal.</p>
-
-<h4>5. Update</h4>
-<p>Dari tahap backward, model sudah punya gradient untuk setiap weight. Sekarang weight benar-benar diubah, dan yang mengubahnya adalah optimizer.</p>
-<p>Optimizer adalah aturan yang menentukan bagaimana cara weight diubah berdasarkan nilai gradiennya. Gradient hanya memberi tahu arah dan seberapa besar pengaruh setiap weight, jadi optimizer masih perlu tahu seberapa jauh harus melangkah. Jarak langkah itu diatur oleh learning rate, yaitu angka yang kita tentukan sebelum training.</p>
-
-<p><strong>Memilih learning rate</strong></p>
-<table>
-<thead><tr><th>Learning rate</th><th>Yang terjadi</th><th>Tanda di loss</th></tr></thead>
-<tbody>
-<tr><td>Terlalu besar</td><td>Langkahnya bisa melompati titik optimal</td><td>Naik turun dan makin besar (divergen)</td></tr>
-<tr><td>Pas</td><td>Langkahnya makin mendekati titik terbaik</td><td>Turun dengan stabil</td></tr>
-<tr><td>Terlalu kecil</td><td>Langkahnya sangat pendek</td><td>Turun sangat lambat</td></tr>
-</tbody>
-</table>
-<p>Solusinya bisa memakai learning rate schedule, yaitu learning rate yang diturunkan selama training: langkah besar di awal supaya cepat, lalu langkah kecil di akhir supaya stabil. Contohnya step decay, exponential decay, dan cosine annealing.</p>
-
-<p><strong>Memilih optimizer</strong></p>
-<table>
-<thead><tr><th>Optimizer</th><th>Cara kerja</th><th>Pakai kalau</th><th>Kekurangan</th></tr></thead>
-<tbody>
-<tr><td>Adam</td><td>Gabungan Momentum dan RMSProp, jadi langkahnya menyesuaikan sendiri</td><td>Default untuk kebanyakan tugas</td><td>Bisa overfit</td></tr>
-<tr><td>SGD</td><td>Langsung memakai gradient dan learning rate</td><td>Ingin kontrol penuh</td><td>Sensitif terhadap learning rate</td></tr>
-<tr><td>Momentum</td><td>Langkah sekarang ikut membawa arah langkah sebelumnya, seperti bola menggelinding</td><td>Masalah convex, atau langkahnya zig-zag</td><td>Perlu tuning</td></tr>
-<tr><td>RMSProp</td><td>Setiap weight punya LR sendiri, dan nilainya mengecil kalau gradient-nya sering besar serta sebaliknya</td><td>Sering dipakai di RNN</td><td>Sensitif terhadap pengaturan</td></tr>
-</tbody>
-</table>
-<p>Catatan: kata SGD di tabel ini adalah nama optimizer. Kata yang sama juga dipakai untuk "update per 1 data" di tahap ambil data, jadi perhatikan konteksnya.</p>
-<p>Setelah update, model mengambil batch berikutnya dan mengulang tahap 1 sampai 5.</p>
-<p>Satu epoch selesai kalau seluruh data train sudah terpakai satu kali.</p>
-
-<h4>Akhir Epoch: Cek Hasil Belajar</h4>
-<p>Di akhir setiap epoch, kita membandingkan training loss dengan validation loss, yaitu loss pada data yang tidak dipakai untuk belajar.</p>
-
-<p><strong>Masalah di tahap ini: Underfitting dan Overfitting</strong></p>
-
-<p><strong>Solusi overfitting: Regularization</strong></p>
-<p>Regularization adalah teknik yang ditambahkan ke training supaya model tidak menghafal. Ini bukan tahap baru, karena setiap teknik menempel ke tahap yang sudah dibahas.</p>
-<table>
-<thead><tr><th>Pilih</th><th>Menempel di</th><th>Pakai kalau</th><th>Cara kerja</th></tr></thead>
-<tbody>
-<tr><td>Data augmentation</td><td>Tahap 1</td><td>Data gambar sedikit</td><td>Rotasi, crop, dan flip acak, jadi data terlihat lebih beragam</td></tr>
-<tr><td>Dropout</td><td>Tahap 2</td><td>Fully connected layer yang besar</td><td>Mematikan 20&ndash;50% neuron secara acak, jadi model tidak bergantung pada neuron tertentu</td></tr>
-<tr><td>L2 (weight decay)</td><td>Tahap 3</td><td>Weight membesar</td><td>Loss ditambah penalti untuk weight besar, jadi model lebih sederhana</td></tr>
-<tr><td>Early stopping</td><td>Akhir epoch</td><td>Hampir selalu, karena paling murah</td><td>Berhenti saat validation loss mulai naik, lalu memakai weight terbaiknya</td></tr>
-</tbody>
-</table>
-<p>Dropout dan augmentation hanya aktif saat training, karena saat evaluasi model harus melihat data apa adanya.</p>
-
-<p><strong>Tabel Ringkasan: gejala, masalah, dan solusinya</strong></p>
-<table>
-<thead><tr><th>Gejala</th><th>Masalah</th><th>Terjadi di</th><th>Solusi utama</th></tr></thead>
-<tbody>
-<tr><td>Banyak neuron selalu 0, loss macet</td><td>Dying ReLU</td><td>Tahap 2</td><td>LeakyReLU, learning rate lebih kecil</td></tr>
-<tr><td>Loss turun sangat lambat</td><td>Vanishing gradient, atau learning rate terlalu kecil</td><td>Tahap 4 atau 5</td><td>ReLU dengan He initialization, BatchNorm, naikkan learning rate</td></tr>
-<tr><td>Loss naik turun liar, membesar, atau NaN</td><td>Exploding gradient, atau learning rate terlalu besar</td><td>Tahap 4 atau 5</td><td>Turunkan learning rate, BatchNorm</td></tr>
-<tr><td>Training dan validation loss sama-sama tinggi</td><td>Underfitting</td><td>Akhir epoch</td><td>Model lebih besar, training lebih lama</td></tr>
-<tr><td>Training loss turun, validation loss naik</td><td>Overfitting</td><td>Akhir epoch</td><td>Early stopping, dropout, L2, augmentation</td></tr>
-</tbody>
-</table>
-
-<h3>Evaluation</h3>
-<p>Evaluation adalah proses mengukur seberapa baik model kita bekerja pada data yang tidak dipakai saat training (Test Set).</p>
-<p>Ukuran yang dipakai untuk menilainya disebut metric, yaitu angka yang menunjukkan kualitas tebakan model, misalnya accuracy untuk klasifikasi atau MAE untuk regresi.</p>
-<p>Loss dan metric punya tugas berbeda: loss dipakai model untuk belajar, sedangkan metric dipakai manusia untuk menilai.</p>
-<p>Metric yang digunakan untuk evaluasi harus sesuai dengan tujuan model dan jenis kesalahan yang paling krusial.</p>
-<table>
-<thead><tr><th>Metric</th><th>Menilai apa</th><th>Dipakai kalau</th></tr></thead>
-<tbody>
-<tr><td>Accuracy = (TP + TN) &divide; total</td><td>Berapa persen semua tebakan yang benar</td><td>Klasifikasi, dan jumlah data tiap kelas seimbang</td></tr>
-<tr><td>Precision = TP &divide; (TP + FP)</td><td>Dari yang ditebak positif, berapa yang benar positif</td><td>Klasifikasi, dan alarm palsu mahal. Contoh: email penting masuk folder spam</td></tr>
-<tr><td>Recall = TP &divide; (TP + FN)</td><td>Dari yang benar positif, berapa yang berhasil tertangkap</td><td>Klasifikasi, dan kasus yang lolos mahal. Contoh: fraud atau penyakit yang tidak terdeteksi</td></tr>
-<tr><td>F1 = 2PR &divide; (P + R)</td><td>Keseimbangan precision dan recall</td><td>Klasifikasi, jumlah data tiap kelas tidak seimbang, dan keduanya sama penting</td></tr>
-<tr><td>AUC</td><td>Seberapa baik model memisahkan dua kelas di berbagai batas keputusan. Nilai 0,5 setara menebak acak, dan 1 berarti sempurna</td><td>Klasifikasi, dan batas keputusannya belum ditentukan</td></tr>
-<tr><td>MSE</td><td>Rata-rata kesalahan, dengan error besar dihukum lebih berat</td><td>Regresi, dan error besar sangat merugikan</td></tr>
-<tr><td>MAE</td><td>Rata-rata besar kesalahan, dalam satuan yang sama dengan data</td><td>Regresi, ada outlier, atau hasilnya perlu mudah dibaca</td></tr>
-<tr><td>R&sup2;</td><td>Seberapa baik model dibanding selalu menebak rata-rata</td><td>Regresi, dan ingin tahu seberapa baik model menjelaskan data</td></tr>
-</tbody>
-</table>
-
-<p><strong>Confusion matrix: TP, FP, FN, dan TN</strong></p>
-<p>Confusion matrix adalah tabel yang menunjukkan pola kesalahan model, dengan membandingkan kondisi asli dan tebakan.</p>
-<p>Contohnya, model mendeteksi fraud pada 100 transaksi, dengan fraud sebagai kelas positif.</p>
-<ul>
-<li>TP (True Positive): fraud yang ditebak fraud.</li>
-<li>TN (True Negative): transaksi aman yang ditebak aman.</li>
-<li>FP (False Positive): transaksi aman yang ditebak fraud, atau alarm palsu.</li>
-<li>FN (False Negative): fraud yang ditebak aman, atau kasus yang lolos.</li>
-</ul>
-
-<figure>
-<img src="images/eval1_confusion.svg" alt="Diagram confusion matrix 2x2. Judul Tebakan model (kolom Fraud, Aman), baris Kondisi asli (Fraud, Aman). Sel TP=40 benar tertangkap, FN=20 lolos, FP=10 alarm palsu, TN=30 benar aman. Accuracy = (TP+TN) bagi total = (40+30)/100 = 0,70. Precision = TP bagi (TP+FP) = 40/(40+10) = 0,80. Recall = TP bagi (TP+FN) = 40/(40+20) = 0,67. F1 = 2 kali P kali R bagi (P+R) = 2 x 0,80 x 0,67 / 1,47 = 0,73.">
-<figcaption>Confusion matrix contoh deteksi fraud: TP=40, FN=20, FP=10, TN=30. Accuracy 0,70; Precision 0,80; Recall 0,67; F1 0,73.</figcaption>
-</figure>
-
-<p>Recall 0,67 artinya sepertiga kasus fraud masih lolos. Kalau fraud yang lolos sangat mahal, recall ini perlu ditingkatkan walaupun accuracy-nya 0,70.</p>
-
-<p><strong>Train, validation, dan test</strong></p>
-<ul>
-<li>Train: dipakai untuk mengubah weight.</li>
-<li>Validation: dipakai untuk memantau overfitting dan memilih pengaturan model, misalnya kapan early stopping dilakukan. Weight tidak diubah dari data ini.</li>
-<li>Test: dipakai untuk penilaian akhir setelah model selesai dipilih.</li>
-</ul>
-<p>Kalau data test ikut dipakai untuk memilih model, nilai akhirnya bisa terlihat terlalu bagus. Penjelasan pembagian ini adalah tambahan, karena PPT hanya menyebut validation dan evaluasi.</p>
-</section>
-
-<section id="sec-3">
-<h2>3. CNN</h2>
-
-<h3>Cheat sheet</h3>
-<p>C = channel, T = tinggi, L = lebar, K = ukuran kernel, P = padding, S = stride.</p>
-<table>
-<thead><tr><th>Komponen</th><th>Tugas</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
-<tbody>
-<tr><td>Convolution</td><td>Mencari pola dengan kernel, untuk mendapatkan fitur. Makin dalam layernya, makin spesifik fiturnya, dari tepi sampai bentuk.</td><td>C = jumlah kernel. T dan L = (T &minus; K + 2P) &divide; S + 1, lalu hasil akhirnya dibulatkan ke bawah</td><td>(K &times; K &times; C input + 1) &times; jumlah kernel Conv</td></tr>
-<tr><td>ReLU</td><td>Membuat model non-linear, supaya bisa mempelajari pola yang rumit.</td><td>Tetap</td><td>0</td></tr>
-<tr><td>Max atau average pooling</td><td>Memperkecil ukuran, supaya komputasi lebih ringan, overfitting berkurang, dan hasilnya tahan terhadap geseran kecil.</td><td>C tetap. T dan L = (T &minus; K + 2P) &divide; S + 1, lalu hasil akhirnya dibulatkan ke bawah. Pooling 2&times;2 defaultnya: K=2, P=0, S=2.</td><td>0</td></tr>
-<tr><td>Flatten</td><td>Meratakan jadi satu baris, supaya bisa masuk ke fully connected, yang hanya menerima input satu baris.</td><td>C &times; T &times; L</td><td>0</td></tr>
-<tr><td>Fully connected</td><td>Menggabungkan semua fitur yang ditemukan, supaya menjadi keputusan atau tebakan.</td><td>Jumlah neuron</td><td>(jumlah input + 1) &times; jumlah neuron</td></tr>
-<tr><td>BatchNorm</td><td>Menormalkan output layer di setiap batch, supaya training lebih stabil.</td><td>Tetap</td><td>2 &times; C, yaitu &gamma; dan &beta; untuk setiap channel</td></tr>
-<tr><td>Dropout</td><td>Mematikan sebagian neuron secara acak saat training, supaya model tidak bergantung pada neuron tertentu.</td><td>Tetap</td><td>0</td></tr>
-<tr><td>Softmax atau sigmoid</td><td>Mengubah output jadi peluang, supaya kelas dengan peluang terbesar menjadi jawaban.</td><td>Tetap</td><td>0</td></tr>
-</tbody>
-</table>
-<p>Kerjakan dari atas ke bawah: cari ukuran output dulu, lalu hitung parameternya, karena layer berikutnya memakai ukuran itu sebagai input.</p>
-<p><strong>Jangan sampai salah:</strong></p>
-<ul>
-<li>C input diambil dari output layer sebelumnya, bukan selalu 1 atau 3.</li>
-<li>Jangan lupa + 1 di convolution dan fully connected, kecuali soal menyebut tanpa bias.</li>
-<li>Padding dan stride tidak masuk rumus parameter, karena keduanya hanya mengubah ukuran output.</li>
-<li>Hasil ukuran yang tidak bulat dibulatkan ke bawah. Contohnya, (32 &minus; 3 + 2 &times; 1) &divide; 2 + 1 = 16,5, jadi ukurannya 16.</li>
-<li>Di TensorFlow, padding='same' memakai rumus T output = T input &divide; S, lalu dibulatkan ke atas.</li>
-</ul>
-
-<h3>Komponen dan cara kerja tiap layer</h3>
-<p>Urutan yang umum adalah Convolution, ReLU, dan Pooling, yang bisa diulang beberapa kali, lalu Flatten, Fully connected, dan Output.</p>
-<p>Pola umumnya: tinggi dan lebar mengecil, sedangkan jumlah channel bertambah.</p>
-
-<figure>
-<img src="images/cnn_alur.svg" alt="Diagram alur CNN layer demi layer, menunjukkan urutan layer khas CNN dari input sampai output: convolution, ReLU, pooling, diulang, lalu flatten, fully connected, output.">
-<figcaption>Alur CNN layer demi layer, dari input sampai output.</figcaption>
-</figure>
-
-<figure>
-<img src="images/cnn_cara_kerja.svg" alt="Diagram cara kerja CNN: proses convolution (kernel dikali-jumlah piksel), max pooling (ambil angka terbesar tiap kotak), dan flatten (feature map disusun jadi satu baris).">
-<figcaption>Cara kerja convolution, pooling, dan flatten.</figcaption>
-</figure>
-
-<ul>
-<li><strong>Convolution</strong>: kernel digeser ke seluruh gambar. Di setiap posisi, kernel dikali piksel di bawahnya lalu dijumlahkan, sehingga satu kernel menghasilkan satu feature map.</li>
-<li><strong>ReLU</strong>: angka negatif menjadi 0, dan angka positif tetap.</li>
-<li><strong>Pooling</strong>: setiap kotak diringkas menjadi satu angka. Max mengambil angka terbesar, sedangkan average mengambil rata-rata.</li>
-<li><strong>Flatten</strong>: feature map disusun menjadi satu baris, dan jumlah angkanya tetap.</li>
-<li><strong>Fully connected</strong>: setiap input terhubung ke semua neuron, sama seperti layer di MLP.</li>
-<li><strong>Output</strong>: softmax memberi peluang tiap kelas, sedangkan sigmoid memberi satu peluang untuk 2 kelas.</li>
-</ul>
-<p>BatchNorm dan dropout bersifat tambahan. Di PPT, keduanya disarankan untuk performa dan mencegah overfitting.</p>
-
-<h3>Istilah</h3>
-<ul>
-<li>Kernel adalah kotak kecil berisi weight yang digeser ke seluruh gambar untuk mencari satu pola, misalnya tepi.</li>
-<li>Feature map adalah peta hasil pencarian satu kernel, yang menunjukkan di mana pola itu ditemukan.</li>
-<li>Channel adalah jumlah lapisan angka pada data. Gambar hitam putih punya 1 channel, gambar RGB punya 3, dan setelah convolution jumlahnya sama dengan jumlah feature map.</li>
-<li>Stride adalah jarak geser kernel.</li>
-<li>Padding adalah tambahan angka nol di pinggir gambar.</li>
-</ul>
-
-<h3>Kenapa rumus parameternya begitu?</h3>
-<ul>
-<li>K &times; K: kernel berukuran K &times; K punya satu weight di setiap kotaknya.</li>
-<li>&times; C input: kernel harus melihat semua channel input, jadi kotak-kotak itu ada di setiap channel.</li>
-<li>+ 1: setiap kernel atau neuron punya satu bias.</li>
-<li>&times; jumlah kernel atau neuron: setiap kernel atau neuron punya weight sendiri.</li>
-</ul>
-<p>Tinggi dan lebar gambar tidak masuk rumus convolution, karena weight kernel yang sama dipakai ulang di semua posisi.</p>
-
-<h3>Cara membaca bentuk arsitektur</h3>
-<p>Posisi channel bisa berbeda, jadi cek dulu sebelum menghitung. Biasanya bakal ada pasangan angka yang sama, yang beda sendiri itu channel.</p>
-<ul>
-<li>1 &times; 28 &times; 28 (kode PyTorch): channel di depan, yaitu 1 channel.</li>
-<li>6@28x28 (gambar LeNet-5): channel sebelum @, yaitu 6 channel.</li>
-<li>224x224x64 (gambar VGG): channel di belakang, yaitu 64 channel.</li>
-</ul>
-
-<h3>Contoh: SimpleCNN</h3>
-<p>Arsitektur dari PPT sesi 4, dengan input 1 &times; 28 &times; 28. Semua convolution memakai K = 3, P = 1, S = 1, dan max pooling memakai K = 2, P = 0, S = 2.</p>
-<table>
-<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
-<tbody>
-<tr><td>Input</td><td>1 &times; 28 &times; 28</td><td>0</td></tr>
-<tr><td>Conv 16 kernel</td><td>(28 &minus; 3 + 2&times;1) &divide; 1 + 1 = 28, jadi 16 &times; 28 &times; 28</td><td>(3&times;3&times;1 + 1) &times; 16 = 160</td></tr>
-<tr><td>Max pool</td><td>(28 &minus; 2 + 2&times;0) &divide; 2 + 1 = 14, jadi 16 &times; 14 &times; 14</td><td>0</td></tr>
-<tr><td>Conv 32 kernel</td><td>(14 &minus; 3 + 2&times;1) &divide; 1 + 1 = 14, jadi 32 &times; 14 &times; 14</td><td>(3&times;3&times;16 + 1) &times; 32 = 4.640</td></tr>
-<tr><td>Max pool</td><td>(14 &minus; 2 + 2&times;0) &divide; 2 + 1 = 7, jadi 32 &times; 7 &times; 7</td><td>0</td></tr>
-<tr><td>Flatten</td><td>32 &times; 7 &times; 7 = 1.568</td><td>0</td></tr>
-<tr><td>Fully connected 10</td><td>10</td><td>(1.568 + 1) &times; 10 = 15.690</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>160 + 4.640 + 15.690 = 20.490</strong></td></tr>
-</tbody>
-</table>
-<p>ReLU tidak ditulis di tabel, karena ukuran dan parameternya tidak berubah.</p>
-
-<h3>Soal latihan</h3>
-<h4>Soal 1: LeNet-5</h4>
-<p>Input 1 &times; 32 &times; 32. Kernel convolution berukuran 5 &times; 5, tanpa padding. Urutan ukuran output dari gambar arsitekturnya adalah 6@28x28, 6@14x14, 16@10x10, 16@5x5, lalu fully connected 120, 84, dan 10. Hitung jumlah parameter setiap layer dan totalnya.</p>
-<p><em>Lihat jawaban:</em></p>
-<div class="answer-block">
-<table>
-<thead><tr><th>Layer</th><th>Hitungan</th><th>Parameter</th></tr></thead>
-<tbody>
-<tr><td>Conv 6 kernel, output 6@28x28</td><td>(5&times;5&times;1 + 1) &times; 6 = 26 &times; 6</td><td>156</td></tr>
-<tr><td>Pooling, output 6@14x14</td><td></td><td>0</td></tr>
-<tr><td>Conv 16 kernel, output 16@10x10</td><td>(5&times;5&times;6 + 1) &times; 16 = 151 &times; 16</td><td>2.416</td></tr>
-<tr><td>Pooling, output 16@5x5</td><td></td><td>0</td></tr>
-<tr><td>Flatten</td><td>16&times;5&times;5 = 400 angka</td><td>0</td></tr>
-<tr><td>Fully connected 120</td><td>(400+1) &times; 120</td><td>48.120</td></tr>
-<tr><td>Fully connected 84</td><td>(120+1) &times; 84</td><td>10.164</td></tr>
-<tr><td>Output 10</td><td>(84+1) &times; 10</td><td>850</td></tr>
-<tr><td><strong>Total</strong></td><td>156+2.416+48.120+10.164+850</td><td><strong>61.706</strong></td></tr>
-</tbody>
-</table>
-</div>
-
-<h4>Soal 2: potongan VGG</h4>
-<p>Input 224 &times; 224 &times; 3. Blok pertama berisi dua conv 3 &times; 3 dengan 64 kernel dan padding 1. Di bagian akhir, output pooling 7 &times; 7 &times; 512 masuk ke fully connected 4.096 neuron. Hitung parameter ketiga layer itu.</p>
-<p><em>Lihat jawaban:</em></p>
-<div class="answer-block">
-<table>
-<thead><tr><th>Layer</th><th>Hitungan</th><th>Parameter</th></tr></thead>
-<tbody>
-<tr><td>Conv pertama, output 224&times;224&times;64</td><td>(3&times;3&times;3+1) &times; 64 = 28 &times; 64</td><td>1.792</td></tr>
-<tr><td>Conv kedua, output 224&times;224&times;64</td><td>(3&times;3&times;64+1) &times; 64 = 577 &times; 64</td><td>36.928</td></tr>
-<tr><td>Flatten</td><td>7&times;7&times;512 = 25.088 angka</td><td>0</td></tr>
-<tr><td>Fully connected 4.096</td><td>(25.088+1) &times; 4.096</td><td>102.764.544</td></tr>
-</tbody>
-</table>
-<p>Perhatikan bahwa fully connected jauh lebih mahal daripada conv, karena tidak memakai weight sharing.</p>
-</div>
-
-<h4>Soal 3: dari kode Torch</h4>
-<p>Input 3 &times; 32 &times; 32. Tentukan angka yang hilang di Linear, ukuran output setiap layer, jumlah parameter setiap layer, dan totalnya.</p>
-<pre><code>nn.Conv2d(3, 8, kernel_size=3, stride=1, padding=1),
-nn.ReLU(),
-nn.MaxPool2d(2),
-nn.Conv2d(8, 16, 5),
-nn.ReLU(),
-nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=1),
-nn.ReLU(),
-nn.MaxPool2d(2),
-nn.Flatten(),
-nn.Linear(?, 64),
-nn.ReLU(),
-nn.Linear(64, 5)</code></pre>
-<p><em>Lihat jawaban:</em></p>
-<div class="answer-block">
-<p>Cara membaca kode:</p>
-<ul>
-<li>Conv2d(C input, jumlah kernel, K, S, P): kalau stride dan padding tidak ditulis, nilainya S = 1 dan P = 0.</li>
-<li>MaxPool2d(2): K = 2, dan kalau stride tidak ditulis, nilainya sama dengan K, jadi S = 2. Padding-nya P = 0.</li>
-</ul>
-<table>
-<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
-<tbody>
-<tr><td>Conv2d(3, 8, K=3, S=1, P=1)</td><td>(32&minus;3+2&times;1)&divide;1+1 = 32, jadi 8&times;32&times;32</td><td>(3&times;3&times;3+1)&times;8 = 224</td></tr>
-<tr><td>MaxPool2d(2)</td><td>(32&minus;2+2&times;0)&divide;2+1 = 16, jadi 8&times;16&times;16</td><td>0</td></tr>
-<tr><td>Conv2d(8, 16, K=5, S=1, P=0)</td><td>(16&minus;5+2&times;0)&divide;1+1 = 12, jadi 16&times;12&times;12</td><td>(5&times;5&times;8+1)&times;16 = 3.216</td></tr>
-<tr><td>Conv2d(16, 32, K=4, S=2, P=1)</td><td>(12&minus;4+2&times;1)&divide;2+1 = 6, jadi 32&times;6&times;6</td><td>(4&times;4&times;16+1)&times;32 = 8.224</td></tr>
-<tr><td>MaxPool2d(2)</td><td>(6&minus;2+2&times;0)&divide;2+1 = 3, jadi 32&times;3&times;3</td><td>0</td></tr>
-<tr><td>Flatten</td><td>32&times;3&times;3 = 288, jadi angka yang hilang adalah 288</td><td>0</td></tr>
-<tr><td>Linear(288, 64)</td><td>64</td><td>(288+1)&times;64 = 18.496</td></tr>
-<tr><td>Linear(64, 5)</td><td>5</td><td>(64+1)&times;5 = 325</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>224+3.216+8.224+18.496+325 = 30.485</strong></td></tr>
-</tbody>
-</table>
-</div>
-
-<h4>Soal 4: hanya tahu ukuran output</h4>
-<p>Jenis layernya tidak diberi tahu. Convolution memakai stride 1. Kalau ukurannya tetap, K = 3 dan padding 1. Kalau ukurannya mengecil, tidak ada padding. Tentukan jenis setiap layer, lalu hitung jumlah parameternya.</p>
-<p>Urutan ukuran: 1 &times; 64 &times; 64, lalu 8 &times; 64 &times; 64, 8 &times; 32 &times; 32, 16 &times; 28 &times; 28, 16 &times; 14 &times; 14, 3.136, 100, dan 4.</p>
-<p><em>Lihat jawaban:</em></p>
-<div class="answer-block">
-<p>Cara mengenali layer dari perubahan ukuran:</p>
-<ul>
-<li>Channel berubah: convolution.</li>
-<li>Channel tetap, tinggi dan lebar mengecil: biasanya pooling, terutama kalau ukurannya menjadi setengah. Conv tanpa padding juga bisa memberi perubahan seperti ini, jadi cek penjelasan di soal.</li>
-<li>Tiga angka menjadi satu angka: flatten.</li>
-<li>Satu angka menjadi satu angka lain: fully connected.</li>
-<li>Ukuran tidak berubah: ReLU atau softmax, dan parameternya 0.</li>
-</ul>
-<p>Ukuran output saja tidak selalu cukup untuk menentukan K. Misalnya, 32 menjadi 28 bisa berasal dari K=5 dengan P=0, atau K=7 dengan P=1. Karena itu, K atau padding harus diberi tahu di soal. Kalau stride 1 dan tidak ada padding, K = T input &minus; T output + 1.</p>
-<table>
-<thead><tr><th>Perubahan ukuran</th><th>Jenis layer</th><th>Jumlah parameter</th></tr></thead>
-<tbody>
-<tr><td>1&times;64&times;64 ke 8&times;64&times;64</td><td>Conv 8 kernel, K=3</td><td>(3&times;3&times;1+1)&times;8 = 80</td></tr>
-<tr><td>8&times;64&times;64 ke 8&times;32&times;32</td><td>Max pooling 2&times;2</td><td>0</td></tr>
-<tr><td>8&times;32&times;32 ke 16&times;28&times;28</td><td>Conv 16 kernel, K = 32&minus;28+1 = 5</td><td>(5&times;5&times;8+1)&times;16 = 3.216</td></tr>
-<tr><td>16&times;28&times;28 ke 16&times;14&times;14</td><td>Max pooling 2&times;2</td><td>0</td></tr>
-<tr><td>16&times;14&times;14 ke 3.136</td><td>Flatten, karena 16&times;14&times;14 = 3.136</td><td>0</td></tr>
-<tr><td>3.136 ke 100</td><td>Fully connected</td><td>(3.136+1)&times;100 = 313.700</td></tr>
-<tr><td>100 ke 4</td><td>Fully connected</td><td>(100+1)&times;4 = 404</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>80+3.216+313.700+404 = 317.400</strong></td></tr>
-</tbody>
-</table>
-<p>ReLU tidak terlihat dari urutan ukuran, tapi itu tidak mengubah hasil karena parameternya 0.</p>
-</div>
-
-<h4>Soal 5: dari kode TensorFlow</h4>
-<p>Tentukan ukuran output setiap layer, jumlah parameter setiap layer, dan totalnya.</p>
-<pre><code>model = tf.keras.Sequential([
-    tf.keras.layers.Input(shape=(64, 64, 3)),
-    tf.keras.layers.Conv2D(16, (3, 3), padding='same', activation='relu'),
-    tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Conv2D(32, (5, 5), activation='relu'),
-    tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Conv2D(64, (3, 3), strides=2, padding='same', activation='relu'),
-    tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(10, activation='softmax')
-])</code></pre>
-<p><em>Lihat jawaban:</em></p>
-<div class="answer-block">
-<p>Cara membaca kode:</p>
-<ul>
-<li>Urutan ukuran: TensorFlow menulis channel di belakang, jadi (64, 64, 3) artinya T=64, L=64, dan C=3.</li>
-<li>Conv2D(jumlah kernel, (K, K)): C input tidak ditulis, jadi ambil dari output layer sebelumnya. Kalau stride tidak ditulis, S=1.</li>
-<li>padding='valid': ini nilai kalau padding tidak ditulis, dan artinya P=0.</li>
-<li>padding='same': T output = T input &divide; S, dibulatkan ke atas.</li>
-<li>MaxPooling2D((2,2)): K=2, P=0, dan kalau stride tidak ditulis, S=2.</li>
-<li>Dense(jumlah neuron): sama dengan fully connected, dan jumlah input diambil dari output layer sebelumnya.</li>
-</ul>
-<table>
-<thead><tr><th>Layer</th><th>Ukuran output</th><th>Jumlah parameter</th></tr></thead>
-<tbody>
-<tr><td>Conv2D(16, K=3, same)</td><td>64&divide;1 = 64, jadi 64&times;64&times;16</td><td>(3&times;3&times;3+1)&times;16 = 448</td></tr>
-<tr><td>MaxPooling2D((2,2))</td><td>(64&minus;2+2&times;0)&divide;2+1 = 32, jadi 32&times;32&times;16</td><td>0</td></tr>
-<tr><td>Conv2D(32, K=5, valid)</td><td>(32&minus;5+2&times;0)&divide;1+1 = 28, jadi 28&times;28&times;32</td><td>(5&times;5&times;16+1)&times;32 = 12.832</td></tr>
-<tr><td>MaxPooling2D((2,2))</td><td>(28&minus;2+2&times;0)&divide;2+1 = 14, jadi 14&times;14&times;32</td><td>0</td></tr>
-<tr><td>Conv2D(64, K=3, S=2, same)</td><td>14&divide;2 = 7, jadi 7&times;7&times;64</td><td>(3&times;3&times;32+1)&times;64 = 18.496</td></tr>
-<tr><td>Flatten</td><td>7&times;7&times;64 = 3.136</td><td>0</td></tr>
-<tr><td>Dense(128)</td><td>128</td><td>(3.136+1)&times;128 = 401.536</td></tr>
-<tr><td>Dense(10)</td><td>10</td><td>(128+1)&times;10 = 1.290</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>448+12.832+18.496+401.536+1.290 = 434.602</strong></td></tr>
-</tbody>
-</table>
-<p>Activation yang ditulis di dalam Conv2D dan Dense tidak menambah parameter.</p>
-</div>
-</section>
-
-<section id="sec-4">
-<h2>4. Generative Model (GAN)</h2>
-
-<h3>1. Prinsip kerja generative model</h3>
-<p>Model yang sudah kita bahas tugasnya menebak, misalnya diberi foto lalu menjawab "ini kucing". Model seperti ini disebut discriminative model, yang mempelajari P(y|x), yaitu peluang label kalau datanya diketahui.</p>
-<p>Generative model adalah model yang belajar membuat data baru yang mirip data latih, misalnya foto wajah orang yang sebenarnya tidak ada. Model ini mempelajari P(x) atau P(x|y), yaitu bentuk data itu sendiri.</p>
-<p>Masalahnya, foto buatan model tidak punya satu jawaban benar untuk dibandingkan. Jadi, loss biasa sulit menilai apakah fotonya sudah bagus.</p>
-<p>GAN (Generative Adversarial Network) menyelesaikan masalah ini dengan melatih penilainya juga, sehingga ada dua neural network yang saling bersaing.</p>
-
-<p><strong>Generative model lain: VAE dan Diffusion</strong></p>
-<p>GAN bukan satu-satunya generative model. Ketiganya sama-sama membuat data baru, tapi prinsip kerjanya berbeda.</p>
-<table>
-<thead><tr><th>Aspek</th><th>GAN</th><th>VAE</th><th>Diffusion</th></tr></thead>
-<tbody>
-<tr><td>Prinsip kerja</td><td>Generator dan discriminator saling bersaing</td><td>Encoder dan decoder belajar lewat latent berupa distribusi</td><td>Noise ditambahkan bertahap, lalu model belajar menghapusnya</td></tr>
-<tr><td>Kualitas</td><td>Tinggi</td><td>Sedang</td><td>Sangat tinggi</td></tr>
-<tr><td>Stabilitas training</td><td>Rendah</td><td>Tinggi</td><td>Tinggi</td></tr>
-<tr><td>Kecepatan membuat data</td><td>Cepat</td><td>Cepat</td><td>Lambat</td></tr>
-<tr><td>Contoh aplikasi</td><td>Wajah sintetis, super-resolution</td><td>Representation learning, deteksi anomali</td><td>Text-to-image, inpainting, video</td></tr>
-</tbody>
-</table>
-<p>Cara kerja Diffusion:</p>
-<ul>
-<li>Forward process: data diberi noise sedikit demi sedikit.</li>
-<li>Reverse process: model belajar menebak noise di setiap langkah, lalu menghapusnya.</li>
-<li>Membuat data baru: mulai dari noise murni, lalu noise dihapus bertahap sampai menjadi data.</li>
-</ul>
-<p>Diffusion lebih tahan terhadap mode collapse, tapi proses membuat datanya lebih lambat karena harus melewati banyak langkah.</p>
-
-<h3>2. Arsitektur GAN</h3>
-<table>
-<thead><tr><th>Pemain</th><th>Input</th><th>Output</th><th>Tujuan</th></tr></thead>
-<tbody>
-<tr><td>Generator (G)</td><td>Noise, yaitu deretan angka acak</td><td>Data palsu</td><td>Membuat data palsu yang dikira asli oleh D</td></tr>
-<tr><td>Discriminator (D)</td><td>Data asli atau data palsu</td><td>Peluang data itu asli, 0 sampai 1</td><td>Membedakan data asli dan data palsu</td></tr>
-</tbody>
-</table>
-
-<figure>
-<img src="images/gan_arsitektur.svg" alt="Diagram arsitektur GAN: noise masuk ke Generator menghasilkan data palsu, dataset asli masuk ke Discriminator bersama data palsu, Discriminator menghasilkan peluang data itu asli.">
-<figcaption>Arsitektur GAN: noise ke Generator, dataset asli ke Discriminator.</figcaption>
-</figure>
-
-<ul>
-<li>D sebagai classifier: D adalah binary classifier, yaitu model yang mengelompokkan data ke dua kelas: asli atau palsu.</li>
-<li>Noise: dipakai supaya hasil G beragam, karena angka acak yang berbeda menghasilkan foto yang berbeda.</li>
-<li>Data latih: kumpulan data asli, misalnya foto wajah, dan hanya D yang melihatnya.</li>
-<li>Setelah training: biasanya G yang dipakai untuk membuat data baru.</li>
-</ul>
-<p>Bayangkan pemalsu uang (G) melawan polisi (D): makin jeli polisinya, pemalsunya harus makin terampil. Bedanya, pemalsu sungguhan bisa melihat uang asli, sedangkan G tidak pernah melihat data asli.</p>
-
-<h3>3. Proses training</h3>
-<p>Training GAN disebut adversarial training, yaitu G dan D dilatih bergantian sambil saling bersaing.</p>
-<p>Di setiap batch, D dilatih lebih dulu, lalu G. Saat satu model dilatih, weight model lainnya tidak diubah.</p>
-
-<figure>
-<img src="images/gan_dua_giliran.svg" alt="Diagram dua giliran training GAN: giliran 1 melatih Discriminator dengan foto asli dan foto palsu, giliran 2 melatih Generator supaya foto palsunya dinilai asli oleh Discriminator.">
-<figcaption>Dua giliran training GAN: melatih D lalu melatih G.</figcaption>
-</figure>
-
-<p><strong>Giliran 1: melatih D</strong></p>
-<p>Kesalahan D adalah menilai foto asli sebagai palsu, atau menilai foto palsu sebagai asli.</p>
+<h2 id="petunjuk">0. Cara pakai (baca dulu)</h2>
 <ol>
-<li>Jalankan G untuk mengubah noise menjadi foto palsu.</li>
-<li>Beri D foto asli dengan label 1 dan foto palsu dengan label 0.</li>
-<li>Hitung rata-rata loss foto asli dan rata-rata loss foto palsu, lalu jumlahkan menjadi loss D.</li>
-<li>Backpropagation menghitung gradient, lalu update weight D saja.</li>
+<li>Setiap blok kode punya tombol <b>Salin</b>. Nama file tertulis di judul blok. Salin seluruh isi file kecuali tertulis &ldquo;isi method saja&rdquo;.</li>
+<li>Kode contoh <b>sudah lengkap dan bisa jalan</b> untuk kasus KulineranYuk!. Untuk soal lain, ikuti bagian 3 (ganti nama).</li>
+<li>Penanda <mark>&lt;&lt;ISI: ...&gt;&gt;</mark> berarti: bagian ini <b>wajib diganti</b> sesuai soal. Hapus tanda <code class="i">&lt;&lt; &gt;&gt;</code> dan tulisan ISI-nya, ganti dengan isi sebenarnya.</li>
+<li>Baris yang diawali <code class="i">//</code> atau <code class="i">{{-- --}}</code> hanya komentar penjelasan, boleh dihapus.</li>
+<li>Sebelum mengumpulkan, cari teks <code class="i">&lt;&lt;ISI</code> di seluruh project (Ctrl+Shift+F). Hasilnya harus kosong.</li>
 </ol>
-<table>
-<thead><tr><th>Foto</th><th>Label</th><th>Output D</th><th>Hitungan</th><th>Loss</th><th>Artinya</th></tr></thead>
-<tbody>
-<tr><td>Asli</td><td>1</td><td>0,9</td><td>&minus;ln(0,9)</td><td>0,11</td><td>D benar</td></tr>
-<tr><td>Palsu</td><td>0</td><td>0,2</td><td>&minus;ln(1&minus;0,2)</td><td>0,22</td><td>D benar</td></tr>
-<tr><td>Asli</td><td>1</td><td>0,1</td><td>&minus;ln(0,1)</td><td>2,30</td><td>D salah, karena foto asli dinilai palsu</td></tr>
-<tr><td>Palsu</td><td>0</td><td>0,9</td><td>&minus;ln(1&minus;0,9)</td><td>2,30</td><td>D salah, karena foto palsu dinilai asli</td></tr>
-</tbody>
-</table>
-<p>Jadi, dengan satu foto asli dan satu foto palsu:</p>
-<ul>
-<li>D benar: loss D = 0,11 + 0,22 = 0,33.</li>
-<li>D salah: loss D = 2,30 + 2,30 = 4,60.</li>
-</ul>
-<p>Loss D besar berarti D banyak salah, dan gradient-nya mengubah weight D supaya output berikutnya lebih dekat ke label.</p>
 
-<p><strong>Giliran 2: melatih G</strong></p>
-<p>Kesalahan G adalah membuat foto yang masih dinilai palsu oleh D.</p>
+<h2 id="info">1. Info ujian</h2>
+<ul>
+<li>Durasi 120 menit, tipe kasus, close book, tanpa internet (kecuali whitelist).</li>
+<li>Whitelist: laravel.com (dokumentasi), getbootstrap.com (dokumentasi), fakerphp.org (dokumentasi Faker), picsum.photos (gambar acak).</li>
+<li>Project Laravel 11 dan 12 serta Bootstrap ada di <code class="i">E:/projects</code>. Tidak perlu install dari awal.</li>
+<li>Jika memakai project yang tersedia: jalankan <code class="i">npm run dev</code> lebih dulu, baru <code class="i">php artisan serve</code> (terminal terpisah).</li>
+<li>Wajib membuat dokumentasi (Word/PDF): penjelasan route, controller, model, view/blade, migration, seeder, dan screenshot output. Tanpa screenshot, nilai tidak ditoleransi.</li>
+<li>Source code (folder project) wajib dikumpulkan lengkap.</li>
+<li>Materi: Route, Controller, Blade, Layout (section, extends, yield), Bootstrap, Migration, Eloquent, Relasi database.</li>
+<li>Pembagian nilai contoh soal: database 10, route 5, controller 5, view/blade 10, model 5, migration 5, seeder 5, modul Home 15, Category 20, Reviewer 15, About 5.</li>
+</ul>
+
+<h2 id="alur">2. Alur kerja (urutan pengerjaan)</h2>
 <ol>
-<li>Buat foto palsu dari noise, lalu beri ke D.</li>
-<li>Hitung loss dengan label 1, karena G ingin fotonya dikira asli.</li>
-<li>Backpropagation mengalirkan gradient melewati D sampai ke G.</li>
-<li>Update weight G saja.</li>
+<li>Baca soal. Tentukan entitas dan relasinya (bagian 3). Gambar tabel singkat di kertas coretan.</li>
+<li>Buka project di <code class="i">E:/projects</code>. Terminal 1: <code class="i">npm run dev</code>. Terminal 2: <code class="i">php artisan serve</code>.</li>
+<li>Atur <code class="i">.env</code> database dan buat database kosong (bagian 4).</li>
+<li>Jalankan perintah pembuat file (bagian 4).</li>
+<li>Isi migration (5), model (6), factory dan seeder (7). Lalu <code class="i">php artisan migrate:fresh --seed</code>. Cek isi tabel.</li>
+<li>Isi route (8) dan controller (9).</li>
+<li>Buat layout (10) lalu view tiap halaman (11). Uji satu per satu di browser dan screenshot.</li>
+<li>Jika soal meminta tambah/ubah/hapus, pakai bagian 12. Jika meminta cari, filter, paginasi, ranking, pakai bagian 13.</li>
+<li>Tulis dokumentasi (15) dan cek akhir (17).</li>
 </ol>
+
+<h2 id="adaptasi">3. Ganti nama untuk soal lain</h2>
+<p>Struktur selalu sama: <b>Induk</b> (satu) &rarr; <b>Item</b> (banyak, milik induk) &harr; <b>Grup</b> (banyak-ke-banyak dengan item). Petakan istilah soal ke tabel ini:</p>
 <table>
-<thead><tr><th>Output D untuk foto palsu</th><th>Hitungan</th><th>Loss G</th><th>Artinya</th></tr></thead>
-<tbody>
-<tr><td>0,2</td><td>&minus;ln(0,2)</td><td>1,61</td><td>G gagal menipu D</td></tr>
-<tr><td>0,5</td><td>&minus;ln(0,5)</td><td>0,69</td><td>D ragu-ragu</td></tr>
-<tr><td>0,9</td><td>&minus;ln(0,9)</td><td>0,11</td><td>G berhasil menipu D</td></tr>
-</tbody>
+<tr><th>Peran</th><th>Contoh di catatan ini</th><th>Contoh soal lain</th></tr>
+<tr><td>Induk</td><td>Reviewer</td><td>Penulis, Dosen, Toko, Penerbit</td></tr>
+<tr><td>Item</td><td>Food</td><td>Buku, Mata kuliah, Produk, Artikel</td></tr>
+<tr><td>Grup</td><td>Category</td><td>Genre, Tag, Jurusan, Label</td></tr>
 </table>
-<p>Loss G besar berarti foto G masih mudah dikenali sebagai palsu, dan gradient-nya mengubah weight G supaya output D untuk foto berikutnya naik.</p>
-
-<p><strong>Kode training di PPT</strong></p>
-<pre><code># Train Discriminator
-loss_D = loss_fn(D(real), 1) + loss_fn(D(fake.detach()), 0)
-loss_D.backward()
-
-# Train Generator
-loss_G = loss_fn(D(fake), 1)
-loss_G.backward()</code></pre>
-<ul>
-<li>loss_fn(D(real), 1): foto asli harus dinilai asli.</li>
-<li>loss_fn(D(fake.detach()), 0): foto palsu harus dinilai palsu. Fungsi detach() menghentikan gradient supaya tidak mengalir ke G.</li>
-<li>loss_fn(D(fake), 1): G ingin foto palsunya dinilai asli.</li>
-</ul>
-
-<p><strong>Kenapa G akhirnya bisa membuat wajah?</strong></p>
-<p>G tidak diajari cara membuat wajah. G hanya terus berubah supaya D menjawab "asli", dan yang dikenal D sebagai asli adalah wajah.</p>
-<ul>
-<li>Awalnya acak: weight G masih acak, jadi gambarnya hanya bintik-bintik.</li>
-<li>D menilai: D belajar dari foto wajah asli, jadi bintik-bintik itu dinilai palsu.</li>
-<li>G mendapat arah: gradient memberi tahu ke arah mana weight G harus berubah supaya output D naik.</li>
-<li>Diulang ribuan kali: setiap perubahan kecil, tapi gambarnya pelan-pelan makin mirip wajah.</li>
-</ul>
-
-<figure>
-<img src="images/gan_perkembangan_g.svg" alt="Diagram perkembangan output Generator dari noise acak berbintik-bintik, pelan-pelan menjadi wajah yang semakin realistis setelah banyak iterasi training.">
-<figcaption>Perkembangan output Generator dari noise menjadi wajah realistis.</figcaption>
-</figure>
-
-<p>Gambar ini hanya ilustrasi, bukan hasil training sungguhan. Dataset menentukan apa yang akhirnya dibuat G. Kalau D belajar dari foto kucing, G akan membuat gambar kucing.</p>
-
-<p><strong>Kapan G dianggap berhasil?</strong></p>
-<p>G berhasil kalau D tidak bisa lagi membedakan foto asli dan foto palsu. Saat itu, D hanya bisa menebak seperti melempar koin, sehingga tebakannya benar sekitar 50%.</p>
-<p>Contohnya, D diberi 100 foto yang terdiri dari 50 foto asli dan 50 foto palsu, dan keduanya sudah tidak bisa dibedakan:</p>
+<h3>Cara ganti cepat: Find and Replace di editor</h3>
+<p>Buka Ctrl+Shift+H (VS Code), aktifkan <b>Match Case</b> (Aa), ganti satu per satu <b>setelah</b> semua file selesai ditempel. Urutan penting: yang panjang lebih dulu.</p>
 <table>
-<thead><tr><th>Strategi D</th><th>Tebakan yang benar</th></tr></thead>
-<tbody>
-<tr><td>Selalu menjawab asli</td><td>50 foto asli, jadi 50%</td></tr>
-<tr><td>Selalu menjawab palsu</td><td>50 foto palsu, jadi 50%</td></tr>
-<tr><td>Menebak acak</td><td>Sekitar 50 foto, jadi sekitar 50%</td></tr>
-</tbody>
+<tr><th>Cari</th><th>Ganti dengan (contoh Buku/Penulis/Genre)</th></tr>
+<tr><td><code class="i">category_food</code></td><td><code class="i">book_genre</code> (tabel pivot: dua nama singular, urut abjad)</td></tr>
+<tr><td><code class="i">categories</code> / <code class="i">Categories</code></td><td><code class="i">genres</code> / <code class="i">Genres</code></td></tr>
+<tr><td><code class="i">category</code> / <code class="i">Category</code></td><td><code class="i">genre</code> / <code class="i">Genre</code></td></tr>
+<tr><td><code class="i">reviewers</code> / <code class="i">Reviewers</code></td><td><code class="i">authors</code> / <code class="i">Authors</code></td></tr>
+<tr><td><code class="i">reviewer</code> / <code class="i">Reviewer</code></td><td><code class="i">author</code> / <code class="i">Author</code></td></tr>
+<tr><td><code class="i">foods</code> / <code class="i">Foods</code></td><td><code class="i">books</code> / <code class="i">Books</code></td></tr>
+<tr><td><code class="i">food</code> / <code class="i">Food</code></td><td><code class="i">book</code> / <code class="i">Book</code></td></tr>
 </table>
-<p>50% bukan nilai maksimal. Angka ini muncul karena jumlah foto asli dan palsu sama, dan ini adalah kondisi seimbang yang ideal secara teori.</p>
-<p>Cara membaca output D untuk foto palsu:</p>
+<div class="box">Jika memakai <code class="i">make:model</code> dengan nama baru, nama file migration ikut otomatis. Nama file lama di <code class="i">database/migrations</code> tidak ikut berubah lewat Replace, jadi lebih mudah membuat file dengan perintah artisan memakai nama baru (bagian 4), lalu menempel isinya.</div>
 <table>
-<thead><tr><th>Output D</th><th>Artinya</th></tr></thead>
-<tbody>
-<tr><td>Mendekati 0</td><td>D masih mudah mengenali foto palsu, jadi G masih perlu belajar</td></tr>
-<tr><td>Sekitar 0,5</td><td>D tidak bisa membedakan, dan ini kondisi seimbang yang ideal</td></tr>
-<tr><td>Mendekati 1</td><td>D tertipu untuk sementara, lalu D belajar lagi di giliran berikutnya</td></tr>
-</tbody>
+<tr><th>Jenis relasi</th><th>Kolom/tabel</th><th>Model</th></tr>
+<tr><td>Satu-ke-banyak</td><td>kolom <code class="i">reviewer_id</code> di tabel item</td><td>Reviewer <code class="i">hasMany(Food)</code>; Food <code class="i">belongsTo(Reviewer)</code></td></tr>
+<tr><td>Banyak-ke-banyak</td><td>tabel pivot <code class="i">category_food</code></td><td>kedua model <code class="i">belongsToMany</code></td></tr>
+<tr><td>Satu-ke-satu</td><td>kolom <code class="i">reviewer_id</code> unique di tabel anak (bagian 13)</td><td><code class="i">hasOne</code> / <code class="i">belongsTo</code></td></tr>
 </table>
-<p>Output D sekitar 0,5 belum menjamin fotonya bagus, karena D yang lemah juga bisa memberi nilai itu. Jadi, hasilnya tetap perlu dicek langsung atau dengan FID.</p>
+<div class="box">Aturan nama: model singular huruf besar (<code class="i">Food</code>), tabel jamak huruf kecil (<code class="i">foods</code>), foreign key <code class="i">nama_model_id</code>. Jika nama tabel hasil artisan berbeda dari yang ditulis, cek file migration lalu tambahkan <code class="i">protected $table = 'nama_tabel';</code> di model.</div>
 
-<h3>4. Training GAN yang optimal</h3>
-<p>Karena dua model saling mengejar, training GAN lebih sulit stabil daripada training biasa.</p>
-<p>Training dianggap optimal kalau empat target ini tercapai. Setiap target punya masalah yang muncul kalau target itu gagal.</p>
-<table>
-<thead><tr><th>Target</th><th>Masalah kalau gagal</th><th>Lakukan ini</th><th>Agar apa</th></tr></thead>
-<tbody>
-<tr><td>1. Variasi lengkap</td><td>Mode collapse: G terus membuat wajah yang mirip, karena wajah itu berhasil menipu D</td><td>Deteksi: lihat hasilnya langsung, lalu pantau FID dan IS. Perbaiki: minibatch discrimination, atau Conditional GAN kalau datanya punya label.</td><td>Hasil yang seragam cepat ketahuan, dan G terdorong membuat variasi yang lebih lengkap</td></tr>
-<tr><td>2. Konvergen</td><td>Non-convergence: G dan D terus saling mengalahkan, sehingga loss naik turun tanpa mencapai titik seimbang</td><td>Pakai batch normalization, DCGAN untuk gambar, dan BCEWithLogits</td><td>Training dan perhitungan loss lebih stabil</td></tr>
-<tr><td>3. D dan G seimbang</td><td>Vanishing gradient: D terlalu kuat dan selalu tahu mana yang palsu, sehingga G hampir tidak mendapat gradient untuk belajar</td><td>Pakai label smoothing atau noise injection, serta LeakyReLU</td><td>D tidak terlalu yakin, dan gradient tetap mengalir ke G</td></tr>
-<tr><td>4. Kualitas terukur naik</td><td>Evaluasi sulit: loss G turun belum tentu berarti fotonya makin bagus</td><td>Pakai FID dan IS, serta lihat hasilnya langsung</td><td>Kemajuan bisa dinilai dengan angka dan mata</td></tr>
-</tbody>
-</table>
-<p>Konvergen di GAN berarti G dan D mencapai titik seimbang, bukan loss mendekati 0. Kalau loss D mendekati 0, D justru bisa terlalu kuat.</p>
+<h2 id="perintah">4. Perintah artisan</h2>
+<h3>Konfigurasi database</h3>
+<script type="text/plain" class="src" data-title=".env (bagian database)">
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=<<ISI: nama database yang sudah dibuat, contoh: uts_web>>
+DB_USERNAME=root
+DB_PASSWORD=
+# Alternatif tanpa MySQL: DB_CONNECTION=sqlite, lalu hapus baris DB_HOST sampai DB_PASSWORD
+</script>
+<h3>Buat semua file sekaligus</h3>
+<script type="text/plain" class="src" data-title="terminal (di folder project)">
+# model + migration + factory
+php artisan make:model Reviewer -mf
+php artisan make:model Category -mf
+php artisan make:model Food -mf
+# migration tabel pivot
+php artisan make:migration create_category_food_table
+# controller
+php artisan make:controller HomeController
+php artisan make:controller CategoryController
+php artisan make:controller ReviewerController
+php artisan make:controller FoodController --resource
+# seeder memakai DatabaseSeeder bawaan (tidak perlu dibuat)
 
-<figure>
-<img src="images/gan_mode_collapse.svg" alt="Perbandingan training sehat dengan mode collapse: training sehat menghasilkan wajah-wajah yang beragam, mode collapse menghasilkan wajah yang sama berulang-ulang karena Generator hanya mengandalkan satu pola yang berhasil menipu Discriminator.">
-<figcaption>Training sehat menghasilkan variasi wajah, mode collapse menghasilkan wajah yang berulang.</figcaption>
-</figure>
+# jalankan migration dari nol + isi data:
+php artisan migrate:fresh --seed
+# untuk upload gambar (sekali saja):
+php artisan storage:link
+# lihat daftar route:
+php artisan route:list
+# jika perubahan tidak muncul:
+php artisan optimize:clear
+</script>
+<div class="box">Urutan eksekusi migration mengikuti timestamp di nama file. Jalankan perintah <code class="i">make:model</code> berurutan: Reviewer, Category, Food, lalu pivot paling akhir, supaya induk dibuat sebelum anak. Jika terbalik, ubah angka tanggal di nama file.</div>
 
-<p>FID dan IS mengukur hasil, bukan memperbaiki training. Keduanya dipakai untuk mengetahui apakah cara yang lain berhasil.</p>
-
-<p><strong>Varian GAN, cukup tahu</strong></p>
-<ul>
-<li>Conditional GAN: label diberikan ke G dan D, supaya kita bisa memilih yang dibuat, misalnya angka 3.</li>
-<li>StyleGAN: arsitektur berbasis style yang bisa menghasilkan wajah sangat realistis.</li>
-</ul>
-</section>
-
-<section id="sec-5">
-<h2>5. MLP</h2>
-
-<h3>Single Layer Perceptron vs. Multi Layer Perceptron</h3>
-<p><strong>Single-layer: belum deep learning</strong></p>
-<p>Single-layer adalah model yang input-nya langsung terhubung ke output, tanpa layer di tengah.</p>
-<p>Contohnya perceptron, dan cara hitungnya sama dengan linear model: setiap fitur dikali weight, lalu dijumlahkan.</p>
-<p>Karena output langsung dihitung dari fitur mentah, batas antar kelasnya hanya bisa garis lurus, dan fitur yang lebih rumit harus dibuat manusia.</p>
-<p>Jadi single-layer belum termasuk deep learning.</p>
-
-<p><strong>Masuk deep learning: tambahkan hidden layer</strong></p>
-<p>Hidden layer adalah layer di antara input dan output. Layer ini mengubah keadaan karena mengolah input menjadi fitur baru, jadi output tidak lagi melihat fitur mentah.</p>
-<p>Activation function di dalamnya membuat tumpukan layer tidak bisa diringkas menjadi satu linear model, sehingga model bisa mempelajari pola non-linear.</p>
-<p>Weight-nya dipelajari saat training, jadi fitur baru itu dibentuk sendiri oleh model, bukan dibuat manusia.</p>
-<p>Secara ketat, sebutan "deep" biasanya dipakai untuk jaringan dengan banyak hidden layer, tapi slide membahas MLP sebagai dasar deep learning.</p>
-
-<h3>3. Kelebihan MLP</h3>
-<ul>
-<li>Bisa mempelajari pola non-linear, karena punya hidden layer dan activation function.</li>
-<li>Membentuk fiturnya sendiri, jadi tidak bergantung pada feature engineering manual.</li>
-<li>Fleksibel, karena bisa untuk regresi dan klasifikasi hanya dengan mengganti output layer dan loss.</li>
-<li>Cocok untuk data tabular, yaitu data berbentuk tabel dengan setiap kolom sebagai satu fitur.</li>
-<li>Sangat kuat secara teori, karena satu hidden layer bisa mendekati fungsi kontinu apa pun (Universal Approximation Theorem), walaupun dalam praktik model yang lebih dalam lebih efisien.</li>
-</ul>
-
-<h3>4. Namun, MLP punya beberapa limitasi</h3>
-
-<h4>1. Kurang cocok untuk gambar besar atau rumit karena kehilangan informasi posisi</h4>
-<ul>
-<li>Masalah: MLP harus meratakan gambar menjadi satu baris angka (flatten) sebelum diproses.</li>
-<li>Kenapa: setelah di-flatten, piksel yang bertetangga tidak lagi dianggap berdekatan, padahal tepi dan bentuk terbentuk dari piksel yang bertetangga.</li>
-<li>Kenali di soal: datanya berupa foto, misalnya rontgen atau daun.</li>
-<li>Solusi: CNN, karena kernel-nya melihat piksel yang bertetangga secara langsung.</li>
-<li>Contoh jawaban: "MLP masih bisa dipakai untuk gambar kecil dan sederhana. Di PPT, MLP mencapai sekitar 97% pada MNIST, yaitu gambar angka 28 &times; 28 hitam putih."</li>
-</ul>
-
-<figure>
-<img src="images/mlp_flatten.svg" alt="Diagram keterbatasan MLP: gambar 3x3 di-flatten menjadi satu baris angka, sehingga piksel yang tadinya bertetangga (misalnya atas-bawah) menjadi jauh posisinya dalam baris hasil flatten, hubungan spasial antar piksel hilang.">
-<figcaption>Flatten pada gambar 3&times;3 menghilangkan hubungan antar piksel yang bertetangga.</figcaption>
-</figure>
-
-<h4>2. Parameter meledak pada input besar</h4>
-<ul>
-<li>Masalah: setiap input terhubung ke semua neuron, jadi jumlah parameter cepat membengkak.</li>
-<li>Kenapa: foto 224 &times; 224 RGB punya 150.528 angka. Ke 1.000 neuron saja butuh (150.528 + 1) &times; 1.000 = 150.529.000 parameter, sedangkan satu conv 3 &times; 3 dengan 64 kernel hanya 1.792.</li>
-<li>Kenali di soal: resolusi gambar tinggi, jumlah fitur sangat banyak, atau komputasi terbatas.</li>
-<li>Solusi: CNN dengan weight sharing, atau kurangi dimensi input.</li>
-<li>Contoh jawaban: "Dengan input 150.528 angka, layer pertama MLP saja membutuhkan sekitar 150 juta parameter, karena setiap angka input punya weight sendiri di setiap neuron. Akibatnya, training berat dan mudah overfit. CNN mengatasinya dengan weight sharing. CNN memakai kernel, yaitu kotak kecil berisi weight yang digeser ke seluruh gambar untuk mencari satu pola. Weight yang sama dipakai ulang di semua posisi, jadi jumlahnya tidak ikut naik saat gambar membesar. Hasilnya, satu conv layer 3 &times; 3 dengan 64 kernel hanya membutuhkan 1.792 parameter."</li>
-</ul>
-
-<h4>3. Mudah overfit kalau modelnya terlalu kompleks</h4>
-
-<h4>4. Condong ke kelas mayoritas pada data tidak seimbang</h4>
-<ul>
-<li>Masalah: accuracy terlihat tinggi, tapi kelas minoritas hampir tidak tertangkap.</li>
-<li>Kenapa: loss menghitung semua data sama rata, jadi menebak kelas terbanyak sudah membuat loss kecil.</li>
-<li>Kenali di soal: persentase kelasnya timpang, misalnya gagal bayar 5% atau fraud 1%.</li>
-<li>Solusi: class weight, oversampling atau undersampling, lalu nilai dengan recall dan F1.</li>
-<li>Contoh jawaban: "Nasabah gagal bayar hanya 5%, sehingga model yang selalu menebak lancar sudah mendapat accuracy 95% walaupun tidak menangkap satu pun kasus gagal bayar. Karena itu dipakai class weight yang lebih besar untuk kelas gagal bayar, dan model dinilai dengan recall dan F1."</li>
-</ul>
-
-<h4>5. Vanishing gradient kalau terlalu dalam</h4>
-<ul>
-<li>Masalah: layer awal hampir tidak belajar.</li>
-<li>Kenapa: chain rule mengalikan banyak angka kecil, terutama kalau memakai sigmoid.</li>
-<li>Kenali di soal: jaringannya banyak layer, memakai sigmoid, dan loss turun sangat lambat.</li>
-<li>Solusi: ReLU dengan He initialization, BatchNorm, atau residual connection.</li>
-<li>Contoh jawaban: "Loss turun sangat lambat karena jaringan 10 layer memakai sigmoid, sehingga gradient mengecil saat dikalikan sampai ke layer awal. Solusinya mengganti activation dengan ReLU dan He initialization, karena turunan ReLU bernilai 1 untuk input positif."</li>
-</ul>
-
-<h4>6. Exploding gradient kalau gradient-nya membesar</h4>
-<ul>
-<li>Masalah: update weight terlalu jauh, jadi training tidak stabil.</li>
-<li>Kenapa: chain rule mengalikan banyak angka besar, jadi gradient makin besar sampai tidak terkendali.</li>
-<li>Kenali di soal: loss melompat-lompat atau menjadi NaN.</li>
-<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau BatchNorm.</li>
-<li>Contoh jawaban: "Loss melompat-lompat lalu menjadi NaN, yang menunjukkan exploding gradient karena gradient membesar saat dikalikan antar layer. Solusinya menurunkan learning rate dan memakai initialization yang sesuai, supaya update weight tidak terlalu jauh."</li>
-</ul>
-
-<h4>7. Dying ReLU kalau neuron berhenti aktif</h4>
-<ul>
-<li>Masalah: neuron ReLU selalu mengeluarkan 0, jadi berhenti belajar.</li>
-<li>Kenapa: ReLU mengeluarkan 0 untuk input negatif, dan gradient-nya juga 0, jadi weight neuron itu tidak berubah lagi.</li>
-<li>Kenali di soal: memakai ReLU, banyak neuron selalu bernilai 0, dan loss macet.</li>
-<li>Solusi: LeakyReLU atau parametric ReLU, atau kecilkan learning rate.</li>
-<li>Contoh jawaban: "Loss macet dan banyak neuron ReLU selalu bernilai 0, yang menunjukkan dying ReLU. Solusinya mengganti activation dengan LeakyReLU, karena input negatif tetap punya gradient kecil sehingga neuron masih bisa belajar."</li>
-</ul>
-
-<h4>8. Underfitting kalau model belum cukup belajar</h4>
-<ul>
-<li>Masalah: model belum menangkap pola data, jadi hasilnya buruk di data train dan data baru.</li>
-<li>Kenapa: model terlalu kecil, training terlalu singkat, atau regularization terlalu kuat.</li>
-<li>Kenali di soal: training loss dan validation loss sama-sama tinggi.</li>
-<li>Solusi: perbesar model, latih lebih lama, atau kurangi regularization.</li>
-<li>Contoh jawaban: "Training loss dan validation loss sama-sama tinggi, yang menunjukkan underfitting. Solusinya menambah neuron atau hidden layer dan melatih lebih lama, supaya model punya kemampuan yang cukup untuk menangkap pola data."</li>
-</ul>
-
-<h4>9. Learning rate tidak tepat</h4>
-<ul>
-<li>Masalah: training tidak stabil atau berjalan sangat lambat.</li>
-<li>Kenapa: learning rate terlalu besar membuat langkahnya melompati titik terbaik, sedangkan learning rate terlalu kecil membuat langkahnya sangat pendek.</li>
-<li>Kenali di soal: loss naik turun dan membesar, atau loss turun sangat lambat.</li>
-<li>Solusi: sesuaikan learning rate, pakai learning rate schedule, atau pakai Adam.</li>
-<li>Contoh jawaban: "Loss naik turun dan makin besar, yang menunjukkan learning rate terlalu besar. Solusinya menurunkan learning rate atau memakai learning rate schedule, supaya langkah update tidak melompati titik terbaik."</li>
-</ul>
-
-<h4>10. Tidak mengenal urutan data (tambahan di luar PPT, pelengkap bukan jawaban utama)</h4>
-<ul>
-<li>Masalah: MLP melihat input sebagai satu vektor, jadi urutannya tidak punya arti khusus.</li>
-<li>Kenali di soal: data berurutan, misalnya pembacaan sensor per menit.</li>
-<li>Solusi: masukkan jendela data masa lalu sebagai fitur, atau pakai RNN.</li>
-<li>Contoh jawaban: "Kerusakan mesin terlihat dari urutan pembacaan sensor per menit, sedangkan MLP tidak mengenal urutan. Agar tetap bisa dipakai, beberapa pembacaan terakhir dijadikan fitur, tapi model sekuensial seperti RNN lebih tepat."</li>
-</ul>
-
-<h4>11. Keputusannya sulit dijelaskan (tambahan di luar PPT, pelengkap bukan jawaban utama)</h4>
-<ul>
-<li>Masalah: alasan di balik tebakan sulit ditelusuri.</li>
-<li>Kenapa: keputusannya tersebar di ribuan weight.</li>
-<li>Kenali di soal: bidang yang menuntut alasan, misalnya penolakan kredit atau diagnosis medis.</li>
-<li>Solusi: analisis fitur yang paling berpengaruh, atau pakai model yang lebih mudah dijelaskan.</li>
-<li>Contoh jawaban: "Bank perlu menjelaskan alasan penolakan kredit, sedangkan keputusan MLP tersebar di ribuan weight. Karena itu perlu analisis fitur yang paling berpengaruh."</li>
-</ul>
-
-<h3>5. Pola jawaban studi kasus</h3>
-<ol>
-<li>Tulis limitasinya, misalnya "class imbalance".</li>
-<li>Ambil bukti dari soal, misalnya "gagal bayar hanya 5%".</li>
-<li>Jelaskan akibatnya, misalnya "model condong menebak lancar".</li>
-<li>Sebut solusinya, misalnya "class weight".</li>
-<li>Beri alasan solusinya bekerja, misalnya "kesalahan pada kelas gagal bayar jadi lebih mahal".</li>
-</ol>
-<p>Pilih limitasi yang memang terlihat di soal, bukan semua limitasi di daftar ini. Angka di contoh jawaban hanya ilustrasi.</p>
-
-<h3>6. Contoh studi kasus lengkap</h3>
-<p>Dua kasus ini adalah latihan buatan, bukan soal dari dosen. Soalnya dibuat bercabang seperti yang disebut di kisi-kisi.</p>
-
-<h4>Kasus 1: klasifikasi nasabah gagal bayar</h4>
-<p>Bank punya 10.000 data nasabah dengan 30 kolom, dan hanya 5% nasabah yang gagal bayar. Bank ingin menebak nasabah yang akan gagal bayar.</p>
-<ol type="a">
-<li>Tentukan jenis tugas, arsitektur MLP, activation, loss, dan metric.</li>
-<li>Model mendapat accuracy 95%, tapi recall gagal bayar hanya 10%. Apa masalahnya, dan bagaimana solusinya?</li>
-<li>Setelah epoch 20, training loss terus turun, tapi validation loss naik. Apa masalahnya, dan bagaimana solusinya?</li>
-<li>Bank ingin menambahkan foto dokumen 224 &times; 224 RGB ke input. Apa limitasi MLP, dan bagaimana solusinya?</li>
-</ol>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<p><strong>a. Tugas dan arsitektur</strong></p>
-<ul>
-<li>Tugas: klasifikasi 2 kelas, karena jawabannya gagal bayar atau lancar.</li>
-<li>Arsitektur: 30-64-32-1 dengan fully connected, karena datanya tabel dan ada 30 kolom.</li>
-<li>Parameter: (30 + 1) &times; 64 = 1.984, (64 + 1) &times; 32 = 2.080, dan (32 + 1) &times; 1 = 33, jadi totalnya 4.097.</li>
-<li>Activation: hidden layer memakai ReLU supaya gradient tidak mudah menyusut, dan output memakai sigmoid supaya hasilnya satu peluang.</li>
-<li>Loss: binary cross entropy, karena tugasnya klasifikasi 2 kelas.</li>
-<li>Metric: recall dan F1, karena accuracy bisa menyesatkan pada data tidak seimbang.</li>
-</ul>
-<p><strong>b. Data tidak seimbang</strong></p>
-<ul>
-<li>Masalah: model condong ke kelas lancar. Menebak semua nasabah lancar saja sudah menghasilkan accuracy 95%.</li>
-<li>Solusi: pakai class weight yang lebih besar untuk kelas gagal bayar, atau oversampling, supaya kesalahan pada kelas itu lebih berpengaruh terhadap loss.</li>
-</ul>
-<p><strong>c. Overfitting</strong></p>
-<ul>
-<li>Masalah: model mulai menghafal data train, karena training loss turun tapi validation loss naik.</li>
-<li>Solusi: pakai early stopping supaya training berhenti saat validation loss mulai naik, lalu tambahkan dropout atau L2 supaya model tidak terlalu kompleks.</li>
-</ul>
-<p><strong>d. Input gambar</strong></p>
-<ul>
-<li>Masalah: foto harus di-flatten menjadi 224 &times; 224 &times; 3 = 150.528 angka, sehingga hubungan antar piksel hilang dan jumlah parameter meledak.</li>
-<li>Solusi: ambil fitur foto dengan CNN karena memakai weight sharing, lalu gabungkan fitur itu dengan data tabel sebelum masuk ke fully connected layer.</li>
-</ul>
-</div>
-
-<h4>Kasus 2: regresi harga rumah</h4>
-<p>Perusahaan properti ingin memprediksi harga rumah dari 12 fitur. Sebagian kecil rumah mewah harganya jauh lebih mahal daripada rumah lain.</p>
-<ol type="a">
-<li>Tentukan jenis tugas, arsitektur MLP, activation, loss, dan metric.</li>
-<li>Prediksi terlalu terpengaruh oleh rumah mewah. Apa yang perlu diubah?</li>
-<li>Loss melompat-lompat lalu menjadi NaN. Apa masalahnya, dan bagaimana solusinya?</li>
-<li>Pada percobaan lain, training loss dan validation loss sama-sama tinggi. Apa masalahnya, dan bagaimana solusinya?</li>
-</ol>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<p><strong>a. Tugas dan arsitektur</strong></p>
-<ul>
-<li>Tugas: regresi, karena jawabannya berupa angka kontinu.</li>
-<li>Arsitektur: 12-32-16-1 dengan fully connected, karena ada 12 fitur tabel dan outputnya satu angka.</li>
-<li>Parameter: (12 + 1) &times; 32 = 416, (32 + 1) &times; 16 = 528, dan (16 + 1) &times; 1 = 17, jadi totalnya 961.</li>
-<li>Activation: hidden layer memakai ReLU, dan output tanpa activation supaya nilainya tidak dibatasi.</li>
-<li>Loss dan metric: loss MSE, lalu model dinilai dengan MAE dan R&sup2;.</li>
-</ul>
-<p><strong>b. Outlier</strong></p>
-<ul>
-<li>Masalah: rumah mewah adalah outlier, dan MSE menghukum error besar jauh lebih berat.</li>
-<li>Solusi: ganti loss menjadi MAE, karena lebih tahan terhadap outlier.</li>
-</ul>
-<p><strong>c. Exploding gradient atau learning rate terlalu besar</strong></p>
-<ul>
-<li>Masalah: update weight terlalu jauh, sehingga training tidak stabil.</li>
-<li>Solusi: turunkan learning rate, pakai initialization yang sesuai, atau tambahkan BatchNorm.</li>
-</ul>
-<p><strong>d. Underfitting</strong></p>
-<ul>
-<li>Masalah: model belum cukup belajar, karena hasilnya buruk di data train dan data validation.</li>
-<li>Solusi: tambah neuron atau hidden layer, atau latih lebih lama.</li>
-</ul>
-</div>
-</section>
-
-<section id="sec-6">
-<h2>6. Autoencoder</h2>
-
-<h3>1. Kenapa butuh autoencoder?</h3>
-<p>Masalahnya, data sering besar, tapi tidak semua isinya penting. Foto angka 28 &times; 28 berisi 784 angka, padahal banyak piksel pinggir hampir selalu hitam dan piksel yang bertetangga nilainya mirip.</p>
-<p>Data sebesar ini berat diproses, dan kita sering tidak punya label untuk memberi tahu model bagian mana yang penting.</p>
-<p>Kita butuh cara untuk meringkas data secara otomatis, tanpa label, dan tetap menyimpan polanya.</p>
-<p>Tapi bagaimana cara tahu ringkasannya bagus? Kalau data asli bisa disusun kembali dari ringkasan itu, berarti pola pentingnya masih tersimpan.</p>
-<p>Dari ide inilah muncul autoencoder. Autoencoder adalah neural network yang belajar menyusun ulang input-nya sendiri melalui sebuah ringkasan.</p>
-
-<figure>
-<img src="images/ae_alur.svg" alt="Diagram alur autoencoder: Input 784 angka ke Encoder (meringkas) ke Latent 32 angka (hasil ringkasan) ke Decoder (menyusun ulang) ke Output 784 angka ke Loss (seberapa beda output dan input). Input juga menjadi jawaban yang dibandingkan, jadi tidak perlu label.">
-<figcaption>Alur autoencoder: input diringkas encoder menjadi latent, lalu disusun ulang decoder, loss dibandingkan dengan input itu sendiri.</figcaption>
-</figure>
-
-<ul>
-<li>Encoder: meringkas input menjadi latent.</li>
-<li>Latent: hasil ringkasan data. Ruang tempat ringkasan ini berada disebut latent space.</li>
-<li>Decoder: menyusun ulang input dari latent.</li>
-<li>Loss: mengukur seberapa beda output dengan input. Yang paling umum adalah MSE, dan bisa juga binary cross entropy untuk data biner atau L1.</li>
-</ul>
-
-<p><strong>Kalau hanya mengecil lalu membesar lagi, apa gunanya?</strong></p>
-<p>Menyusun ulang input adalah proses saat training, sedangkan kegunaannya baru dipakai setelah training selesai.</p>
-<p>Saat training, kita tidak punya label sebagai jawaban yang benar. Karena itu, output dibandingkan dengan input-nya sendiri, supaya model tetap bisa menghitung loss dan belajar.</p>
-<p>Setelah encoder dan decoder dilatih bersama, kita memakai bagian yang sesuai dengan tugasnya.</p>
-<table>
-<thead><tr><th>Yang dipakai</th><th>Input</th><th>Output</th><th>Tugas</th><th>Contoh</th></tr></thead>
-<tbody>
-<tr><td>Encoder saja</td><td>Data</td><td>Latent</td><td>Meringkas data</td><td>Mengecilkan data, mencari gambar yang mirip</td></tr>
-<tr><td>Decoder saja</td><td>Latent</td><td>Data</td><td>Membuat data dari latent</td><td>Membuat data baru dengan VAE</td></tr>
-<tr><td>Encoder dan decoder</td><td>Data</td><td>Data hasil susun ulang</td><td>Membersihkan data atau mengecek selisihnya</td><td>Membersihkan noise, mendeteksi anomali</td></tr>
-</tbody>
-</table>
-<p>Latent bukan komponen yang dilatih. Latent adalah hasil keluaran encoder, jadi nilainya mengikuti input. Yang punya weight dan dilatih hanya encoder dan decoder.</p>
-<p>Decoder yang dipakai sendiri biasanya berguna kalau latent-nya tertata seperti di VAE. Di vanilla, latent acak sering menghasilkan gambar yang tidak jelas.</p>
-
-<h3>2. Memilih tipe autoencoder</h3>
-<p>Tipe dipilih dari tujuan kasusnya, jadi cocokkan tugas di soal dengan penjelasan setiap tipe.</p>
-
-<figure>
-<img src="images/ae_pilih_tipe.svg" alt="Diagram keputusan memilih tipe autoencoder: Apa tugas di kasusnya? Jika meringkas data, mendeteksi anomali, atau mencari yang mirip, pilih Vanilla (latent lebih kecil). Jika mengembalikan data berbintik menjadi bersih, pilih Denoising (input bernoise, target bersih). Jika memisahkan fitur atau butuh latent lebih besar dari input, pilih Sparse (boleh overcomplete). Jika membuat data baru yang belum ada, pilih VAE (latent berupa distribusi).">
-<figcaption>Diagram keputusan memilih tipe autoencoder berdasarkan tujuan kasus.</figcaption>
-</figure>
-
-<p><strong>Vanilla: meringkas data</strong></p>
-<p>Pilih vanilla kalau kasusnya meminta salah satu tugas ini:</p>
-<ul>
-<li>Mengecilkan ukuran data: data punya banyak fitur atau gambarnya besar, lalu kamu ingin ringkasan yang lebih kecil untuk diproses model berikutnya. Contohnya, data pelanggan dengan 200 kolom diringkas menjadi 20 angka sebelum dipakai model lain.</li>
-<li>Mendeteksi anomali: kamu punya banyak data normal, tapi sangat sedikit data rusak, dan ingin mengenali kondisi yang tidak biasa. Contohnya, mesin pabrik yang jarang rusak.</li>
-<li>Mencari data yang mirip: kamu ingin menemukan gambar atau produk yang mirip dengan membandingkan ringkasannya, tanpa perlu label kelas. Contohnya, toko online mencari produk yang mirip dengan foto yang diunggah pengguna.</li>
-</ul>
-<p>Cara kerja: latent yang kecil memaksa model hanya menyimpan pola penting.</p>
-<p>Latent: harus lebih kecil dari input, supaya model tidak hanya menyalin input.</p>
-<p>Untuk anomali, model dilatih dengan data normal. Data yang tidak biasa sulit disusun ulang, sehingga loss-nya tinggi.</p>
-
-<figure>
-<img src="images/ae_anomali.svg" alt="Diagram deteksi anomali dengan autoencoder: baris atas, data normal masuk ke autoencoder (dilatih data normal), output mirip input, loss kecil, dianggap normal. Baris bawah, data rusak masuk ke autoencoder yang sama, output tidak mirip input, loss besar, dianggap anomali.">
-<figcaption>Deteksi anomali: data normal menghasilkan loss kecil, data rusak menghasilkan loss besar.</figcaption>
-</figure>
-
-<p><strong>Denoising: membersihkan data</strong></p>
-<p>Pilih denoising kalau kasusnya meminta salah satu tugas ini:</p>
-<ul>
-<li>Mengembalikan data rusak menjadi bersih: data yang masuk berbintik atau terganggu, dan kamu ingin hasil yang lebih bersih. Contohnya, foto hasil scan yang berbintik atau sinyal sensor yang terganggu.</li>
-<li>Mengambil fitur yang tahan gangguan: data saat dipakai nanti tidak selalu sempurna, tapi model harus tetap menangkap pola pentingnya. Contohnya, kamera pabrik kadang menghasilkan gambar berbintik, tapi bentuk barang tetap harus dikenali.</li>
-</ul>
-<p>Cara kerja: input diberi noise, tapi jawaban yang dibandingkan tetap data bersih.</p>
-<p>Latent: biasanya lebih kecil dari input.</p>
-<p>Saat training, kamu perlu punya data bersih, karena noise ditambahkan ke data itu dan targetnya tetap versi bersihnya.</p>
-
-<figure>
-<img src="images/ae_denoising.svg" alt="Diagram denoising autoencoder: data bersih (angka 7) ditambah noise menjadi input berbintik, masuk Encoder, Latent, Decoder, Output (angka 7 bersih), dibandingkan dengan Loss (MSE). Yang dibandingkan adalah data bersih, bukan input berbintik.">
-<figcaption>Denoising autoencoder: input berbintik disusun ulang menjadi versi bersih, dibandingkan dengan data bersih asli.</figcaption>
-</figure>
-
-<p><strong>Sparse: menemukan fitur yang mudah dijelaskan</strong></p>
-<p>Pilih sparse kalau kasusnya meminta salah satu tugas ini:</p>
-<ul>
-<li>Mengetahui pola penyusun data: kamu ingin setiap neuron mewakili pola yang berbeda, supaya hasilnya lebih mudah dijelaskan. Contohnya, mencari bagian-bagian yang menyusun gambar angka.</li>
-<li>Menyediakan banyak fitur: kasus membutuhkan banyak pola, sampai latent perlu lebih besar dari input. Contohnya, foto wajah punya banyak pola kecil, seperti bentuk mata, alis, dan hidung, yang ingin dipisahkan ke neuron yang berbeda.</li>
-</ul>
-<p>Cara kerja: loss ditambah penalti, sehingga hanya sedikit neuron latent yang aktif untuk setiap input.</p>
-<p>Latent: boleh lebih besar dari input, karena penalti mencegah model hanya menyalin input.</p>
-<p>Gambar ini hanya ilustrasi, karena pola yang dipelajari neuron tidak selalu serapi ini.</p>
-
-<figure>
-<img src="images/ae_sparse.svg" alt="Perbandingan Vanilla vs Sparse: Vanilla, latent kecil, hampir semua neuron aktif, 8 neuron menyimpan pola yang bercampur. Sparse, latent besar, tapi hanya sedikit neuron yang aktif, tiga contoh angka (7, 1, 8) masing-masing mengaktifkan hanya 2 neuron berbeda yang mewakili pola spesifik seperti garis atas/garis miring, garis tegak, lingkaran atas/lingkaran bawah.">
-<figcaption>Vanilla: hampir semua neuron aktif dengan pola bercampur. Sparse: hanya sedikit neuron aktif per input, tiap neuron mewakili pola spesifik.</figcaption>
-</figure>
-
-<p><strong>VAE: membuat data baru</strong></p>
-<p>Masalah di vanilla: setiap foto menjadi satu titik di latent, dan ruang di antara titik-titik itu tidak terlatih. Kalau kita mengambil latent acak, decoder bisa menghasilkan gambar yang tidak jelas.</p>
-<p>VAE menata latent supaya titik yang diambil dari area itu lebih mungkin menjadi data yang masuk akal.</p>
-
-<figure>
-<img src="images/ae_peta_latent.svg" alt="Perbandingan peta latent Vanilla vs VAE: Vanilla, titik terpisah (kets, boots, sandal sebagai titik-titik terpencar), area kosong tidak terlatih, z acak mendarat di area kosong menghasilkan gambar tidak jelas. VAE, area saling berdekatan dan tertata (kets, boots, sandal sebagai area/kelompok elips yang saling tumpang tindih), z acak lebih mungkin mendarat di area yang sudah dilatih dan menghasilkan sepatu baru yang masuk akal.">
-<figcaption>Peta latent Vanilla (titik terpisah, ada area kosong) dibandingkan VAE (area tertata dan saling berdekatan).</figcaption>
-</figure>
-
-<p>Pilih VAE kalau kasusnya meminta salah satu tugas ini:</p>
-<ul>
-<li>Membuat data baru yang mirip dataset: toko sepatu punya 10.000 foto katalog dan ingin membuat desain sepatu baru yang belum ada, bukan mencari atau membersihkan foto yang sudah ada.</li>
-<li>Menambah data latih: jumlah foto sepatu masih kurang untuk melatih model lain, sehingga VAE dilatih dengan foto yang ada, lalu membuat foto sepatu tambahan yang mirip.</li>
-<li>Membuat transisi halus antar data: aplikasi desain ingin menampilkan perubahan bertahap dari sepatu kets ke sepatu boots, dengan mengambil beberapa titik di antara latent keduanya.</li>
-</ul>
-<p>Cara kerja saat training:</p>
-<ol>
-<li>Foto sepatu masuk ke encoder.</li>
-<li>Encoder menghasilkan &mu;, yaitu pusat area, dan &sigma;, yaitu lebar area, bukan satu titik.</li>
-<li>Model mengambil satu titik z secara acak dari area itu: z = &mu; + &sigma; &times; &epsilon;, dengan &epsilon; sebagai angka acak. Contohnya, kalau &mu; = 2, &sigma; = 0,5, dan &epsilon; = &minus;0,4, maka z = 1,8.</li>
-<li>Decoder menyusun ulang foto sepatu dari z.</li>
-<li>Loss dihitung dari reconstruction + KL divergence.</li>
-</ol>
-<p>Fungsi dua loss:</p>
-<ul>
-<li>Reconstruction: memaksa hasil susun ulang mirip foto asli.</li>
-<li>KL divergence: memaksa semua area latent berkumpul mendekati distribusi normal, supaya ruang latent tidak berlubang.</li>
-</ul>
-<p>Cara memakai setelah training: ambil z acak dari distribusi normal, lalu masukkan ke decoder untuk mendapatkan desain baru. Encoder tidak diperlukan untuk tugas ini.</p>
-<p>Latent: biasanya lebih kecil dari input, dan berupa distribusi, bukan satu titik.</p>
-<p>Bayangkan vanilla seperti menyimpan alamat rumah yang tepat, sedangkan VAE menyimpan satu lingkungan. Bedanya, lingkungan di VAE dipelajari sendiri dan ditata supaya saling berdekatan.</p>
-<p>VAE biasa tidak otomatis bisa diminta membuat kelas tertentu. Untuk itu, model dilatih khusus pada kelas tersebut atau diberi label kelas.</p>
-<p>Contoh sepatu adalah contoh tambahan, bukan dari PPT.</p>
-<p>Dibandingkan PCA yang linear, autoencoder bisa mempelajari pola non-linear, dan keduanya tidak butuh label.</p>
-
-<h3>3. Menentukan bentuk arsitektur</h3>
-<p>Setiap bagian arsitektur harus punya alasan. Kerjakan enam keputusan ini berurutan, karena setiap keputusan menjadi bagian dari justifikasi.</p>
-<ol>
-<li>Ukuran input dan output</li>
-<li>Jenis layer</li>
-<li>Ukuran latent</li>
-<li>Simetris atau tidak</li>
-<li>Activation</li>
-<li>Loss</li>
-</ol>
-<p>Perbandingan bentuk latent dan simetri:</p>
-
-<figure>
-<img src="images/ae_bentuk.svg" alt="Perbandingan bentuk arsitektur autoencoder: Undercomplete (784-128-32-128-784, latent lebih kecil dari input, dipakai di vanilla/denoising), Overcomplete (784-1024 dengan pola titik jarang/sparse-784, latent lebih besar dari input, hanya sparse, sedikit neuron aktif), Tidak simetris (784-256-32-784, decoder lebih kecil dari encoder, dipakai kalau hanya encoder yang dipakai).">
-<figcaption>Tiga bentuk arsitektur autoencoder: Undercomplete, Overcomplete, dan Tidak simetris.</figcaption>
-</figure>
-
-<p><strong>Kenapa overcomplete tidak boleh di vanilla?</strong></p>
-<p>Overcomplete adalah bentuk dengan latent lebih besar dari input.</p>
-<ul>
-<li>Di vanilla: tidak ada yang memaksa model meringkas, jadi model bisa hanya menyalin input ke output. Loss-nya kecil, tapi tidak ada pola yang dipelajari.</li>
-<li>Di sparse: penalti membuat hanya sedikit neuron yang aktif, jadi model tetap harus memilih pola yang penting walaupun latent-nya besar.</li>
-</ul>
-<p>Rumus loss sparse: reconstruction loss + &lambda;|z|, dengan &lambda; sebagai pengatur kekuatan penalti dan z sebagai nilai latent. Selain L1, PPT juga menyebut KL divergence sebagai penalti.</p>
-
-<p><strong>Kesalahan umum saat merancang autoencoder</strong></p>
-<table>
-<thead><tr><th>Kesalahan</th><th>Akibat</th><th>Perbaikan</th></tr></thead>
-<tbody>
-<tr><td>Latent terlalu besar di vanilla</td><td>Model hanya menyalin input</td><td>Perkecil latent, atau pakai sparse kalau memang butuh latent besar</td></tr>
-<tr><td>Data selalu masuk tanpa noise</td><td>Model bisa overfit pada data train</td><td>Pakai denoising kalau model harus tahan gangguan</td></tr>
-<tr><td>Input tidak dinormalkan</td><td>Rentang output sulit disamakan dengan input</td><td>Normalkan input ke 0 sampai 1</td></tr>
-<tr><td>Lupa sigmoid pada output piksel</td><td>Nilai output bisa keluar dari rentang 0 sampai 1</td><td>Pakai sigmoid di layer output</td></tr>
-<tr><td>Tidak memantau data validation</td><td>Overfitting tidak terlihat</td><td>Pantau reconstruction loss di data validation</td></tr>
-</tbody>
-</table>
-
-<h3>4. Template jawaban studi kasus</h3>
-<ol>
-<li>Tipe: "Dipilih [tipe] karena kasus ini membutuhkan [tujuan]."</li>
-<li>Bentuk: "Arsitekturnya [ukuran layer], memakai [fully connected atau Conv] karena datanya [jenis data]."</li>
-<li>Latent: "Ukuran latent [angka], lebih [kecil atau besar] dari input, karena [alasan]."</li>
-<li>Simetri: "Bentuknya [simetris atau tidak simetris] karena [alasan]."</li>
-<li>Activation dan loss: "Hidden layer memakai [activation] karena [alasan], output memakai [activation] karena [rentang data], dan loss-nya [nama loss] karena [jenis data]."</li>
-</ol>
-
-<h3>5. Contoh kasus</h3>
-<p>Angka arsitektur dan pasangan kasus dengan tipe adalah contoh dan rekomendasi, bukan dari PPT. Saat ujian, yang dinilai adalah kesesuaian alasannya dengan kasus.</p>
-
-<h4>Kasus 1: deteksi anomali sensor industri</h4>
-<p>Pabrik punya 20 sensor dan banyak data kondisi normal, tapi sangat sedikit data kerusakan.</p>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<ul>
-<li>Tipe: vanilla, karena model bisa dilatih dengan data normal, lalu data yang loss-nya tinggi dianggap anomali.</li>
-<li>Bentuk: 20-12-6-12-20, memakai fully connected karena datanya berupa tabel angka sensor.</li>
-<li>Latent: 6, lebih kecil dari input, supaya model hanya menyimpan pola kondisi normal dan tidak menyalin input.</li>
-<li>Simetri: simetris, karena encoder dan decoder sama-sama perlu kuat untuk menyusun ulang data dengan baik.</li>
-<li>Activation dan loss: hidden layer memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena input dinormalkan ke 0 sampai 1, dan loss-nya MSE karena nilainya kontinu.</li>
-</ul>
-</div>
-
-<h4>Kasus 2: membersihkan foto berbintik</h4>
-<p>Foto hitam putih 64 &times; 64 banyak mengandung bintik, dan kita ingin mendapatkan versi bersihnya.</p>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<ul>
-<li>Tipe: denoising, karena input yang diberi noise dilatih untuk kembali ke gambar bersih.</li>
-<li>Bentuk: 1 &times; 64 &times; 64, 16 &times; 32 &times; 32, 8 &times; 16 &times; 16, 16 &times; 32 &times; 32, lalu 1 &times; 64 &times; 64. Bentuk ini memakai Conv dan ConvTranspose karena datanya gambar dan hubungan antar piksel harus dijaga.</li>
-<li>Latent: 8 &times; 16 &times; 16 = 2.048 angka, lebih kecil dari input 4.096 angka, supaya noise tidak ikut tersimpan.</li>
-<li>Simetri: simetris, karena decoder harus mengembalikan ukuran gambar secara bertahap.</li>
-<li>Activation dan loss: Conv dan ConvTranspose di tengah memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE terhadap gambar bersih, bukan gambar berbintik.</li>
-</ul>
-</div>
-
-<h4>Kasus 3: mencari fitur yang mudah dijelaskan</h4>
-<p>Peneliti ingin mengetahui fitur-fitur yang menyusun gambar angka 28 &times; 28, dan setiap neuron diharapkan mewakili fitur yang berbeda.</p>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<ul>
-<li>Tipe: sparse, karena hanya sedikit neuron aktif, sehingga fiturnya lebih mudah dipisahkan dan dijelaskan.</li>
-<li>Bentuk: 784-1024-784, memakai fully connected karena gambar di-flatten seperti contoh MNIST di PPT.</li>
-<li>Latent: 1.024, lebih besar dari input (overcomplete), supaya tersedia banyak neuron untuk banyak fitur. Bentuk ini aman karena penalti sparse mencegah model hanya menyalin input.</li>
-<li>Simetri: simetris, karena tidak ada kebutuhan khusus untuk membuat salah satu sisi lebih kecil.</li>
-<li>Activation dan loss: hidden layer memakai ReLU, sehingga banyak neuron bisa bernilai 0. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE + &lambda;|z| karena neuron yang aktif perlu dibatasi.</li>
-</ul>
-</div>
-
-<h4>Kasus 4: membuat gambar baru</h4>
-<p>Kita ingin membuat gambar angka 28 &times; 28 baru yang tidak ada di dataset.</p>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<ul>
-<li>Tipe: VAE, karena latent-nya kontinu dan bisa diambil sampelnya untuk membuat data baru.</li>
-<li>Bentuk: 784-256, lalu &mu; dan &sigma; berukuran 32, kemudian z-256-784. Bentuk ini memakai fully connected karena gambar di-flatten.</li>
-<li>Latent: 32, lebih kecil dari input, supaya model mempelajari pola umum angka.</li>
-<li>Simetri: simetris, karena decoder harus cukup kuat untuk membuat gambar dari sampel z.</li>
-<li>Activation dan loss: hidden layer memakai ReLU. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya reconstruction + KL divergence. KL memaksa distribusi latent mendekati normal, supaya sampelnya menghasilkan gambar yang masuk akal.</li>
-</ul>
-</div>
-
-<h4>Kasus 5: mencari gambar yang mirip</h4>
-<p>Toko online ingin mencari gambar yang mirip dengan gambar 28 &times; 28 yang diunggah pengguna.</p>
-<p>Lihat jawaban:</p>
-<div class="answer-block">
-<ul>
-<li>Tipe: vanilla, karena tujuannya mendapatkan ringkasan data, lalu membandingkan kemiripan latent-nya.</li>
-<li>Bentuk: 784-256-32-784, memakai fully connected karena gambar di-flatten.</li>
-<li>Latent: 32, lebih kecil dari input, supaya gambar yang mirip punya ringkasan yang berdekatan dan pencariannya lebih ringan.</li>
-<li>Simetri: tidak simetris, karena setelah training hanya encoder yang dipakai untuk pencarian, jadi decoder dibuat lebih kecil supaya training lebih ringan.</li>
-<li>Activation dan loss: hidden layer memakai ReLU supaya gradient tidak mudah menyusut. Output memakai sigmoid karena piksel bernilai 0 sampai 1, dan loss-nya MSE karena nilainya kontinu.</li>
-</ul>
-</div>
-</section>
-
-</div>
-
-<script>
-(function(){
-  var STOPWORDS = ["apa","yang","itu","adalah","bagaimana","kenapa","mengapa","dan","atau","di","ke","dari","untuk","dengan","pada","ini","nya","saya","kamu","kita","bisa","jadi","juga","akan","ada","yaitu","karena","cara","tolong","jelaskan","tentang","sih","apakah","gimana","gmn","dong","ya","deh","nih","tuh"];
-
-  // Very small, safe Indonesian suffix strip (only the common ones that rarely
-  // cause false merges), so e.g. "artinya"/"bedanya"/"fungsinya" still match
-  // "arti"/"beda"/"fungsi" in the material.
-  function stem(t){
-    if (t.length > 5 && t.slice(-3) === "nya") return t.slice(0, -3);
-    if (t.length > 6 && t.slice(-3) === "kan") return t.slice(0, -3);
-    return t;
-  }
-
-  // Plain `.textContent` concatenates adjacent elements with no separator
-  // (e.g. a table's "<td>Target</td><td>Masalah...</td>" becomes
-  // "TargetMasalah...", merging into bogus tokens like "targetmasalah").
-  // Insert a space after every element's own text so cell/row/list-item
-  // boundaries survive tokenization.
-  function textOf(el){
-    var out = [];
-    (function walk(n){
-      if (n.nodeType === 3) { out.push(n.nodeValue); return; }
-      if (n.nodeType !== 1) return;
-      Array.prototype.forEach.call(n.childNodes, walk);
-      out.push(" ");
-    })(el);
-    return out.join("");
-  }
-
-  function tokenize(str){
-    return str.toLowerCase()
-      .replace(/[^a-z0-9à-ɏ\s]/g, " ")
-      .split(/\s+/)
-      .filter(function(t){ return t.length > 1 && STOPWORDS.indexOf(t) === -1; })
-      .map(stem);
-  }
-
-  // Common question phrasings mapped to the words actually used in the
-  // material, so a question doesn't have to use the exact same word.
-  var SYNONYMS = {
-    "kenapa": ["penyebab","alasan"], "mengapa": ["penyebab","alasan"],
-    "fungsi": ["tugas","kegunaan","peran"], "guna": ["tugas","kegunaan","peran"],
-    "beda": ["beda","berbeda","perbedaan","dibanding","vs"], "bedanya": ["beda","berbeda","perbedaan"],
-    "hitung": ["hitungan","rumus","menghitung"], "rumus": ["hitungan","rumus","menghitung"],
-    "atasi": ["solusi","mengatasi"], "masalah": ["masalah","kesalahan","kelemahan","kekurangan"],
-    "pilih": ["pilih","memilih"], "tanda": ["tanda","gejala"], "contoh": ["contoh","misalnya"],
-    "langkah": ["tahap","langkah","urutan"], "proses": ["tahap","proses","cara"],
-    "kapan": ["pakai","kalau"], "kelebihan": ["kelebihan","keunggulan"],
-    "kekurangan": ["kekurangan","kelemahan","limitasi"]
-  };
-
-  // Generic question words that are only useful for their synonyms, not for
-  // their own literal spelling — "kapan" shows up verbatim in many unrelated
-  // headings across the material (e.g. "Kapan G dianggap berhasil?" in the
-  // GAN section), so matching it literally at full weight gives those
-  // headings an unearned boost that has nothing to do with the real topic.
-  var GENERIC_WORDS = { "kapan": true };
-
-  function expand(qTokens){
-    var out = [];
-    qTokens.forEach(function(t){
-      out.push({ t: t, w: GENERIC_WORDS[t] ? 0.2 : 1 });
-      (SYNONYMS[t] || []).forEach(function(s){ out.push({ t: stem(s), w: 0.7 }); });
+<h2 id="migration">5. Migration</h2>
+<p>Salin hanya isi method <code class="i">up()</code> dan <code class="i">down()</code>; bagian <code class="i">class</code> dan <code class="i">use</code> sudah dibuat artisan.</p>
+<script type="text/plain" class="src" data-title="..._create_reviewers_table.php (isi method saja)">
+public function up(): void
+{
+    Schema::create('reviewers', function (Blueprint $table) {
+        $table->id();
+        // <<ISI: kolom tabel induk sesuai soal. Contoh di bawah>>
+        $table->string('name');
+        $table->string('photo')->nullable();
+        $table->text('bio')->nullable();
+        $table->timestamps();
     });
-    return out;
-  }
+}
 
-  // Build a flat list of small "blocks": one per direct child node (p, ul,
-  // ol, table, figure, pre) inside each h2/h3/h4 heading's range. Matching at
-  // this granularity (instead of a whole, sometimes very long, section) is
-  // what keeps an answer to the one paragraph/list/table that is actually
-  // relevant, instead of dumping an entire section.
-  var blocks = [];
-  document.querySelectorAll("section").forEach(function(sec){
-    var nodes = Array.prototype.slice.call(sec.children);
-    var realHeading = sec.id, subLabel = null, headingTokens = [];
-    function composeHeading(){
-      var h = subLabel ? (realHeading + " — " + subLabel) : realHeading;
-      headingTokens = tokenize(h);
-      return h;
+public function down(): void
+{
+    Schema::dropIfExists('reviewers');
+}
+</script>
+<script type="text/plain" class="src" data-title="..._create_categories_table.php (isi method saja)">
+public function up(): void
+{
+    Schema::create('categories', function (Blueprint $table) {
+        $table->id();
+        // <<ISI: kolom tabel grup sesuai soal. Contoh di bawah>>
+        $table->string('name');
+        $table->timestamps();
+    });
+}
+
+public function down(): void
+{
+    Schema::dropIfExists('categories');
+}
+</script>
+<script type="text/plain" class="src" data-title="..._create_foods_table.php (isi method saja)">
+public function up(): void
+{
+    Schema::create('foods', function (Blueprint $table) {
+        $table->id();
+        // foreign key ke induk (wajib untuk relasi satu-ke-banyak)
+        $table->foreignId('reviewer_id')->constrained()->cascadeOnDelete();
+        // <<ISI: kolom tabel item sesuai soal. Contoh di bawah>>
+        $table->string('name');
+        $table->string('image');
+        $table->text('summary');                    // review singkat
+        $table->longText('review');                 // review lengkap
+        $table->decimal('rating', 2, 1)->default(0); // untuk Top Food of the Week
+        $table->boolean('is_viral')->default(false);
+        $table->timestamps();
+    });
+}
+
+public function down(): void
+{
+    Schema::dropIfExists('foods');
+}
+</script>
+<script type="text/plain" class="src" data-title="..._create_category_food_table.php (pivot, isi method saja)">
+public function up(): void
+{
+    Schema::create('category_food', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+        $table->foreignId('food_id')->constrained('foods')->cascadeOnDelete();
+        $table->timestamps();
+    });
+}
+
+public function down(): void
+{
+    Schema::dropIfExists('category_food');
+}
+</script>
+<table>
+<tr><th>Kebutuhan</th><th>Sintaks kolom</th></tr>
+<tr><td>Teks pendek / panjang</td><td><code class="i">string('x')</code> / <code class="i">text('x')</code> / <code class="i">longText('x')</code></td></tr>
+<tr><td>Angka</td><td><code class="i">integer('x')</code>, <code class="i">decimal('x', 10, 2)</code>, <code class="i">unsignedInteger('x')</code></td></tr>
+<tr><td>Tanggal, boolean, pilihan</td><td><code class="i">date('x')</code>, <code class="i">boolean('x')</code>, <code class="i">enum('x', ['a','b'])</code></td></tr>
+<tr><td>Modifier</td><td><code class="i">->nullable()</code>, <code class="i">->unique()</code>, <code class="i">->default(nilai)</code></td></tr>
+</table>
+
+<h2 id="model">6. Model</h2>
+<p><code class="i">$guarded = []</code> membuat semua kolom boleh diisi lewat <code class="i">create()</code>/<code class="i">update()</code>.</p>
+<script type="text/plain" class="src" data-title="app/Models/Reviewer.php">
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Reviewer extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    // satu reviewer punya banyak makanan
+    public function foods()
+    {
+        return $this->hasMany(Food::class);
     }
-    var heading = composeHeading();
-    nodes.forEach(function(node){
-      var tag = node.tagName ? node.tagName.toLowerCase() : "";
-      if (tag === "h2" || tag === "h3" || tag === "h4") {
-        realHeading = textOf(node).trim();
-        subLabel = null;
-        heading = composeHeading();
-        return;
-      }
-      var text = textOf(node).trim();
-      if (!text && tag !== "figure") return;
-      // The source material uses a bold, whole-paragraph label as a
-      // sub-heading in several places (e.g. "Vanilla: meringkas data",
-      // "Denoising: membersihkan data", "Soal 2: potongan VGG") instead of a
-      // real <h2>/<h3>/<h4>. Treat those the same way a real heading is
-      // treated — as a heading-boost context for itself and what follows —
-      // so a question naming that label (e.g. "denoising") doesn't lose out
-      // to an unrelated block that merely mentions the word in passing.
-      // Only the most recent one is kept (not chained), so the shown
-      // heading stays short, e.g. "2. Memilih tipe autoencoder — Denoising:
-      // membersihkan data" instead of piling up every label seen so far.
-      if (tag === "p" && node.children.length === 1 && node.children[0].tagName === "STRONG"
-          && textOf(node.children[0]).trim() === text) {
-        subLabel = text;
-        heading = composeHeading();
-      }
-      blocks.push({
-        heading: heading,
-        headingTokens: headingTokens,
-        html: node.outerHTML,
-        tokens: tokenize(text),
-        sectionId: sec.id
-      });
+}
+</script>
+<script type="text/plain" class="src" data-title="app/Models/Food.php">
+<?php
 
-      // A wide table (e.g. the 4-target GAN training table, or any
-      // multi-row comparison table) mixes several distinct topics into one
-      // block. Without this, a question about just one row (e.g. "mode
-      // collapse") gets diluted by the other rows and can lose to an
-      // unrelated block that mentions the word only in passing. Index each
-      // row as its own extra, more specific candidate — still rendered as
-      // the whole table for full context if a row wins, just scored on its
-      // own row's text so the right table actually wins the match.
-      if (tag === "table") {
-        var rows = node.querySelectorAll("tbody tr");
-        if (rows.length > 3) {
-          rows.forEach(function(tr){
-            var rowText = textOf(tr).trim();
-            if (!rowText) return;
-            blocks.push({
-              heading: heading,
-              headingTokens: headingTokens,
-              html: node.outerHTML,
-              tokens: tokenize(rowText),
-              sectionId: sec.id
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+class Food extends Model
+{
+    use HasFactory;
+
+    protected $table = 'foods';
+    protected $guarded = [];
+
+    // satu makanan dimiliki satu reviewer
+    public function reviewer()
+    {
+        return $this->belongsTo(Reviewer::class);
+    }
+
+    // satu makanan boleh masuk banyak kategori
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_food');
+    }
+
+    // dipakai di view: $food->image_url
+    // (gambar seeder berupa URL, gambar upload berupa path di storage)
+    public function getImageUrlAttribute()
+    {
+        return Str::startsWith($this->image, 'http')
+            ? $this->image
+            : asset('storage/' . $this->image);
+    }
+}
+</script>
+<script type="text/plain" class="src" data-title="app/Models/Category.php">
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Category extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    public function foods()
+    {
+        return $this->belongsToMany(Food::class, 'category_food');
+    }
+}
+</script>
+<h2 id="seeder">7. Factory dan Seeder</h2>
+<p>Faker dipakai lewat <code class="i">fake()</code>. Gambar acak dari picsum.photos. Salin isi method <code class="i">definition()</code> saja untuk factory.</p>
+<script type="text/plain" class="src" data-title="database/factories/ReviewerFactory.php (isi method saja)">
+public function definition(): array
+{
+    return [
+        // <<ISI: kolom sesuai migration induk>>
+        'name'  => fake()->name(),
+        'photo' => 'https://picsum.photos/seed/' . fake()->unique()->numberBetween(1, 9999) . '/200/200',
+        'bio'   => fake()->paragraph(2),
+    ];
+}
+</script>
+<script type="text/plain" class="src" data-title="database/factories/FoodFactory.php (isi method saja)">
+public function definition(): array
+{
+    return [
+        // reviewer_id TIDAK ditulis di sini; diisi lewat ->for($reviewer) di seeder
+        // <<ISI: kolom sesuai migration item>>
+        'name'     => fake()->randomElement([
+            // <<ISI: daftar nama item sesuai tema soal>>
+            'Nasi Goreng Kampung', 'Soto Ayam', 'Rendang', 'Gado-gado', 'Sate Ayam',
+            'Burger Keju', 'Pizza Pedas', 'Pasta Krim', 'Salad Buah', 'Es Krim Cokelat',
+        ]),
+        'image'    => 'https://picsum.photos/seed/' . fake()->unique()->numberBetween(1, 9999) . '/800/450',
+        'summary'  => fake()->sentence(12),
+        'review'   => fake()->paragraphs(4, true),
+        'rating'   => fake()->randomFloat(1, 3, 5),
+        'is_viral' => fake()->boolean(40),
+    ];
+}
+</script>
+<script type="text/plain" class="src" data-title="database/seeders/DatabaseSeeder.php (seluruh file)">
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Category;
+use App\Models\Food;
+use App\Models\Reviewer;
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run(): void
+    {
+        // 1) grup (data tetap, bukan acak)
+        // <<ISI: nama kategori sesuai soal>>
+        $kategori = collect(['Traditional Food', 'Modern Food', 'Healthy Food', 'Dessert'])
+            ->map(fn ($nama) => Category::create(['name' => $nama]));
+
+        // 2) induk acak, masing-masing punya beberapa item
+        // <<ISI: jumlah induk (4) dan jumlah item per induk (3) sesuai soal>>
+        Reviewer::factory(4)->create()->each(function ($reviewer) use ($kategori) {
+            Food::factory(3)->for($reviewer)->create()->each(function ($food) use ($kategori) {
+                // 3) hubungkan item ke 1-2 kategori (isi tabel pivot)
+                $food->categories()->attach($kategori->random(rand(1, 2))->pluck('id'));
             });
-          });
+        });
+    }
+}
+</script>
+<p class="muted">Jika soal meminta data tertentu (bukan acak), pakai <code class="i">Food::create([...])</code> langsung di seeder, lalu <code class="i">$food->categories()->attach([1, 2]);</code>.</p>
+<h3>Paginasi tampil Bootstrap</h3>
+<script type="text/plain" class="src" data-title="app/Providers/AppServiceProvider.php (tambahkan di method boot, dan use di atas)">
+// use di bagian atas file:
+use Illuminate\Pagination\Paginator;
+
+// di dalam method boot():
+public function boot(): void
+{
+    Paginator::useBootstrapFive();
+}
+</script>
+<h2 id="route">8. Route</h2>
+<script type="text/plain" class="src" data-title="routes/web.php (seluruh file)">
+<?php
+
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FoodController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewerController;
+use Illuminate\Support\Facades\Route;
+
+// Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Category: daftar (dropdown) dan isi per kategori
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/category/{category}', [CategoryController::class, 'show'])->name('category.show');
+
+// Food Reviewer: daftar (dropdown) dan makanan per reviewer
+Route::get('/reviewer', [ReviewerController::class, 'index'])->name('reviewer.index');
+Route::get('/reviewer/{reviewer}', [ReviewerController::class, 'show'])->name('reviewer.show');
+
+// Food: 7 route sekaligus (index, create, store, show, edit, update, destroy)
+// show = halaman detail untuk user; sisanya untuk kelola data
+Route::resource('food', FoodController::class);
+
+// About Us (halaman statis tanpa controller)
+Route::view('/about', 'about')->name('about');
+</script>
+<table>
+<tr><th>Route resource</th><th>URL</th><th>Method controller</th><th>Nama route</th></tr>
+<tr><td>GET</td><td>/food</td><td>index</td><td>food.index</td></tr>
+<tr><td>GET</td><td>/food/create</td><td>create</td><td>food.create</td></tr>
+<tr><td>POST</td><td>/food</td><td>store</td><td>food.store</td></tr>
+<tr><td>GET</td><td>/food/{food}</td><td>show</td><td>food.show</td></tr>
+<tr><td>GET</td><td>/food/{food}/edit</td><td>edit</td><td>food.edit</td></tr>
+<tr><td>PUT</td><td>/food/{food}</td><td>update</td><td>food.update</td></tr>
+<tr><td>DELETE</td><td>/food/{food}</td><td>destroy</td><td>food.destroy</td></tr>
+</table>
+<p class="muted">Parameter <code class="i">{category}</code> otomatis menjadi objek model (route model binding) bila di controller ditulis <code class="i">Category $category</code> (nama variabel harus sama).</p>
+
+<h2 id="controller">9. Controller</h2>
+<script type="text/plain" class="src" data-title="app/Http/Controllers/HomeController.php (seluruh file)">
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Food;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        // 3 item terviral
+        $virals = Food::with('reviewer')
+            ->orderByDesc('is_viral')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Top Food of the Week (rating tertinggi)
+        $top = Food::with('reviewer')->orderByDesc('rating')->first();
+
+        return view('home', compact('virals', 'top'));
+    }
+}
+</script>
+<script type="text/plain" class="src" data-title="app/Http/Controllers/CategoryController.php (seluruh file)">
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+
+class CategoryController extends Controller
+{
+    // halaman Category: dropdown semua kategori
+    public function index()
+    {
+        $categories = Category::all();
+
+        return view('category.index', compact('categories'));
+    }
+
+    // setelah klik kategori: hanya makanan di kategori itu
+    public function show(Category $category)
+    {
+        $categories = Category::all();
+        $foods = $category->foods()->with('reviewer')->get();
+
+        return view('category.show', compact('categories', 'category', 'foods'));
+    }
+}
+</script>
+<script type="text/plain" class="src" data-title="app/Http/Controllers/ReviewerController.php (seluruh file)">
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Reviewer;
+
+class ReviewerController extends Controller
+{
+    // halaman Food Reviewer: dropdown dan daftar reviewer
+    public function index()
+    {
+        $reviewers = Reviewer::all();
+
+        return view('reviewer.index', compact('reviewers'));
+    }
+
+    // makanan yang pernah direview reviewer ini
+    public function show(Reviewer $reviewer)
+    {
+        $reviewers = Reviewer::all();
+        $foods = $reviewer->foods()->with('reviewer')->get();
+
+        return view('reviewer.show', compact('reviewers', 'reviewer', 'foods'));
+    }
+}
+</script>
+<script type="text/plain" class="src" data-title="app/Http/Controllers/FoodController.php (seluruh file: detail + CRUD + cari/filter)">
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\Food;
+use App\Models\Reviewer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class FoodController extends Controller
+{
+    // daftar + cari + filter + paginasi
+    public function index(Request $request)
+    {
+        $foods = Food::with('reviewer', 'categories')
+            ->when($request->q, fn ($query, $v) => $query->where('name', 'like', "%$v%"))
+            ->when($request->category, fn ($query, $v) => $query->whereHas('categories', fn ($c) => $c->where('categories.id', $v)))
+            ->when($request->reviewer, fn ($query, $v) => $query->where('reviewer_id', $v))
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
+
+        $categories = Category::all();
+        $reviewers = Reviewer::all();
+
+        return view('food.index', compact('foods', 'categories', 'reviewers'));
+    }
+
+    // form tambah
+    public function create()
+    {
+        return view('food.create', [
+            'categories' => Category::all(),
+            'reviewers'  => Reviewer::all(),
+        ]);
+    }
+
+    // simpan data baru
+    public function store(Request $request)
+    {
+        $data = $request->validate($this->rules());
+
+        $data['is_viral'] = $request->boolean('is_viral');
+        $data['image'] = $request->hasFile('image')
+            ? $request->file('image')->store('foods', 'public')
+            : 'https://picsum.photos/seed/' . Str::random(6) . '/800/450';
+
+        $food = Food::create(Arr::except($data, ['categories']));
+        $food->categories()->sync($data['categories']);
+
+        return redirect()->route('food.index')->with('success', 'Data berhasil ditambahkan.');
+    }
+
+    // halaman detail untuk user
+    public function show(Food $food)
+    {
+        $food->load('reviewer', 'categories');
+
+        return view('food.show', compact('food'));
+    }
+
+    // form ubah
+    public function edit(Food $food)
+    {
+        return view('food.edit', [
+            'food'       => $food->load('categories'),
+            'categories' => Category::all(),
+            'reviewers'  => Reviewer::all(),
+        ]);
+    }
+
+    // simpan perubahan
+    public function update(Request $request, Food $food)
+    {
+        $data = $request->validate($this->rules());
+
+        $data['is_viral'] = $request->boolean('is_viral');
+
+        if ($request->hasFile('image')) {
+            // hapus file lama jika file upload (bukan URL)
+            if (! Str::startsWith($food->image, 'http')) {
+                Storage::disk('public')->delete($food->image);
+            }
+            $data['image'] = $request->file('image')->store('foods', 'public');
+        } else {
+            unset($data['image']); // pakai gambar lama
         }
-      }
-    });
-  });
 
-  // Inverse document frequency: a word that shows up in almost every block
-  // (like "model", "parameter", "layer" in this material) is a weak signal
-  // and must not outweigh a rare, specific word (like "vgg" or "lenet") that
-  // only appears in the one block that's actually the right answer.
-  var docFreq = {};
-  blocks.forEach(function(b){
-    var seen = {};
-    b.tokens.forEach(function(t){ if (!seen[t]) { seen[t] = true; docFreq[t] = (docFreq[t] || 0) + 1; } });
-  });
-  function idf(t){
-    var df = docFreq[t] || 0;
-    return Math.log((blocks.length + 1) / (df + 1)) + 1;
-  }
+        $food->update(Arr::except($data, ['categories']));
+        $food->categories()->sync($data['categories']);
 
-  function scoreBlock(b, qExpanded){
-    var score = 0;
-    qExpanded.forEach(function(q){
-      var weight = q.w * idf(q.t);
-      var count = 0;
-      b.tokens.forEach(function(st){
-        if (st === q.t) count++;
-        else if (st.length > 3 && q.t.length > 3 && (st.indexOf(q.t) !== -1 || q.t.indexOf(st) !== -1)) count += 0.3;
-      });
-      // Diminishing returns for repeats within the same block, so a word
-      // mentioned many times in one block can't drown out a rarer, more
-      // specific word mentioned once elsewhere.
-      score += weight * Math.min(count, 1) + weight * Math.max(0, Math.log(1 + Math.max(0, count - 1))) * 0.2;
-      if (b.headingTokens.indexOf(q.t) !== -1) score += weight * 2;
-    });
-    return score;
-  }
-
-  function answer(question){
-    var qTokens = tokenize(question);
-    if (qTokens.length === 0) return null;
-    var qExpanded = expand(qTokens);
-    var scores = blocks.map(function(b){ return scoreBlock(b, qExpanded); });
-    // When two blocks score the same on raw keyword matches, prefer the one
-    // with more surrounding content on the topic (more likely to be the
-    // dedicated explanation) over a short block that only mentions the term
-    // in passing — and prefer it over whichever merely appears first.
-    var bestIdx = -1, bestScore = -1;
-    scores.forEach(function(s, i){
-      if (s <= 0) return;
-      var adjusted = s + Math.min(blocks[i].tokens.length, 40) * 0.01;
-      if (adjusted > bestScore) { bestScore = adjusted; bestIdx = i; }
-    });
-    if (bestIdx === -1 || scores[bestIdx] < 0.6) return null;
-
-    // Pull in immediate neighbor blocks that also scored, within the same
-    // section/heading, so a multi-part answer (intro paragraph + its table,
-    // or a case's question + its "Lihat jawaban" table) stays together —
-    // without pulling in the next unrelated block.
-    var heading = blocks[bestIdx].heading;
-    var lo = bestIdx, hi = bestIdx;
-    while (lo > 0 && blocks[lo - 1].heading === heading && scores[lo - 1] > 0) lo--;
-    while (hi < blocks.length - 1 && blocks[hi + 1].heading === heading && scores[hi + 1] > 0) hi++;
-
-    // Row-proxy blocks (see table indexing above) intentionally repeat their
-    // parent table's full html so a specific row can win the match; dedupe
-    // here so the same table isn't rendered more than once.
-    var html = "", seenHtml = {};
-    for (var i = lo; i <= hi; i++) {
-      if (seenHtml[blocks[i].html]) continue;
-      seenHtml[blocks[i].html] = true;
-      html += blocks[i].html;
+        return redirect()->route('food.index')->with('success', 'Data berhasil diubah.');
     }
-    return { heading: heading, html: html };
-  }
 
-  function renderAnswer(question){
-    var box = document.getElementById("qaAnswer");
-    try {
-      var result = answer(question);
-      if (!result) {
-        box.innerHTML = '<p class="qa-empty">Tidak ditemukan bagian yang cocok di materi ini untuk pertanyaan itu. Coba kata kunci lain, misalnya nama istilah, nama layer, atau nama model (contoh: "pooling", "dying relu", "vae").</p>';
-        return;
-      }
-      box.innerHTML = '<div class="qa-heading">Bagian paling relevan: ' + result.heading + '</div>' + result.html;
-    } catch (err) {
-      box.innerHTML = '<p class="qa-empty">Terjadi kendala saat mencari jawaban. Coba pertanyaan lain atau muat ulang halaman.</p>';
+    // hapus
+    public function destroy(Food $food)
+    {
+        if (! Str::startsWith($food->image, 'http')) {
+            Storage::disk('public')->delete($food->image);
+        }
+        $food->categories()->detach();
+        $food->delete();
+
+        return redirect()->route('food.index')->with('success', 'Data berhasil dihapus.');
     }
-  }
 
-  document.getElementById("qaBtn").addEventListener("click", function(){
-    var q = document.getElementById("qaInput").value.trim();
-    if (q) renderAnswer(q);
-  });
-  document.getElementById("qaInput").addEventListener("keydown", function(e){
-    if (e.key === "Enter") { e.preventDefault(); document.getElementById("qaBtn").click(); }
-  });
-  document.querySelectorAll(".qa-ex").forEach(function(el){
-    el.addEventListener("click", function(){
-      document.getElementById("qaInput").value = el.textContent;
-      renderAnswer(el.textContent);
+    // aturan validasi dipakai store dan update
+    private function rules(): array
+    {
+        return [
+            // <<ISI: sesuaikan nama kolom dan aturan dengan migration item>>
+            'reviewer_id'  => 'required|exists:reviewers,id',
+            'name'         => 'required|string|max:255',
+            'summary'      => 'required|string|max:255',
+            'review'       => 'required|string',
+            'rating'       => 'required|numeric|min:0|max:5',
+            'image'        => 'nullable|image|max:2048',
+            'categories'   => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
+        ];
+    }
+}
+</script>
+<div class="box">Method yang tidak dipakai soal boleh dihapus dari controller dan dari route: <code class="i">Route::resource('food', FoodController::class)-&gt;only(['index', 'show']);</code></div>
+
+<h2 id="layout">10. Layout Blade</h2>
+<p>Layout memakai <code class="i">@yield</code>. Halaman lain memakai <code class="i">@extends</code> dan <code class="i">@section</code>.</p>
+<script type="text/plain" class="src" data-title="resources/views/layouts/app.blade.php">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', '<<ISI: nama website>>')</title>
+
+    {{-- Pilih SALAH SATU cara memuat Bootstrap: --}}
+    {{-- A) Bootstrap dari project (npm run dev harus jalan): --}}
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    {{-- B) Bootstrap via CDN (salin link dari getbootstrap.com bagian Quick start): --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    @include('partials.navbar')
+
+    <main class="container py-4">
+        {{-- pesan sukses setelah tambah/ubah/hapus --}}
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @yield('content')
+    </main>
+
+    <footer class="container py-3 text-center text-muted border-top">
+        &copy; {{ date('Y') }} <<ISI: nama website>>
+    </footer>
+
+    {{-- wajib jika memakai B) CDN; jika memakai A) boleh dihapus --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"><\/script>
+</body>
+</html>
+</script>
+<script type="text/plain" class="src" data-title="resources/views/partials/navbar.blade.php">
+<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ route('home') }}"><<ISI: nama website>></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+                {{-- <<ISI: sesuaikan menu dengan soal>> --}}
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('category.*') ? 'active' : '' }}" href="{{ route('category.index') }}">Category</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('reviewer.*') ? 'active' : '' }}" href="{{ route('reviewer.index') }}">Food Reviewer</a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About Us</a></li>
+                {{-- hapus baris di bawah jika soal tidak meminta kelola data --}}
+                <li class="nav-item"><a class="nav-link {{ request()->routeIs('food.index', 'food.create', 'food.edit') ? 'active' : '' }}" href="{{ route('food.index') }}">Kelola</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</script>
+<script type="text/plain" class="src" data-title="resources/views/partials/food-card.blade.php (kartu yang dipakai ulang)">
+{{-- dipanggil: @include('partials.food-card', ['food' => $food]) --}}
+<div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+        <img src="{{ $food->image_url }}" class="card-img-top" alt="{{ $food->name }}">
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ $food->name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">oleh {{ $food->reviewer->name }}</h6>
+            <p class="card-text">{{ \Illuminate\Support\Str::limit($food->summary, 100) }}</p>
+            <a href="{{ route('food.show', $food) }}" class="btn btn-primary mt-auto">Baca selengkapnya</a>
+        </div>
+    </div>
+</div>
+</script>
+<h2 id="view">11. View halaman user</h2>
+<script type="text/plain" class="src" data-title="resources/views/home.blade.php">
+@extends('layouts.app')
+
+@section('title', 'Home')
+
+@section('content')
+    {{-- poster landscape --}}
+    <img src="https://picsum.photos/seed/poster/1200/400" class="img-fluid rounded w-100 mb-4" alt="Poster">
+
+    {{-- Top Food of the Week (fitur tantangan; hapus blok ini jika tidak diminta) --}}
+    @if ($top)
+        <div class="card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ $top->image_url }}" class="img-fluid rounded-start h-100 object-fit-cover" alt="{{ $top->name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <span class="badge text-bg-warning mb-2">Top Food of the Week</span>
+                        <h4 class="card-title">{{ $top->name }}</h4>
+                        <p class="text-muted mb-1">oleh {{ $top->reviewer->name }} &middot; rating {{ $top->rating }}/5</p>
+                        <p class="card-text">{{ $top->summary }}</p>
+                        <a href="{{ route('food.show', $top) }}" class="btn btn-primary">Baca selengkapnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <h2 class="mb-3">Makanan Terviral</h2>
+    <div class="row g-3">
+        @foreach ($virals as $food)
+            @include('partials.food-card', ['food' => $food])
+        @endforeach
+    </div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/category/index.blade.php">
+@extends('layouts.app')
+
+@section('title', 'Category')
+
+@section('content')
+    <h2 class="mb-3">Kategori</h2>
+
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+            Pilih kategori
+        </button>
+        <ul class="dropdown-menu">
+            @foreach ($categories as $c)
+                <li><a class="dropdown-item" href="{{ route('category.show', $c) }}">{{ $c->name }}</a></li>
+            @endforeach
+        </ul>
+    </div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/category/show.blade.php">
+@extends('layouts.app')
+
+@section('title', $category->name)
+
+@section('content')
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">{{ $category->name }}</h2>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Ganti kategori</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                @foreach ($categories as $c)
+                    <li><a class="dropdown-item {{ $c->id === $category->id ? 'active' : '' }}" href="{{ route('category.show', $c) }}">{{ $c->name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @forelse ($foods as $food)
+            @include('partials.food-card', ['food' => $food])
+        @empty
+            <p class="text-muted">Belum ada data di kategori ini.</p>
+        @endforelse
+    </div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/food/show.blade.php (halaman detail)">
+@extends('layouts.app')
+
+@section('title', $food->name)
+
+@section('content')
+    <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary mb-3">&larr; Kembali</a>
+
+    <img src="{{ $food->image_url }}" class="img-fluid rounded w-100 mb-3" alt="{{ $food->name }}">
+    <h2>{{ $food->name }}</h2>
+    <p class="text-muted">
+        Reviewer:
+        <a href="{{ route('reviewer.show', $food->reviewer) }}">{{ $food->reviewer->name }}</a>
+        &middot; rating {{ $food->rating }}/5 &middot;
+        @foreach ($food->categories as $c)
+            <span class="badge text-bg-secondary">{{ $c->name }}</span>
+        @endforeach
+    </p>
+    <div>{!! nl2br(e($food->review)) !!}</div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/reviewer/index.blade.php">
+@extends('layouts.app')
+
+@section('title', 'Food Reviewer')
+
+@section('content')
+    <h2 class="mb-3">Food Reviewer</h2>
+
+    <div class="dropdown mb-4">
+        <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Pilih reviewer</button>
+        <ul class="dropdown-menu">
+            @foreach ($reviewers as $r)
+                <li><a class="dropdown-item" href="{{ route('reviewer.show', $r) }}">{{ $r->name }}</a></li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="row g-3">
+        @foreach ($reviewers as $r)
+            <div class="col-6 col-md-3 text-center">
+                <img src="{{ $r->photo }}" class="rounded-circle mb-2" width="120" height="120" alt="{{ $r->name }}">
+                <div><a href="{{ route('reviewer.show', $r) }}">{{ $r->name }}</a></div>
+            </div>
+        @endforeach
+    </div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/reviewer/show.blade.php">
+@extends('layouts.app')
+
+@section('title', $reviewer->name)
+
+@section('content')
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Review oleh {{ $reviewer->name }}</h2>
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Ganti reviewer</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                @foreach ($reviewers as $r)
+                    <li><a class="dropdown-item {{ $r->id === $reviewer->id ? 'active' : '' }}" href="{{ route('reviewer.show', $r) }}">{{ $r->name }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @forelse ($foods as $food)
+            @include('partials.food-card', ['food' => $food])
+        @empty
+            <p class="text-muted">Belum ada review.</p>
+        @endforelse
+    </div>
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/about.blade.php">
+@extends('layouts.app')
+
+@section('title', 'About Us')
+
+@section('content')
+    <h2>About Us</h2>
+    <p><<ISI: kalimat penjelasan website sesuai soal, 2-3 kalimat>></p>
+@endsection
+</script>
+<h2 id="crud">12. CRUD (tambah, ubah, hapus)</h2>
+<p>Pakai bila soal meminta mengelola data. Controller dan route sudah ada di bagian 8 dan 9. Tinggal 3 view: daftar, tambah, ubah (tambah dan ubah berbagi satu form).</p>
+<script type="text/plain" class="src" data-title="resources/views/food/index.blade.php (daftar + cari + filter + paginasi + tombol)">
+@extends('layouts.app')
+
+@section('title', 'Kelola Data')
+
+@section('content')
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Kelola Data</h2>
+        <a href="{{ route('food.create') }}" class="btn btn-primary">Tambah</a>
+    </div>
+
+    {{-- form cari dan filter (method GET) --}}
+    <form method="GET" action="{{ route('food.index') }}" class="row g-2 mb-3">
+        <div class="col-md-4">
+            <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Cari nama...">
+        </div>
+        <div class="col-md-3">
+            <select name="category" class="form-select">
+                <option value="">Semua kategori</option>
+                @foreach ($categories as $c)
+                    <option value="{{ $c->id }}" {{ request('category') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="reviewer" class="form-select">
+                <option value="">Semua reviewer</option>
+                @foreach ($reviewers as $r)
+                    <option value="{{ $r->id }}" {{ request('reviewer') == $r->id ? 'selected' : '' }}>{{ $r->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-outline-secondary">Terapkan</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Gambar</th>
+                    <th>Nama</th>
+                    <th>Reviewer</th>
+                    <th>Kategori</th>
+                    <th>Rating</th>
+                    <th style="width:190px">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($foods as $food)
+                    <tr>
+                        <td>{{ $foods->firstItem() + $loop->index }}</td>
+                        <td><img src="{{ $food->image_url }}" width="80" alt=""></td>
+                        <td>{{ $food->name }}</td>
+                        <td>{{ $food->reviewer->name }}</td>
+                        <td>{{ $food->categories->pluck('name')->join(', ') }}</td>
+                        <td>{{ $food->rating }}</td>
+                        <td>
+                            <a href="{{ route('food.show', $food) }}" class="btn btn-sm btn-outline-secondary">Lihat</a>
+                            <a href="{{ route('food.edit', $food) }}" class="btn btn-sm btn-warning">Ubah</a>
+                            <form action="{{ route('food.destroy', $food) }}" method="POST" class="d-inline"
+                                  onsubmit="return confirm('Yakin hapus data ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{ $foods->links() }}
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/food/_form.blade.php (form dipakai tambah dan ubah)">
+{{--
+  Variabel yang dibutuhkan:
+  $action     = URL tujuan form
+  $food       = objek (new Food untuk tambah, $food dari controller untuk ubah)
+  $categories, $reviewers
+  $method     = 'PUT' hanya untuk ubah
+--}}
+@php
+    $dipilih = old('categories', $food->exists ? $food->categories->pluck('id')->all() : []);
+@endphp
+
+{{-- tampilkan semua error di atas form --}}
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<form action="{{ $action }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @isset($method)
+        @method($method)
+    @endisset
+
+    {{-- <<ISI: tambah/hapus input sesuai kolom item di migration>> --}}
+    <div class="mb-3">
+        <label class="form-label">Nama</label>
+        <input type="text" name="name" value="{{ old('name', $food->name) }}" class="form-control @error('name') is-invalid @enderror">
+        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Reviewer</label>
+        <select name="reviewer_id" class="form-select @error('reviewer_id') is-invalid @enderror">
+            <option value="">-- pilih --</option>
+            @foreach ($reviewers as $r)
+                <option value="{{ $r->id }}" {{ old('reviewer_id', $food->reviewer_id) == $r->id ? 'selected' : '' }}>{{ $r->name }}</option>
+            @endforeach
+        </select>
+        @error('reviewer_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label d-block">Kategori (boleh lebih dari satu)</label>
+        @foreach ($categories as $c)
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="categories[]" id="cat{{ $c->id }}"
+                       value="{{ $c->id }}" {{ in_array($c->id, $dipilih) ? 'checked' : '' }}>
+                <label class="form-check-label" for="cat{{ $c->id }}">{{ $c->name }}</label>
+            </div>
+        @endforeach
+        @error('categories') <div class="text-danger small">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Review singkat</label>
+        <input type="text" name="summary" value="{{ old('summary', $food->summary) }}" class="form-control @error('summary') is-invalid @enderror">
+        @error('summary') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Review lengkap</label>
+        <textarea name="review" rows="5" class="form-control @error('review') is-invalid @enderror">{{ old('review', $food->review) }}</textarea>
+        @error('review') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Rating (0-5)</label>
+        <input type="number" step="0.1" min="0" max="5" name="rating" value="{{ old('rating', $food->rating) }}" class="form-control @error('rating') is-invalid @enderror">
+        @error('rating') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Gambar (opsional)</label>
+        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+        @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @if ($food->exists)
+            <img src="{{ $food->image_url }}" width="140" class="mt-2 rounded" alt="">
+        @endif
+    </div>
+
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="is_viral" id="is_viral" value="1"
+               {{ old('is_viral', $food->is_viral) ? 'checked' : '' }}>
+        <label class="form-check-label" for="is_viral">Tandai viral</label>
+    </div>
+
+    <button class="btn btn-primary">Simpan</button>
+    <a href="{{ route('food.index') }}" class="btn btn-outline-secondary">Batal</a>
+</form>
+</script>
+<script type="text/plain" class="src" data-title="resources/views/food/create.blade.php">
+@extends('layouts.app')
+
+@section('title', 'Tambah Data')
+
+@section('content')
+    <h2 class="mb-3">Tambah Data</h2>
+    @include('food._form', [
+        'action' => route('food.store'),
+        'food'   => new \App\Models\Food,
+    ])
+@endsection
+</script>
+<script type="text/plain" class="src" data-title="resources/views/food/edit.blade.php">
+@extends('layouts.app')
+
+@section('title', 'Ubah Data')
+
+@section('content')
+    <h2 class="mb-3">Ubah Data</h2>
+    @include('food._form', [
+        'action' => route('food.update', $food),
+        'method' => 'PUT',
+    ])
+@endsection
+</script>
+<h2 id="fitur">13. Fitur tambahan (pakai jika diminta soal)</h2>
+<h3>Relasi satu-ke-satu (contoh: Reviewer punya satu Profil)</h3>
+<script type="text/plain" class="src" data-title="terminal">
+php artisan make:model Profile -mf
+</script>
+<script type="text/plain" class="src" data-title="..._create_profiles_table.php (isi method up)">
+Schema::create('profiles', function (Blueprint $table) {
+    $table->id();
+    // unique() = satu induk hanya boleh punya satu profil
+    $table->foreignId('reviewer_id')->unique()->constrained()->cascadeOnDelete();
+    // <<ISI: kolom profil sesuai soal>>
+    $table->string('phone')->nullable();
+    $table->string('address')->nullable();
+    $table->timestamps();
+});
+</script>
+<script type="text/plain" class="src" data-title="relasi di model">
+// app/Models/Reviewer.php (tambahkan method)
+public function profile()
+{
+    return $this->hasOne(Profile::class);
+}
+
+// app/Models/Profile.php (tambahkan method; pastikan ada protected $guarded = [];)
+public function reviewer()
+{
+    return $this->belongsTo(Reviewer::class);
+}
+
+// pemakaian:
+// $reviewer->profile->phone       (di view: {{ $reviewer->profile->phone ?? '-' }})
+// Profile::create(['reviewer_id' => 1, 'phone' => '0812...']);
+// di seeder: Profile::factory()->for($reviewer)->create();
+</script>
+<h3>Top item berdasarkan minggu ini / paling banyak</h3>
+<script type="text/plain" class="src" data-title="contoh query (di controller)">
+// rating tertinggi pada 7 hari terakhir
+$top = Food::where('created_at', '>=', now()->subWeek())->orderByDesc('rating')->first();
+
+// 5 teratas
+$tops = Food::orderByDesc('rating')->take(5)->get();
+
+// kategori dengan jumlah item terbanyak
+$kategoriPopuler = Category::withCount('foods')->orderByDesc('foods_count')->get();
+// di view: {{ $c->foods_count }}
+</script>
+<h3>Item yang masuk lebih dari satu kategori / reviewer tertentu</h3>
+<script type="text/plain" class="src" data-title="contoh query (di controller)">
+// item yang termasuk kategori bernama 'Dessert'
+Food::whereHas('categories', fn ($q) => $q->where('name', 'Dessert'))->get();
+
+// reviewer yang punya minimal 2 item
+Reviewer::has('foods', '>=', 2)->get();
+
+// item dalam dua kategori sekaligus
+Food::has('categories', '>=', 2)->get();
+</script>
+<h2 id="eloquent">14. Eloquent dan Blade ringkas</h2>
+<script type="text/plain" class="src" data-title="contoh query Eloquent">
+Food::all();                                   // semua
+Food::find($id);                               // satu by id (null jika tidak ada)
+Food::findOrFail($id);                         // 404 jika tidak ada
+Food::where('is_viral', true)->get();
+Food::where('name', 'like', '%nasi%')->get();
+Food::orderBy('name')->take(3)->get();
+Food::latest()->paginate(6);                   // di view: {{ $foods->links() }}
+Food::with('reviewer')->get();                 // eager loading (hindari N+1)
+Food::count();  Food::max('rating');  Food::avg('rating');
+
+// simpan
+Food::create(['reviewer_id' => 1, 'name' => 'X' /* , ... */]);
+$food->update(['name' => 'Y']);
+$food->delete();
+
+// relasi
+$reviewer->foods;                       // koleksi makanan milik reviewer
+$food->reviewer->name;                  // induk dari makanan
+$food->categories()->attach([1, 2]);    // tambah pivot
+$food->categories()->sync([1, 2]);      // ganti pivot (paling aman untuk form)
+$food->categories()->detach(1);         // hapus pivot
+$category->foods()->count();
+</script>
+<table>
+<tr><th>Tujuan</th><th>Sintaks Blade</th></tr>
+<tr><td>Cetak (aman)</td><td><code class="i">{{ $var }}</code></td></tr>
+<tr><td>Cetak HTML mentah</td><td><code class="i">{!! $html !!}</code> (hati-hati, hanya untuk data tepercaya)</td></tr>
+<tr><td>Komentar</td><td><code class="i">{{-- komentar --}}</code></td></tr>
+<tr><td>Kondisi</td><td><code class="i">@if(...) ... @elseif(...) ... @else ... @endif</code></td></tr>
+<tr><td>Perulangan</td><td><code class="i">@foreach($list as $x) ... @endforeach</code>, <code class="i">@forelse ... @empty ... @endforelse</code></td></tr>
+<tr><td>Layout</td><td><code class="i">@extends('layouts.app')</code>, <code class="i">@section('content') ... @endsection</code>, <code class="i">@yield('content')</code></td></tr>
+<tr><td>Partial</td><td><code class="i">@include('partials.nama', ['x' =&gt; $y])</code></td></tr>
+<tr><td>Link ke route</td><td><code class="i">route('nama.route', $model)</code></td></tr>
+<tr><td>Aset di public/</td><td><code class="i">asset('img/a.jpg')</code></td></tr>
+<tr><td>Form</td><td><code class="i">@csrf</code> wajib; <code class="i">@method('PUT')</code> atau <code class="i">@method('DELETE')</code> untuk ubah/hapus</td></tr>
+<tr><td>Error validasi</td><td><code class="i">@error('name') {{ $message }} @enderror</code></td></tr>
+<tr><td>Nilai lama form</td><td><code class="i">old('name', $food-&gt;name)</code></td></tr>
+</table>
+
+<h2 id="dokumentasi">15. Dokumentasi (wajib)</h2>
+<p>Kerangka isi dokumen Word/PDF. Ambil screenshot dari browser untuk tiap halaman:</p>
+<ol>
+<li>Struktur database: daftar tabel, kolom, dan relasi (gambar sederhana atau tabel). Screenshot isi tabel dari phpMyAdmin atau sejenisnya.</li>
+<li>Routing: tempel isi <code class="i">routes/web.php</code>, jelaskan fungsi tiap route.</li>
+<li>Controller: jelaskan tiap method dan data yang dikirim ke view.</li>
+<li>Model: jelaskan relasi (hasMany, belongsTo, belongsToMany).</li>
+<li>View dan Blade: jelaskan layout, section, yield, include, dan isi tiap halaman.</li>
+<li>Migration dan Seeder/Faker: jelaskan struktur dan data yang diisi.</li>
+<li>Screenshot output: Home, Category (dropdown dan hasil), Detail, Food Reviewer (dropdown dan hasil), About Us. Tambahkan fitur tantangan jika dikerjakan.</li>
+<li>Screenshot menunjukkan alamat (URL) di browser supaya jelas halaman mana.</li>
+</ol>
+
+<h2 id="masalah">16. Jika error</h2>
+<table>
+<tr><th>Gejala</th><th>Penyebab / solusi</th></tr>
+<tr><td>Halaman tanpa gaya Bootstrap</td><td><code class="i">npm run dev</code> belum jalan, atau pakai CDN (bagian 10).</td></tr>
+<tr><td><code class="i">Base table or view not found</code></td><td>Belum migrate atau nama tabel beda. Jalankan <code class="i">php artisan migrate:fresh --seed</code>; cek <code class="i">$table</code> di model.</td></tr>
+<tr><td><code class="i">Cannot add foreign key constraint</code></td><td>Urutan migration salah (induk harus lebih dulu). Ubah timestamp nama file, lalu <code class="i">migrate:fresh</code>.</td></tr>
+<tr><td><code class="i">Add [x] to fillable property</code></td><td>Tambahkan <code class="i">protected $guarded = [];</code> di model.</td></tr>
+<tr><td><code class="i">Undefined variable $x</code></td><td>Lupa dikirim dari controller (<code class="i">compact</code>) atau salah nama.</td></tr>
+<tr><td><code class="i">Route [x] not defined</code></td><td>Nama route salah. Cek <code class="i">php artisan route:list</code>.</td></tr>
+<tr><td><code class="i">Attempt to read property on null</code></td><td>Relasi kosong. Pastikan seeder mengisi, atau pakai <code class="i">?-&gt;</code> / <code class="i">??</code>.</td></tr>
+<tr><td><code class="i">419 Page Expired</code></td><td>Form lupa <code class="i">@csrf</code>.</td></tr>
+<tr><td><code class="i">405 Method Not Allowed</code></td><td>Form ubah/hapus lupa <code class="i">@method('PUT')</code> atau <code class="i">@method('DELETE')</code>.</td></tr>
+<tr><td>Gambar upload tidak tampil</td><td>Belum <code class="i">php artisan storage:link</code>, atau form lupa <code class="i">enctype="multipart/form-data"</code>.</td></tr>
+<tr><td>Error validasi tidak tampil</td><td>Tambahkan blok <code class="i">$errors-&gt;any()</code> atau <code class="i">@error</code> di form.</td></tr>
+<tr><td>Class not found</td><td>Lupa <code class="i">use App\Models\...;</code> di bagian atas file.</td></tr>
+<tr><td>Perubahan tidak muncul</td><td><code class="i">php artisan optimize:clear</code>, lalu refresh paksa (Ctrl+F5).</td></tr>
+<tr><td>Port terpakai</td><td><code class="i">php artisan serve --port=8001</code></td></tr>
+</table>
+<p class="muted">Dokumentasi resmi (whitelist): laravel.com, getbootstrap.com, fakerphp.org.</p>
+
+<h2 id="cek">17. Cek sebelum kumpul</h2>
+<ul>
+<li>Cari <code class="i">&lt;&lt;ISI</code> di seluruh project: tidak boleh ada yang tersisa.</li>
+<li>Jalankan <code class="i">php artisan migrate:fresh --seed</code> tanpa error, lalu buka semua halaman satu per satu.</li>
+<li>Semua link menu, tombol &ldquo;Baca selengkapnya&rdquo;, dan dropdown berfungsi.</li>
+<li>Dokumen Word/PDF berisi penjelasan dan screenshot seluruh halaman.</li>
+<li>Folder project dikumpulkan lengkap bersama dokumen dan file soal.</li>
+</ul>
+</main>
+</div>
+<script>
+(function () {
+  document.querySelectorAll('script.src').forEach(function (s) {
+    var fig = document.createElement('figure');
+    var cap = document.createElement('figcaption');
+    var t = document.createElement('span');
+    t.textContent = s.getAttribute('data-title') || '';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Salin';
+    var pre = document.createElement('pre');
+    var code = document.createElement('code');
+    var teksAsli = s.textContent.replace(/<\/script>/g, '</scr' + 'ipt>').replace(/^\n/, '').replace(/\s+$/, '') + '\n';
+    code.textContent = teksAsli;
+    code.innerHTML = code.innerHTML.replace(/&lt;&lt;ISI:[\s\S]*?&gt;&gt;/g, function (m) { return '<mark>' + m + '</mark>'; });
+    pre.appendChild(code);
+    cap.appendChild(t); cap.appendChild(b);
+    fig.appendChild(cap); fig.appendChild(pre);
+    b.addEventListener('click', function () {
+      var teks = teksAsli;
+      function selesai() { b.textContent = 'Tersalin'; setTimeout(function () { b.textContent = 'Salin'; }, 1200); }
+      function cadangan() {
+        var ta = document.createElement('textarea');
+        ta.value = teks; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); selesai(); } catch (e) { b.textContent = 'Gagal'; }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(teks).then(selesai, cadangan);
+      } else { cadangan(); }
     });
+    s.parentNode.replaceChild(fig, s);
   });
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("sw.js").catch(function () {});
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
     });
   }
 })();
