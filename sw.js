@@ -1,5 +1,5 @@
 // Service worker: semua aset di-cache saat instal, lalu dilayani offline (cache-first).
-const CACHE = 'catatan-web-v7';
+const CACHE = 'catatan-web-v8';
 const ASET = ['./', './index.html', './manifest.json', './icon.svg'];
 // Berkas OCR (mesin Tesseract + data bahasa). Dicache satu per satu agar kegagalan satu berkas tidak membatalkan instalasi.
 const OCR = [
